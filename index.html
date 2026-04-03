@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARIS KIM | 아리스김</title>
+<meta property="og:type" content="website">
+<meta property="og:title" content="ARIS KIM | 아리스김">
+<meta property="og:description" content="뉴욕 카네기홀 · 예술의전당 최초 1호 아티스트 · 아시아 탱고 챔피언">
+<meta property="og:image" content="https://ariskim.netlify.app/og_sign.png">
+<link href="https://fonts.googleapis.com/css2?family=Herr+Von+Muellerhoff&family=Cinzel:wght@400;700;900&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+a,a:link,a:visited{color:rgba(242,237,228,.75);text-decoration:none;-webkit-tap-highlight-color:transparent;}
+a:hover,a:active{color:rgba(242,237,228,.75);text-decoration:none;}
+:root{--gold:#C9A84C;--gl:#E8CC7A;--bg:#040302;--w:#F2EDE4;}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
+
+/* ── PHASE 1: SIGNATURE ── */
+#s1{position:fixed;inset:0;z-index:300;background:var(--bg);transition:opacity 1.4s ease;}
+#s1.out{opacity:0;pointer-events:none;}
+#cvs{position:absolute;inset:0;width:100%;height:100%;}
+
+/* ── PHASE 2: 사진 중앙 단독 ── */
+#s2{
+  position:fixed;inset:0;z-index:200;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity 1.4s ease;
+}
+#s2.show{opacity:1;}
+#s2.out{opacity:0;transition:opacity 1s ease;}
+
+#photo-wrap{
+  position:relative;
+  width:clamp(280px, 32vw, 500px);
+  height:80vh;
+  overflow:hidden;
+  border:1px solid rgba(201,168,76,.2);
+  box-shadow:0 0 80px rgba(201,168,76,.15), 0 0 200px rgba(201,168,76,.06);
+}
+#photo-wrap img{
+  width:100%;height:100%;
+  object-fit:cover;
+  object-position:center top;
+  filter:brightness(.88);
+}
+/* 사진 아래 페이드 */
+#photo-wrap::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(to bottom,transparent 50%,rgba(4,3,2,.7) 100%);
+}
+/* 이름 오버레이 */
+#photo-name{
+  position:absolute;bottom:28px;left:0;right:0;
+  text-align:center;z-index:2;
+  opacity:0;transition:opacity 1s ease .4s;
+}
+#s2.show #photo-name{opacity:1;}
+#photo-name .en{
+  font-family:'Cinzel',serif;font-size:clamp(16px,2.2vw,28px);
+  font-weight:900;letter-spacing:.22em;color:var(--w);
+  text-shadow:0 0 30px rgba(201,168,76,.5);
+}
+#photo-name .en .ai{color:var(--gold);}
+#photo-name .kr{
+  font-family:'Gowun Batang',serif;
+  font-size:clamp(9px,1vw,12px);
+  letter-spacing:.5em;color:rgba(232,204,122,.45);margin-top:8px;
+}
+
+/* ── PHASE 3: 패널 ── */
+#s3{position:fixed;inset:0;z-index:100;display:flex;}
+
+.panel{
+  flex:1;position:relative;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-decoration:none;overflow:hidden;cursor:pointer;
+  transition:flex .85s cubic-bezier(.23,1,.32,1), transform 1.6s cubic-bezier(.77,0,.18,1);
+}
+/* 패널 초기: 화면 밖 */
+#pa{transform:translateX(-100%);}
+#pb{transform:translateX(100%);}
+#pa.open,#pb.open{transform:translateX(0);}
+
+.panel:hover{flex:1.55;}
+
+.pbg{
+  position:absolute;inset:0;
+  background-size:cover;background-position:center;
+  filter:brightness(.22);transition:filter .7s,transform .7s;
+}
+.panel:hover .pbg{filter:brightness(.4);transform:scale(1.04);}
+#pa .pbg{background-image:url('images/img_01_227kb.png');background-position:35% center;}
+#pb .pbg{background-image:url('images/img_01_227kb.png');background-position:65% center;}
+
+.pov{position:absolute;inset:0;}
+#pa .pov{background:linear-gradient(145deg,rgba(4,3,2,.72) 0%,rgba(10,6,18,.32) 100%);}
+#pb .pov{background:linear-gradient(145deg,rgba(16,9,2,.32) 0%,rgba(4,3,2,.78) 100%);}
+
+.cor{position:absolute;width:14px;height:14px;opacity:.18;transition:opacity .45s;}
+.panel:hover .cor{opacity:.55;}
+.tl{top:20px;left:20px;border-top:1px solid var(--gold);border-left:1px solid var(--gold);}
+.tr{top:20px;right:20px;border-top:1px solid var(--gold);border-right:1px solid var(--gold);}
+.bl{bottom:20px;left:20px;border-bottom:1px solid var(--gold);border-left:1px solid var(--gold);}
+.br{bottom:20px;right:20px;border-bottom:1px solid var(--gold);border-right:1px solid var(--gold);}
+
+.pc{
+  position:relative;z-index:2;text-align:center;padding:48px 32px;
+  transform:translateY(16px);opacity:.58;
+  transition:transform .65s,opacity .65s;
+}
+.panel:hover .pc{transform:translateY(0);opacity:1;}
+.ptag{
+  font-family:'Cinzel',serif;font-size:clamp(6px,.82vw,8px);
+  letter-spacing:.52em;color:var(--gold);opacity:.45;display:block;margin-bottom:20px;
+}
+.ptitle{
+  font-family:'Cinzel',serif;font-size:clamp(16px,2.8vw,44px);
+  font-weight:900;letter-spacing:.07em;line-height:1.18;margin-bottom:14px;
+}
+#pa .ptitle{color:#ece4d8;}
+#pb .ptitle{color:var(--gl);}
+.pkr{
+  font-family:'Gowun Batang',serif;
+  font-size:clamp(10px,1.15vw,15px);letter-spacing:.22em;margin-bottom:22px;
+}
+#pa .pkr{color:rgba(236,228,216,.35);}
+#pb .pkr{color:rgba(232,204,122,.35);}
+.pdesc{
+  font-family:'Nanum Myeongjo',serif;
+  font-size:clamp(10px,.9vw,13px);letter-spacing:.04em;
+  line-height:2.1;max-width:285px;margin:0 auto 28px;
+  opacity:0;transition:opacity .5s .15s;
+}
+.panel:hover .pdesc{opacity:.56;}
+#pa .pdesc{color:rgba(236,228,216,.85);}
+#pb .pdesc{color:rgba(232,204,122,.85);}
+.pcta{
+  display:inline-block;font-family:'Gowun Batang',serif;
+  font-size:clamp(9px,.92vw,12px);letter-spacing:.25em;padding:12px 32px;
+  transition:all .35s;
+}
+#pa .pcta{border:1px solid rgba(236,228,216,.24);color:rgba(236,228,216,.72);}
+#pa .pcta:hover{background:rgba(236,228,216,.1);color:#fff;}
+#pb .pcta{border:1px solid rgba(201,168,76,.36);color:var(--gold);}
+#pb .pcta:hover{background:var(--gold);color:var(--bg);}
+
+/* 중앙선 */
+#dl{
+  position:absolute;left:50%;top:0;width:1px;height:100%;
+  background:linear-gradient(180deg,transparent 0%,rgba(201,168,76,.46) 15%,rgba(201,168,76,.46) 85%,transparent 100%);
+  z-index:10;pointer-events:none;
+  transition:left .75s cubic-bezier(.23,1,.32,1);
+}
+#dl::before{
+  content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:36px;height:36px;border:1px solid rgba(201,168,76,.36);
+  border-radius:50%;background:var(--bg);
+}
+#dl::after{
+  content:'✦';position:absolute;left:50%;top:50%;
+  transform:translate(-50%,-50%);color:var(--gold);font-size:12px;z-index:1;
+}
+
+/* ── 처음으로 버튼 (럭셔리 금색) ── */
+.home-btn{
+  display:inline-block;
+  font-family:'Cinzel',serif;font-size:9.5px;font-weight:700;
+  letter-spacing:.3em;
+  color:#1a1200;
+  text-decoration:none;
+  padding:10px 22px;
+  background:linear-gradient(135deg,#B8922E 0%,#E8CC7A 40%,#C9A84C 60%,#F5E090 80%,#C9A84C 100%);
+  box-shadow:0 2px 12px rgba(201,168,76,.4), inset 0 1px 0 rgba(255,255,255,.3), inset 0 -1px 0 rgba(0,0,0,.2);
+  border:1px solid rgba(180,140,30,.6);
+  transition:all .3s;
+  position:relative;
+  overflow:hidden;
+}
+.home-btn::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,transparent 30%,rgba(255,255,255,.15) 50%,transparent 70%);
+  opacity:0;transition:opacity .3s;
+}
+.home-btn:hover::before{opacity:1;}
+.home-btn:hover{
+  box-shadow:0 4px 20px rgba(201,168,76,.6),inset 0 1px 0 rgba(255,255,255,.4),inset 0 -1px 0 rgba(0,0,0,.2);
+  transform:translateY(-1px);
+}
+.home-btn:active{transform:translateY(0);}
+
+#sig{
+  position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:999;
+  font-family:'Cinzel',serif;font-size:7px;letter-spacing:.5em;
+  color:rgba(201,168,76,.14);white-space:nowrap;pointer-events:none;
+}
+
+
+/* ── 태블릿 (769~1024px) ── */
+@media (min-width:769px) and (max-width:1024px){
+  .ptitle{font-size:clamp(18px,3vw,34px);}
+  .pkr{font-size:clamp(10px,1.3vw,14px);}
+  .pc{padding:36px 24px;}
+  #photo-wrap{width:28vw;}
+}
+
+/* ── 스마트폰 가로 (481~768px) ── */
+@media (min-width:481px) and (max-width:768px){
+  #s3{flex-direction:row;}
+  .panel{flex:1;}
+  .panel:hover{flex:1.4;}
+  #dl{
+    left:50%;top:0;width:1px;height:100%;
+    background:linear-gradient(180deg,transparent,rgba(201,168,76,.46),transparent);
+  }
+  .pc{transform:none!important;opacity:1!important;padding:24px 16px;}
+  .ptitle{font-size:clamp(14px,2.8vw,22px);letter-spacing:.04em;}
+  .pkr{font-size:10px;letter-spacing:.15em;}
+  .pdesc{display:none;}
+  .ptag{display:none;}
+  .pcta{padding:9px 18px;font-size:9px;}
+  #photo-wrap{width:40vw;height:72vh;}
+  .cor{width:10px;height:10px;}
+}
+
+/* ── 스마트폰 세로 (480px 이하) ── */
+@media (max-width:480px){
+  #s3{flex-direction:column;}
+  .panel{flex:1!important;min-height:50vh;transition:flex 0s!important;}
+  .panel:hover{flex:1!important;}
+  #dl{
+    left:0!important;top:50%!important;
+    width:100%!important;height:1px!important;
+    background:linear-gradient(90deg,transparent,rgba(201,168,76,.46),transparent);
+  }
+  #dl::before{width:30px;height:30px;}
+  .pc{transform:none!important;opacity:1!important;padding:24px 16px;}
+  .ptag{display:none;}
+  .ptitle{font-size:clamp(18px,5.5vw,26px);letter-spacing:.05em;}
+  .pkr{font-size:11px;letter-spacing:.18em;}
+  .pdesc{display:none;}
+  .pcta{padding:10px 22px;font-size:10px;}
+  .cor{display:none;}
+  #photo-wrap{width:68vw;height:62vh;}
+  #sig{display:none;}
+}
+
+</style>
+</head>
+<body>
+
+<!-- PHASE 1 -->
+<div id="s1"><canvas id="cvs"></canvas></div>
+
+<!-- PHASE 2: 사진 중앙 단독 -->
+<div id="s2">
+  <div id="photo-wrap">
+    <img src="images/img_01_227kb.png" alt="Aris Kim">
+    <div id="photo-name">
+      <div class="en"><span class="ai">A</span>RIS KIM</div>
+      <div class="kr">아 리 스 김</div>
+    </div>
+  </div>
+</div>
+
+<!-- PHASE 3: 패널 -->
+<div id="s3">
+  <a class="panel" id="pa" href="story.html">
+    <div class="pbg"></div><div class="pov"></div>
+    <div class="cor tl"></div><div class="cor tr"></div>
+    <div class="cor bl"></div><div class="cor br"></div>
+    <div class="pc">
+      <span class="ptag">Artist Story · World View · Philosophy</span>
+      <h1 class="ptitle">ARIS KIM<br>처음 만나다</h1>
+      <p class="pkr">아리스 김의 세계</p>
+      <p class="pdesc">예술의 전당 최초 1호부터<br>뉴욕 카네기홀까지.<br>아리스 김이 걸어온 길.</p>
+      <div class="pcta">세계로 들어가기 →</div>
+    </div>
+  </a>
+  <div id="dl"></div>
+  <a class="panel" id="pb" href="booking.html">
+    <div class="pbg"></div><div class="pov"></div>
+    <div class="cor tl"></div><div class="cor tr"></div>
+    <div class="cor bl"></div><div class="cor br"></div>
+    <div class="pc">
+      <span class="ptag">Concert Booking · Professional Portfolio</span>
+      <h1 class="ptitle">공연 기획<br>및 섭외</h1>
+      <p class="pkr">공식 포트폴리오</p>
+      <p class="pdesc">뉴욕 카네기홀 · 예술의전당 1호<br>클림트 미디어아트 색소폰<br>기업 · 대학 · 문화재단 환영</p>
+      <div class="pcta">포트폴리오 보기 →</div>
+    </div>
+  </a>
+</div>
+
+<div id="sig">ARISHOW COMPANY · ARIS KIM</div>
+
+<script>
+const C=document.getElementById('cvs');
+const X=C.getContext('2d');
+function resize(){C.width=innerWidth;C.height=innerHeight;}
+resize(); addEventListener('resize',resize);
+
+/* PHASE 1: 사인 */
+function phase1(done){
+  document.fonts.load('140px "Herr Von Muellerhoff"').then(()=>{
+    const txt='Aris Kim';
+    const fs=Math.min(innerWidth*.13,152);
+    X.font=`${fs}px "Herr Von Muellerhoff"`;
+    const tw=X.measureText(txt).width;
+    const tx=(C.width-tw)/2, ty=C.height*.52;
+    let t0=null, dur=2800;
+    function frame(ts){
+      if(!t0)t0=ts;
+      const p=Math.min((ts-t0)/dur,1);
+      const e=p<.5?2*p*p:-1+(4-2*p)*p;
+      X.clearRect(0,0,C.width,C.height);
+      const bg=X.createRadialGradient(C.width/2,C.height/2,C.width*.06,C.width/2,C.height/2,C.width*.72);
+      bg.addColorStop(0,'rgba(4,3,2,0)');bg.addColorStop(1,'rgba(4,3,2,.62)');
+      X.fillStyle=bg;X.fillRect(0,0,C.width,C.height);
+      X.save();X.beginPath();X.rect(0,0,tx+tw*e+55,C.height);X.clip();
+      X.font=`${fs}px "Herr Von Muellerhoff"`;X.fillStyle='#E8DDD0';X.fillText(txt,tx,ty);X.restore();
+      if(e>.86){
+        const a=(e-.86)/.14;X.save();X.globalAlpha=a*.34;
+        X.font=`${fs*.14}px "Cinzel"`;X.fillStyle='#C9A84C';X.textAlign='center';
+        X.fillText('아  리  스  김',C.width/2,ty+fs*.3);X.restore();
+      }
+      if(p<1){
+        const gx=tx+tw*e+6,gy=ty-fs*.22;
+        const gr=X.createRadialGradient(gx,gy,0,gx,gy,26);
+        gr.addColorStop(0,'rgba(232,204,122,.55)');gr.addColorStop(.5,'rgba(232,204,122,.1)');gr.addColorStop(1,'rgba(232,204,122,0)');
+        X.beginPath();X.arc(gx,gy,26,0,Math.PI*2);X.fillStyle=gr;X.fill();
+        X.beginPath();X.arc(gx,gy,2.8,0,Math.PI*2);X.fillStyle='#E8CC7A';X.fill();
+      }
+      if(p<1)requestAnimationFrame(frame); else setTimeout(done,700);
+    }
+    requestAnimationFrame(frame);
+  });
+}
+
+/* PHASE 2: 사진 등장 */
+function phase2(done){
+  document.getElementById('s1').classList.add('out');
+  setTimeout(()=>{
+    document.getElementById('s1').style.display='none';
+    document.getElementById('s2').classList.add('show');
+    setTimeout(done, 1800); // 사진 감상 후
+  },1400);
+}
+
+/* PHASE 3: 사진 fade out + 패널 좌우 슬라이드 인 */
+function phase3(){
+  const s2=document.getElementById('s2');
+  s2.classList.add('out');
+  setTimeout(()=>{s2.style.display='none';},1000);
+  // 패널 열기
+  setTimeout(()=>{
+    document.getElementById('pa').classList.add('open');
+    document.getElementById('pb').classList.add('open');
+  },300);
+}
+
+/* skip=1이면 바로 패널 */
+const skip=new URLSearchParams(location.search).get('skip');
+if(skip==='1'){
+  document.getElementById('s1').style.display='none';
+  document.getElementById('s2').style.display='none';
+  document.getElementById('pa').classList.add('open');
+  document.getElementById('pb').classList.add('open');
+} else {
+  document.fonts.ready.then(()=>{
+    setTimeout(()=>{ phase1(()=>phase2(()=>phase3())); },400);
+  });
+}
+
+/* 패널 hover 분리선 */
+const dl=document.getElementById('dl');
+const pa=document.getElementById('pa');
+const pb=document.getElementById('pb');
+dl.style.transition='left .75s cubic-bezier(.23,1,.32,1)';
+pa.addEventListener('mouseenter',()=>dl.style.left='58%');
+pa.addEventListener('mouseleave',()=>dl.style.left='50%');
+pb.addEventListener('mouseenter',()=>dl.style.left='42%');
+pb.addEventListener('mouseleave',()=>dl.style.left='50%');
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowLeft')location.href='story.html';
+  if(e.key==='ArrowRight')location.href='booking.html';
+});
+</script>
+</body>
+</html>

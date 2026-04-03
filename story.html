@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARIS KIM | 아리스 김의 세계</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Nanum+Myeongjo:wght@400;700&family=Noto+Serif+KR:wght@200;300;400&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+a,a:link,a:visited{color:rgba(242,237,228,.75);text-decoration:none;-webkit-tap-highlight-color:transparent;}
+a:hover,a:active{color:rgba(242,237,228,.75);text-decoration:none;}
+:root{--gold:#C9A84C;--gl:#E8CC7A;--bg:#080705;--deep:#0D0B07;--w:#F2EDE4;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--w);font-family:"Nanum Myeongjo",serif;overflow-x:hidden;}
+
+/* NAV */
+#nav{position:fixed;top:0;left:0;right:0;height:62px;z-index:9000;
+  display:flex;align-items:center;justify-content:space-between;padding:0 48px;
+  transition:background .5s;}
+#nav.on{background:rgba(8,7,5,.95);backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(201,168,76,.1);}
+.nlogo{font-family:"Cinzel",serif;font-size:15px;font-weight:700;
+  color:var(--gl);letter-spacing:.14em;text-decoration:none;}
+.nlogo .ai{color:var(--gold);}
+.nlinks{display:flex;gap:6px;list-style:none;}
+.nlinks a{font-family:"Gowun Batang",serif;font-size:10.5px;letter-spacing:.14em;
+  color:rgba(242,237,228,.4);text-decoration:none;transition:color .3s;padding:4px 10px;}
+.nlinks a:hover{color:var(--gl);}
+.nbooking{font-family:"Gowun Batang",serif;font-size:10.5px;letter-spacing:.18em;
+  color:var(--gold);border:1px solid rgba(201,168,76,.35);padding:9px 20px;
+  text-decoration:none;transition:all .3s;}
+.nbooking:hover{background:var(--gold);color:var(--bg);}
+
+/* PROGRESS */
+#prog{position:fixed;top:0;left:0;height:2px;
+  background:linear-gradient(90deg,var(--gold),var(--gl));
+  z-index:9999;width:0%;transition:width .1s;}
+
+/* HERO */
+#hero{position:relative;width:100%;height:100vh;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;}
+.hbg{position:absolute;inset:0;}
+.hbg img{width:100%;height:100%;object-fit:cover;filter:brightness(.2) contrast(1.1);}
+.hov{position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(8,7,5,.2) 0%,rgba(8,7,5,.05) 35%,
+  rgba(8,7,5,.8) 80%,rgba(8,7,5,1) 100%);}
+.hcont{position:relative;z-index:2;text-align:center;padding:0 48px;}
+.htag{font-family:"Cinzel",serif;font-size:clamp(8px,1vw,10px);letter-spacing:.65em;
+  color:var(--gold);opacity:.6;margin-bottom:24px;animation:fu 1.2s .3s both;}
+.htitle{font-family:"Cinzel",serif;font-size:clamp(48px,9vw,120px);font-weight:900;
+  line-height:.92;color:var(--w);letter-spacing:.04em;animation:fu 1.2s .5s both;}
+.htitle .ai{color:var(--gold);}
+.hkr{font-family:"Gowun Batang",serif;font-size:clamp(16px,3vw,38px);font-weight:700;
+  letter-spacing:.35em;color:var(--gl);margin-top:8px;animation:fu 1.2s .7s both;}
+.hline{width:1px;height:72px;background:linear-gradient(180deg,var(--gold),transparent);
+  margin:28px auto;animation:fu 1.2s .9s both;}
+.hsub{font-family:"Cormorant Garamond",serif;font-size:clamp(14px,1.8vw,20px);
+  font-style:italic;color:rgba(242,237,228,.5);letter-spacing:.08em;line-height:1.9;
+  animation:fu 1.2s 1.1s both;max-width:680px;margin:0 auto;}
+.hscroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  animation:fu 1.4s 1.6s both;}
+.hscroll span{font-family:"Cinzel",serif;font-size:7px;letter-spacing:.55em;
+  color:rgba(201,168,76,.35);}
+.hscroll-line{width:1px;height:44px;
+  background:linear-gradient(180deg,var(--gold),transparent);
+  animation:sp 2s ease infinite;}
+@keyframes fu{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+@keyframes sp{0%,100%{opacity:.3;transform:scaleY(.6);}50%{opacity:1;transform:scaleY(1);}}
+
+/* SECTION BASE */
+.sec{padding:100px 48px;}
+.sec-inner{max-width:1160px;margin:0 auto;}
+.sec-label{font-family:"Cinzel",serif;font-size:8.5px;letter-spacing:.6em;
+  color:var(--gold);opacity:.5;margin-bottom:14px;display:block;}
+.sec-title{font-family:'Noto Serif KR',serif;
+  font-size:clamp(22px,3.5vw,44px);font-weight:200;
+  letter-spacing:.12em;color:var(--w);line-height:1.3;margin-bottom:8px;}
+.sec-title em{color:var(--gl);font-style:normal;}
+.gold-rule{width:42px;height:1px;background:var(--gold);opacity:.4;margin:20px 0 40px;}
+.body-txt{font-family:"Nanum Myeongjo",serif;
+  font-size:clamp(13px,1.4vw,15.5px);letter-spacing:.06em;
+  line-height:2.3;color:rgba(242,237,228,.62);}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease;}
+.rv.on{opacity:1;transform:translateY(0);}
+.rv-l{opacity:0;transform:translateX(-28px);transition:opacity .9s ease,transform .9s ease;}
+.rv-l.on{opacity:1;transform:translateX(0);}
+.rv-r{opacity:0;transform:translateX(28px);transition:opacity .9s ease,transform .9s ease;}
+.rv-r.on{opacity:1;transform:translateX(0);}
+
+/* GENESIS SECTION */
+#genesis{background:linear-gradient(180deg,var(--bg),var(--deep));}
+.gen-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;}
+.gen-img-wrap{position:relative;}
+.gen-img{width:100%;aspect-ratio:3/4;object-fit:cover;
+  border:1px solid rgba(201,168,76,.14);filter:brightness(.88);}
+.gen-badge{position:absolute;bottom:-18px;right:-18px;
+  background:var(--bg);border:1px solid rgba(201,168,76,.22);padding:18px 22px;}
+.gen-badge-n{font-family:"Cinzel",serif;font-size:26px;font-weight:700;color:var(--gl);}
+.gen-badge-l{font-family:"Gowun Batang",serif;font-size:9.5px;letter-spacing:.2em;
+  color:rgba(242,237,228,.38);margin-top:4px;}
+.gen-words{display:flex;flex-wrap:wrap;gap:8px;margin-top:32px;}
+.gen-word{font-family:"Cinzel",serif;font-size:8px;letter-spacing:.3em;
+  border:1px solid rgba(201,168,76,.25);color:var(--gold);padding:6px 14px;}
+
+/* QUOTE */
+#quote-sec{padding:80px 48px;background:var(--deep);}
+.quote-box{max-width:860px;margin:0 auto;text-align:center;}
+.quote-box blockquote{font-family:"Cormorant Garamond",serif;
+  font-size:clamp(20px,3.2vw,38px);font-style:italic;font-weight:300;
+  color:var(--w);line-height:1.7;margin-bottom:22px;}
+.quote-box cite{font-family:"Cinzel",serif;font-size:9px;
+  letter-spacing:.45em;color:var(--gold);opacity:.5;font-style:normal;}
+
+/* HISTORY */
+#history{background:var(--bg);}
+.hist-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 64px;margin-top:8px;
+  position:relative;}
+.hist-grid::before{content:"";position:absolute;left:50%;top:0;bottom:0;
+  width:1px;background:rgba(201,168,76,.12);transform:translateX(-50%);}
+.hist-item{padding:22px 0;border-bottom:1px solid rgba(201,168,76,.08);}
+.hist-year{font-family:"Cinzel",serif;font-size:clamp(18px,2vw,26px);
+  font-weight:700;color:var(--gold);line-height:1;margin-bottom:6px;}
+.hist-txt{font-family:"Nanum Myeongjo",serif;font-size:13px;
+  letter-spacing:.05em;color:rgba(242,237,228,.6);line-height:1.8;}
+
+/* PERFORMANCE */
+#perf{background:var(--deep);}
+.perf-big{width:100%;aspect-ratio:16/9;object-fit:cover;
+  filter:brightness(.85);margin-bottom:4px;display:block;}
+.perf-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:4px;margin-top:4px;}
+.perf-grid img{width:100%;aspect-ratio:16/9;object-fit:cover;
+  filter:brightness(.78);transition:filter .4s;display:block;}
+.perf-grid img:hover{filter:brightness(.95);}
+.perf-caption{margin-top:24px;display:flex;gap:32px;align-items:flex-start;}
+.perf-cap-main{flex:1;}
+.perf-cap-main h3{font-family:"Gowun Batang",serif;font-size:clamp(18px,2.5vw,28px);
+  font-weight:700;letter-spacing:.1em;color:var(--w);margin-bottom:10px;}
+.perf-stats{display:flex;gap:32px;margin-top:24px;}
+.perf-stat span{font-family:"Cinzel",serif;font-size:clamp(22px,3vw,34px);
+  font-weight:700;color:var(--gold);display:block;}
+.perf-stat p{font-family:"Gowun Batang",serif;font-size:9.5px;
+  letter-spacing:.15em;color:rgba(242,237,228,.4);margin-top:3px;}
+
+/* ART COLLECTION */
+#art{background:var(--bg);}
+.art-tabs{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:32px;}
+.art-tabs button{background:none;border:1px solid rgba(201,168,76,.2);
+  font-family:"Gowun Batang",serif;font-size:11px;letter-spacing:.12em;
+  color:rgba(242,237,228,.45);padding:8px 18px;cursor:pointer;transition:all .25s;}
+.art-tabs button.active{border-color:var(--gold);color:var(--gold);
+  background:rgba(201,168,76,.06);}
+.art-tabs button:hover{border-color:rgba(201,168,76,.5);color:var(--gl);}
+.art-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+.ac{position:relative;overflow:hidden;cursor:pointer;}
+.ac.hide{display:none;}
+.ac-img{aspect-ratio:4/3;overflow:hidden;}
+.ac-img img{width:100%;height:100%;object-fit:cover;
+  filter:brightness(.82);transition:transform .5s,filter .4s;}
+.ac:hover .ac-img img{transform:scale(1.05);filter:brightness(1);}
+.ac-info{position:absolute;bottom:0;left:0;right:0;
+  padding:20px 14px 12px;
+  background:linear-gradient(to top,rgba(8,7,5,.92) 0%,transparent 100%);
+  transform:translateY(55%);transition:transform .4s;}
+.ac:hover .ac-info{transform:translateY(0);}
+.ac-title{font-family:"Gowun Batang",serif;font-size:13.5px;font-weight:700;
+  color:var(--w);}
+.ac-sub{font-family:"Nanum Myeongjo",serif;font-size:11px;
+  color:rgba(242,237,228,.55);margin-top:3px;line-height:1.5;}
+.ac-size{font-family:"Cinzel",serif;font-size:9px;letter-spacing:.1em;
+  color:var(--gold);opacity:.65;margin-top:4px;}
+
+/* TANGO */
+#tango{background:var(--deep);}
+.tango-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
+.tango-img{width:100%;aspect-ratio:3/4;object-fit:cover;
+  filter:brightness(.88);border:1px solid rgba(201,168,76,.1);}
+.tango-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px;}
+.tango-tag{font-family:"Cinzel",serif;font-size:8px;letter-spacing:.22em;
+  border:1px solid rgba(201,168,76,.22);color:var(--gold);padding:5px 12px;}
+
+/* INTERVIEW QUOTES */
+#interviews{background:var(--bg);padding:80px 48px;}
+.iq-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;
+  max-width:1160px;margin:0 auto;}
+.iq-card{border-left:2px solid rgba(201,168,76,.3);padding:0 0 0 24px;}
+.iq-card blockquote{font-family:"Cormorant Garamond",serif;
+  font-size:clamp(16px,1.8vw,22px);font-style:italic;
+  color:var(--w);line-height:1.65;margin-bottom:12px;}
+.iq-card cite{font-family:"Cinzel",serif;font-size:8.5px;
+  letter-spacing:.35em;color:var(--gold);opacity:.5;font-style:normal;}
+
+/* BACKSTAGE */
+#backstage-sec{position:relative;height:400px;overflow:hidden;}
+#backstage-sec img{width:100%;height:100%;object-fit:cover;filter:brightness(.35);}
+#backstage-sec .ov{position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:0 48px;}
+#backstage-sec .ov h2{font-family:"Cinzel",serif;
+  font-size:clamp(22px,4vw,52px);font-weight:900;letter-spacing:.1em;
+  color:var(--gl);text-shadow:0 0 40px rgba(201,168,76,.4);margin-bottom:16px;}
+#backstage-sec .ov p{font-family:"Nanum Myeongjo",serif;
+  font-size:clamp(13px,1.5vw,16px);color:rgba(242,237,228,.55);
+  line-height:2;max-width:600px;}
+
+/* CTA */
+#cta{background:var(--deep);padding:100px 48px;text-align:center;}
+.cta-label{font-family:"Cinzel",serif;font-size:8.5px;letter-spacing:.6em;
+  color:var(--gold);opacity:.5;margin-bottom:18px;}
+.cta-title{font-family:"Cinzel",serif;font-size:clamp(24px,4vw,52px);
+  font-weight:900;letter-spacing:.1em;color:var(--w);margin-bottom:12px;}
+.cta-sub{font-family:"Nanum Myeongjo",serif;
+  font-size:clamp(13px,1.4vw,16px);color:rgba(242,237,228,.48);
+  line-height:2;margin-bottom:44px;max-width:640px;margin-left:auto;margin-right:auto;}
+.cta-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+.btn-gold{font-family:"Gowun Batang",serif;font-size:11.5px;letter-spacing:.22em;
+  background:var(--gold);color:var(--bg);padding:15px 44px;
+  text-decoration:none;font-weight:700;transition:all .3s;}
+.btn-gold:hover{background:var(--gl);}
+.btn-out{font-family:"Gowun Batang",serif;font-size:11.5px;letter-spacing:.22em;
+  border:1px solid rgba(201,168,76,.35);color:var(--gold);padding:15px 44px;
+  text-decoration:none;transition:all .3s;}
+.btn-out:hover{background:rgba(201,168,76,.08);border-color:var(--gold);}
+
+/* FOOTER */
+footer{background:var(--bg);border-top:1px solid rgba(201,168,76,.1);
+  padding:32px 48px;display:flex;justify-content:space-between;align-items:center;}
+.ft-logo{font-family:"Cinzel",serif;font-size:14px;font-weight:700;
+  color:var(--gold);letter-spacing:.14em;}
+.ft-logo .ai{color:var(--gl);}
+.ft-copy{font-family:"Gowun Batang",serif;font-size:10px;
+  letter-spacing:.14em;color:rgba(242,237,228,.25);}
+
+/* MOBILE */
+
+
+/* ═══════════════════════════════════════
+   4-BREAKPOINT RESPONSIVE SYSTEM
+   480 | 768 | 1024 | 1025+
+═══════════════════════════════════════ */
+
+/* ── PC (1025px+) : 기본값, 추가 설정 없음 ── */
+
+/* ── 태블릿 (769~1024px) ── */
+@media (min-width:769px) and (max-width:1024px){
+  #nav{padding:0 32px;}
+  .nlinks{gap:14px;}
+  .nlinks a{font-size:10px;padding:4px 8px;}
+  .nav-ham{display:none!important;}
+  .sec{padding:72px 36px;}
+  .gen-grid{grid-template-columns:1fr 1fr;gap:48px;}
+  .hist-grid{grid-template-columns:1fr 1fr;gap:0 40px;}
+  .tango-grid{grid-template-columns:1fr 1fr;gap:40px;}
+  .iq-grid{grid-template-columns:1fr 1fr;}
+  .art-grid{grid-template-columns:1fr 1fr 1fr;}
+  .perf-grid{grid-template-columns:1fr 1fr;}
+  .yemisa-card{width:160px;}
+}
+
+/* ── 스마트폰 가로 (481~768px) ── */
+@media (min-width:481px) and (max-width:768px){
+  #nav{padding:0 24px;height:52px;}
+  .nlinks{display:none!important;}
+  .nbooking{display:none!important;}
+  .nav-ham{display:flex!important;}
+  #hero{height:85vh;}
+  .hcont{padding:0 28px 56px;}
+  .htitle{font-size:clamp(32px,8vw,52px);}
+  .hkr{font-size:clamp(14px,3.5vw,22px);}
+  .hsub{font-size:13px;max-width:480px;}
+  .hbtns{gap:10px;}
+  .hscroll{display:none;}
+  .sec{padding:56px 28px;}
+  .gen-grid,.tango-grid{grid-template-columns:1fr 1fr;gap:32px;}
+  .hist-grid{grid-template-columns:1fr 1fr;gap:0 32px;}
+  .iq-grid{grid-template-columns:1fr 1fr;gap:20px;}
+  .art-grid{grid-template-columns:1fr 1fr 1fr;}
+  .perf-grid{grid-template-columns:1fr 1fr 1fr;}
+  .art-tabs button{font-size:10px;padding:6px 10px;}
+  .yemisa-card{width:140px;}
+  #backstage-sec{height:260px;}
+  .cta-btns{flex-direction:row;flex-wrap:wrap;}
+}
+
+/* ── 스마트폰 세로 (480px 이하) ── */
+@media (max-width:480px){
+  /* NAV */
+  #nav{padding:0 18px;height:52px;}
+  .nlinks{display:none!important;}
+  .nbooking{display:none!important;}
+  .nav-ham{display:flex!important;}
+  .nlogo{font-size:13px;}
+
+  /* HERO */
+  #hero{height:92vh;}
+  .hcont{padding:0 18px 52px;}
+  .htag{font-size:clamp(8px,1.8vw,11px);}
+  .htitle{font-size:clamp(40px,11vw,56px);letter-spacing:.12em;}
+  .hkr{font-size:clamp(16px,5vw,22px);letter-spacing:.22em;}
+  .hsub{font-size:13px;line-height:1.85;}
+  .hline{height:44px;margin:16px auto;}
+  .hbtns{flex-direction:column;gap:10px;}
+  .hscroll{display:none;}
+
+  /* 섹션 */
+  .sec{padding:56px 18px;}
+  .sec-label{font-size:7px;letter-spacing:.4em;}
+  .sec-title{font-size:clamp(22px,6.5vw,32px);}
+  .gold-rule{margin:16px 0 28px;}
+  .body-txt{font-size:13px;line-height:2.1;}
+
+  /* 그리드 전부 1열 */
+  .gen-grid,.tango-grid{grid-template-columns:1fr!important;gap:28px!important;}
+  .gen-img-wrap{order:-1;}
+  .hist-grid{grid-template-columns:1fr!important;}
+  .hist-grid::before{display:none;}
+  .iq-grid{grid-template-columns:1fr!important;gap:20px;}
+  .art-grid{grid-template-columns:1fr 1fr!important;}
+  .perf-grid{grid-template-columns:1fr 1fr!important;}
+  .perf-stats{flex-wrap:wrap;gap:16px;}
+
+  /* 갤러리 필터 */
+  .art-tabs{gap:4px;}
+  .art-tabs button{font-size:9.5px;padding:6px 10px;letter-spacing:.08em;}
+  .ac-info{transform:translateY(0)!important;}
+
+  /* 예미사 */
+  .yemisa-card{width:130px;}
+
+  /* 백스테이지 */
+  #backstage-sec{height:240px;}
+  #backstage-sec .ov h2{font-size:clamp(18px,5vw,26px);}
+  #backstage-sec .ov p{font-size:12px;}
+
+  /* CTA */
+  .cta-btns{flex-direction:column;align-items:center;}
+  .btn-gold,.btn-out{width:100%;max-width:260px;text-align:center;padding:13px 20px;}
+
+  /* 탱고 이미지 먼저 */
+  .tango-grid .rvr{order:-1;}
+
+  /* 배지 */
+  .gen-badge{bottom:-12px;right:-12px;padding:14px 16px;}
+  .gen-badge-n{font-size:20px;}
+
+  footer{padding:24px 18px;flex-direction:column;text-align:center;gap:10px;}
+}
+
+</style>
+</head>
+<body>
+<div id="prog"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="index.html" class="nlogo"><span class="ai">A</span>RIS KIM</a>
+  <ul class="nlinks">
+    <li><a href="#genesis">탄생</a></li>
+    <li><a href="#history">연보</a></li>
+    <li><a href="#perf">무대</a></li>
+    <li><a href="#art">현대미술</a></li>
+    <li><a href="#tango">탱고</a></li>
+    <li><a href="#yemisa">예미사</a></li>
+    <li><a href="#interviews">인터뷰</a></li>
+  </ul>
+  <div style="display:flex;gap:12px;align-items:center;">
+  <a href="index.html?skip=1" class="home-btn">← 처음으로</a>
+  <a href="booking.html" class="nbooking">공연 의뢰하기</a>
+</div>
+<button class="nav-ham" id="story-ham"><span></span><span></span><span></span></button>
+</nav>
+<div id="mob-menu">
+  <a href="#genesis" onclick="closeMob()">탄생</a>
+  <a href="#history" onclick="closeMob()">연보</a>
+  <a href="#perf" onclick="closeMob()">무대</a>
+  <a href="#art" onclick="closeMob()">현대미술</a>
+  <a href="#tango" onclick="closeMob()">탱고</a>
+  <a href="#yemisa" onclick="closeMob()">예미사</a>
+  <a href="#interviews" onclick="closeMob()">인터뷰</a>
+  <a href="booking.html" class="mob-cta" onclick="closeMob()">공연 의뢰하기</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hbg"><img src="images/img_01_242kb.jpg" alt="Aris Kim"></div>
+  <div class="hov"></div>
+  <div class="hcont">
+    <div class="htag">ARIS KIM · 아리스 김 · 처음 만나다</div>
+    <h1 class="htitle"><span class="ai">A</span>RIS KIM</h1>
+    <div class="hkr">아 리 스 김</div>
+    <div class="hline"></div>
+    <div class="hsub">
+      하고 싶으면 그냥 했다.<br>
+      계속 미치다 보니까 뭔가 이뤄진다.
+    </div>
+  </div>
+  <div class="hscroll">
+    <span>SCROLL</span>
+    <div class="hscroll-line"></div>
+  </div>
+</section>
+
+<!-- GENESIS -->
+<section class="sec" id="genesis">
+  <div class="sec-inner">
+    <div class="gen-grid">
+      <div class="gen-img-wrap rv-l">
+        <img class="gen-img" src="images/img_02_69kb.jpg" alt="Aris Kim Profile">
+        <div class="gen-badge">
+          <div class="gen-badge-n">2003</div>
+          <div class="gen-badge-l">거리 공연 시작</div>
+        </div>
+      </div>
+      <div class="rv-r">
+        <span class="sec-label">Genesis · 탄생</span>
+        <h2 class="sec-title">복제 불가능한,<br><em>독보적인 Aura</em></h2>
+        <div class="gold-rule"></div>
+        <p class="body-txt">
+          예술의 전당 최초 1호에서 뉴욕 카네기홀 초청 무대까지. 예술에 경계를 두지 않는 아리스김은 날카롭게 날아오는 돌들도 마다않고, 숱한 밤을 새가며, 시대적 새로운 인상을 선보이는 융합 아티스트다.<br><br>
+          07학번 한국예술종합학교 음악원 학생회장 시절 타원들의 소통을 통해 다원적 사고 방식을 배웠고, 자신의 철학 아브라소 테크놀라지(안기의 기술)를 기반으로 "아리가 타리"다. 나를 위함은 타인을 위한 것이다.라는 "나와 너"에 대한 무공덕을 통해 인간의 양면적 모티브로 창작에 임하고 있다.<br><br>
+          복제 불가능, 독보적인 "Aura"를 가진 융합 예술가 아리스김은 오늘도 아리쇼를 하고 있다.
+        </p>
+        <div class="gen-words">
+          <span class="gen-word">색소폰</span>
+          <span class="gen-word">카운터테너</span>
+          <span class="gen-word">탱고 챔피언</span>
+          <span class="gen-word">현대미술</span>
+          <span class="gen-word">홀로그램</span>
+          <span class="gen-word">미디어 아트</span>
+          <span class="gen-word">LED 설치</span>
+          <span class="gen-word">AI</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUOTE -->
+<section id="quote-sec">
+  <div class="quote-box rv">
+    <blockquote>
+      "나의 무대는 색소폰이 아니라<br>그냥 아리스 김이었던 거 같아."
+    </blockquote>
+    <cite>ARIS KIM — 인터뷰 中</cite>
+  </div>
+</section>
+
+<!-- HISTORY -->
+<section class="sec" id="history" style="background:var(--deep);">
+  <div class="sec-inner">
+    <span class="sec-label rv">History · 연보</span>
+    <h2 class="sec-title rv">아리스김이<br><em>걸어온 길</em></h2>
+    <div class="gold-rule rv"></div>
+    <div class="hist-grid">
+      <div class="hist-item rv"><div class="hist-year">2003</div><div class="hist-txt">전주 전북대 앞 거리 공연 시작 · 색소폰 연주자로 출발</div></div>
+      <div class="hist-item rv"><div class="hist-year">2008</div><div class="hist-txt">한국예술종합학교 음악원 학생회장 2년 역임</div></div>
+      <div class="hist-item rv"><div class="hist-year">2009</div><div class="hist-txt">유인촌 문화부 장관상 수상</div></div>
+      <div class="hist-item rv"><div class="hist-year">2012</div><div class="hist-txt">아리스김 VIDEO ART CONCERT 예술의 전당 주최</div></div>
+      <div class="hist-item rv"><div class="hist-year">2013</div><div class="hist-txt">예술의 전당 설립 25주년 최초 1호 거리 아티스트 선정<br>자랑스런 한국인 대상 · 국위선양공로대상 수상</div></div>
+      <div class="hist-item rv"><div class="hist-year">2014</div><div class="hist-txt">한국을 빛낸 사람들 공연예술발전공로대상 수상</div></div>
+      <div class="hist-item rv"><div class="hist-year">2016</div><div class="hist-txt">아시아 탱고 챔피언 에세나리오 부문 대상<br>바탱고(솔로탱고) 아카데미 설립 및 특허 창시</div></div>
+      <div class="hist-item rv"><div class="hist-year">2017~19</div><div class="hist-txt">아리스김 아리쇼 정기 콘서트 주최</div></div>
+      <div class="hist-item rv"><div class="hist-year">2018</div><div class="hist-txt">한국콘텐츠진흥원 문화체험기술창조 2년 수료<br>세계 최초 AI 공연 예술 접목 Art Intelligence 시도</div></div>
+      <div class="hist-item rv"><div class="hist-year">2021</div><div class="hist-txt">서울문화재단 주최 "ART MUST GO ON" 콜라보 · 이탈리아, 프랑스, 미국</div></div>
+      <div class="hist-item rv"><div class="hist-year">2022</div><div class="hist-txt">뉴욕 카네기홀 초청 무대<br>뉴욕 타임스퀘어 현대미술 콜라보 퍼포먼스</div></div>
+      <div class="hist-item rv"><div class="hist-year">현재</div><div class="hist-txt">현대미술 · 색소폰 · 탱고챔피언 · 미디어 아트 맵핑 · 홀로그램 · LED 모듈 설치미술 · 두피문신(멋) · 탱고 고등학교</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PERFORMANCE -->
+<section class="sec" id="perf">
+  <div class="sec-inner">
+    <span class="sec-label rv">Performance · 무대</span>
+    <h2 class="sec-title rv">거리에서<br><em>카네기홀까지</em></h2>
+    <div class="gold-rule rv"></div>
+    <div class="rv">
+      <img class="perf-big" src="images/img_03_210kb.jpg" alt="ARIS KIM 클림트 미디어아트 색소폰 콘서트">
+    </div>
+    <div class="perf-caption rv">
+      <div class="perf-cap-main">
+        <h3>클림트 미디어아트 색소폰 콘서트</h3>
+        <p class="body-txt">구스타프 클림트 × 아리스김. 황금빛 선율이 무대를 가득 채우는 순간 — 색소폰, 탱고, 미디어 아트가 하나로 융합된 조현실적 몰입의 무대.</p>
+        <div class="perf-stats">
+          <div class="perf-stat"><span>Carnegie</span><p>뉴욕 카네기홀 2022</p></div>
+          <div class="perf-stat"><span>No.1</span><p>예술의 전당 최초 아티스트</p></div>
+          <div class="perf-stat"><span>Asia</span><p>탱고 챔피언 2016</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="perf-grid rv" style="margin-top:4px;">
+      <img src="images/img_04_148kb.jpg" alt="뉴욕 카네기홀">
+      <img src="images/img_05_92kb.jpg" alt="아리쇼">
+      <img src="images/img_06_142kb.jpg" alt="백스테이지">
+    </div>
+    <div class="rv" style="margin-top:3px;">
+      <img src="images/img_07_248kb.jpg" alt="수상 경력" style="width:100%;display:block;object-fit:cover;max-height:340px;">
+    </div>
+  </div>
+</section>
+
+<!-- ART COLLECTION -->
+<section class="sec" id="art" style="background:var(--deep);">
+  <div class="sec-inner">
+    <span class="sec-label rv">Contemporary Art · 현대미술</span>
+    <h2 class="sec-title rv">아리스김<br><em>현대미술 컬렉션</em></h2>
+    <div class="gold-rule rv"></div>
+    <p class="body-txt rv" style="margin-bottom:36px;">
+      아시아 탱고 챔피언으로서 탱고의 Abrazo Technology(안기의 기술) 철학을 기반으로 모든 예술을 안은 채 자신의 파괴된 배설물로 현대 미술을 재배열하고 재창조시켜 현대 예술의 방향성에 대해 고민하는 실존 인물.
+    </p>
+    <div class="art-tabs rv">
+      <button data-cat="all" class="active">전체</button><button data-cat="painting">회화</button><button data-cat="hologram">홀로그램 & NFT</button><button data-cat="led">LED Art</button><button data-cat="creativity">창의성</button><button data-cat="critique">사회 비판</button><button data-cat="smoke">연기 시리즈</button>
+    </div>
+    <div class="art-grid">
+      <div class="ac" data-cat="painting">
+  <div class="ac-img"><img src="images/img_08_65kb.jpg" alt="범이 내려온다" loading="lazy"></div>
+  <div class="ac-info">
+    <div class="ac-title">범이 내려온다</div>
+    <div class="ac-sub">도시에 나타난 호랑이</div>
+    <div class="ac-size">147×107cm</div>
+  </div>
+</div><div class="ac" data-cat="hologram">
+  <div class="ac-img"><img src="images/img_09_60kb.jpg" alt="이기적인 신" loading="lazy"></div>
+  <div class="ac-info">
+    <div class="ac-title">이기적인 신</div>
+    <div class="ac-sub">인터랙티브 홀로그램 팬 작품 +NFT</div>
+    <div class="ac-size">260×110cm</div>
+  </div>
+</div><div class="ac" data-cat="hologram">
+  <div class="ac-img"><img src="images/img_10_72kb.jpg" alt="아리스맨" loading="lazy"></div>
+  <div class="ac-info">
+    <div class="ac-title">아리스맨</div>
+    <div class="ac-sub">홀로그램 작품 +NFT</div>
+    <div class="ac-size">200×130cm</div>
+  </div>
+</div><div class="ac" data-cat="hologram">
+  <div class="ac-img"><img src="images/img_11_69kb.jpg" alt="눈치!" loading="lazy"></div>
+  <div class="ac-info">
+    <div class="ac-title">눈치!</div>
+    <div class="ac-sub">홀로그램 작품 · 죽으면 썩을 몸! 눈치보지마라!</div>
+    <div class="ac-size">200×130cm</div>
+  </div>
+</div><div class="ac" data-cat="creativity">
+  <div class="ac-img"><img src="images/img_12_77kb.jpg" alt="창의성 '나사'" loading="lazy"></div>
+  <div class="ac-info">
+    <div class="ac-title">창의성 '나사'</div>
+    <div class="ac-sub">난 '똘아이'라는 말을 많이 들었다</div>
+    <div class="ac-size">210×115cm</div>
+  </div>
+</div><div class="ac" data-cat="led">
+  <div class="ac-img"><img src="images/img_13_49kb.jpg" alt="신의 선물 '나사'" loading="lazy"></div>
+  <div class="ac-info">
+    <div class="ac-title">신의 선물 '나사'</div>
+    <div class="ac-sub">LED Art · 머리에 박힌 나사는 창의성</div>
+    <div class="ac-size">110×110cm</div>
+  </div>
+</div><div class="ac" data-cat="hologram">
+  <div class="ac-img"><img src="images/img_14_44kb.jpg" alt="인간나사 다비드" loading="lazy"></div>
+  <div class="ac-info">
+    <div class="ac-title">인간나사 다비드</div>
+    <div class="ac-sub">인터랙티브 LED +NFT · 획일적 사회에 풍자</div>
+    <div class="ac-size">200×130cm</div>
+  </div>
+</div><div class="ac" data-cat="led">
+  <div class="ac-img"><img src="images/img_15_36kb.jpg" alt="인류" loading="lazy"></div>
+  <div class="ac-info">
+    <div class="ac-title">인류</div>
+    <div class="ac-sub">신은 나사를 줬고, 예수는 빵을 줬다. 그러나 인간은?</div>
+    <div class="ac-size">300×100cm</div>
+  </div>
+</div><div class="ac" data-cat="creativity">
+  <div class="ac-img"><img src="images/img_16_51kb.jpg" alt="인간나사 (로봇)" loading="lazy"></div>
+  <div class="ac-info">
+    <div class="ac-title">인간나사 (로봇)</div>
+    <div class="ac-sub">순환 예술 · 타의적인 현대인을 묘사한 로봇</div>
+    <div class="ac-size">220×100cm</div>
+  </div>
+</div><div class="ac" data-cat="led">
+  <div class="ac-img"><img src="images/img_17_54kb.jpg" alt="창작의 고통" loading="lazy"></div>
+  <div class="ac-info">
+    <div class="ac-title">창작의 고통</div>
+    <div class="ac-sub">LED +NFT · 사회적 억압 벗어나기 위한 고통의 몸부림</div>
+    <div class="ac-size">200×130cm</div>
+  </div>
+</div><div class="ac" data-cat="hologram">
+  <div class="ac-img"><img src="images/img_18_77kb.jpg" alt="홀로그램 행위 퍼포먼스" loading="lazy"></div>
+  <div class="ac-info">
+    <div class="ac-title">홀로그램 행위 퍼포먼스</div>
+    <div class="ac-sub">기술+예술 융합의 좋은 사례</div>
+    <div class="ac-size">키 175cm</div>
+  </div>
+</div><div class="ac" data-cat="painting">
+  <div class="ac-img"><img src="images/img_19_71kb.jpg" alt="내가 새라면" loading="lazy"></div>
+  <div class="ac-info">
+    <div class="ac-title">내가 새라면</div>
+    <div class="ac-sub">자유와 죽음의 경계</div>
+    <div class="ac-size">180×80cm</div>
+  </div>
+</div><div class="ac" data-cat="painting">
+  <div class="ac-img"><img src="images/img_20_80kb.jpg" alt="황소" loading="lazy"></div>
+  <div class="ac-info">
+    <div class="ac-title">황소</div>
+    <div class="ac-sub">암컷 황소 · 이중섭 모티브 · 음과 양의 양면성</div>
+    <div class="ac-size">190×180cm</div>
+  </div>
+</div><div class="ac" data-cat="painting">
+  <div class="ac-img"><img src="images/img_21_63kb.jpg" alt="하늘, 땅, 바다" loading="lazy"></div>
+  <div class="ac-info">
+    <div class="ac-title">하늘, 땅, 바다</div>
+    <div class="ac-sub">색의 삼원색처럼 삼위일체</div>
+    <div class="ac-size">200×110cm</div>
+  </div>
+</div><div class="ac" data-cat="painting">
+  <div class="ac-img"><img src="images/img_22_45kb.jpg" alt="옹고집" loading="lazy"></div>
+  <div class="ac-info">
+    <div class="ac-title">옹고집</div>
+    <div class="ac-sub">고집이 있어야 뭔 좀! 해볼 수 있지 않겠나!</div>
+    <div class="ac-size">170×40cm</div>
+  </div>
+</div><div class="ac" data-cat="hologram">
+  <div class="ac-img"><img src="images/img_23_46kb.jpg" alt="Amy" loading="lazy"></div>
+  <div class="ac-info">
+    <div class="ac-title">Amy</div>
+    <div class="ac-sub">인터랙티브 센서 모듈 +NFT · 가까이 다가갈수록 하트 완성</div>
+    <div class="ac-size">100×100cm</div>
+  </div>
+</div><div class="ac" data-cat="hologram">
+  <div class="ac-img"><img src="images/img_24_40kb.jpg" alt="무공덕 달마" loading="lazy"></div>
+  <div class="ac-info">
+    <div class="ac-title">무공덕 달마</div>
+    <div class="ac-sub">인터랙티브 스위치 +NFT · 코로나 시대의 달마</div>
+    <div class="ac-size">100×100cm</div>
+  </div>
+</div><div class="ac" data-cat="led">
+  <div class="ac-img"><img src="images/img_25_56kb.jpg" alt="추꽃" loading="lazy"></div>
+  <div class="ac-info">
+    <div class="ac-title">추꽃</div>
+    <div class="ac-sub">LED Art · 양면 작품 · 순환적 경계를 재현</div>
+    <div class="ac-size">590×520cm</div>
+  </div>
+</div><div class="ac" data-cat="led">
+  <div class="ac-img"><img src="images/img_26_52kb.jpg" alt="어둠 속의 용" loading="lazy"></div>
+  <div class="ac-info">
+    <div class="ac-title">어둠 속의 용</div>
+    <div class="ac-sub">LED Art · 양면 · 순환적 경계를 재현</div>
+    <div class="ac-size">200×100cm</div>
+  </div>
+</div><div class="ac" data-cat="led">
+  <div class="ac-img"><img src="images/img_27_76kb.jpg" alt="욕망 '손금'" loading="lazy"></div>
+  <div class="ac-info">
+    <div class="ac-title">욕망 '손금'</div>
+    <div class="ac-sub">성공은 누구나 욕망하지만 아무나 가질 수 없다</div>
+    <div class="ac-size">70×40cm</div>
+  </div>
+</div><div class="ac" data-cat="critique">
+  <div class="ac-img"><img src="images/img_28_83kb.jpg" alt="War 시리즈" loading="lazy"></div>
+  <div class="ac-info">
+    <div class="ac-title">War 시리즈</div>
+    <div class="ac-sub">죽까! / 푸틴 멈춰! / 탱크맨</div>
+    <div class="ac-size">다양</div>
+  </div>
+</div><div class="ac" data-cat="critique">
+  <div class="ac-img"><img src="images/img_29_74kb.jpg" alt="War 시리즈 II" loading="lazy"></div>
+  <div class="ac-info">
+    <div class="ac-title">War 시리즈 II</div>
+    <div class="ac-sub">Z:푸틴의 전쟁 / 국가대표 / 성 재블린</div>
+    <div class="ac-size">다양</div>
+  </div>
+</div><div class="ac" data-cat="critique">
+  <div class="ac-img"><img src="images/img_30_74kb.jpg" alt="우그그 / 나와 너" loading="lazy"></div>
+  <div class="ac-info">
+    <div class="ac-title">우그그 / 나와 너</div>
+    <div class="ac-sub">마음먹기 달렸다 / 中 나와 너</div>
+    <div class="ac-size">다양</div>
+  </div>
+</div><div class="ac" data-cat="smoke">
+  <div class="ac-img"><img src="images/img_31_29kb.jpg" alt="무제 1" loading="lazy"></div>
+  <div class="ac-info">
+    <div class="ac-title">무제 1</div>
+    <div class="ac-sub">불로 그을려 연기를 담은 작품</div>
+    <div class="ac-size">980×580mm</div>
+  </div>
+</div><div class="ac" data-cat="smoke">
+  <div class="ac-img"><img src="images/img_32_16kb.jpg" alt="무제 2" loading="lazy"></div>
+  <div class="ac-info">
+    <div class="ac-title">무제 2</div>
+    <div class="ac-sub">불로 그을려 연기를 담은 작품</div>
+    <div class="ac-size">1750×780mm</div>
+  </div>
+</div><div class="ac" data-cat="smoke">
+  <div class="ac-img"><img src="images/img_33_15kb.jpg" alt="무제 3" loading="lazy"></div>
+  <div class="ac-info">
+    <div class="ac-title">무제 3</div>
+    <div class="ac-sub">불로 그을려 연기를 담은 작품</div>
+    <div class="ac-size">1400×930mm</div>
+  </div>
+</div><div class="ac" data-cat="smoke">
+  <div class="ac-img"><img src="images/img_34_72kb.jpg" alt="무제 4" loading="lazy"></div>
+  <div class="ac-info">
+    <div class="ac-title">무제 4</div>
+    <div class="ac-sub">불로 그을려 연기를 담은 작품</div>
+    <div class="ac-size">1400×430mm</div>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+<!-- TANGO -->
+<section class="sec" id="tango">
+  <div class="sec-inner">
+    <div class="tango-grid">
+      <div class="rv-l">
+        <span class="sec-label">Tango · 탱고</span>
+        <h2 class="sec-title">AI 시대,<br><em>탱고가 답이었다</em></h2>
+        <div class="gold-rule"></div>
+        <p class="body-txt">
+          아리스김이 개발한 뉴럴탱고(Neural Tango)는 인간의 신체 접촉을 통해 옥시토신을 분비하고 AI 시대에 인간만이 가질 수 있는 '스킨 데이터'를 연결하는 교육 철학이다.<br><br>
+          2016 아시아 탱고 챔피언십 에세나리오 부문 우승. 바탱고(솔로탱고) 특허 창시. 마린 탱고 고등학교 설립. ARIS Method / Neural Tango — AI가 결코 대체할 수 없는 야생의 감각.
+        </p>
+        <div class="tango-tags">
+          <span class="tango-tag">아시아 탱고 챔피언</span>
+          <span class="tango-tag">바탱고 특허</span>
+          <span class="tango-tag">뉴럴탱고</span>
+          <span class="tango-tag">ANSC-14</span>
+          <span class="tango-tag">마린 탱고 고등학교</span>
+        </div>
+      </div>
+      <div class="rv-r">
+        <img class="tango-img" src="images/img_35_141kb.jpg" alt="아리스김 탱고">
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- 예미사 -->
+<section id="yemisa" style="background:var(--deep);padding:88px 52px;border-top:1px solid rgba(201,168,76,.08);">
+  <div class="sec-inner">
+    <span class="sec-label rv" style="display:block;text-align:center;margin-bottom:12px;">Artist Stories · 예미사</span>
+    <h2 class="sec-title rv" style="text-align:center;font-family:'Noto Serif KR',serif;font-weight:200;">예술에 미친 사연</h2>
+    <p style="font-family:'Nanum Myeongjo',serif;font-size:12px;letter-spacing:.1em;color:rgba(242,237,228,.35);text-align:center;margin:8px 0 44px;" class="rv">(예미사 — 예술에 미친사연)</p>
+    <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;" class="rv">
+      <div class="yemisa-card" onclick="openVid('zc8haHlZlGs',true)"><img src="https://img.youtube.com/vi/zc8haHlZlGs/hqdefault.jpg" alt="예미사1"><div class="yemisa-play">▶</div><div class="yemisa-label">예미사 #1</div></div>
+      <div class="yemisa-card" onclick="openVid('QYxPOhUZ5mI',true)"><img src="https://img.youtube.com/vi/QYxPOhUZ5mI/hqdefault.jpg" alt="예미사2"><div class="yemisa-play">▶</div><div class="yemisa-label">예미사 #2</div></div>
+      <div class="yemisa-card" onclick="openVid('Qb8z-U-Cu74',true)"><img src="https://img.youtube.com/vi/Qb8z-U-Cu74/hqdefault.jpg" alt="예미사3"><div class="yemisa-play">▶</div><div class="yemisa-label">예미사 #3</div></div>
+      <div class="yemisa-card" onclick="openVid('GFhdTlGDMZU',true)"><img src="https://img.youtube.com/vi/GFhdTlGDMZU/hqdefault.jpg" alt="예미사4"><div class="yemisa-play">▶</div><div class="yemisa-label">예미사 #4</div></div>
+      <div class="yemisa-card" onclick="openVid('wjQfXyIyFcw',true)"><img src="https://img.youtube.com/vi/wjQfXyIyFcw/hqdefault.jpg" alt="예미사5"><div class="yemisa-play">▶</div><div class="yemisa-label">예미사 #5</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- INTERVIEW QUOTES -->
+<section id="interviews">
+  <div class="sec-inner">
+    <span class="sec-label rv" style="text-align:center;display:block;margin-bottom:48px;">
+      Interview · 인터뷰 발췌
+    </span>
+    <div class="iq-grid">
+      <div class="iq-card rv">
+        <blockquote>"하고 싶으면 그냥 했다. 하나만 잘 한다. 계속 미치다 보니까 뭔가 이뤄진다."</blockquote>
+        <cite>ARIS KIM</cite>
+      </div>
+      <div class="iq-card rv">
+        <blockquote>"새로운 것을 하지 않으면 창의적이지 않습니다."</blockquote>
+        <cite>ARIS KIM</cite>
+      </div>
+      <div class="iq-card rv">
+        <blockquote>"머리가 비어야 진짜가 채워진다."</blockquote>
+        <cite>ARIS KIM</cite>
+      </div>
+      <div class="iq-card rv">
+        <blockquote>"나의 무대는 색소폰이 아니라 그냥 아리스 김이었던 거 같아."</blockquote>
+        <cite>ARIS KIM</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BACKSTAGE -->
+<section id="backstage-sec">
+  <img src="images/img_06_142kb.jpg" alt="Backstage">
+  <div class="ov">
+    <h2 class="rv">모든 것을 다 쏟아냈다</h2>
+    <p class="rv">공연 준비할 때도 재밌었고, 모든 힘이 다 빠진 상태로 관객들과 인사하고.<br>정말로 모든 것을 어떻게 말로 표현하냐.</p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <span class="cta-label rv">Booking · 공연 의뢰</span>
+  <h2 class="cta-title rv"><span style="color:var(--gold)">A</span>RIS KIM을<br>무대로 초대하세요</h2>
+  <p class="cta-sub rv">기업 · 대학 · 문화재단 · 지자체 · 정부 행사<br>클림트 미디어아트 색소폰 콘서트 · 탱고 퍼포먼스 · 현대미술 전시 연계</p>
+  <div class="cta-btns rv">
+    <a href="booking.html" class="btn-gold">공연 의뢰하기</a>
+    <a href="index.html" class="btn-out">← 메인으로</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-logo"><span class="ai">A</span>RIS KIM</div>
+  <div class="ft-copy">© 2025 ARISHOW COMPANY. All rights reserved.</div>
+</footer>
+
+<script>
+// 스크롤 진행바
+const prog=document.getElementById('prog');
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{
+  const p=(window.scrollY/(document.documentElement.scrollHeight-innerHeight))*100;
+  prog.style.width=p+'%';
+  nav.classList.toggle('on',window.scrollY>60);
+});
+
+// reveal
+const obs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');});
+},{threshold:.12});
+document.querySelectorAll('.rv,.rv-l,.rv-r').forEach(el=>obs.observe(el));
+
+// 현대미술 필터
+document.querySelectorAll('.art-tabs button').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.art-tabs button').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const cat=btn.dataset.cat;
+    document.querySelectorAll('.ac').forEach(card=>{
+      card.classList.toggle('hide', cat!=='all' && card.dataset.cat!==cat);
+    });
+  });
+});
+
+// 모바일 메뉴
+const ham = document.getElementById('story-ham');
+const mob = document.getElementById('mob-menu');
+if(ham && mob){
+  ham.addEventListener('click',()=>{
+    ham.classList.toggle('on');
+    mob.classList.toggle('on');
+    document.body.style.overflow = mob.classList.contains('on') ? 'hidden' : '';
+  });
+}
+function closeMob(){
+  if(ham) ham.classList.remove('on');
+  if(mob) mob.classList.remove('on');
+  document.body.style.overflow = '';
+}
+
+
+let _vlb=null;
+function openVid(id,isShorts=false){
+  if(_vlb){_vlb.remove();_vlb=null;}
+  _vlb=document.createElement('div');
+  _vlb.style.cssText='position:fixed;inset:0;background:rgba(4,3,2,.97);z-index:9999;display:flex;align-items:center;justify-content:center;cursor:pointer;';
+  const w=isShorts?'min(52vh,340px)':'min(90vw,960px)';
+  const h2=isShorts?'min(90vh,604px)':'min(56.25vw,540px)';
+  _vlb.innerHTML=`<div style="position:relative;width:${w};height:${h2};">
+    <iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0" frameborder="0" allow="autoplay;encrypted-media" allowfullscreen style="width:100%;height:100%;"></iframe>
+    <button onclick="event.stopPropagation();_vlb&&_vlb.remove();_vlb=null;" style="position:absolute;top:-36px;right:0;background:none;border:none;font-family:'Cinzel',serif;font-size:11px;letter-spacing:.3em;color:rgba(201,168,76,.7);cursor:pointer;">CLOSE ✕</button>
+  </div>`;
+  _vlb.onclick=()=>{_vlb&&_vlb.remove();_vlb=null;};
+  document.body.appendChild(_vlb);
+}
+</script>
+</body>
+</html>

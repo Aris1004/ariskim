@@ -1,0 +1,1680 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARIS KIM | 공연 기획 및 섭외</title>
+<meta property="og:title" content="ARIS KIM | 공연 기획 및 섭외">
+<meta property="og:description" content="뉴욕 카네기홀 · 예술의전당 최초 1호 · 클림트 미디어아트 색소폰 콘서트">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Nanum+Myeongjo:wght@400;700&family=Noto+Serif+KR:wght@200;300;400&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+a,a:link,a:visited{color:rgba(242,237,228,.75);text-decoration:none;-webkit-tap-highlight-color:transparent;}
+a:hover,a:active{color:rgba(242,237,228,.75);text-decoration:none;}
+:root{--gold:#C9A84C;--gl:#E8CC7A;--bg:#080705;--deep:#0D0A06;--w:#F2EDE4;--kr:'Noto Serif KR',serif;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--w);font-family:'Nanum Myeongjo',serif;overflow-x:hidden;}
+
+/* NAV */
+#nav{position:fixed;top:0;left:0;right:0;height:64px;z-index:9000;
+  display:flex;align-items:center;justify-content:space-between;padding:0 52px;
+  transition:background .5s;}
+#nav.on{background:rgba(8,7,5,.95);backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(201,168,76,.1);}
+.nlogo{font-family:'Cinzel',serif;font-size:15px;font-weight:700;
+  color:var(--gl);letter-spacing:.14em;text-decoration:none;}
+.nlogo .ai{color:var(--gold);}
+.nlinks{display:flex;gap:4px;list-style:none;}
+.nlinks a{font-family:'Gowun Batang',serif;font-size:10.5px;letter-spacing:.14em;
+  color:rgba(242,237,228,.4);text-decoration:none;transition:color .3s;padding:4px 10px;}
+.nlinks a:hover{color:var(--gl);}
+.nav-right{display:flex;align-items:center;gap:12px;}
+
+/* 처음으로 - 금색 럭셔리 버튼 */
+.home-btn{
+  display:inline-block;font-family:'Cinzel',serif;font-size:9px;font-weight:700;
+  letter-spacing:.28em;color:#1a1200;text-decoration:none;padding:9px 20px;
+  background:linear-gradient(135deg,#B8922E 0%,#E8CC7A 40%,#C9A84C 60%,#F5E090 80%,#C9A84C 100%);
+  box-shadow:0 2px 10px rgba(201,168,76,.4),inset 0 1px 0 rgba(255,255,255,.3);
+  border:1px solid rgba(180,140,30,.5);transition:all .3s;position:relative;overflow:hidden;
+}
+.home-btn::before{content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,transparent 30%,rgba(255,255,255,.15) 50%,transparent 70%);
+  opacity:0;transition:opacity .3s;}
+.home-btn:hover::before{opacity:1;}
+.home-btn:hover{box-shadow:0 4px 18px rgba(201,168,76,.55);transform:translateY(-1px);}
+
+.ncta{font-family:'Gowun Batang',serif;font-size:11px;letter-spacing:.2em;
+  color:var(--gold);border:1px solid rgba(201,168,76,.38);padding:9px 22px;
+  text-decoration:none;font-weight:700;transition:all .3s;}
+.ncta:hover{background:var(--gold);color:var(--bg);}
+
+/* PROGRESS */
+#prog{position:fixed;top:0;left:0;height:2px;
+  background:linear-gradient(90deg,var(--gold),var(--gl));z-index:9999;width:0%;transition:width .1s;}
+
+/* HERO */
+#hero{position:relative;width:100%;height:100vh;overflow:hidden;display:flex;align-items:flex-end;}
+.hbg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  object-position:center 30%;filter:brightness(.28) contrast(1.1);}
+.hov{position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(8,7,5,.12) 0%,rgba(8,7,5,.04) 28%,
+  rgba(8,7,5,.55) 62%,rgba(8,7,5,.98) 100%);}
+.hcon{position:relative;z-index:2;padding:0 52px 80px;width:100%;}
+.hey{font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:.65em;
+  color:var(--gold);opacity:.7;margin-bottom:16px;animation:fu 1.2s .3s both;}
+.hen{font-family:'Cinzel',serif;font-size:clamp(42px,8.5vw,110px);
+  font-weight:900;line-height:.92;color:var(--w);letter-spacing:.06em;
+  animation:fu 1.2s .5s both;}
+.hen .ai{color:var(--gold);}
+.hkr{font-family:'Noto Serif KR',serif;font-size:clamp(18px,3.5vw,44px);
+  font-weight:200;letter-spacing:.35em;color:var(--gl);line-height:1;margin-top:6px;
+  animation:fu 1.2s .7s both;}
+.htag{font-family:'Nanum Myeongjo',serif;font-size:clamp(13px,1.5vw,16px);
+  letter-spacing:.08em;color:rgba(242,237,228,.55);
+  margin:22px 0 32px;max-width:580px;line-height:2.1;animation:fu 1.2s .9s both;}
+.hbtns{display:flex;gap:14px;flex-wrap:wrap;animation:fu 1.2s 1.1s both;}
+.btn-cta{font-family:'Gowun Batang',serif;font-size:12.5px;letter-spacing:.22em;
+  padding:15px 44px;background:var(--gold);color:var(--bg);
+  text-decoration:none;font-weight:700;transition:all .3s;}
+.btn-cta:hover{background:var(--gl);transform:translateY(-2px);}
+.btn-sub{font-family:'Gowun Batang',serif;font-size:12px;letter-spacing:.18em;
+  padding:15px 36px;border:1px solid rgba(242,237,228,.25);color:rgba(242,237,228,.7);
+  text-decoration:none;transition:all .3s;}
+.btn-sub:hover{border-color:rgba(242,237,228,.55);color:var(--w);}
+.hscroll{position:absolute;bottom:28px;right:52px;display:flex;flex-direction:column;
+  align-items:center;gap:6px;animation:fu 1.4s 1.6s both;}
+.hscroll span{font-family:'Cinzel',serif;font-size:7px;letter-spacing:.5em;color:rgba(201,168,76,.35);}
+.hscroll-line{width:1px;height:40px;background:linear-gradient(180deg,var(--gold),transparent);animation:sp 2s ease infinite;}
+@keyframes fu{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
+@keyframes sp{0%,100%{opacity:.3;transform:scaleY(.6);}50%{opacity:1;transform:scaleY(1);}}
+
+/* SECTION BASE */
+.sec{padding:96px 52px;}
+.si{max-width:1160px;margin:0 auto;}
+.slabel{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.65em;
+  color:var(--gold);opacity:.48;display:block;margin-bottom:14px;}
+.stitle{font-family:'Noto Serif KR',serif;font-size:clamp(22px,3.5vw,44px);
+  font-weight:200;letter-spacing:.14em;color:var(--w);line-height:1.3;margin-bottom:8px;}
+.stitle em{color:var(--gl);font-style:normal;font-weight:300;}
+.grule{width:42px;height:1px;background:var(--gold);opacity:.4;margin:20px 0 40px;}
+.body{font-family:'Nanum Myeongjo',serif;font-size:clamp(13px,1.4vw,15.5px);
+  letter-spacing:.06em;line-height:2.3;color:rgba(242,237,228,.6);}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(22px);transition:opacity .9s ease,transform .9s ease;}
+.rv.on{opacity:1;transform:translateY(0);}
+.rvl{opacity:0;transform:translateX(-26px);transition:opacity .9s ease,transform .9s ease;}
+.rvl.on{opacity:1;transform:translateX(0);}
+.rvr{opacity:0;transform:translateX(26px);transition:opacity .9s ease,transform .9s ease;}
+.rvr.on{opacity:1;transform:translateX(0);}
+
+/* ── TRUST NUMBERS ── */
+#trust{background:var(--deep);padding:64px 52px;}
+.trust-grid{max-width:1160px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(4,1fr);gap:2px;}
+.trust-card{
+  background:rgba(201,168,76,.04);
+  border:1px solid rgba(201,168,76,.12);
+  padding:36px 28px;text-align:center;
+  transition:background .35s,border-color .35s;
+}
+.trust-card:hover{background:rgba(201,168,76,.08);border-color:rgba(201,168,76,.28);}
+.trust-num{font-family:'Cinzel',serif;
+  font-size:clamp(32px,4.5vw,56px);font-weight:900;
+  color:var(--gold);line-height:1;margin-bottom:8px;}
+.trust-label{font-family:'Noto Serif KR',serif;font-size:clamp(10px,1.1vw,13px);
+  font-weight:200;letter-spacing:.18em;color:rgba(242,237,228,.5);line-height:1.6;}
+
+/* ── 공연 형식 ── */
+#format{background:var(--bg);}
+.format-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:8px;}
+.format-card{
+  background:rgba(14,11,7,.8);
+  border:1px solid rgba(201,168,76,.1);
+  padding:40px 36px;
+  transition:border-color .4s,background .4s;
+  position:relative;overflow:hidden;
+}
+.format-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:0;transition:opacity .4s;
+}
+.format-card:hover{border-color:rgba(201,168,76,.3);background:rgba(20,16,10,.9);}
+.format-card:hover::before{opacity:1;}
+.fc-num{font-family:'Cinzel',serif;font-size:clamp(36px,5vw,64px);
+  font-weight:900;color:rgba(201,168,76,.12);line-height:1;margin-bottom:12px;}
+.fc-title{font-family:'Cinzel',serif;font-size:clamp(16px,1.8vw,22px);
+  font-weight:700;letter-spacing:.1em;color:var(--w);margin-bottom:14px;}
+.fc-kr{font-family:'Noto Serif KR',serif;font-size:clamp(13px,1.3vw,16px);
+  font-weight:200;letter-spacing:.22em;color:var(--gl);margin-bottom:20px;}
+.fc-body{font-family:'Nanum Myeongjo',serif;font-size:clamp(12px,1.2vw,14px);
+  letter-spacing:.05em;line-height:2.1;color:rgba(242,237,228,.55);}
+.fc-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:20px;}
+.fc-tag{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.2em;
+  border:1px solid rgba(201,168,76,.22);color:var(--gold);padding:5px 12px;}
+
+/* ── 수상/이력 ── */
+#awards{background:var(--deep);}
+.awards-split{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
+.awards-img{width:100%;display:block;border:1px solid rgba(201,168,76,.15);}
+.award-list{list-style:none;display:flex;flex-direction:column;gap:0;}
+.award-item{
+  display:flex;align-items:flex-start;gap:20px;
+  padding:20px 0;border-bottom:1px solid rgba(201,168,76,.08);
+}
+.award-year{
+  font-family:'Cinzel',serif;font-size:clamp(13px,1.4vw,16px);
+  font-weight:700;color:var(--gold);min-width:52px;margin-top:2px;
+}
+.award-txt{font-family:'Nanum Myeongjo',serif;font-size:clamp(13px,1.3vw,15px);
+  letter-spacing:.05em;color:rgba(242,237,228,.72);line-height:1.8;}
+
+/* ── 프로그램 ── */
+#program{background:var(--bg);}
+.prog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
+.prog-card{
+  border:1px solid rgba(201,168,76,.1);
+  padding:36px 30px;
+  background:rgba(12,9,5,.6);
+  transition:all .4s;
+  position:relative;
+}
+.prog-card:hover{border-color:rgba(201,168,76,.35);background:rgba(20,15,8,.8);}
+.prog-num{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.4em;
+  color:var(--gold);opacity:.45;margin-bottom:12px;}
+.prog-title{font-family:'Noto Serif KR',serif;font-size:clamp(16px,1.8vw,22px);
+  font-weight:300;color:var(--w);margin-bottom:6px;letter-spacing:.12em;}
+.prog-en{font-family:'Cinzel',serif;font-size:clamp(10px,1.1vw,13px);
+  letter-spacing:.15em;color:var(--gl);opacity:.65;margin-bottom:18px;}
+.prog-body{font-family:'Nanum Myeongjo',serif;font-size:clamp(12px,1.15vw,14px);
+  letter-spacing:.05em;line-height:2;color:rgba(242,237,228,.52);}
+
+/* ── 공연 갤러리 ── */
+#gallery{background:var(--deep);padding:80px 52px;}
+.gal-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  grid-template-rows:260px 260px;
+  gap:3px;max-width:1200px;margin:32px auto 0;
+}
+.gal-item{overflow:hidden;position:relative;}
+.gal-item.big{grid-row:1/3;}
+.gal-item img{width:100%;height:100%;object-fit:cover;
+  filter:brightness(.75);transition:transform .6s ease,filter .4s;}
+.gal-item:hover img{transform:scale(1.06);filter:brightness(.95);}
+.gal-cap{
+  position:absolute;bottom:0;left:0;right:0;padding:14px 16px;
+  background:linear-gradient(to top,rgba(8,7,5,.9),transparent);
+  font-family:'Gowun Batang',serif;font-size:11px;letter-spacing:.18em;
+  color:rgba(242,237,228,.7);opacity:0;transition:opacity .4s;
+}
+.gal-item:hover .gal-cap{opacity:1;}
+
+/* ── 공연 실적 ── */
+#history{background:var(--bg);}
+.hist-list{margin-top:8px;}
+.hist-item{
+  display:grid;grid-template-columns:100px 1fr;gap:24px;
+  padding:20px 0;border-bottom:1px solid rgba(201,168,76,.07);
+  align-items:start;
+}
+.hist-year{font-family:'Cinzel',serif;font-size:clamp(14px,1.6vw,18px);
+  font-weight:700;color:var(--gold);padding-top:3px;}
+.hist-txt{font-family:'Nanum Myeongjo',serif;font-size:clamp(13px,1.3vw,15px);
+  letter-spacing:.05em;line-height:1.85;color:rgba(242,237,228,.65);}
+
+/* ── 의뢰 프로세스 ── */
+#process{background:var(--deep);padding:88px 52px;}
+.proc-steps{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:0;max-width:1160px;margin:40px auto 0;
+  position:relative;
+}
+.proc-steps::before{
+  content:'';position:absolute;
+  top:32px;left:12%;right:12%;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,168,76,.3),rgba(201,168,76,.3),transparent);
+}
+.proc-step{text-align:center;padding:0 20px;position:relative;}
+.proc-circle{
+  width:64px;height:64px;border-radius:50%;
+  border:1px solid rgba(201,168,76,.35);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 20px;
+  font-family:'Cinzel',serif;font-size:20px;font-weight:700;
+  color:var(--gold);background:var(--deep);
+  position:relative;z-index:1;
+}
+.proc-title{font-family:'Noto Serif KR',serif;font-size:clamp(14px,1.4vw,17px);
+  font-weight:300;color:var(--w);margin-bottom:10px;letter-spacing:.12em;}
+.proc-body{font-family:'Nanum Myeongjo',serif;font-size:clamp(11px,1.1vw,13px);
+  letter-spacing:.04em;line-height:1.9;color:rgba(242,237,228,.48);}
+
+/* ── CONTACT CTA ── */
+#contact{
+  position:relative;padding:100px 52px;text-align:center;
+  background:var(--bg);overflow:hidden;
+}
+#contact::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse at center,rgba(201,168,76,.06) 0%,transparent 65%);
+}
+.contact-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.65em;
+  color:var(--gold);opacity:.48;margin-bottom:18px;display:block;}
+.contact-title{font-family:'Noto Serif KR',serif;font-size:clamp(24px,4.5vw,56px);
+  font-weight:200;letter-spacing:.14em;color:var(--w);margin-bottom:14px;
+  position:relative;line-height:1.4;}
+.contact-sub{font-family:'Nanum Myeongjo',serif;
+  font-size:clamp(13px,1.4vw,16px);color:rgba(242,237,228,.48);
+  line-height:2;margin-bottom:48px;max-width:580px;margin-left:auto;margin-right:auto;
+  position:relative;}
+.contact-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative;}
+.cta-main{font-family:'Gowun Batang',serif;font-size:13px;letter-spacing:.22em;
+  background:var(--gold);color:var(--bg);padding:17px 52px;
+  text-decoration:none;font-weight:700;transition:all .3s;}
+.cta-main:hover{background:var(--gl);transform:translateY(-2px);}
+.cta-kakao{font-family:'Gowun Batang',serif;font-size:13px;letter-spacing:.2em;
+  border:1px solid rgba(201,168,76,.35);color:var(--gold);padding:17px 40px;
+  text-decoration:none;transition:all .3s;}
+.cta-kakao:hover{background:rgba(201,168,76,.08);border-color:var(--gold);}
+
+/* FOOTER */
+footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
+  padding:32px 52px;display:flex;justify-content:space-between;align-items:center;
+  flex-wrap:wrap;gap:16px;}
+.ft-logo{font-family:'Cinzel',serif;font-size:14px;font-weight:700;
+  color:var(--gold);letter-spacing:.14em;}
+.ft-logo .ai{color:var(--gl);}
+.ft-info{font-family:'Gowun Batang',serif;font-size:10px;
+  letter-spacing:.12em;color:rgba(242,237,228,.25);line-height:1.8;}
+
+/* MOBILE */
+
+/* 햄버거 버튼 */
+.nav-ham{
+  display:none;flex-direction:column;gap:5px;
+  cursor:pointer;background:none;border:none;padding:4px;
+}
+.nav-ham span{display:block;width:24px;height:1px;background:var(--gold);transition:all .3s;}
+.nav-ham.on span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+.nav-ham.on span:nth-child(2){opacity:0;}
+.nav-ham.on span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
+#bmob{display:none;position:fixed;inset:0;background:rgba(8,7,5,.98);z-index:8999;
+  flex-direction:column;align-items:center;justify-content:center;gap:24px;}
+#bmob.on{display:flex;}
+#bmob a{font-family:'Gowun Batang',serif;font-size:16px;letter-spacing:.22em;
+  color:var(--w);text-decoration:none;transition:color .3s;}
+#bmob a:hover{color:var(--gold);}
+#bmob .bmcta{border:1px solid rgba(201,168,76,.4);padding:12px 36px;color:var(--gold)!important;margin-top:8px;}
+
+
+/* ═══════════════════════════════════════
+   4-BREAKPOINT RESPONSIVE SYSTEM
+═══════════════════════════════════════ */
+
+/* ── 태블릿 (769~1024px) ── */
+@media (min-width:769px) and (max-width:1024px){
+  #nav{padding:0 28px;}
+  .nlinks{gap:8px;}
+  .nlinks a{font-size:9.5px;padding:4px 6px;}
+  .nav-ham{display:none!important;}
+  .home-btn{font-size:8px;padding:8px 14px;letter-spacing:.2em;}
+  .ncta{padding:8px 16px;font-size:10px;}
+  .sec{padding:72px 36px;}
+  #trust{padding:52px 36px;}
+  .trust-grid{grid-template-columns:repeat(4,1fr);}
+  .format-grid{grid-template-columns:1fr 1fr;}
+  .awards-split{grid-template-columns:1fr 1fr;gap:40px;}
+  .prog-grid{grid-template-columns:1fr 1fr;}
+  .proc-steps{grid-template-columns:repeat(4,1fr);}
+  .gal-grid{grid-template-columns:2fr 1fr 1fr;}
+  #videos .si > div{grid-template-columns:repeat(3,1fr)!important;}
+  #profile .si > div{grid-template-columns:220px 1fr;gap:40px;}
+}
+
+/* ── 스마트폰 가로 (481~768px) ── */
+@media (min-width:481px) and (max-width:768px){
+  #nav{padding:0 20px;height:52px;}
+  .nlinks{display:none!important;}
+  .nav-right .ncta{display:none;}
+  .nav-right .home-btn{padding:7px 14px;font-size:8px;}
+  .nav-ham{display:flex!important;}
+  #hero{height:80vh;}
+  .hcon{padding:0 24px 48px;}
+  .hey{font-size:7px;letter-spacing:.4em;}
+  .hen{font-size:clamp(32px,8vw,54px);}
+  .hkr{font-size:clamp(14px,3.5vw,22px);}
+  .htag{font-size:12px;margin:14px 0 22px;}
+  .hbtns{gap:10px;}
+  .hscroll{display:none;}
+  .sec{padding:56px 24px;}
+  #trust{padding:36px 24px;}
+  .trust-grid{grid-template-columns:1fr 1fr!important;}
+  .trust-num{font-size:clamp(22px,5vw,32px);}
+  .format-grid{grid-template-columns:1fr 1fr!important;}
+  .awards-split{grid-template-columns:1fr 1fr!important;gap:28px;}
+  .prog-grid{grid-template-columns:1fr 1fr!important;}
+  .proc-steps{grid-template-columns:1fr 1fr!important;}
+  .proc-steps::before{display:none;}
+  .gal-grid{grid-template-columns:1fr 1fr!important;grid-template-rows:auto!important;}
+  .gal-item.big{grid-row:auto!important;}
+  #videos .si > div{grid-template-columns:1fr 1fr!important;gap:12px!important;}
+  #profile .si > div{grid-template-columns:1fr!important;gap:24px;}
+  .contact-btns{flex-direction:row;flex-wrap:wrap;justify-content:center;}
+}
+
+/* ── 스마트폰 세로 (480px 이하) ── */
+@media (max-width:480px){
+  /* NAV */
+  #nav{padding:0 16px;height:52px;}
+  .nlinks{display:none!important;}
+  .nav-right .ncta{display:none!important;}
+  .nav-right .home-btn{display:none!important;}
+  .nav-ham{display:flex!important;}
+  .nlogo{font-size:13px;}
+
+  /* HERO */
+  #hero{height:88vh;}
+  .hcon{padding:0 18px 48px;}
+  .hey{font-size:7px;letter-spacing:.38em;}
+  .hen{font-size:clamp(36px,10.5vw,52px);letter-spacing:.04em;}
+  .hkr{font-size:clamp(15px,5vw,22px);letter-spacing:.2em;}
+  .htag{font-size:12.5px;margin:14px 0 22px;line-height:1.95;}
+  .hbtns{flex-direction:column;gap:10px;}
+  .btn-cta,.btn-sub{text-align:center;padding:13px 24px;}
+  .hscroll{display:none;}
+
+  /* TRUST */
+  #trust{padding:32px 16px;}
+  .trust-grid{grid-template-columns:1fr 1fr!important;gap:2px;}
+  .trust-card{padding:24px 16px;}
+  .trust-num{font-size:clamp(20px,6vw,30px);}
+  .trust-label{font-size:10px;letter-spacing:.1em;}
+
+  /* 섹션 공통 */
+  .sec{padding:52px 16px;}
+  .slabel{font-size:7px;letter-spacing:.4em;}
+  .stitle{font-size:clamp(20px,6.5vw,30px);}
+  .grule{margin:14px 0 26px;}
+  #gallery{padding:52px 16px;}
+  #process{padding:52px 16px;}
+  #contact{padding:64px 16px!important;}
+
+  /* 공연형식 */
+  .format-grid{grid-template-columns:1fr!important;}
+  .format-card{padding:24px 18px;}
+  .fc-num{font-size:32px;}
+  .fc-title{font-size:15px;}
+
+  /* 수상 */
+  .awards-split{grid-template-columns:1fr!important;gap:24px;}
+
+  /* 프로그램 */
+  .prog-grid{grid-template-columns:1fr!important;}
+
+  /* 공연철학 */
+  #concept .si > div:nth-child(3){grid-template-columns:1fr!important;}
+
+  /* 셋리스트 */
+  #setlist .si > div:last-child{grid-template-columns:1fr!important;}
+
+  /* 영상 */
+  #videos .si > div{grid-template-columns:1fr 1fr!important;gap:8px!important;}
+
+  /* 프로세스 */
+  .proc-steps{grid-template-columns:1fr 1fr!important;}
+  .proc-steps::before{display:none;}
+  .proc-circle{width:48px;height:48px;font-size:15px;}
+  .proc-title{font-size:13px;}
+  .proc-body{font-size:11px;}
+
+  /* 갤러리 */
+  .gal-grid{grid-template-columns:1fr 1fr!important;grid-template-rows:auto!important;}
+  .gal-item.big{grid-row:auto!important;}
+
+  /* 아티스트 */
+  #profile .si > div{grid-template-columns:1fr!important;gap:24px;}
+  #profile .si > div > div:last-child{grid-template-columns:1fr 1fr!important;}
+
+  /* 연락처 */
+  .contact-title{font-size:clamp(20px,6vw,32px);}
+  .contact-sub{font-size:12.5px;}
+  .contact-btns{flex-direction:column;align-items:center;}
+  .cta-main,.cta-kakao{width:100%;max-width:260px;text-align:center;padding:14px 16px;font-size:11px;}
+
+  footer{padding:22px 16px!important;flex-direction:column!important;text-align:center;gap:8px;}
+  .ft-info{font-size:9px;}
+}
+
+
+/* 레퍼런스 */
+.ref-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+.ref-card{
+  background:rgba(14,11,7,.9);
+  border:1px solid rgba(201,168,76,.1);
+  padding:28px 24px;
+  transition:border-color .35s,background .35s;
+}
+.ref-card:hover{border-color:rgba(201,168,76,.32);background:rgba(22,17,10,.9);}
+.ref-icon{font-size:22px;margin-bottom:12px;}
+.ref-org{font-family:'Cinzel',serif;font-size:clamp(12px,1.3vw,15px);font-weight:700;
+  color:var(--gl);letter-spacing:.06em;margin-bottom:4px;}
+.ref-loc{font-family:'Nanum Myeongjo',serif;font-size:11px;letter-spacing:.08em;
+  color:rgba(242,237,228,.35);margin-bottom:10px;}
+.ref-desc{font-family:'Nanum Myeongjo',serif;font-size:12.5px;letter-spacing:.05em;
+  line-height:1.75;color:rgba(242,237,228,.58);}
+
+/* 기술 라이더 */
+.rider-card{
+  background:rgba(12,9,5,.7);border:1px solid rgba(201,168,76,.1);
+  padding:32px 28px;transition:border-color .35s;
+}
+.rider-card:hover{border-color:rgba(201,168,76,.28);}
+.rider-icon{font-size:24px;margin-bottom:14px;}
+.rider-title{font-family:'Noto Serif KR',serif;font-size:clamp(15px,1.5vw,18px);
+  font-weight:300;color:var(--w);letter-spacing:.1em;margin-bottom:16px;}
+.rider-list{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.rider-list li{font-family:'Nanum Myeongjo',serif;font-size:13px;
+  letter-spacing:.05em;color:rgba(242,237,228,.55);line-height:1.6;
+  padding-left:14px;position:relative;}
+.rider-list li::before{content:'—';position:absolute;left:0;color:var(--gold);opacity:.4;}
+.rider-list li em{color:var(--gl);font-style:normal;font-weight:700;}
+
+/* FAQ */
+.faq-item{border:1px solid rgba(201,168,76,.1);background:rgba(12,9,5,.6);}
+.faq-q{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:22px 28px;cursor:pointer;
+  font-family:'Noto Serif KR',serif;font-size:clamp(13px,1.4vw,16px);
+  font-weight:300;color:var(--w);letter-spacing:.07em;
+  transition:background .3s;gap:20px;
+}
+.faq-q:hover{background:rgba(201,168,76,.06);}
+.faq-q.open{background:rgba(201,168,76,.06);color:var(--gl);}
+.faq-arrow{font-size:18px;color:var(--gold);flex-shrink:0;transition:transform .3s;line-height:1;}
+.faq-q.open .faq-arrow{transform:rotate(45deg);}
+.faq-a{
+  display:none;padding:0 28px 22px 28px;
+  font-family:'Nanum Myeongjo',serif;font-size:13.5px;
+  letter-spacing:.06em;line-height:2.1;color:rgba(242,237,228,.6);
+  border-top:1px solid rgba(201,168,76,.08);
+  padding-top:18px;
+}
+.faq-a.open{display:block;}
+
+/* ── 탱고 마에스트로 ── */
+#tango{background:var(--bg);}
+.tango-hero{
+  position:relative;width:100%;height:520px;overflow:hidden;
+  display:flex;align-items:flex-end;margin-bottom:3px;
+}
+.tango-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%;filter:brightness(.35) contrast(1.1);}
+.tango-hero-ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,7,5,.1) 0%,rgba(8,7,5,.85) 100%);}
+.tango-hero-txt{position:relative;z-index:2;padding:0 52px 48px;width:100%;}
+.tango-hero-txt .slabel{display:block;margin-bottom:10px;}
+.tango-hero-txt .stitle{margin-bottom:0;}
+.tango-quote{
+  font-family:'Cormorant Garamond',serif;font-size:clamp(18px,2.5vw,28px);
+  font-style:italic;color:rgba(232,204,122,.75);letter-spacing:.06em;
+  line-height:1.7;margin:14px 0 0;max-width:620px;
+}
+.tango-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px;}
+.tango-card{position:relative;overflow:hidden;height:380px;}
+.tango-card img{width:100%;height:100%;object-fit:cover;filter:brightness(.6) contrast(1.1);transition:transform .7s ease,filter .5s;}
+.tango-card:hover img{transform:scale(1.05);filter:brightness(.8);}
+.tango-card-info{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:28px 28px;
+  background:linear-gradient(to top,rgba(8,7,5,.92),transparent);
+}
+.tango-card-title{font-family:'Cinzel',serif;font-size:clamp(13px,1.5vw,17px);font-weight:700;color:var(--gl);letter-spacing:.1em;margin-bottom:4px;}
+.tango-card-sub{font-family:'Nanum Myeongjo',serif;font-size:12.5px;letter-spacing:.07em;color:rgba(242,237,228,.6);line-height:1.7;}
+.tango-cred{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:2px;
+  background:var(--deep);padding:0;
+}
+.tango-cred-item{
+  padding:32px 28px;border:1px solid rgba(201,168,76,.1);
+  background:rgba(201,168,76,.03);text-align:center;
+  transition:background .3s,border-color .3s;
+}
+.tango-cred-item:hover{background:rgba(201,168,76,.07);border-color:rgba(201,168,76,.25);}
+.tango-cred-val{font-family:'Cinzel',serif;font-size:clamp(22px,3vw,36px);font-weight:900;color:var(--gold);line-height:1;margin-bottom:8px;}
+.tango-cred-desc{font-family:'Noto Serif KR',serif;font-size:clamp(11px,1.1vw,13px);font-weight:200;letter-spacing:.16em;color:rgba(242,237,228,.5);line-height:1.6;}
+
+/* ── 비디오 아트 콘서트 ── */
+#videoart{background:var(--bg);}
+.va-split{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:8px;}
+.va-main{position:relative;overflow:hidden;}
+.va-main img{width:100%;height:100%;object-fit:cover;filter:brightness(.55) contrast(1.15);transition:transform .7s;}
+.va-main:hover img{transform:scale(1.04);}
+.va-grid3{display:grid;grid-template-columns:1fr 1fr;gap:3px;}
+.va-grid3 .va-sm{position:relative;overflow:hidden;height:240px;}
+.va-grid3 .va-sm img{width:100%;height:100%;object-fit:cover;filter:brightness(.5);transition:transform .6s;}
+.va-grid3 .va-sm:hover img{transform:scale(1.06);filter:brightness(.75);}
+.va-quote-block{
+  background:linear-gradient(135deg,rgba(8,7,5,.97),rgba(14,11,7,.97));
+  border:1px solid rgba(201,168,76,.18);
+  padding:52px 48px;display:flex;flex-direction:column;justify-content:center;
+}
+.va-quote{
+  font-family:'Cormorant Garamond',serif;font-size:clamp(17px,2.2vw,24px);
+  font-style:italic;color:var(--gl);line-height:1.9;letter-spacing:.05em;
+  margin-bottom:20px;position:relative;padding-left:20px;
+}
+.va-quote::before{content:'"';position:absolute;left:0;top:-4px;color:var(--gold);font-size:2em;line-height:1;}
+.va-attr{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.42em;color:rgba(201,168,76,.55);}
+.va-badge-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px;}
+.va-badge{
+  font-family:'Cinzel',serif;font-size:8px;letter-spacing:.22em;
+  border:1px solid rgba(201,168,76,.28);color:var(--gold);
+  padding:7px 16px;background:rgba(201,168,76,.04);
+}
+
+/* ── 언론 보도 ── */
+#press{background:var(--deep);}
+.press-hero-quote{
+  text-align:center;padding:64px 52px;
+  border-bottom:1px solid rgba(201,168,76,.12);
+  background:linear-gradient(180deg,rgba(201,168,76,.04),transparent);
+}
+.press-hero-q{
+  font-family:'Noto Serif KR',serif;font-size:clamp(20px,3.5vw,42px);
+  font-weight:200;letter-spacing:.14em;color:var(--gl);line-height:1.4;
+  margin-bottom:10px;
+}
+.press-hero-q em{color:var(--gold);font-style:normal;}
+.press-hero-src{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.5em;color:rgba(201,168,76,.45);}
+.press-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;margin-top:0;}
+.press-card{
+  background:rgba(14,11,7,.9);border:1px solid rgba(201,168,76,.1);
+  padding:36px 32px;transition:all .4s;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;gap:12px;
+}
+.press-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:0;transition:opacity .4s;
+}
+.press-card:hover{background:rgba(20,16,10,.9);border-color:rgba(201,168,76,.28);}
+.press-card:hover::before{opacity:1;}
+.press-media{font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:.38em;color:var(--gold);opacity:.65;}
+.press-year{font-family:'Nanum Myeongjo',serif;font-size:11px;color:rgba(242,237,228,.3);margin-top:-4px;}
+.press-headline{font-family:'Noto Serif KR',serif;font-size:clamp(14px,1.6vw,18px);font-weight:300;color:var(--w);letter-spacing:.06em;line-height:1.55;}
+.press-headline em{color:var(--gl);font-style:normal;}
+.press-link{
+  display:inline-flex;align-items:center;gap:6px;margin-top:auto;
+  font-family:'Gowun Batang',serif;font-size:10px;letter-spacing:.18em;
+  color:rgba(201,168,76,.55);text-decoration:none;transition:color .3s;
+}
+.press-link:hover{color:var(--gold);}
+.broadcast-strip{
+  display:flex;flex-wrap:wrap;gap:2px;
+  border-top:1px solid rgba(201,168,76,.1);
+  background:rgba(201,168,76,.03);
+}
+.broadcast-item{
+  flex:1;min-width:140px;
+  padding:22px 20px;text-align:center;
+  border-right:1px solid rgba(201,168,76,.08);
+}
+.broadcast-item:last-child{border-right:none;}
+.broadcast-name{font-family:'Cinzel',serif;font-size:11px;font-weight:700;color:var(--gl);letter-spacing:.12em;margin-bottom:4px;}
+.broadcast-desc{font-family:'Nanum Myeongjo',serif;font-size:11px;color:rgba(242,237,228,.35);letter-spacing:.05em;}
+
+/* ── 대담 인터뷰 ── */
+#interview{background:var(--bg);}
+.interview-opening{
+  position:relative;overflow:hidden;
+  background:linear-gradient(135deg,rgba(8,7,5,.98),rgba(14,10,5,.98));
+  border:1px solid rgba(201,168,76,.15);
+  padding:64px 60px;text-align:center;margin-bottom:3px;
+}
+.interview-opening .big-q{
+  font-family:'Cormorant Garamond',serif;font-size:clamp(18px,3vw,36px);
+  font-style:italic;color:var(--gl);line-height:1.8;letter-spacing:.04em;
+  margin-bottom:16px;
+}
+.interview-opening .big-src{font-family:'Nanum Myeongjo',serif;font-size:12px;letter-spacing:.12em;color:rgba(242,237,228,.38);}
+.qa-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px;}
+.qa-card{
+  background:rgba(14,11,7,.9);border:1px solid rgba(201,168,76,.1);
+  padding:40px 36px;transition:all .35s;
+}
+.qa-card:hover{border-color:rgba(201,168,76,.28);background:rgba(20,16,10,.95);}
+.qa-q{
+  font-family:'Noto Serif KR',serif;font-size:clamp(13px,1.35vw,15px);
+  font-weight:300;color:var(--gold);letter-spacing:.1em;
+  margin-bottom:18px;padding-bottom:14px;
+  border-bottom:1px solid rgba(201,168,76,.15);
+  display:flex;gap:10px;align-items:flex-start;
+}
+.qa-q::before{content:'Q';font-family:'Cinzel',serif;font-size:11px;font-weight:700;color:var(--gold);opacity:.55;flex-shrink:0;margin-top:2px;}
+.qa-a{
+  font-family:'Nanum Myeongjo',serif;font-size:clamp(13px,1.25vw,14.5px);
+  letter-spacing:.06em;line-height:2.2;color:rgba(242,237,228,.65);
+}
+.qa-a::before{content:'"';color:var(--gold);opacity:.4;font-size:1.5em;line-height:0;vertical-align:-.3em;margin-right:3px;}
+.interview-prof-row{
+  display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:3px;
+}
+.interview-prof{
+  background:var(--deep);border:1px solid rgba(201,168,76,.1);
+  padding:36px 32px;display:grid;grid-template-columns:140px 1fr;gap:28px;align-items:start;
+}
+.interview-prof img{width:140px;height:180px;object-fit:cover;border:1px solid rgba(201,168,76,.18);filter:brightness(.85);}
+.interview-prof-name{font-family:'Cinzel',serif;font-size:13px;font-weight:700;color:var(--gl);letter-spacing:.1em;margin-bottom:6px;}
+.interview-prof-role{font-family:'Noto Serif KR',serif;font-size:12px;font-weight:200;letter-spacing:.14em;color:rgba(201,168,76,.6);margin-bottom:14px;}
+.interview-prof-body{font-family:'Nanum Myeongjo',serif;font-size:12.5px;letter-spacing:.05em;line-height:2;color:rgba(242,237,228,.55);}
+.interview-photos{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-top:3px;}
+.interview-photos div{overflow:hidden;height:200px;}
+.interview-photos div img{width:100%;height:100%;object-fit:cover;filter:brightness(.65) contrast(1.1);transition:transform .6s,filter .4s;}
+.interview-photos div:hover img{transform:scale(1.07);filter:brightness(.9);}
+
+@media(max-width:768px){
+  .tango-hero{height:360px;}
+  .tango-hero-txt{padding:0 24px 32px;}
+  .tango-grid{grid-template-columns:1fr!important;}
+  .tango-cred{grid-template-columns:1fr 1fr!important;}
+  .va-split{grid-template-columns:1fr!important;}
+  .press-grid{grid-template-columns:1fr!important;}
+  .broadcast-strip{flex-wrap:wrap;}
+  .broadcast-item{min-width:120px;}
+  .qa-grid{grid-template-columns:1fr!important;}
+  .interview-prof-row{grid-template-columns:1fr!important;}
+  .interview-photos{grid-template-columns:1fr 1fr!important;}
+  .interview-prof{grid-template-columns:1fr!important;}
+}
+@media(max-width:480px){
+  .tango-cred{grid-template-columns:1fr!important;}
+  .press-grid{grid-template-columns:1fr!important;}
+  .tango-hero-txt{padding:0 16px 24px;}
+  .va-quote-block{padding:32px 24px;}
+  .qa-card{padding:28px 20px;}
+  .interview-opening{padding:40px 24px;}
+}
+</style>
+</head>
+<body>
+<div id="prog"></div>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="index.html" class="nlogo"><span class="ai">A</span>RIS KIM</a>
+  <ul class="nlinks">
+    <li><a href="#concept">공연 철학</a></li>
+    <li><a href="#format">공연 형식</a></li>
+    <li><a href="#tango">탱고</a></li>
+    <li><a href="#videoart">비디오아트</a></li>
+    <li><a href="#press">언론</a></li>
+    <li><a href="#interview">대담</a></li>
+    <li><a href="#videos">영상</a></li>
+    <li><a href="#profile">아티스트</a></li>
+    <li><a href="#contact">연락처</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="index.html?skip=1" class="home-btn">← 처음으로</a>
+    <a href="#contact" class="ncta">공연 의뢰하기</a>
+  </div>
+<button class="nav-ham" id="bham"><span></span><span></span><span></span></button>
+</nav>
+<div id="bmob">
+  <a href="#concept" onclick="bc()">공연 철학</a>
+  <a href="#format" onclick="bc()">공연 형식</a>
+  <a href="#tango" onclick="bc()">탱고</a>
+  <a href="#videoart" onclick="bc()">비디오아트</a>
+  <a href="#press" onclick="bc()">언론</a>
+  <a href="#interview" onclick="bc()">대담</a>
+  <a href="#videos" onclick="bc()">영상</a>
+  <a href="#profile" onclick="bc()">아티스트</a>
+  <a href="#contact" onclick="bc()">연락처</a>
+  <a href="#contact" class="bmcta" onclick="bc()">공연 의뢰하기</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <img class="hbg" src="images/img_36_272kb.jpg" alt="ARIS KIM 클림트 미디어아트 색소폰 콘서트">
+  <div class="hov"></div>
+  <div class="hcon">
+    <div class="hey">Concert Booking · Professional Portfolio</div>
+    <h1 class="hen"><span class="ai">A</span>RIS KIM</h1>
+    <div class="hkr">공연 기획<br>및 섭외</div>
+    <p class="htag">
+      장르가 없는 게 아니라, 장르가 아리스김이다.<br>
+      <span style="font-size:.85em;opacity:.75;">2003년 거리에서 시작해 2022년 카네기홀에 섰다. 색소폰 하나가 아니라 아리스김 전부로.</span><br>
+      <span style="font-size:.78em;color:var(--gold);letter-spacing:.08em;">세계 최초 Art Intelligence 공연 창시자 — 연주하고, 춤추고, 그린다. 동시에.</span>
+    </p>
+    <div class="hbtns">
+      <a href="#contact" class="btn-cta">공연 의뢰하기</a>
+      <a href="story.html" class="btn-sub">아티스트 소개 →</a>
+    </div>
+  </div>
+  <div class="hscroll"><span>SCROLL</span><div class="hscroll-line"></div></div>
+</section>
+
+<!-- TRUST NUMBERS -->
+<section id="trust">
+  <div class="trust-grid">
+    <div class="trust-card rv">
+      <div class="trust-num">2022</div>
+      <div class="trust-label">뉴욕 카네기홀<br>초청 공연</div>
+    </div>
+    <div class="trust-card rv">
+      <div class="trust-num">No.1</div>
+      <div class="trust-label">예술의 전당<br>최초 1호 아티스트</div>
+    </div>
+    <div class="trust-card rv">
+      <div class="trust-num">Asia</div>
+      <div class="trust-label">아시아 탱고 챔피언<br>에세나리오 부문</div>
+    </div>
+    <div class="trust-card rv">
+      <div class="trust-num">6+</div>
+      <div class="trust-label">정부 · 문화 기관<br>공식 수상</div>
+    </div>
+  </div>
+</section>
+
+<!-- 탱고 마에스트로 -->
+<section id="tango">
+  <div class="tango-hero rv">
+    <img src="images/tango_bw_spotlight.jpg" alt="아리스김 탱고 퍼포먼스">
+    <div class="tango-hero-ov"></div>
+    <div class="tango-hero-txt">
+      <span class="slabel">Tango Maestro · 탱고 마에스트로</span>
+      <h2 class="stitle" style="color:var(--w);">색소폰을 내려놓는 순간,<br><em>탱고가 시작됩니다</em></h2>
+      <p class="tango-quote">아시아 탱고 챔피언, 뉴욕 카네기홀 탱고 퍼포먼스,<br>그리고 세계 유일의 바탱고(솔로탱고) 특허 창시자.</p>
+    </div>
+  </div>
+  <div class="tango-cred rv">
+    <div class="tango-cred-item">
+      <div class="tango-cred-val">Asia #1</div>
+      <div class="tango-cred-desc">아시아 탱고 챔피언<br>에세나리오 부문 · 2016</div>
+    </div>
+    <div class="tango-cred-item">
+      <div class="tango-cred-val">Carnegie</div>
+      <div class="tango-cred-desc">뉴욕 카네기홀<br>탱고 & 색소폰 퍼포먼스</div>
+    </div>
+    <div class="tango-cred-item">
+      <div class="tango-cred-val">Patent</div>
+      <div class="tango-cred-desc">바탱고 솔로탱고<br>세계 최초 특허 창시</div>
+    </div>
+  </div>
+  <div class="sec" style="background:var(--bg);padding-top:0;">
+    <div class="si">
+      <div class="tango-grid" style="margin-top:3px;">
+        <div class="tango-card rv">
+          <img src="images/carnegie_tango.jpg" alt="카네기홀 탱고 퍼포먼스">
+          <div class="tango-card-info">
+            <div class="tango-card-title">Carnegie Hall · New York 2022</div>
+            <div class="tango-card-sub">카네기홀 무대에서 선보인 색소폰 & 탱고 퍼포먼스</div>
+          </div>
+        </div>
+        <div class="tango-card rv">
+          <img src="images/JUNG2181.jpg" alt="탱고 리프팅 퍼포먼스">
+          <div class="tango-card-info">
+            <div class="tango-card-title">Tango Escenario Performance</div>
+            <div class="tango-card-sub">아시아 챔피언십 수준의 무대 탱고 — 관객을 압도하는 리프팅</div>
+          </div>
+        </div>
+        <div class="tango-card rv">
+          <img src="images/tango_perf.jpg" alt="갈라 탱고 퍼포먼스">
+          <div class="tango-card-info">
+            <div class="tango-card-title">Gala & Reception Performance</div>
+            <div class="tango-card-sub">기업 갈라 · VIP 리셉션 · 특별 행사를 위한 무대 탱고</div>
+          </div>
+        </div>
+        <div class="tango-card rv">
+          <img src="images/ba_tango.jpg" alt="바탱고 스튜디오">
+          <div class="tango-card-info">
+            <div class="tango-card-title">BaTango · 바탱고 아카데미</div>
+            <div class="tango-card-sub">세계 유일 바탱고 특허 창시 · 기업 교육 & 강연 연계 가능</div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:3px;padding:36px 40px;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.14);" class="rv">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;">
+          <div>
+            <span style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:.5em;color:var(--gold);opacity:.55;display:block;margin-bottom:10px;">CHAMPION CREDENTIAL</span>
+            <div style="font-family:'Noto Serif KR',serif;font-size:clamp(16px,2vw,22px);font-weight:200;color:var(--w);letter-spacing:.1em;line-height:1.6;margin-bottom:14px;">2016 Korea International<br>Tango Championship <em style="color:var(--gl);font-style:normal;">Champion</em></div>
+            <p style="font-family:'Nanum Myeongjo',serif;font-size:13.5px;letter-spacing:.06em;line-height:2.1;color:rgba(242,237,228,.58);">에세나리오(무대 탱고) 부문 아시아 챔피언. 아르헨티나 부에노스아이레스행 티켓이 증명하는 실력. 한국 탱고 커뮤니티에서 가장 유명한 강사이자 퍼포머.</p>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <img src="images/tango_trophy.jpg" alt="탱고 챔피언 트로피" style="width:100%;aspect-ratio:4/3;object-fit:cover;border:1px solid rgba(201,168,76,.18);filter:brightness(.85);">
+            <img src="images/tango_cert.jpg" alt="탱고 챔피언 인증서" style="width:100%;aspect-ratio:4/3;object-fit:cover;border:1px solid rgba(201,168,76,.18);filter:brightness(.85);">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 비디오 아트 콘서트 -->
+<section class="sec" id="videoart" style="background:var(--deep);border-top:1px solid rgba(201,168,76,.1);">
+  <div class="si">
+    <span class="slabel rv">Video Art Concert · 비디오 아트 콘서트</span>
+    <h2 class="stitle rv">한국 최초<br><em>비디오 아트 콘서트 창시</em></h2>
+    <div class="grule rv"></div>
+    <div class="va-split rv">
+      <div class="va-quote-block">
+        <p class="va-quote">백남준 선생님은 브라운관 속에 세상을 넣었습니다. 저는 그 세상 속으로 직접 걸어 들어가고 싶었습니다.</p>
+        <span class="va-attr">— ARIS KIM</span>
+        <p style="font-family:'Nanum Myeongjo',serif;font-size:13.5px;letter-spacing:.06em;line-height:2.2;color:rgba(242,237,228,.58);margin-top:24px;">2012년, 국내 최초로 비디오 아트와 라이브 색소폰 연주를 하나의 무대 위에 결합했습니다. 영상은 배경이 아니었습니다. 아티스트가 그 안으로 직접 투입되어 디지털 아바타와 같은 공간에서 호흡했습니다.<br><br>서울신문은 아리스김을 <strong style="color:var(--gl);">"제2의 백남준 월드스타"</strong>라고 불렀습니다. 2018년에는 한국콘텐츠진흥원(KOCCA) 제작 지원을 받아 세계 최초 실시간 관객반응형 AI 공연을 창시했습니다.</p>
+        <div class="va-badge-row">
+          <span class="va-badge">한국 최초 2012</span>
+          <span class="va-badge">KOCCA 제작지원</span>
+          <span class="va-badge">세계 최초 AI공연</span>
+          <span class="va-badge">서울신문 제2의 백남준</span>
+        </div>
+      </div>
+      <div class="va-main" style="min-height:480px;">
+        <img src="images/video_art_armor.jpg" alt="비디오 아트 콘서트">
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-top:3px;" class="rv">
+      <div style="overflow:hidden;height:220px;"><img src="images/video_art_blue_portal.jpg" alt="블루 포탈" style="width:100%;height:100%;object-fit:cover;filter:brightness(.6) contrast(1.1);transition:transform .6s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"></div>
+      <div style="overflow:hidden;height:220px;"><img src="images/video_art_laser_red.jpg" alt="레드 레이저" style="width:100%;height:100%;object-fit:cover;filter:brightness(.6) contrast(1.1);transition:transform .6s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"></div>
+      <div style="overflow:hidden;height:220px;"><img src="images/video_art_avatar.jpg" alt="아바타 대화" style="width:100%;height:100%;object-fit:cover;filter:brightness(.6) contrast(1.1);transition:transform .6s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"></div>
+      <div style="overflow:hidden;height:220px;"><img src="images/perf_media_blue.jpg" alt="미디어아트" style="width:100%;height:100%;object-fit:cover;filter:brightness(.6) contrast(1.1);transition:transform .6s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 공연 형식 -->
+<section class="sec" id="format">
+  <div class="si">
+    <span class="slabel rv">Performance Format · 공연 형식</span>
+    <h2 class="stitle rv">어떤 무대든<br><em>아리스김이 됩니다</em></h2>
+    <div class="grule rv"></div>
+    <div class="format-grid">
+      <div class="format-card rv">
+        <div class="fc-num">01</div>
+        <div class="fc-title">Klimt Media Art Saxophone</div>
+        <div class="fc-kr">클림트 미디어아트 색소폰 콘서트</div>
+        <div class="fc-body">
+          구스타프 클림트의 황금빛 세계와 색소폰 선율이 만나는 몰입형 미디어아트 콘서트. 대형 LED 스크린에 클림트 작품이 실시간 구현되고, 아리스김의 색소폰이 그 위를 날아오릅니다. 기업 갈라, 대학 공연, 문화재단 특별 기획에 최적화.
+        </div>
+        <div class="fc-tags">
+          <span class="fc-tag">50~3,000석</span>
+          <span class="fc-tag">60~120분</span>
+          <span class="fc-tag">기업·대학·재단</span>
+        </div>
+      </div>
+      <div class="format-card rv">
+        <div class="fc-num">02</div>
+        <div class="fc-title">ARIsHOW Concert</div>
+        <div class="fc-kr">아리쇼 종합 공연</div>
+        <div class="fc-body">
+          색소폰 · 카운터테너 · 탱고 · 현대미술이 한 무대에서 펼쳐지는 아리스김 단독 콘서트. 밴드 세션과 댄서가 함께하는 풀 프로덕션 공연으로 완성도 높은 엔터테인먼트를 제공합니다.
+        </div>
+        <div class="fc-tags">
+          <span class="fc-tag">200~2,000석</span>
+          <span class="fc-tag">90~120분</span>
+          <span class="fc-tag">정기·특별 공연</span>
+        </div>
+      </div>
+      <div class="format-card rv">
+        <div class="fc-num">03</div>
+        <div class="fc-title">Tango Performance</div>
+        <div class="fc-kr">탱고 & 색소폰 퍼포먼스</div>
+        <div class="fc-body">
+          아시아 탱고 챔피언 아리스김의 바탱고(솔로탱고) 특허 공연. 색소폰 연주와 탱고 퍼포먼스를 동시에 선보이는 세계 유일의 무대. 행사 하이라이트 및 리셉션 공연에 적합.
+        </div>
+        <div class="fc-tags">
+          <span class="fc-tag">실내·야외</span>
+          <span class="fc-tag">30~60분</span>
+          <span class="fc-tag">리셉션·갈라</span>
+        </div>
+      </div>
+      <div class="format-card rv">
+        <div class="fc-num">04</div>
+        <div class="fc-title">Contemporary Art + Performance</div>
+        <div class="fc-kr">현대미술 전시 연계 퍼포먼스</div>
+        <div class="fc-body">
+          홀로그램 · LED 설치미술 · NFT 작품과 색소폰 라이브 공연이 결합된 전시 연계 퍼포먼스. 기업 아트 갤러리, 문화 기관, 박람회 특별 프로그램으로 기획 가능합니다.
+        </div>
+        <div class="fc-tags">
+          <span class="fc-tag">전시 연계</span>
+          <span class="fc-tag">맞춤 기획</span>
+          <span class="fc-tag">기업·박람회</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 수상 경력 -->
+<section class="sec" id="awards" style="background:var(--deep);">
+  <div class="si">
+    <div class="awards-split">
+      <div class="rvl">
+        <img class="awards-img" src="images/carnegie.jpg" alt="뉴욕 카네기홀 공연">
+        <div style="margin-top:3px;">
+          <img style="width:100%;display:block;object-fit:cover;height:200px;border:1px solid rgba(201,168,76,.15);filter:brightness(.75);" src="images/timesquare_nyc.jpg" alt="뉴욕 타임스퀘어 퍼포먼스">
+        </div>
+      </div>
+      <div class="rvr">
+        <span class="slabel">Awards · 수상 경력</span>
+        <h2 class="stitle">검증된<br><em>아티스트의 이력</em></h2>
+        <div class="grule"></div>
+        <ul class="award-list">
+          <li class="award-item">
+            <span class="award-year">2022</span>
+            <span class="award-txt">뉴욕 카네기홀 초청 무대<br>뉴욕 타임스퀘어 현대미술 퍼포먼스</span>
+          </li>
+          <li class="award-item">
+            <span class="award-year">2016</span>
+            <span class="award-txt">아시아 탱고 챔피언십 에세나리오 부문 대상<br>바탱고 솔로탱고 특허 창시</span>
+          </li>
+          <li class="award-item">
+            <span class="award-year">2014</span>
+            <span class="award-txt">한국을 빛낸 사람들<br>공연예술발전공로대상</span>
+          </li>
+          <li class="award-item">
+            <span class="award-year">2013</span>
+            <span class="award-txt">예술의 전당 설립 25주년 최초 1호 아티스트<br>자랑스런 한국인 대상 · 국위선양공로대상</span>
+          </li>
+          <li class="award-item">
+            <span class="award-year">2009</span>
+            <span class="award-txt">유인촌 문화부 장관상 수상</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 프로그램 -->
+<section class="sec" id="program">
+  <div class="si">
+    <span class="slabel rv">Program · 프로그램</span>
+    <h2 class="stitle rv">행사 목적에 맞게<br><em>맞춤 구성합니다</em></h2>
+    <div class="grule rv"></div>
+    <div class="prog-grid">
+      <div class="prog-card rv">
+        <div class="prog-num">PROGRAM 01</div>
+        <div class="prog-title">강연 입학 콘서트</div>
+        <div class="prog-en">Lecture · Entrance Concert</div>
+        <div class="prog-body">대학 입학식, 졸업식, 기업 창립 기념일에 최적화된 프로그램. 아리스김의 인생 철학 강연과 색소폰 공연이 결합되어 감동과 메시지를 동시에 전달합니다. 전남대 최고경영자과정 등 다수 실적.</div>
+      </div>
+      <div class="prog-card rv">
+        <div class="prog-title">기업 갈라 & 시상식</div>
+        <div class="prog-en">Corporate Gala · Award Ceremony</div>
+        <div class="prog-body">기업 연말 행사, 시상식, VIP 리셉션을 위한 프리미엄 공연. 클림트 미디어아트와 라이브 색소폰으로 격조 있는 분위기를 연출합니다. 20분~60분 맞춤 구성 가능.</div>
+      </div>
+      <div class="prog-card rv">
+        <div class="prog-title">지자체 & 문화재단</div>
+        <div class="prog-en">Local Government · Foundation</div>
+        <div class="prog-body">지역 문화 축제, 문화재단 기획 공연, 정부 기관 행사를 위한 대형 공연. 대규모 야외 무대부터 소극장까지 모든 규모에서 완성도 높은 공연을 제공합니다.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- 공연 철학 -->
+<section class="sec" id="concept" style="background:linear-gradient(135deg,var(--deep),#0c0905);border-top:1px solid rgba(201,168,76,.15);">
+  <div class="si">
+    <div style="max-width:860px;margin:0 auto;text-align:center;" class="rv">
+      <span class="slabel" style="display:block;margin-bottom:20px;">Concert Philosophy · 공연 철학</span>
+      <blockquote style="font-family:'Cormorant Garamond',serif;font-size:clamp(20px,3.2vw,38px);font-style:italic;font-weight:300;color:var(--w);line-height:1.75;margin-bottom:28px;">
+        "나를 안아내는 처절한 몸부림이,<br>당신을 향한 가장 찬란한 빛이 되기까지."
+      </blockquote>
+      <cite style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.45em;color:var(--gold);opacity:.55;font-style:normal;">— ARIS KIM</cite>
+    </div>
+    <div style="max-width:1000px;margin:60px auto 0;display:grid;grid-template-columns:1fr 1fr;gap:3px;">
+      <div style="background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.1);padding:36px 32px;" class="rvl">
+        <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.5em;color:var(--gold);opacity:.5;margin-bottom:14px;">CHAPTER 01</div>
+        <h3 style="font-family:'Noto Serif KR',serif;font-size:clamp(15px,1.6vw,19px);font-weight:300;letter-spacing:.1em;color:var(--w);line-height:1.65;margin-bottom:16px;">아리쇼: 상처받은 치유자의 탄생</h3>
+        <p style="font-family:'Nanum Myeongjo',serif;font-size:clamp(12px,1.2vw,14px);letter-spacing:.05em;line-height:2.1;color:rgba(242,237,228,.58);">1999년 기계과 자퇴부터 한국예술종합학교까지. 나의 아픔을 뜨겁게 끌어안을 때 비로소 타인의 고통도 안아줄 수 있다는 역설적 진리.</p>
+      </div>
+      <div style="background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.1);padding:36px 32px;" class="rvr">
+        <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.5em;color:var(--gold);opacity:.5;margin-bottom:14px;">CHAPTER 02</div>
+        <h3 style="font-family:'Noto Serif KR',serif;font-size:clamp(15px,1.6vw,19px);font-weight:300;letter-spacing:.1em;color:var(--w);line-height:1.65;margin-bottom:16px;">더 큰 빛을 향한 갈망, 클림트를 만나다</h3>
+        <p style="font-family:'Nanum Myeongjo',serif;font-size:clamp(12px,1.2vw,14px);letter-spacing:.05em;line-height:2.1;color:rgba(242,237,228,.58);">개인의 고백을 넘어 인류 보편의 감동으로 나아갈 그릇을 찾던 순간, 구스타프 클림트의 황금빛 세계가 눈앞에 펼쳐졌습니다.</p>
+      </div>
+    </div>
+    <div style="max-width:860px;margin:40px auto 0;padding:36px 40px;border:1px solid rgba(201,168,76,.18);background:rgba(201,168,76,.03);text-align:center;" class="rv">
+      <p style="font-family:'Noto Serif KR',serif;font-size:clamp(16px,2vw,24px);font-weight:200;letter-spacing:.12em;line-height:1.85;color:var(--w);">"색소폰의 선율이 클림트의 황금빛 입자와 충돌하는 그 90분 —<br>전 세계인의 마음과 마음이 만나는 가장 찬란한 안김의 기적."</p>
+    </div>
+  </div>
+</section>
+
+<!-- 상세 프로그램 셋리스트 -->
+<section class="sec" id="setlist" style="background:var(--bg);border-top:1px solid rgba(201,168,76,.1);">
+  <div class="si">
+    <span class="slabel rv">Concert Setlist · 공연 구성</span>
+    <h2 class="stitle rv">총 90분<br><em>3부 구성</em></h2>
+    <div class="grule rv"></div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:48px;" class="rv">
+      <div>
+        <div style="border-top:2px solid var(--gold);padding-top:20px;margin-bottom:22px;">
+          <span style="font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:.45em;color:var(--gold);opacity:.6;display:block;margin-bottom:8px;">OPENING</span>
+          <h3 style="font-family:'Noto Serif KR',serif;font-size:clamp(15px,1.5vw,18px);font-weight:300;letter-spacing:.12em;color:var(--w);">오프닝</h3>
+        </div>
+        <ul style="list-style:none;">
+          <li style="font-family:'Nanum Myeongjo',serif;font-size:13px;color:rgba(242,237,228,.55);padding:10px 0;border-bottom:1px solid rgba(201,168,76,.07);display:flex;gap:10px;"><span style="color:var(--gold);opacity:.4;">—</span>Palladio — Karl Jenkins</li>
+        </ul>
+        <div style="border-top:2px solid var(--gold);padding-top:20px;margin:32px 0 22px;">
+          <span style="font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:.45em;color:var(--gold);opacity:.6;display:block;margin-bottom:8px;">PART 1 · 30min</span>
+          <h3 style="font-family:'Noto Serif KR',serif;font-size:clamp(15px,1.5vw,18px);font-weight:300;letter-spacing:.12em;color:var(--w);">클림트의 황금빛 세계</h3>
+        </div>
+        <ul style="list-style:none;">
+          <li style="font-family:'Nanum Myeongjo',serif;font-size:13px;color:rgba(242,237,228,.55);padding:10px 0;border-bottom:1px solid rgba(201,168,76,.07);display:flex;gap:10px;"><span style="color:var(--gold);opacity:.4;">—</span>Adagio — Albinoni</li>
+          <li style="font-family:'Nanum Myeongjo',serif;font-size:13px;color:rgba(242,237,228,.55);padding:10px 0;border-bottom:1px solid rgba(201,168,76,.07);display:flex;gap:10px;"><span style="color:var(--gold);opacity:.4;">—</span>Fantasy Para Quinteto</li>
+        </ul>
+      </div>
+      <div>
+        <div style="border-top:2px solid var(--gold);padding-top:20px;margin-bottom:22px;">
+          <span style="font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:.45em;color:var(--gold);opacity:.6;display:block;margin-bottom:8px;">PART 2 · 30min</span>
+          <h3 style="font-family:'Noto Serif KR',serif;font-size:clamp(15px,1.5vw,18px);font-weight:300;letter-spacing:.12em;color:var(--w);">탱고와 색소폰의 대화</h3>
+        </div>
+        <ul style="list-style:none;">
+          <li style="font-family:'Nanum Myeongjo',serif;font-size:13px;color:rgba(242,237,228,.55);padding:10px 0;border-bottom:1px solid rgba(201,168,76,.07);display:flex;gap:10px;"><span style="color:var(--gold);opacity:.4;">—</span>Por una Cabeza</li>
+          <li style="font-family:'Nanum Myeongjo',serif;font-size:13px;color:rgba(242,237,228,.55);padding:10px 0;border-bottom:1px solid rgba(201,168,76,.07);display:flex;gap:10px;"><span style="color:var(--gold);opacity:.4;">—</span>Adios Nonino</li>
+        </ul>
+        <div style="border-top:2px solid var(--gold);padding-top:20px;margin:32px 0 22px;">
+          <span style="font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:.45em;color:var(--gold);opacity:.6;display:block;margin-bottom:8px;">PART 3 · 30min</span>
+          <h3 style="font-family:'Noto Serif KR',serif;font-size:clamp(15px,1.5vw,18px);font-weight:300;letter-spacing:.12em;color:var(--w);">빛의 콘서트 · 미디어 아트</h3>
+        </div>
+        <ul style="list-style:none;">
+          <li style="font-family:'Nanum Myeongjo',serif;font-size:13px;color:rgba(242,237,228,.55);padding:10px 0;border-bottom:1px solid rgba(201,168,76,.07);display:flex;gap:10px;"><span style="color:var(--gold);opacity:.4;">—</span>Hey Jude — The Beatles</li>
+          <li style="font-family:'Nanum Myeongjo',serif;font-size:13px;color:rgba(242,237,228,.55);padding:10px 0;border-bottom:1px solid rgba(201,168,76,.07);display:flex;gap:10px;"><span style="color:var(--gold);opacity:.4;">—</span>Combat Zone</li>
+        </ul>
+      </div>
+      <div>
+        <div style="border-top:2px solid var(--gold);padding-top:20px;margin-bottom:22px;">
+          <span style="font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:.45em;color:var(--gold);opacity:.6;display:block;margin-bottom:8px;">FINALE</span>
+          <h3 style="font-family:'Noto Serif KR',serif;font-size:clamp(15px,1.5vw,18px);font-weight:300;letter-spacing:.12em;color:var(--w);">피날레: 황금 나사의 울림</h3>
+        </div>
+        <ul style="list-style:none;">
+          <li style="font-family:'Nanum Myeongjo',serif;font-size:13px;color:rgba(242,237,228,.55);padding:10px 0;border-bottom:1px solid rgba(201,168,76,.07);display:flex;gap:10px;"><span style="color:var(--gold);opacity:.4;">—</span>Nocturna — J. Colangelo</li>
+        </ul>
+        <div style="margin-top:28px;padding:24px;border:1px solid rgba(201,168,76,.14);background:rgba(201,168,76,.03);">
+          <div style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:.3em;color:var(--gold);margin-bottom:12px;">공연 기술 구성</div>
+          <div style="display:flex;flex-wrap:wrap;gap:7px;">
+            <span style="font-family:'Nanum Myeongjo',serif;font-size:11.5px;color:rgba(242,237,228,.6);padding:5px 12px;border:1px solid rgba(201,168,76,.14);">대형 미디어 맵핑</span>
+            <span style="font-family:'Nanum Myeongjo',serif;font-size:11.5px;color:rgba(242,237,228,.6);padding:5px 12px;border:1px solid rgba(201,168,76,.14);">AI 영상 제작</span>
+            <span style="font-family:'Nanum Myeongjo',serif;font-size:11.5px;color:rgba(242,237,228,.6);padding:5px 12px;border:1px solid rgba(201,168,76,.14);">탱고 퍼포먼스</span>
+            <span style="font-family:'Nanum Myeongjo',serif;font-size:11.5px;color:rgba(242,237,228,.6);padding:5px 12px;border:1px solid rgba(201,168,76,.14);">라이브 밴드</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 영상 -->
+<section style="background:var(--deep);padding:88px 52px;border-top:1px solid rgba(201,168,76,.1);" id="videos">
+  <div class="si">
+    <span class="slabel rv">Performance Videos · 공연 영상</span>
+    <h2 class="stitle rv">아리스김의<br><em>무대를 만나보세요</em></h2>
+    <div class="grule rv"></div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;" class="rv">
+      <div style="position:relative;aspect-ratio:16/9;background:#0a0806;overflow:hidden;cursor:pointer;border:1px solid rgba(201,168,76,.1);transition:border-color .3s;" onclick="openVid('rEczH5PD3lM')" onmouseover="this.style.borderColor='rgba(201,168,76,.35)'" onmouseout="this.style.borderColor='rgba(201,168,76,.1)'">
+        <img src="https://img.youtube.com/vi/rEczH5PD3lM/hqdefault.jpg" style="width:100%;height:100%;object-fit:cover;opacity:.75;">
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(4,3,2,.35);">
+          <div style="width:48px;height:48px;background:rgba(201,168,76,.18);border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:16px;">▶</div>
+        </div>
+        <div style="position:absolute;bottom:12px;left:14px;font-family:'Gowun Batang',serif;font-size:12px;font-weight:700;color:var(--w);">대표 영상</div>
+      </div>
+      <div style="position:relative;aspect-ratio:16/9;background:#0a0806;overflow:hidden;cursor:pointer;border:1px solid rgba(201,168,76,.1);transition:border-color .3s;" onclick="openVid('hg70x10Ze0E')" onmouseover="this.style.borderColor='rgba(201,168,76,.35)'" onmouseout="this.style.borderColor='rgba(201,168,76,.1)'">
+        <img src="https://img.youtube.com/vi/hg70x10Ze0E/hqdefault.jpg" style="width:100%;height:100%;object-fit:cover;opacity:.75;">
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(4,3,2,.35);">
+          <div style="width:48px;height:48px;background:rgba(201,168,76,.18);border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:16px;">▶</div>
+        </div>
+        <div style="position:absolute;bottom:12px;left:14px;font-family:'Gowun Batang',serif;font-size:12px;font-weight:700;color:var(--w);">전체 공연</div>
+      </div>
+      <div style="position:relative;aspect-ratio:16/9;background:#0a0806;overflow:hidden;cursor:pointer;border:1px solid rgba(201,168,76,.1);transition:border-color .3s;" onclick="openVid('-uWydmeORZg')" onmouseover="this.style.borderColor='rgba(201,168,76,.35)'" onmouseout="this.style.borderColor='rgba(201,168,76,.1)'">
+        <img src="https://img.youtube.com/vi/-uWydmeORZg/hqdefault.jpg" style="width:100%;height:100%;object-fit:cover;opacity:.75;">
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(4,3,2,.35);">
+          <div style="width:48px;height:48px;background:rgba(201,168,76,.18);border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:16px;">▶</div>
+        </div>
+        <div style="position:absolute;bottom:12px;left:14px;font-family:'Gowun Batang',serif;font-size:12px;font-weight:700;color:var(--w);">하이라이트</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px;" class="rv">
+      <div style="position:relative;aspect-ratio:16/9;background:#0a0806;overflow:hidden;cursor:pointer;border:1px solid rgba(201,168,76,.1);transition:border-color .3s;" onclick="openVid('Fs305PwBkSA')" onmouseover="this.style.borderColor='rgba(201,168,76,.35)'" onmouseout="this.style.borderColor='rgba(201,168,76,.1)'">
+        <img src="https://img.youtube.com/vi/Fs305PwBkSA/hqdefault.jpg" style="width:100%;height:100%;object-fit:cover;opacity:.75;">
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(4,3,2,.35);">
+          <div style="width:48px;height:48px;background:rgba(201,168,76,.18);border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:16px;">▶</div>
+        </div>
+        <div style="position:absolute;bottom:12px;left:14px;font-family:'Gowun Batang',serif;font-size:12px;font-weight:700;color:var(--w);">미디어아트</div>
+      </div>
+      <div style="position:relative;aspect-ratio:16/9;background:#0a0806;overflow:hidden;cursor:pointer;border:1px solid rgba(201,168,76,.1);transition:border-color .3s;" onclick="openVid('JWgzd0tx4gU')" onmouseover="this.style.borderColor='rgba(201,168,76,.35)'" onmouseout="this.style.borderColor='rgba(201,168,76,.1)'">
+        <img src="https://img.youtube.com/vi/JWgzd0tx4gU/hqdefault.jpg" style="width:100%;height:100%;object-fit:cover;opacity:.75;">
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(4,3,2,.35);">
+          <div style="width:48px;height:48px;background:rgba(201,168,76,.18);border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:16px;">▶</div>
+        </div>
+        <div style="position:absolute;bottom:12px;left:14px;font-family:'Gowun Batang',serif;font-size:12px;font-weight:700;color:var(--w);">탱고쇼</div>
+      </div>
+      <div style="position:relative;aspect-ratio:16/9;background:#0a0806;overflow:hidden;cursor:pointer;border:1px solid rgba(201,168,76,.1);transition:border-color .3s;" onclick="openVid('enh0DDA4wdA')" onmouseover="this.style.borderColor='rgba(201,168,76,.35)'" onmouseout="this.style.borderColor='rgba(201,168,76,.1)'">
+        <img src="https://img.youtube.com/vi/enh0DDA4wdA/hqdefault.jpg" style="width:100%;height:100%;object-fit:cover;opacity:.75;">
+        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(4,3,2,.35);">
+          <div style="width:48px;height:48px;background:rgba(201,168,76,.18);border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:16px;">▶</div>
+        </div>
+        <div style="position:absolute;bottom:12px;left:14px;font-family:'Gowun Batang',serif;font-size:12px;font-weight:700;color:var(--w);">로봇쇼</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 언론 보도 -->
+<section id="press">
+  <div class="press-hero-quote rv">
+    <p class="press-hero-q">"제2의 <em>백남준</em> 월드스타"</p>
+    <span class="press-hero-src">서울신문 · 2016</span>
+  </div>
+  <div class="sec" style="padding-top:52px;">
+    <div class="si">
+      <span class="slabel rv">Press · 언론 보도</span>
+      <h2 class="stitle rv">국내외 언론이<br><em>주목한 아티스트</em></h2>
+      <div class="grule rv"></div>
+      <div class="press-grid rv">
+        <div class="press-card">
+          <div class="press-media">PRESSIAN · 러시아 국영 언론</div>
+          <div class="press-year">2021</div>
+          <h3 class="press-headline">예술의 전당 최초 1호 길거리 아티스트 '아리스 김'…<em>美 뉴욕 카네기홀 무대에 서다</em></h3>
+          <p style="font-family:'Nanum Myeongjo',serif;font-size:13px;letter-spacing:.05em;line-height:2;color:rgba(242,237,228,.5);">한국 프레시안 및 러시아 국영 매체 primamedia.ru 동시 보도. 거리 공연에서 카네기홀까지의 여정이 국제적 주목을 받다.</p>
+          <a href="https://www.pressian.com/pages/articles/2021081222531488476" target="_blank" class="press-link">기사 보기 →</a>
+        </div>
+        <div class="press-card">
+          <div class="press-media">서울신문</div>
+          <div class="press-year">2016</div>
+          <h3 class="press-headline"><em>"제2의 백남준 월드스타"</em> — 아리스김</h3>
+          <p style="font-family:'Nanum Myeongjo',serif;font-size:13px;letter-spacing:.05em;line-height:2;color:rgba(242,237,228,.5);">비디오 아트와 공연 예술의 경계를 허문 아리스김을 비디오 아트의 선구자 백남준의 계보를 잇는 아티스트로 조명.</p>
+          <a href="http://www.seoul.co.kr/news/newsView.php?id=20160302005004" target="_blank" class="press-link">기사 보기 →</a>
+        </div>
+        <div class="press-card">
+          <div class="press-media">매일경제 MK</div>
+          <div class="press-year">2013</div>
+          <h3 class="press-headline">예술의전당도 인정한 <em>'거리의 악사'</em> 아리스 김</h3>
+          <p style="font-family:'Nanum Myeongjo',serif;font-size:13px;letter-spacing:.05em;line-height:2;color:rgba(242,237,228,.5);">예술의 전당 설립 25년 만에 처음으로 허락한 최초의 거리 아티스트. "계단 앞 광장이 최고의 무대"라고 말한 아티스트의 이야기.</p>
+          <a href="https://www.mk.co.kr/news/society/view/2013/06/515184/" target="_blank" class="press-link">기사 보기 →</a>
+        </div>
+        <div class="press-card">
+          <div class="press-media">한국경제 · KOCCA</div>
+          <div class="press-year">2018</div>
+          <h3 class="press-headline">관객과 함께 만들어가는 음악극 <em>'아리쇼'</em> — 세계 최초 AI 공연</h3>
+          <p style="font-family:'Nanum Myeongjo',serif;font-size:13px;letter-spacing:.05em;line-height:2;color:rgba(242,237,228,.5);">한국콘텐츠진흥원 공식 제작 지원. 스마트폰 앱으로 관객이 직접 공연에 참가하는 Art Intelligence 콘서트 — 해외 수출형으로 기획.</p>
+          <a href="http://bntnews.hankyung.com/apps/news?popup=0&nid=04&c1=04&c2=04&c3=00&nkey=201507091504153&mode=sub_view" target="_blank" class="press-link">기사 보기 →</a>
+        </div>
+      </div>
+      <div class="broadcast-strip rv" style="margin-top:2px;">
+        <div class="broadcast-item">
+          <div class="broadcast-name">SBS</div>
+          <div class="broadcast-desc">스타킹 · 생방송 투데이</div>
+        </div>
+        <div class="broadcast-item">
+          <div class="broadcast-name">KBS</div>
+          <div class="broadcast-desc">뉴스라인 독립 게스트 출연</div>
+        </div>
+        <div class="broadcast-item">
+          <div class="broadcast-name">MBC</div>
+          <div class="broadcast-desc">놀라운 세상 · 라디오스타</div>
+        </div>
+        <div class="broadcast-item">
+          <div class="broadcast-name">서울경제</div>
+          <div class="broadcast-desc">하이힐 신은 남자 아리스김</div>
+        </div>
+        <div class="broadcast-item">
+          <div class="broadcast-name">Russia</div>
+          <div class="broadcast-desc">primamedia.ru 국영 보도</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 대담 인터뷰 -->
+<section class="sec" id="interview" style="background:var(--deep);border-top:1px solid rgba(201,168,76,.1);">
+  <div class="si">
+    <span class="slabel rv">Interview · 대담</span>
+    <h2 class="stitle rv">경계를 넘는 자의<br><em>언어</em></h2>
+    <div class="grule rv"></div>
+    <div class="interview-opening rv">
+      <p class="big-q">"회사를 키우느라 열정적으로 일만 해왔어요. 그런데 항상 허전했어요. 바로 피부의 허기였던 거죠. 오랫동안 잠들어 있던 변연계를 오늘 처음으로 깨울 수 있었어요."</p>
+      <span class="big-src">— 공연 후, 전남대학교 최고경영자과정(AMP) 참가 기업인의 고백</span>
+    </div>
+    <div class="qa-grid rv" style="margin-top:3px;">
+      <div class="qa-card">
+        <div class="qa-q">어떻게 이렇게 다양한 것들을 하고 싶은 욕구가 생겼을까요?</div>
+        <p class="qa-a">새로운 것을 하지 않으면 창의적일 수 없습니다. 저는 신피질이 먼저 작동하는 사람이 아닙니다. 감각이 먼저 알았고, 그게 저였습니다. 머리가 비어야 할 수 있는 것이 있어요. 계산하지 말고, 본능을 쫓아가며, 야생적으로 살자. 그게 제 철학이었습니다.</p>
+      </div>
+      <div class="qa-card">
+        <div class="qa-q">지치지 않고 계속할 수 있는 에너지는 어디서 오나요?</div>
+        <p class="qa-a">바로 여러분입니다. 그리고 솔직히 말씀드리면 — 가난이 저를 만들었습니다. 선택지가 없었습니다. 그 절박함이 저를 경계 밖으로 밀어냈고, 경계 밖에서 저는 비로소 살아있음을 느꼈습니다.</p>
+      </div>
+      <div class="qa-card">
+        <div class="qa-q">미디어 아트는 어떤 계기로 시작하셨나요?</div>
+        <p class="qa-a">나 자신을 복제하자. 그렇게 시작한 것이 미디어 아트입니다. 저를 디지털로 복제하고, 그 '나'와 함께 공연했습니다. 내 욕심이 만들어 낸 외로움이 결국 새로운 예술의 형식을 낳은 겁니다.</p>
+      </div>
+      <div class="qa-card">
+        <div class="qa-q">AGI 시대에 예술가의 역할은 무엇이라 생각하시나요?</div>
+        <p class="qa-a">AGI 시대가 오면 계산하는 능력은 인공지능이 대신합니다. 그때 우리에게 남는 것은 무엇입니까? 바로 변연계입니다. 감각하고, 느끼고, 연결하는 것. 저는 이미 그 방식으로 살아왔습니다.</p>
+      </div>
+    </div>
+    <div style="margin-top:3px;padding:36px 40px;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.14);" class="rv">
+      <div style="display:grid;grid-template-columns:1fr 2fr;gap:48px;align-items:center;">
+        <div>
+          <span style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:.5em;color:var(--gold);opacity:.55;display:block;margin-bottom:10px;">PROFESSOR JEON SOO-HWAN</span>
+          <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(15px,1.8vw,20px);font-style:italic;color:var(--gl);line-height:1.9;letter-spacing:.04em;">"탱고 하지 마라고 했던 내가, 10년 뒤 그가 아시아 챔피언이 되는 것을 봤습니다. 몸의 언어로 경계를 넘는 사람. 그 사람의 시대가 오고 있습니다."</p>
+          <span style="font-family:'Nanum Myeongjo',serif;font-size:11px;color:rgba(242,237,228,.35);letter-spacing:.1em;">— 전수환 교수 · 전남대학교 AMP · 20년 관찰자</span>
+        </div>
+        <div class="interview-photos" style="grid-template-columns:repeat(4,1fr)!important;">
+          <div><img src="images/amp_intro.jpg" alt="AMP 강연 소개"></div>
+          <div><img src="images/amp_perf1.jpg" alt="AMP 공연"></div>
+          <div><img src="images/amp_news.jpg" alt="뉴스 보도 현장"></div>
+          <div><img src="images/amp_sax_quote.jpg" alt="색소폰 연주 인용구"></div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:3px;display:grid;grid-template-columns:repeat(4,1fr);gap:3px;" class="rv">
+      <div style="overflow:hidden;height:180px;"><img src="images/amp_perf2.jpg" alt="AMP 공연2" style="width:100%;height:100%;object-fit:cover;filter:brightness(.65);transition:transform .6s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"></div>
+      <div style="overflow:hidden;height:180px;"><img src="images/amp_perf3.jpg" alt="AMP 공연3" style="width:100%;height:100%;object-fit:cover;filter:brightness(.65);transition:transform .6s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"></div>
+      <div style="overflow:hidden;height:180px;"><img src="images/amp_audience.jpg" alt="AMP 관객" style="width:100%;height:100%;object-fit:cover;filter:brightness(.65);transition:transform .6s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"></div>
+      <div style="overflow:hidden;height:180px;"><img src="images/amp_wide.jpg" alt="AMP 전경" style="width:100%;height:100%;object-fit:cover;filter:brightness(.65);transition:transform .6s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 아티스트 프로필 -->
+<section class="sec" id="profile" style="background:var(--deep);border-top:1px solid rgba(201,168,76,.1);">
+  <div class="si">
+    <span class="slabel rv">Artist Profile · 아티스트</span>
+    <h2 class="stitle rv">다학제 아티스트<br><em>아리스김</em></h2>
+    <div class="grule rv"></div>
+    <div style="display:grid;grid-template-columns:280px 1fr;gap:64px;align-items:start;" class="rv">
+      <div>
+        <img src="images/profile.jpg" alt="ARIS KIM 프로필" style="width:100%;display:block;border:1px solid rgba(201,168,76,.22);filter:brightness(.9);">
+        <div style="margin-top:14px;padding:18px 20px;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.12);">
+          <div style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:.35em;color:var(--gold);margin-bottom:12px;opacity:.6;">Multidisciplinary Artist</div>
+          <div style="font-family:'Cinzel',serif;font-size:22px;font-weight:700;color:var(--gl);letter-spacing:.08em;margin-bottom:4px;">ARIS KIM</div>
+          <div style="font-family:'Noto Serif KR',serif;font-size:13px;font-weight:200;color:rgba(232,204,122,.45);letter-spacing:.25em;margin-bottom:18px;">아리스김</div>
+          <div style="display:flex;flex-direction:column;gap:9px;">
+            <div style="display:flex;align-items:center;gap:10px;font-family:'Nanum Myeongjo',serif;font-size:13px;letter-spacing:.08em;color:rgba(242,237,228,.55);"><div style="width:4px;height:4px;border-radius:50%;background:var(--gold);opacity:.5;flex-shrink:0;"></div>색소폰 연주자</div>
+            <div style="display:flex;align-items:center;gap:10px;font-family:'Nanum Myeongjo',serif;font-size:13px;letter-spacing:.08em;color:rgba(242,237,228,.55);"><div style="width:4px;height:4px;border-radius:50%;background:var(--gold);opacity:.5;flex-shrink:0;"></div>비디오 아티스트 · Art Intelligence</div>
+            <div style="display:flex;align-items:center;gap:10px;font-family:'Nanum Myeongjo',serif;font-size:13px;letter-spacing:.08em;color:rgba(242,237,228,.55);"><div style="width:4px;height:4px;border-radius:50%;background:var(--gold);opacity:.5;flex-shrink:0;"></div>탱고 마에스트로 · 아시아 챔피언</div>
+            <div style="display:flex;align-items:center;gap:10px;font-family:'Nanum Myeongjo',serif;font-size:13px;letter-spacing:.08em;color:rgba(242,237,228,.55);"><div style="width:4px;height:4px;border-radius:50%;background:var(--gold);opacity:.5;flex-shrink:0;"></div>카운터테너</div>
+            <div style="display:flex;align-items:center;gap:10px;font-family:'Nanum Myeongjo',serif;font-size:13px;letter-spacing:.08em;color:rgba(242,237,228,.55);"><div style="width:4px;height:4px;border-radius:50%;background:var(--gold);opacity:.5;flex-shrink:0;"></div>현대미술가 · LED 설치미술</div>
+          </div>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div style="padding:22px;border:1px solid rgba(201,168,76,.1);background:rgba(201,168,76,.02);">
+          <div style="font-size:16px;margin-bottom:9px;">🏛</div>
+          <div style="font-family:'Noto Serif KR',serif;font-size:13px;font-weight:300;letter-spacing:.08em;color:var(--gl);line-height:1.5;margin-bottom:4px;">뉴욕 카네기홀 초청</div>
+          <div style="font-family:'Nanum Myeongjo',serif;font-size:11px;color:rgba(242,237,228,.35);">New York Carnegie Hall 2022</div>
+        </div>
+        <div style="padding:22px;border:1px solid rgba(201,168,76,.1);background:rgba(201,168,76,.02);">
+          <div style="font-size:16px;margin-bottom:9px;">🎖️</div>
+          <div style="font-family:'Noto Serif KR',serif;font-size:13px;font-weight:300;letter-spacing:.08em;color:var(--gl);line-height:1.5;margin-bottom:4px;">문화체육부 장관상</div>
+          <div style="font-family:'Nanum Myeongjo',serif;font-size:11px;color:rgba(242,237,228,.35);">유인촌 문화체육부 장관상 · 2009</div>
+        </div>
+        <div style="padding:22px;border:1px solid rgba(201,168,76,.1);background:rgba(201,168,76,.02);">
+          <div style="font-size:16px;margin-bottom:9px;">⭐</div>
+          <div style="font-family:'Noto Serif KR',serif;font-size:13px;font-weight:300;letter-spacing:.08em;color:var(--gl);line-height:1.5;margin-bottom:4px;">예술의전당 아티스트 1호</div>
+          <div style="font-family:'Nanum Myeongjo',serif;font-size:11px;color:rgba(242,237,228,.35);">설립 25주년 최초 길거리 아티스트</div>
+        </div>
+        <div style="padding:22px;border:1px solid rgba(201,168,76,.1);background:rgba(201,168,76,.02);">
+          <div style="font-size:16px;margin-bottom:9px;">🥇</div>
+          <div style="font-family:'Noto Serif KR',serif;font-size:13px;font-weight:300;letter-spacing:.08em;color:var(--gl);line-height:1.5;margin-bottom:4px;">아시아 탱고 챔피언</div>
+          <div style="font-family:'Nanum Myeongjo',serif;font-size:11px;color:rgba(242,237,228,.35);">에세나리오 부문 · 한국 최초</div>
+        </div>
+        <div style="padding:22px;border:1px solid rgba(201,168,76,.1);background:rgba(201,168,76,.02);">
+          <div style="font-size:16px;margin-bottom:9px;">🎨</div>
+          <div style="font-family:'Noto Serif KR',serif;font-size:13px;font-weight:300;letter-spacing:.08em;color:var(--gl);line-height:1.5;margin-bottom:4px;">세계 최초 AI 공연 창시</div>
+          <div style="font-family:'Nanum Myeongjo',serif;font-size:11px;color:rgba(242,237,228,.35);">KOCCA 제작지원 · Art Intelligence</div>
+        </div>
+        <div style="padding:22px;border:1px solid rgba(201,168,76,.1);background:rgba(201,168,76,.02);">
+          <div style="font-size:16px;margin-bottom:9px;">🗽</div>
+          <div style="font-family:'Noto Serif KR',serif;font-size:13px;font-weight:300;letter-spacing:.08em;color:var(--gl);line-height:1.5;margin-bottom:4px;">뉴욕 타임스퀘어 퍼포먼스</div>
+          <div style="font-family:'Nanum Myeongjo',serif;font-size:11px;color:rgba(242,237,228,.35);">현대미술 콜라보 · New York 2022</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 공연 갤러리 -->
+<section id="gallery">
+  <div class="si">
+    <span class="slabel rv" style="text-align:center;display:block;margin-bottom:32px;">Performance Gallery · 공연 현장</span>
+  </div>
+  <div class="gal-grid si">
+    <div class="gal-item big rv">
+      <img src="images/audience_laugh_close.jpg" alt="관객과 함께하는 인터랙티브 공연">
+      <div class="gal-cap">관객 속으로 — 인터랙티브 퍼포먼스</div>
+    </div>
+    <div class="gal-item rv">
+      <img src="images/audience_wide.jpg" alt="만석 관객 전경">
+      <div class="gal-cap">만석 공연 현장</div>
+    </div>
+    <div class="gal-item rv">
+      <img src="images/carnegie.jpg" alt="뉴욕 카네기홀">
+      <div class="gal-cap">뉴욕 카네기홀 2022</div>
+    </div>
+    <div class="gal-item rv">
+      <img src="images/perf_gala.jpg" alt="갈라 만찬 퍼포먼스">
+      <div class="gal-cap">기업 갈라 & VIP 리셉션</div>
+    </div>
+    <div class="gal-item rv">
+      <img src="images/tango_perf.jpg" alt="탱고 퍼포먼스">
+      <div class="gal-cap">탱고 & 색소폰 퍼포먼스</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:3px;max-width:1200px;margin:3px auto 0;">
+    <div style="overflow:hidden;height:180px;" class="rv"><img src="images/perf_smoke.jpg" alt="스모크 퍼포먼스" style="width:100%;height:100%;object-fit:cover;filter:brightness(.7);transition:transform .6s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"></div>
+    <div style="overflow:hidden;height:180px;" class="rv"><img src="images/perf_blue_stage.jpg" alt="블루 스테이지" style="width:100%;height:100%;object-fit:cover;filter:brightness(.7);transition:transform .6s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"></div>
+    <div style="overflow:hidden;height:180px;" class="rv"><img src="images/perf_led_neon.jpg" alt="LED 네온 퍼포먼스" style="width:100%;height:100%;object-fit:cover;filter:brightness(.7);transition:transform .6s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"></div>
+    <div style="overflow:hidden;height:180px;" class="rv"><img src="images/timesquare_nyc.jpg" alt="뉴욕 타임스퀘어" style="width:100%;height:100%;object-fit:cover;filter:brightness(.7);transition:transform .6s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"></div>
+  </div>
+</section>
+
+
+<!-- 공연 실적 -->
+<section class="sec" id="references" style="background:var(--deep);border-top:1px solid rgba(201,168,76,.12);">
+  <div class="si">
+    <span class="slabel rv">Performance References · 공연 실적</span>
+    <h2 class="stitle rv">검증된 무대,<br><em>신뢰할 수 있는 아티스트</em></h2>
+    <div class="grule rv"></div>
+
+    <!-- 해외 -->
+    <div style="margin-bottom:52px;" class="rv">
+      <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.55em;color:var(--gold);opacity:.5;margin-bottom:20px;">INTERNATIONAL</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;" class="ref-grid">
+        <div class="ref-card">
+          <div class="ref-icon">🏛</div>
+          <div class="ref-org">Carnegie Hall</div>
+          <div class="ref-loc">New York, U.S.A.</div>
+          <div class="ref-desc">뉴욕 카네기홀 초청 공연</div>
+        </div>
+        <div class="ref-card">
+          <div class="ref-icon">🗽</div>
+          <div class="ref-org">Times Square</div>
+          <div class="ref-loc">New York, U.S.A.</div>
+          <div class="ref-desc">현대미술 콜라보 퍼포먼스</div>
+        </div>
+        <div class="ref-card">
+          <div class="ref-icon">🌍</div>
+          <div class="ref-org">ART MUST GO ON</div>
+          <div class="ref-loc">Italy · France · U.S.A.</div>
+          <div class="ref-desc">서울문화재단 국제 콜라보레이션</div>
+        </div>
+        <div class="ref-card">
+          <div class="ref-icon">💃</div>
+          <div class="ref-org">Mundial de Tango</div>
+          <div class="ref-loc">Argentina · Buenos Aires</div>
+          <div class="ref-desc">아시아 탱고 챔피언십 에세나리오 부문 우승</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 국내 -->
+    <div class="rv">
+      <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.55em;color:var(--gold);opacity:.5;margin-bottom:20px;">DOMESTIC</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;" class="ref-grid">
+        <div class="ref-card">
+          <div class="ref-icon">🎭</div>
+          <div class="ref-org">예술의 전당</div>
+          <div class="ref-loc">Seoul Arts Center</div>
+          <div class="ref-desc">설립 25주년 최초 1호 아티스트 선정 공연</div>
+        </div>
+        <div class="ref-card">
+          <div class="ref-icon">🏛</div>
+          <div class="ref-org">서울문화재단</div>
+          <div class="ref-loc">Seoul Foundation for Arts</div>
+          <div class="ref-desc">공식 협력 아티스트</div>
+        </div>
+        <div class="ref-card">
+          <div class="ref-icon">🎓</div>
+          <div class="ref-org">전남대학교</div>
+          <div class="ref-loc">최고경영자 과정 AMP</div>
+          <div class="ref-desc">클림트 미디어아트 강연 입학 콘서트</div>
+        </div>
+        <div class="ref-card">
+          <div class="ref-icon">🎵</div>
+          <div class="ref-org">한국예술종합학교</div>
+          <div class="ref-loc">K-Arts · 음악원</div>
+          <div class="ref-desc">VIDEO ART CONCERT · 음악원 학생회장</div>
+        </div>
+        <div class="ref-card">
+          <div class="ref-icon">🌟</div>
+          <div class="ref-org">ARIsHOW Company</div>
+          <div class="ref-loc">정기 공연 시리즈</div>
+          <div class="ref-desc">색소폰·탱고·미디어아트 융합 정기 콘서트</div>
+        </div>
+        <div class="ref-card">
+          <div class="ref-icon">🏢</div>
+          <div class="ref-org">기업 · 대학 · 지자체</div>
+          <div class="ref-loc">전국</div>
+          <div class="ref-desc">갈라 · 시상식 · 강연 콘서트 다수</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 기술 라이더 -->
+<section class="sec" id="rider" style="background:var(--bg);border-top:1px solid rgba(201,168,76,.1);">
+  <div class="si">
+    <span class="slabel rv">Technical Rider · 기술 요구사항</span>
+    <h2 class="stitle rv">완성도 높은 공연을 위한<br><em>기술 사양</em></h2>
+    <div class="grule rv"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;" class="rv">
+      <div class="rider-card">
+        <div class="rider-icon">🎪</div>
+        <h3 class="rider-title">무대 규격</h3>
+        <ul class="rider-list">
+          <li>최소 무대: <em>가로 8m × 세로 6m 이상</em></li>
+          <li>천장 높이: <em>4m 이상 권장</em></li>
+          <li>분장실 및 대기 공간 필수</li>
+          <li>무대 설치 사전 협의 필요</li>
+        </ul>
+      </div>
+      <div class="rider-card">
+        <div class="rider-icon">🔊</div>
+        <h3 class="rider-title">음향 시스템</h3>
+        <ul class="rider-list">
+          <li>PA 메인 스피커 시스템</li>
+          <li>모니터 스피커 <em>최소 2개</em></li>
+          <li>무선 마이크 시스템</li>
+          <li>믹싱 콘솔 (32채널 이상)</li>
+        </ul>
+      </div>
+      <div class="rider-card">
+        <div class="rider-icon">💡</div>
+        <h3 class="rider-title">조명 & 미디어</h3>
+        <ul class="rider-list">
+          <li>기본 무대 조명 시스템</li>
+          <li>미디어아트 공연 시 <em>완전 암전 필수</em></li>
+          <li>대형 LED 스크린 또는 프로젝터</li>
+          <li>최소 스크린 규격: <em>5m × 3m 이상</em></li>
+        </ul>
+      </div>
+      <div class="rider-card">
+        <div class="rider-icon">⚡</div>
+        <h3 class="rider-title">전력 & 기타</h3>
+        <ul class="rider-list">
+          <li>미디어 장비용 <em>220V 30A 이상</em></li>
+          <li>리허설 시간: <em>공연 당일 최소 3시간</em></li>
+          <li>사운드체크: <em>공연 2시간 전</em></li>
+          <li>세부 사항 사전 협의 가능</li>
+        </ul>
+      </div>
+    </div>
+    <div style="margin-top:3px;padding:28px 32px;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.15);" class="rv">
+      <p style="font-family:'Nanum Myeongjo',serif;font-size:13.5px;letter-spacing:.06em;line-height:2.1;color:rgba(242,237,228,.6);">
+        ※ 위 사항은 기본 가이드라인이며, 공연 형식 및 규모에 따라 달라질 수 있습니다.<br>
+        정확한 기술 라이더 전문 문서는 계약 체결 후 제공해 드립니다.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec" id="faq" style="background:var(--deep);border-top:1px solid rgba(201,168,76,.1);">
+  <div class="si">
+    <span class="slabel rv">FAQ · 자주 묻는 질문</span>
+    <h2 class="stitle rv">기획자가<br><em>가장 많이 묻는 질문</em></h2>
+    <div class="grule rv"></div>
+    <div style="display:flex;flex-direction:column;gap:2px;" class="rv">
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>최소 섭외 기간은 얼마나 되나요?</span>
+          <span class="faq-arrow">＋</span>
+        </div>
+        <div class="faq-a">공연 규모에 따라 다르며, 소규모 공연은 최소 3~4주 전, 클림트 미디어아트 대형 공연의 경우 2~3개월 전 협의를 권장합니다. 일정 조율 후 빠른 진행도 가능하니 먼저 문의해 주세요.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>지방 공연도 가능한가요?</span>
+          <span class="faq-arrow">＋</span>
+        </div>
+        <div class="faq-a">전국 어디서나 가능합니다. 서울 외 지역의 경우 교통비 및 숙박비는 별도 협의하며, 해외 공연도 진행한 바 있습니다.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>야외 공연도 가능한가요?</span>
+          <span class="faq-arrow">＋</span>
+        </div>
+        <div class="faq-a">가능합니다. 단, 미디어아트 장비 운용을 위한 전력 공급과 날씨에 따른 장비 보호 조치가 필요합니다. 야외 규모와 환경에 맞는 별도 구성을 제안해 드립니다.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>출연료는 어떻게 산정되나요?</span>
+          <span class="faq-arrow">＋</span>
+        </div>
+        <div class="faq-a">공연 형식(색소폰 단독 / 탱고 퍼포먼스 / 클림트 미디어아트 풀 프로덕션), 공연 시간, 규모, 지역에 따라 맞춤 견적을 제공합니다. 예산 범위를 먼저 알려주시면 그에 맞는 최적의 구성을 제안해 드립니다.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>소규모 행사도 섭외 가능한가요?</span>
+          <span class="faq-arrow">＋</span>
+        </div>
+        <div class="faq-a">VIP 리셉션, 기업 만찬, 소규모 갈라 등 50석 이하 행사도 진행 가능합니다. 규모에 맞는 별도 구성으로 품격 있는 공연을 제공합니다.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <span>계약 및 정산 방식은 어떻게 되나요?</span>
+          <span class="faq-arrow">＋</span>
+        </div>
+        <div class="faq-a">계약서 작성 후 계약금 50% 선납, 잔금 50%는 공연 당일 정산이 기본 방식입니다. 기관 및 기업의 경우 세금계산서 발행이 가능하며, 정산 방식은 협의 가능합니다.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 의뢰 프로세스 -->
+<section id="process">
+  <div class="si">
+    <span class="slabel rv" style="text-align:center;display:block;margin-bottom:16px;">Process · 의뢰 프로세스</span>
+    <h2 class="stitle rv" style="text-align:center;">공연 의뢰부터<br><em>완성까지</em></h2>
+    <div class="proc-steps">
+      <div class="proc-step rv">
+        <div class="proc-circle">01</div>
+        <div class="proc-title">문의 접수</div>
+        <div class="proc-body">행사 날짜 · 장소 · 규모 · 예산을 이메일 또는 전화로 전달</div>
+      </div>
+      <div class="proc-step rv">
+        <div class="proc-circle">02</div>
+        <div class="proc-title">맞춤 제안</div>
+        <div class="proc-body">행사 목적에 맞는 공연 형식 · 프로그램 · 견적서 제안</div>
+      </div>
+      <div class="proc-step rv">
+        <div class="proc-circle">03</div>
+        <div class="proc-title">계약 & 준비</div>
+        <div class="proc-body">계약 체결 후 무대 기술 · 음향 · 조명 요구사항 협의</div>
+      </div>
+      <div class="proc-step rv">
+        <div class="proc-circle">04</div>
+        <div class="proc-title">공연 완성</div>
+        <div class="proc-body">리허설 · 사운드체크 · 완성도 높은 본공연 진행</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCREW QUOTE -->
+<section style="position:relative;overflow:hidden;height:400px;display:flex;align-items:center;justify-content:center;text-align:center;">
+  <img src="images/screw.jpg" alt="황금 나사의 울림" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.28) contrast(1.1);">
+  <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,7,5,.4) 0%,rgba(8,7,5,.75) 100%);"></div>
+  <div style="position:relative;z-index:2;padding:0 52px;" class="rv">
+    <p style="font-family:'Noto Serif KR',serif;font-size:clamp(18px,3vw,36px);font-weight:200;letter-spacing:.18em;color:var(--w);line-height:1.8;margin-bottom:12px;">헐거워진 세상의 틈을 다시 조이다.<br>예술로 연결된 우리는, 더 이상 혼자가 아니다.</p>
+    <span style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.52em;color:rgba(201,168,76,.55);">ARIS KIM</span>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <span class="contact-label rv">Contact · 공연 의뢰</span>
+  <h2 class="contact-title rv"><span style="color:var(--gold)">A</span>RIS KIM을<br>무대로 초대하세요</h2>
+  <p class="contact-sub rv">
+    기업 · 대학 · 문화재단 · 지자체 · 정부 기관<br>
+    공연 날짜 · 장소 · 규모를 알려주시면<br>맞춤 제안서를 보내드립니다.
+  </p>
+  <div class="contact-btns rv">
+    <a href="/cdn-cgi/l/email-protection#59382b302a31362e1937382f3c2b773a3634" class="cta-main" style="color:var(--bg)!important;">이메일 문의하기</a>
+    <a href="tel:010-4251-1212" class="cta-kakao">010-4251-1212</a>
+    <a href="tel:0260134887" class="cta-kakao">02-6013-4887</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-logo"><span class="ai">A</span>RIS KIM</div>
+  <div class="ft-info">
+    ARISHOW COMPANY · 아리스김<br>
+    예술의 전당 최초 1호 아티스트 · 뉴욕 카네기홀 · 아시아 탱고 챔피언
+  </div>
+</footer>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+const prog=document.getElementById('prog');
+const nav=document.getElementById('nav');
+window.addEventListener('scroll',()=>{
+  const p=(window.scrollY/(document.documentElement.scrollHeight-innerHeight))*100;
+  prog.style.width=p+'%';
+  nav.classList.toggle('on',window.scrollY>60);
+});
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');});
+},{threshold:.1});
+document.querySelectorAll('.rv,.rvl,.rvr').forEach(el=>obs.observe(el));
+
+// 영상 팝업
+let vlb = null;
+function openVid(id, isShorts=false) {
+  if(vlb) { vlb.remove(); vlb=null; }
+  vlb = document.createElement('div');
+  vlb.style.cssText = 'position:fixed;inset:0;background:rgba(4,3,2,.97);z-index:9999;display:flex;align-items:center;justify-content:center;cursor:pointer;';
+  const w = isShorts ? 'min(90vh * 0.5625, 360px)' : 'min(90vw, 960px)';
+  const h2 = isShorts ? 'min(90vh, 90vw * 1.778)' : 'min(56.25vw, 540px)';
+  vlb.innerHTML = `<div style="position:relative;width:${w};height:${h2};">
+    <iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0" frameborder="0" allow="autoplay;encrypted-media" allowfullscreen style="width:100%;height:100%;"></iframe>
+    <button onclick="event.stopPropagation();this.parentElement.parentElement.remove();vlb=null;" style="position:absolute;top:-36px;right:0;background:none;border:none;font-family:'Cinzel',serif;font-size:11px;letter-spacing:.3em;color:rgba(201,168,76,.7);cursor:pointer;">CLOSE ✕</button>
+  </div>`;
+  vlb.onclick = () => { vlb.remove(); vlb=null; };
+  document.body.appendChild(vlb);
+}
+
+
+const bham=document.getElementById('bham'), bmob=document.getElementById('bmob');
+if(bham&&bmob){
+  bham.addEventListener('click',()=>{
+    bham.classList.toggle('on');bmob.classList.toggle('on');
+    document.body.style.overflow=bmob.classList.contains('on')?'hidden':'';
+  });
+}
+function bc(){bham&&bham.classList.remove('on');bmob&&bmob.classList.remove('on');document.body.style.overflow='';}
+
+
+func
