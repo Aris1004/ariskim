@@ -45,12 +45,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
   object-position:center top;
   filter:brightness(.88);
 }
-/* 사진 아래 페이드 */
 #photo-wrap::after{
   content:'';position:absolute;inset:0;
   background:linear-gradient(to bottom,transparent 50%,rgba(4,3,2,.7) 100%);
 }
-/* 이름 오버레이 */
 #photo-name{
   position:absolute;bottom:28px;left:0;right:0;
   text-align:center;z-index:2;
@@ -79,11 +77,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
   text-decoration:none;overflow:hidden;cursor:pointer;
   transition:flex .85s cubic-bezier(.23,1,.32,1), transform 1.6s cubic-bezier(.77,0,.18,1);
 }
-/* 패널 초기: 화면 밖 */
 #pa{transform:translateX(-100%);}
 #pb{transform:translateX(100%);}
 #pa.open,#pb.open{transform:translateX(0);}
-
 .panel:hover{flex:1.55;}
 
 .pbg{
@@ -92,8 +88,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
   filter:brightness(.22);transition:filter .7s,transform .7s;
 }
 .panel:hover .pbg{filter:brightness(.4);transform:scale(1.04);}
+/* 왼쪽 패널: 기존 이미지 유지 */
 #pa .pbg{background-image:url('images/img_01_227kb.png');background-position:35% center;}
-#pb .pbg{background-image:url('images/img_01_227kb.png');background-position:65% center;}
+/* 오른쪽 패널: 금색 재킷 사진으로 교체 */
+#pb .pbg{background-image:url('images/img_gold_jacket.jpg');background-position:center top;}
 
 .pov{position:absolute;inset:0;}
 #pa .pov{background:linear-gradient(145deg,rgba(4,3,2,.72) 0%,rgba(10,6,18,.32) 100%);}
@@ -147,13 +145,15 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
 #pb .pcta{border:1px solid rgba(201,168,76,.36);color:var(--gold);}
 #pb .pcta:hover{background:var(--gold);color:var(--bg);}
 
-/* 중앙선 */
+/* ── 중앙선: 초기에는 보이지 않다가 fade in ── */
 #dl{
   position:absolute;left:50%;top:0;width:1px;height:100%;
   background:linear-gradient(180deg,transparent 0%,rgba(201,168,76,.46) 15%,rgba(201,168,76,.46) 85%,transparent 100%);
   z-index:10;pointer-events:none;
-  transition:left .75s cubic-bezier(.23,1,.32,1);
+  transition:left .75s cubic-bezier(.23,1,.32,1), opacity .9s ease;
+  opacity:0;
 }
+#dl.show{opacity:1;}
 #dl::before{
   content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
   width:36px;height:36px;border:1px solid rgba(201,168,76,.36);
@@ -164,20 +164,15 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
   transform:translate(-50%,-50%);color:var(--gold);font-size:12px;z-index:1;
 }
 
-/* ── 처음으로 버튼 (럭셔리 금색) ── */
 .home-btn{
   display:inline-block;
   font-family:'Cinzel',serif;font-size:9.5px;font-weight:700;
-  letter-spacing:.3em;
-  color:#1a1200;
-  text-decoration:none;
+  letter-spacing:.3em;color:#1a1200;text-decoration:none;
   padding:10px 22px;
   background:linear-gradient(135deg,#B8922E 0%,#E8CC7A 40%,#C9A84C 60%,#F5E090 80%,#C9A84C 100%);
-  box-shadow:0 2px 12px rgba(201,168,76,.4), inset 0 1px 0 rgba(255,255,255,.3), inset 0 -1px 0 rgba(0,0,0,.2);
+  box-shadow:0 2px 12px rgba(201,168,76,.4),inset 0 1px 0 rgba(255,255,255,.3),inset 0 -1px 0 rgba(0,0,0,.2);
   border:1px solid rgba(180,140,30,.6);
-  transition:all .3s;
-  position:relative;
-  overflow:hidden;
+  transition:all .3s;position:relative;overflow:hidden;
 }
 .home-btn::before{
   content:'';position:absolute;inset:0;
@@ -197,24 +192,18 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
   color:rgba(201,168,76,.14);white-space:nowrap;pointer-events:none;
 }
 
-
-/* ── 태블릿 (769~1024px) ── */
+/* ── 반응형 ── */
 @media (min-width:769px) and (max-width:1024px){
   .ptitle{font-size:clamp(18px,3vw,34px);}
   .pkr{font-size:clamp(10px,1.3vw,14px);}
   .pc{padding:36px 24px;}
   #photo-wrap{width:28vw;}
 }
-
-/* ── 스마트폰 가로 (481~768px) ── */
 @media (min-width:481px) and (max-width:768px){
   #s3{flex-direction:row;}
   .panel{flex:1;}
   .panel:hover{flex:1.4;}
-  #dl{
-    left:50%;top:0;width:1px;height:100%;
-    background:linear-gradient(180deg,transparent,rgba(201,168,76,.46),transparent);
-  }
+  #dl{left:50%;top:0;width:1px;height:100%;background:linear-gradient(180deg,transparent,rgba(201,168,76,.46),transparent);}
   .pc{transform:none!important;opacity:1!important;padding:24px 16px;}
   .ptitle{font-size:clamp(14px,2.8vw,22px);letter-spacing:.04em;}
   .pkr{font-size:10px;letter-spacing:.15em;}
@@ -224,17 +213,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
   #photo-wrap{width:40vw;height:72vh;}
   .cor{width:10px;height:10px;}
 }
-
-/* ── 스마트폰 세로 (480px 이하) ── */
 @media (max-width:480px){
   #s3{flex-direction:column;}
   .panel{flex:1!important;min-height:50vh;transition:flex 0s!important;}
   .panel:hover{flex:1!important;}
-  #dl{
-    left:0!important;top:50%!important;
-    width:100%!important;height:1px!important;
-    background:linear-gradient(90deg,transparent,rgba(201,168,76,.46),transparent);
-  }
+  #dl{left:0!important;top:50%!important;width:100%!important;height:1px!important;background:linear-gradient(90deg,transparent,rgba(201,168,76,.46),transparent);}
   #dl::before{width:30px;height:30px;}
   .pc{transform:none!important;opacity:1!important;padding:24px 16px;}
   .ptag{display:none;}
@@ -246,12 +229,11 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
   #photo-wrap{width:68vw;height:62vh;}
   #sig{display:none;}
 }
-
 </style>
 </head>
 <body>
 
-<!-- PHASE 1 -->
+<!-- PHASE 1: 스포트라이트 서명 -->
 <div id="s1"><canvas id="cvs"></canvas></div>
 
 <!-- PHASE 2: 사진 중앙 단독 -->
@@ -297,95 +279,169 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
 <div id="sig">ARISHOW COMPANY · ARIS KIM</div>
 
 <script>
-const C=document.getElementById('cvs');
-const X=C.getContext('2d');
-function resize(){C.width=innerWidth;C.height=innerHeight;}
-resize(); addEventListener('resize',resize);
+const C = document.getElementById('cvs');
+const X = C.getContext('2d');
+function resize(){ C.width = innerWidth; C.height = innerHeight; }
+resize(); addEventListener('resize', resize);
 
-/* PHASE 1: 사인 */
+/* ══ PHASE 1: 스포트라이트가 암흑을 뚫고 서명을 비추다 ══ */
 function phase1(done){
-  document.fonts.load('140px "Herr Von Muellerhoff"').then(()=>{
-    const txt='Aris Kim';
-    const fs=Math.min(innerWidth*.13,152);
-    X.font=`${fs}px "Herr Von Muellerhoff"`;
-    const tw=X.measureText(txt).width;
-    const tx=(C.width-tw)/2, ty=C.height*.52;
-    let t0=null, dur=2800;
+  document.fonts.load('140px "Herr Von Muellerhoff"').then(() => {
+    const txt = 'Aris Kim';
+    const fs = Math.min(innerWidth * .13, 152);
+    X.font = `${fs}px "Herr Von Muellerhoff"`;
+    const tw = X.measureText(txt).width;
+    const tx = (C.width - tw) / 2;
+    const ty = C.height * .50;
+
+    let t0 = null;
+    const dur = 3200;
+
     function frame(ts){
-      if(!t0)t0=ts;
-      const p=Math.min((ts-t0)/dur,1);
-      const e=p<.5?2*p*p:-1+(4-2*p)*p;
-      X.clearRect(0,0,C.width,C.height);
-      const bg=X.createRadialGradient(C.width/2,C.height/2,C.width*.06,C.width/2,C.height/2,C.width*.72);
-      bg.addColorStop(0,'rgba(4,3,2,0)');bg.addColorStop(1,'rgba(4,3,2,.62)');
-      X.fillStyle=bg;X.fillRect(0,0,C.width,C.height);
-      X.save();X.beginPath();X.rect(0,0,tx+tw*e+55,C.height);X.clip();
-      X.font=`${fs}px "Herr Von Muellerhoff"`;X.fillStyle='#E8DDD0';X.fillText(txt,tx,ty);X.restore();
-      if(e>.86){
-        const a=(e-.86)/.14;X.save();X.globalAlpha=a*.34;
-        X.font=`${fs*.14}px "Cinzel"`;X.fillStyle='#C9A84C';X.textAlign='center';
-        X.fillText('아  리  스  김',C.width/2,ty+fs*.3);X.restore();
+      if (!t0) t0 = ts;
+      const p = Math.min((ts - t0) / dur, 1);
+      // easeInOutCubic
+      const e = p < .5 ? 4*p*p*p : 1 - Math.pow(-2*p+2, 3)/2;
+
+      // ── 배경: 완전 암흑
+      X.fillStyle = '#040302';
+      X.fillRect(0, 0, C.width, C.height);
+
+      // ── 스포트라이트 빔: 상단 중앙에서 아래로 내리쬐는 원뿔형 빛
+      if (e > 0.04) {
+        const beamAlpha = Math.min(e * 1.6, 0.9);
+        const centerX = C.width * .5;
+        const beamTop = 0;
+        const beamSpread = C.width * 0.28 * Math.min(e * 1.4, 1);
+
+        // 빔 원뿔 경로
+        X.save();
+        X.beginPath();
+        X.moveTo(centerX, beamTop);
+        X.lineTo(centerX - beamSpread, C.height);
+        X.lineTo(centerX + beamSpread, C.height);
+        X.closePath();
+
+        // 원뿔 내부 그라디언트: 황금빛 → 투명
+        const beamGrad = X.createLinearGradient(centerX, beamTop, centerX, C.height);
+        beamGrad.addColorStop(0,   `rgba(255,230,150,${beamAlpha * .25})`);
+        beamGrad.addColorStop(0.25, `rgba(232,204,122,${beamAlpha * .12})`);
+        beamGrad.addColorStop(0.55, `rgba(201,168,76,${beamAlpha * .07})`);
+        beamGrad.addColorStop(1,   'rgba(201,168,76,0)');
+        X.fillStyle = beamGrad;
+        X.fill();
+        X.restore();
+
+        // 빔 상단 발광점 (광원)
+        const srcGlow = X.createRadialGradient(centerX, beamTop, 0, centerX, beamTop, 80);
+        srcGlow.addColorStop(0, `rgba(255,235,160,${beamAlpha * .5})`);
+        srcGlow.addColorStop(0.4, `rgba(232,204,122,${beamAlpha * .18})`);
+        srcGlow.addColorStop(1, 'rgba(201,168,76,0)');
+        X.beginPath();
+        X.arc(centerX, beamTop, 80, 0, Math.PI * 2);
+        X.fillStyle = srcGlow;
+        X.fill();
       }
-      if(p<1){
-        const gx=tx+tw*e+6,gy=ty-fs*.22;
-        const gr=X.createRadialGradient(gx,gy,0,gx,gy,26);
-        gr.addColorStop(0,'rgba(232,204,122,.55)');gr.addColorStop(.5,'rgba(232,204,122,.1)');gr.addColorStop(1,'rgba(232,204,122,0)');
-        X.beginPath();X.arc(gx,gy,26,0,Math.PI*2);X.fillStyle=gr;X.fill();
-        X.beginPath();X.arc(gx,gy,2.8,0,Math.PI*2);X.fillStyle='#E8CC7A';X.fill();
+
+      // ── 서명 텍스트: 빔이 40% 진행된 후 서서히 등장
+      if (e > 0.35) {
+        const sigAlpha = Math.min((e - 0.35) / 0.45, 1);
+
+        // 서명 주변 후광 (빛에 의한 반짝임)
+        const glowGrad = X.createRadialGradient(C.width/2, ty - fs*.1, 10, C.width/2, ty - fs*.1, fs * .9);
+        glowGrad.addColorStop(0, `rgba(255,235,160,${sigAlpha * .08})`);
+        glowGrad.addColorStop(1, 'rgba(255,235,160,0)');
+        X.beginPath();
+        X.ellipse(C.width/2, ty - fs*.15, tw*.55, fs*.55, 0, 0, Math.PI*2);
+        X.fillStyle = glowGrad;
+        X.fill();
+
+        // 서명 본문
+        X.save();
+        X.globalAlpha = sigAlpha;
+        X.font = `${fs}px "Herr Von Muellerhoff"`;
+        X.fillStyle = '#EDE4D6';
+        X.shadowColor = 'rgba(232,204,122,.6)';
+        X.shadowBlur = 18 * sigAlpha;
+        X.fillText(txt, tx, ty);
+        X.restore();
       }
-      if(p<1)requestAnimationFrame(frame); else setTimeout(done,700);
+
+      // ── 한글 "아리스 김": 더 크고 선명하게 (e > 0.65 이후 등장)
+      if (e > 0.65) {
+        const krAlpha = Math.min((e - 0.65) / 0.28, 1) * 0.82;
+        X.save();
+        X.globalAlpha = krAlpha;
+        const krFs = fs * 0.22; // 기존 0.14 → 0.22 (약 57% 크게)
+        X.font = `${krFs}px "Cinzel"`;
+        X.fillStyle = '#C9A84C';
+        X.textAlign = 'center';
+        X.shadowColor = 'rgba(201,168,76,.5)';
+        X.shadowBlur = 10 * krAlpha;
+        X.fillText('아  리  스  김', C.width / 2, ty + fs * .36);
+        X.restore();
+      }
+
+      if (p < 1) {
+        requestAnimationFrame(frame);
+      } else {
+        setTimeout(done, 700);
+      }
     }
     requestAnimationFrame(frame);
   });
 }
 
-/* PHASE 2: 사진 등장 */
+/* ══ PHASE 2: 서명 페이드아웃 → 세로선 등장 → 즉시 사진 중앙 표시 ══ */
 function phase2(done){
   document.getElementById('s1').classList.add('out');
-  setTimeout(()=>{
-    document.getElementById('s1').style.display='none';
+  setTimeout(() => {
+    document.getElementById('s1').style.display = 'none';
+    // 세로선 즉시 등장
+    document.getElementById('dl').classList.add('show');
+    // 세로선과 동시에 사진도 등장
     document.getElementById('s2').classList.add('show');
-    setTimeout(done, 1800); // 사진 감상 후
-  },1400);
+    setTimeout(done, 1800);
+  }, 1400);
 }
 
-/* PHASE 3: 사진 fade out + 패널 좌우 슬라이드 인 */
+/* ══ PHASE 3: 패널 좌우 슬라이드 인 ══ */
 function phase3(){
-  const s2=document.getElementById('s2');
+  const s2 = document.getElementById('s2');
   s2.classList.add('out');
-  setTimeout(()=>{s2.style.display='none';},1000);
-  // 패널 열기
-  setTimeout(()=>{
+  setTimeout(() => { s2.style.display = 'none'; }, 1000);
+  setTimeout(() => {
     document.getElementById('pa').classList.add('open');
     document.getElementById('pb').classList.add('open');
-  },300);
+  }, 300);
 }
 
 /* skip=1이면 바로 패널 */
-const skip=new URLSearchParams(location.search).get('skip');
-if(skip==='1'){
-  document.getElementById('s1').style.display='none';
-  document.getElementById('s2').style.display='none';
+const skip = new URLSearchParams(location.search).get('skip');
+if (skip === '1') {
+  document.getElementById('s1').style.display = 'none';
+  document.getElementById('s2').style.display = 'none';
+  document.getElementById('dl').classList.add('show');
   document.getElementById('pa').classList.add('open');
   document.getElementById('pb').classList.add('open');
 } else {
-  document.fonts.ready.then(()=>{
-    setTimeout(()=>{ phase1(()=>phase2(()=>phase3())); },400);
+  document.fonts.ready.then(() => {
+    setTimeout(() => { phase1(() => phase2(() => phase3())); }, 400);
   });
 }
 
-/* 패널 hover 분리선 */
-const dl=document.getElementById('dl');
-const pa=document.getElementById('pa');
-const pb=document.getElementById('pb');
-dl.style.transition='left .75s cubic-bezier(.23,1,.32,1)';
-pa.addEventListener('mouseenter',()=>dl.style.left='58%');
-pa.addEventListener('mouseleave',()=>dl.style.left='50%');
-pb.addEventListener('mouseenter',()=>dl.style.left='42%');
-pb.addEventListener('mouseleave',()=>dl.style.left='50%');
-document.addEventListener('keydown',e=>{
-  if(e.key==='ArrowLeft')location.href='story.html';
-  if(e.key==='ArrowRight')location.href='booking.html';
+/* 패널 hover 분리선 이동 */
+const dl = document.getElementById('dl');
+const pa = document.getElementById('pa');
+const pb = document.getElementById('pb');
+dl.style.transition = 'left .75s cubic-bezier(.23,1,.32,1), opacity .9s ease';
+pa.addEventListener('mouseenter', () => dl.style.left = '58%');
+pa.addEventListener('mouseleave', () => dl.style.left = '50%');
+pb.addEventListener('mouseenter', () => dl.style.left = '42%');
+pb.addEventListener('mouseleave', () => dl.style.left = '50%');
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft') location.href = 'story.html';
+  if (e.key === 'ArrowRight') location.href = 'booking.html';
 });
 </script>
 </body>
