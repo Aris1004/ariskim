@@ -89,7 +89,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
 }
 .panel:hover .pbg{filter:brightness(.4);transform:scale(1.04);}
 /* 왼쪽 패널: 기존 이미지 유지 */
-#pa .pbg{background-image:url('images/img_01_227kb.png');background-position:35% center;}
+#pa .pbg{background-image:url('images/img_black_jacket.jpg');background-position:center top;}
 /* 오른쪽 패널: 금색 재킷 사진으로 교체 */
 #pb .pbg{background-image:url('images/img_gold_jacket.jpg');background-position:center top;}
 
@@ -392,28 +392,31 @@ function phase1(done){
   });
 }
 
-/* ══ PHASE 2: 서명 페이드아웃 → 세로선 등장 → 즉시 사진 중앙 표시 ══ */
+/* ══ PHASE 2: 서명 페이드아웃 → 사진 중앙 등장 (세로선 없음) ══ */
 function phase2(done){
   document.getElementById('s1').classList.add('out');
   setTimeout(() => {
     document.getElementById('s1').style.display = 'none';
-    // 세로선 즉시 등장
-    document.getElementById('dl').classList.add('show');
-    // 세로선과 동시에 사진도 등장
+    // 사진만 먼저 등장 (세로선은 아직 없음)
     document.getElementById('s2').classList.add('show');
-    setTimeout(done, 1800);
+    setTimeout(done, 1900);
   }, 1400);
 }
 
-/* ══ PHASE 3: 패널 좌우 슬라이드 인 ══ */
+/* ══ PHASE 3: 사진 페이드아웃 완료 후 → 세로선 등장 → 패널 슬라이드 인 ══ */
 function phase3(){
   const s2 = document.getElementById('s2');
   s2.classList.add('out');
-  setTimeout(() => { s2.style.display = 'none'; }, 1000);
+  // 사진이 완전히 사라진 후 세로선 등장
+  setTimeout(() => {
+    s2.style.display = 'none';
+    document.getElementById('dl').classList.add('show');
+  }, 1000);
+  // 세로선 등장 직후 패널 슬라이드 인
   setTimeout(() => {
     document.getElementById('pa').classList.add('open');
     document.getElementById('pb').classList.add('open');
-  }, 300);
+  }, 1200);
 }
 
 /* skip=1이면 바로 패널 */
