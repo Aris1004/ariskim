@@ -539,6 +539,60 @@ document.addEventListener('keydown',e=>{
   if(e.key==='ArrowLeft') location.href='story.html';
   if(e.key==='ArrowRight') location.href='booking.html';
 });
+/* ══════════════════════════════════
+   LUXURY CLICK SOUND
+   — 모든 링크·버튼 클릭 시 재생
+   — 동일 스니펫을 booking.html / story.html 에도 추가 가능
+══════════════════════════════════ */
+function playClickSound(){
+  if(!AC || AC.state !== 'running') return;
+  const t = AC.currentTime;
+
+  /* 리버브 (짧고 공간감 있는) */
+  const rvBuf = AC.createBuffer(2, AC.sampleRate*0.8, AC.sampleRate);
+  for(let ch=0;ch<2;ch++){
+    const d=rvBuf.getChannelData(ch);
+    for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,2.2);
+  }
+  const rv=AC.createConvolver(); rv.buffer=rvBuf;
+  const rvG=AC.createGain(); rvG.gain.value=0.22;
+  rv.connect(rvG); rvG.connect(AC.destination);
+
+  /* 기본음: 880Hz (A5) — 고급 인터페이스 탭 느낌 */
+  const a5=AC.createOscillator(); a5.type='sine'; a5.frequency.value=880;
+  const a5g=AC.createGain();
+  a5g.gain.setValueAtTime(0,t);
+  a5g.gain.linearRampToValueAtTime(0.28, t+0.003); // 극도로 빠른 어택
+  a5g.gain.exponentialRampToValueAtTime(0.001, t+0.18); // 우아한 감쇠
+  a5.connect(a5g); a5g.connect(AC.destination);
+  a5.connect(rv);
+  a5.start(t); a5.stop(t+0.2);
+
+  /* 배음: 1760Hz (A6) — 크리스탈 광택 */
+  const a6=AC.createOscillator(); a6.type='sine'; a6.frequency.value=1760;
+  const a6g=AC.createGain();
+  a6g.gain.setValueAtTime(0,t);
+  a6g.gain.linearRampToValueAtTime(0.10, t+0.002);
+  a6g.gain.exponentialRampToValueAtTime(0.001, t+0.12);
+  a6.connect(a6g); a6g.connect(AC.destination);
+  a6.connect(rv);
+  a6.start(t); a6.stop(t+0.14);
+
+  /* 저음 보강: 220Hz — 묵직함 */
+  const low=AC.createOscillator(); low.type='sine'; low.frequency.value=220;
+  const lowG=AC.createGain();
+  lowG.gain.setValueAtTime(0,t);
+  lowG.gain.linearRampToValueAtTime(0.12, t+0.004);
+  lowG.gain.exponentialRampToValueAtTime(0.001, t+0.08);
+  low.connect(lowG); lowG.connect(AC.destination);
+  low.start(t); low.stop(t+0.1);
+}
+
+/* 모든 클릭에 적용 — a 태그와 button에 이벤트 위임 */
+document.addEventListener('click', e => {
+  const target = e.target.closest('a, button, .panel, .pcta');
+  if(target) playClickSound();
+}, true);
 </script>
 </body>
 </html>

@@ -1,0 +1,39 @@
+<!-- ══════════════════════════════════════
+  LUXURY CLICK SOUND — 다른 HTML 파일에 추가하는 방법:
+  </body> 바로 앞에 아래 <script> 블록을 붙여넣기
+══════════════════════════════════════ -->
+<script>
+(function(){
+  let _ac = null;
+  function getAC(){
+    if(!_ac) _ac = new (window.AudioContext||window.webkitAudioContext)();
+    return _ac;
+  }
+  function playClickSound(){
+    const AC = getAC();
+    if(AC.state === 'suspended') AC.resume();
+    const t = AC.currentTime;
+    const rvBuf = AC.createBuffer(2, AC.sampleRate*0.8, AC.sampleRate);
+    for(let ch=0;ch<2;ch++){
+      const d=rvBuf.getChannelData(ch);
+      for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,2.2);
+    }
+    const rv=AC.createConvolver(); rv.buffer=rvBuf;
+    const rvG=AC.createGain(); rvG.gain.value=0.22;
+    rv.connect(rvG); rvG.connect(AC.destination);
+    [[880,0.28,0.18],[1760,0.10,0.12],[220,0.12,0.08]].forEach(([freq,vol,decay],i)=>{
+      const osc=AC.createOscillator(); osc.type='sine'; osc.frequency.value=freq;
+      const g=AC.createGain();
+      g.gain.setValueAtTime(0,t);
+      g.gain.linearRampToValueAtTime(vol, t+0.003);
+      g.gain.exponentialRampToValueAtTime(0.001, t+decay);
+      osc.connect(g); g.connect(AC.destination);
+      if(i<2) osc.connect(rv);
+      osc.start(t); osc.stop(t+decay+0.02);
+    });
+  }
+  document.addEventListener('click', e=>{
+    if(e.target.closest('a, button, [onclick]')) playClickSound();
+  }, true);
+})();
+</script>
