@@ -145,150 +145,196 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
 
 <script>
 /* ══════════════════════════════════
-   WEB AUDIO ENGINE — LUXURY CINEMATIC
+   WEB AUDIO ENGINE v3 — LUXURY REDESIGN
+   · 인트로: 음계 없는 대기압/공간감 사운드 (영화관 사운드 디자인)
+   · 클릭: 순수 노이즈 버스트 — 물리적 질감, 음정 없음
+   · 기술: onstatechange로 안정적 자동 재생
 ══════════════════════════════════ */
 let AC = null;
-function initAudio(){ if(!AC) AC = new (window.AudioContext||window.webkitAudioContext)(); }
+function initAudio(){
+  if(!AC){
+    AC = new (window.AudioContext||window.webkitAudioContext)();
+    AC.onstatechange = ()=>{ if(AC.state==='running') scheduleIntroAudio(); };
+  }
+}
 
-/* 공용 리버브 생성 (공간감의 핵심) */
-function makeReverb(duration=3.5, decay=2.5){
-  const len = AC.sampleRate * duration;
-  const buf = AC.createBuffer(2, len, AC.sampleRate);
+/* 공용 홀 리버브 */
+function makeReverb(dur=4, decay=1.8){
+  const len=AC.sampleRate*dur;
+  const buf=AC.createBuffer(2,len,AC.sampleRate);
   for(let ch=0;ch<2;ch++){
     const d=buf.getChannelData(ch);
     for(let i=0;i<len;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/len,decay);
   }
-  const rv=AC.createConvolver(); rv.buffer=buf;
-  return rv;
+  const rv=AC.createConvolver(); rv.buffer=buf; return rv;
 }
 
-/* 1. 긴장감 빌드업 드론
-   — 빔 등장 전, 거의 들릴 듯 말 듯한 저음이 공간을 채움 */
-function playTensionDrone(duration=3.2){
-  if(!AC) return;
-  const t=AC.currentTime;
-  [61.7, 92.5].forEach((freq,i)=>{          // B1, F#2 (완전5도 불협)
-    const osc=AC.createOscillator();
-    osc.type='sine'; osc.frequency.value=freq;
-    const g=AC.createGain();
-    g.gain.setValueAtTime(0,t);
-    g.gain.linearRampToValueAtTime(0.06-i*0.02, t+duration*0.7);
-    g.gain.linearRampToValueAtTime(0.12-i*0.03, t+duration);
-    g.gain.linearRampToValueAtTime(0, t+duration+0.5);
-    const rv=makeReverb(4,2);
-    const rvG=AC.createGain(); rvG.gain.value=0.5;
-    osc.connect(g); g.connect(AC.destination);
-    osc.connect(rv); rv.connect(rvG); rvG.connect(AC.destination);
-    osc.start(t); osc.stop(t+duration+1);
-  });
-}
-
-/* 2. 황금빛 오케스트라 스웰
-   — 빔이 서명을 비추는 순간, E장조 화음이 천천히 피어오름 */
-function playGoldenOrchestralSwell(delay=0){
+/* 밴드패스 노이즈 버스트 — 음정 없는 물리적 질감 */
+function noiseBurst(freq, Q, vol, attack, decay, delay=0){
   if(!AC) return;
   const t=AC.currentTime+delay;
-  // E장조 분산화음: E1, B1, E2, G#2, B2, E3
-  const chord=[41.2, 61.7, 82.4, 103.8, 123.5, 164.8];
-  const rv=makeReverb(5,1.8);
-  const rvG=AC.createGain(); rvG.gain.value=0.6; rv.connect(rvG); rvG.connect(AC.destination);
-
-  chord.forEach((freq,i)=>{
-    const osc=AC.createOscillator();
-    osc.type='triangle';
-    osc.frequency.setValueAtTime(freq*0.95, t+i*0.12);
-    osc.frequency.linearRampToValueAtTime(freq, t+i*0.12+0.8);
-    const g=AC.createGain();
-    const startVol=0.18-i*0.02;
-    g.gain.setValueAtTime(0, t+i*0.12);
-    g.gain.linearRampToValueAtTime(startVol, t+i*0.12+0.9);  // 느린 어택
-    g.gain.linearRampToValueAtTime(startVol*1.2, t+1.8);
-    g.gain.linearRampToValueAtTime(0, t+3.5);
-    osc.connect(g); g.connect(AC.destination);
-    osc.connect(rv);
-    osc.start(t+i*0.12); osc.stop(t+4.5);
-  });
-}
-
-/* 3. 크리스탈 벨 (서명이 완전히 드러나는 순간)
-   — 순수한 사인파, 매우 긴 감쇠 — 유리잔 소리처럼 맑고 고급스러움 */
-function playCrystalBell(delay=0){
-  if(!AC) return;
-  const t=AC.currentTime+delay;
-  const rv=makeReverb(6,1.2);
-  const rvG=AC.createGain(); rvG.gain.value=0.7; rv.connect(rvG); rvG.connect(AC.destination);
-
-  [528, 1056, 1584].forEach((freq,i)=>{ // 528Hz 기본음 + 배음
-    const osc=AC.createOscillator(); osc.type='sine'; osc.frequency.value=freq;
-    const g=AC.createGain();
-    g.gain.setValueAtTime(0, t);
-    g.gain.linearRampToValueAtTime(0.22-i*0.07, t+0.01); // 즉각적 어택
-    g.gain.exponentialRampToValueAtTime(0.001, t+5.0);   // 매우 긴 감쇠
-    osc.connect(g); g.connect(AC.destination);
-    osc.connect(rv);
-    osc.start(t); osc.stop(t+5.5);
-  });
-}
-
-/* 4. 시네마틱 서브베이스 붐 (지진 임팩트)
-   — 디스토션 없음, 순수 사인파 — 영화관 저음처럼 가슴을 울림 */
-function playCinematicBoom(delay=0){
-  if(!AC) return;
-  const t=AC.currentTime+delay;
-
-  // 서브베이스 (35Hz → 18Hz, 피치 다운)
-  const sub=AC.createOscillator(); sub.type='sine';
-  sub.frequency.setValueAtTime(38, t);
-  sub.frequency.exponentialRampToValueAtTime(18, t+2.0);
-  const subG=AC.createGain();
-  subG.gain.setValueAtTime(0, t);
-  subG.gain.linearRampToValueAtTime(3.5, t+0.008); // 극도로 빠른 어택
-  subG.gain.exponentialRampToValueAtTime(0.001, t+2.5);
-  sub.connect(subG); subG.connect(AC.destination);
-  sub.start(t); sub.stop(t+3);
-
-  // 중저음 보강 (65Hz, 깊이 추가)
-  const mid=AC.createOscillator(); mid.type='sine';
-  mid.frequency.setValueAtTime(65, t);
-  mid.frequency.exponentialRampToValueAtTime(35, t+1.5);
-  const midG=AC.createGain();
-  midG.gain.setValueAtTime(0,t);
-  midG.gain.linearRampToValueAtTime(1.8, t+0.012);
-  midG.gain.exponentialRampToValueAtTime(0.001, t+2.0);
-  const rv=makeReverb(3,2.0);
-  const rvG=AC.createGain(); rvG.gain.value=0.4; rv.connect(rvG); rvG.connect(AC.destination);
-  mid.connect(midG); midG.connect(AC.destination);
-  mid.connect(rv);
-  mid.start(t); mid.stop(t+2.5);
-}
-
-/* 5. 지진 럼블 (저주파 노이즈, 매우 낮은 주파수만 통과)
-   — 50Hz 이하만 허용 → 광원처럼 느껴지지 않고 물리적 진동감 */
-function playSeismicRumble(delay=0, duration=3.5){
-  if(!AC) return;
-  const t=AC.currentTime+delay;
-  const buf=AC.createBuffer(1, AC.sampleRate*duration, AC.sampleRate);
+  const dur=attack+decay+0.05;
+  const buf=AC.createBuffer(1, Math.ceil(AC.sampleRate*dur), AC.sampleRate);
   const d=buf.getChannelData(0);
   for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1);
   const src=AC.createBufferSource(); src.buffer=buf;
-
-  // 매우 낮은 로우패스 (50Hz 이하만)
-  const lp1=AC.createBiquadFilter(); lp1.type='lowpass'; lp1.frequency.value=50; lp1.Q.value=2;
-  const lp2=AC.createBiquadFilter(); lp2.type='lowpass'; lp2.frequency.value=35; lp2.Q.value=1;
-
+  const bp=AC.createBiquadFilter(); bp.type='bandpass';
+  bp.frequency.value=freq; bp.Q.value=Q;
   const g=AC.createGain();
   g.gain.setValueAtTime(0,t);
-  g.gain.linearRampToValueAtTime(1.8,t+0.3);
-  g.gain.setValueAtTime(2.2,t+0.8);
-  g.gain.linearRampToValueAtTime(0,t+duration);
+  g.gain.linearRampToValueAtTime(vol, t+attack);
+  g.gain.exponentialRampToValueAtTime(0.001, t+attack+decay);
+  src.connect(bp); bp.connect(g); g.connect(AC.destination);
+  src.start(t); src.stop(t+dur+0.01);
+}
 
-  const rv=makeReverb(2.5,2.0);
-  const rvG=AC.createGain(); rvG.gain.value=0.3; rv.connect(rvG); rvG.connect(AC.destination);
-
-  src.connect(lp1); lp1.connect(lp2); lp2.connect(g);
+/* A. 대기압 상승 — 빔 등장 전 공기가 압축되는 느낌 */
+function playPressureBuild(delay=0, dur=2.8){
+  if(!AC) return;
+  const t=AC.currentTime+delay;
+  const buf=AC.createBuffer(1, AC.sampleRate*dur, AC.sampleRate);
+  const d=buf.getChannelData(0);
+  for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1);
+  const src=AC.createBufferSource(); src.buffer=buf;
+  const lp=AC.createBiquadFilter(); lp.type='lowpass';
+  lp.frequency.setValueAtTime(35,t);
+  lp.frequency.linearRampToValueAtTime(90,t+dur);
+  lp.Q.value=1.5;
+  const g=AC.createGain();
+  g.gain.setValueAtTime(0,t);
+  g.gain.linearRampToValueAtTime(0.9,t+dur*0.5);
+  g.gain.linearRampToValueAtTime(1.4,t+dur);
+  g.gain.linearRampToValueAtTime(0,t+dur+0.4);
+  const rv=makeReverb(3,2.2);
+  const rvG=AC.createGain(); rvG.gain.value=0.35;
+  rv.connect(rvG); rvG.connect(AC.destination);
+  src.connect(lp); lp.connect(g);
   g.connect(AC.destination); g.connect(rv);
   src.start(t);
 }
+
+/* B. 빔 스윕 — 조명이 위에서 아래로 내리꽂히는 'whoosh' */
+function playBeamSwoosh(delay=0){
+  if(!AC) return;
+  const t=AC.currentTime+delay;
+  const buf=AC.createBuffer(1, AC.sampleRate*0.9, AC.sampleRate);
+  const d=buf.getChannelData(0);
+  for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1);
+  const src=AC.createBufferSource(); src.buffer=buf;
+  const hp=AC.createBiquadFilter(); hp.type='highpass';
+  hp.frequency.setValueAtTime(4000,t);
+  hp.frequency.exponentialRampToValueAtTime(200,t+0.5);
+  const g=AC.createGain();
+  g.gain.setValueAtTime(0,t);
+  g.gain.linearRampToValueAtTime(0.7,t+0.05);
+  g.gain.exponentialRampToValueAtTime(0.001,t+0.85);
+  const rv=makeReverb(3.5,1.5);
+  const rvG=AC.createGain(); rvG.gain.value=0.5;
+  rv.connect(rvG); rvG.connect(AC.destination);
+  src.connect(hp); hp.connect(g);
+  g.connect(AC.destination); g.connect(rv);
+  src.start(t);
+}
+
+/* C. 서명 현현 — 빛 속에서 글씨가 드러날 때, 금박이 흔들리는 질감 */
+function playRevealShimmer(delay=0){
+  if(!AC) return;
+  noiseBurst(2800, 8, 0.6, 0.008, 1.8, delay);
+  noiseBurst(1400, 5, 0.35, 0.015, 2.4, delay+0.05);
+  noiseBurst(600, 3, 0.2, 0.02, 3.0, delay+0.12);
+  const t=AC.currentTime+delay;
+  const buf=AC.createBuffer(1,AC.sampleRate*0.15,AC.sampleRate);
+  const d=buf.getChannelData(0);
+  for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,1.2);
+  const src=AC.createBufferSource(); src.buffer=buf;
+  const bp=AC.createBiquadFilter(); bp.type='bandpass';
+  bp.frequency.value=2200; bp.Q.value=4;
+  const rv=makeReverb(6,1.0);
+  const rvG=AC.createGain(); rvG.gain.value=1.2;
+  rv.connect(rvG); rvG.connect(AC.destination);
+  const g=AC.createGain();
+  g.gain.setValueAtTime(1.5,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.15);
+  src.connect(bp); bp.connect(g); g.connect(rv); src.start(t);
+}
+
+/* D. 지진 임팩트 — 음정으로 인식 불가능한 28Hz 이하 서브베이스 충격 */
+function playSeismicBoom(delay=0){
+  if(!AC) return;
+  const t=AC.currentTime+delay;
+  const sub=AC.createOscillator(); sub.type='sine';
+  sub.frequency.setValueAtTime(28,t);
+  sub.frequency.exponentialRampToValueAtTime(12,t+2.5);
+  const sg=AC.createGain();
+  sg.gain.setValueAtTime(0,t); sg.gain.linearRampToValueAtTime(4.0,t+0.006);
+  sg.gain.exponentialRampToValueAtTime(0.001,t+3.0);
+  sub.connect(sg); sg.connect(AC.destination);
+  sub.start(t); sub.stop(t+3.2);
+  noiseBurst(40, 1.5, 2.5, 0.01, 2.0, delay);
+  noiseBurst(75, 2, 1.2, 0.02, 1.5, delay+0.05);
+}
+
+/* E. 지진 럼블 지속 */
+function playSeismicRumble(delay=0, dur=3.0){
+  if(!AC) return;
+  const t=AC.currentTime+delay;
+  const buf=AC.createBuffer(1,AC.sampleRate*dur,AC.sampleRate);
+  const d=buf.getChannelData(0);
+  for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1);
+  const src=AC.createBufferSource(); src.buffer=buf;
+  const lp=AC.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=45; lp.Q.value=2;
+  const g=AC.createGain();
+  g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(2.2,t+0.3);
+  g.gain.setValueAtTime(2.5,t+0.8); g.gain.linearRampToValueAtTime(0,t+dur);
+  src.connect(lp); lp.connect(g); g.connect(AC.destination); src.start(t);
+}
+
+/* 인트로 스케줄러 — onstatechange 또는 첫 인터랙션 시 호출 */
+let introScheduled = false;
+let animStartTime = null;
+
+function scheduleIntroAudio(){
+  if(introScheduled || !AC || AC.state!=='running') return;
+  introScheduled = true;
+  const e = animStartTime ? (performance.now()-animStartTime)/1000 : 0;
+  const s = target => Math.max(0, target-e);
+  if(e<0.3)  playPressureBuild(s(0.0), 2.8);
+  if(e<0.8)  playBeamSwoosh(s(0.5));
+  if(e<2.8)  playRevealShimmer(s(2.4));
+  if(e<4.2)  playSeismicBoom(s(3.6));
+  if(e<4.5)  playSeismicRumble(s(3.7), 3.0);
+}
+
+/* 자동 오디오 — 첫 인터랙션 시 resume */
+let audioResumed = false;
+function tryResumeAudio(){
+  if(audioResumed || !AC) return;
+  audioResumed = true;
+  AC.resume();
+  ['mousemove','touchstart','scroll','keydown','click'].forEach(ev=>{
+    document.removeEventListener(ev, tryResumeAudio);
+  });
+}
+
+/* 럭셔리 클릭 사운드 — 100% 노이즈 버스트, 음정 없음 */
+function playClickSound(){
+  if(!AC || AC.state!=='running') return;
+  const t=AC.currentTime;
+  // 층1: 충격 트랜지언트 (4000Hz, 12ms) — 고급 터치 패널 느낌
+  noiseBurst(4000, 12, 0.55, 0.001, 0.012);
+  // 층2: 바디 울림 (900Hz, 20ms) — 두께와 존재감
+  noiseBurst(900, 6, 0.25, 0.002, 0.020);
+  // 층3: 서브 클릭 (55Hz, 10ms) — 물리적 무게감 (음정 아닌 thud)
+  const sub=AC.createOscillator(); sub.type='sine'; sub.frequency.value=55;
+  const sg=AC.createGain();
+  sg.gain.setValueAtTime(0,t); sg.gain.linearRampToValueAtTime(0.45,t+0.002);
+  sg.gain.exponentialRampToValueAtTime(0.001,t+0.010);
+  sub.connect(sg); sg.connect(AC.destination);
+  sub.start(t); sub.stop(t+0.012);
+}
+
+document.addEventListener('click', e=>{
+  if(e.target.closest('a,button,.panel,.pcta,[onclick]')) playClickSound();
+}, true);
 
 /* ══════════════════════════════════
    CANVAS SETUP
@@ -486,24 +532,6 @@ function phase3(){
 let audioResumed = false;
 let audioStartTime = null;
 
-function tryResumeAudio(){
-  if(audioResumed || !AC) return;
-  AC.resume().then(()=>{
-    audioResumed = true;
-    const elapsed = audioStartTime ? (performance.now() - audioStartTime) / 1000 : 0;
-    // Phase A: 서명 구간 (0 ~ 3.2s) — 긴장감 드론 + 오케스트라 스웰 + 크리스탈 벨
-    if(elapsed < 0.3)  playTensionDrone(3.2 - elapsed);
-    if(elapsed < 1.4)  playGoldenOrchestralSwell(Math.max(0, 1.2 - elapsed));
-    if(elapsed < 3.2)  playCrystalBell(Math.max(0, 2.8 - elapsed));
-    // Phase B: 지진 구간 (3.5s ~) — 서브베이스 붐 + 럼블
-    if(elapsed < 3.8)  playCinematicBoom(Math.max(0, 3.5 - elapsed));
-    if(elapsed < 4.0)  playSeismicRumble(Math.max(0, 3.6 - elapsed), 3.0);
-  });
-  ['mousemove','touchstart','scroll','keydown','click'].forEach(ev=>{
-    document.removeEventListener(ev, tryResumeAudio);
-  });
-}
-
 // 페이지 로드 즉시 AudioContext 생성 (suspended)
 initAudio();
 // 어떤 인터랙션이든 첫 번째에 resume
@@ -522,7 +550,7 @@ if(skip==='1'){
 } else {
   document.fonts.ready.then(()=>{
     setTimeout(()=>{
-      audioStartTime = performance.now(); // 애니메이션 시작 시각 기록
+      animStartTime = performance.now();
       phase1(()=>phase2(()=>phase3()));
     }, 400);
   });
@@ -544,55 +572,7 @@ document.addEventListener('keydown',e=>{
    — 모든 링크·버튼 클릭 시 재생
    — 동일 스니펫을 booking.html / story.html 에도 추가 가능
 ══════════════════════════════════ */
-function playClickSound(){
-  if(!AC || AC.state !== 'running') return;
-  const t = AC.currentTime;
 
-  /* 리버브 (짧고 공간감 있는) */
-  const rvBuf = AC.createBuffer(2, AC.sampleRate*0.8, AC.sampleRate);
-  for(let ch=0;ch<2;ch++){
-    const d=rvBuf.getChannelData(ch);
-    for(let i=0;i<d.length;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,2.2);
-  }
-  const rv=AC.createConvolver(); rv.buffer=rvBuf;
-  const rvG=AC.createGain(); rvG.gain.value=0.22;
-  rv.connect(rvG); rvG.connect(AC.destination);
-
-  /* 기본음: 880Hz (A5) — 고급 인터페이스 탭 느낌 */
-  const a5=AC.createOscillator(); a5.type='sine'; a5.frequency.value=880;
-  const a5g=AC.createGain();
-  a5g.gain.setValueAtTime(0,t);
-  a5g.gain.linearRampToValueAtTime(0.28, t+0.003); // 극도로 빠른 어택
-  a5g.gain.exponentialRampToValueAtTime(0.001, t+0.18); // 우아한 감쇠
-  a5.connect(a5g); a5g.connect(AC.destination);
-  a5.connect(rv);
-  a5.start(t); a5.stop(t+0.2);
-
-  /* 배음: 1760Hz (A6) — 크리스탈 광택 */
-  const a6=AC.createOscillator(); a6.type='sine'; a6.frequency.value=1760;
-  const a6g=AC.createGain();
-  a6g.gain.setValueAtTime(0,t);
-  a6g.gain.linearRampToValueAtTime(0.10, t+0.002);
-  a6g.gain.exponentialRampToValueAtTime(0.001, t+0.12);
-  a6.connect(a6g); a6g.connect(AC.destination);
-  a6.connect(rv);
-  a6.start(t); a6.stop(t+0.14);
-
-  /* 저음 보강: 220Hz — 묵직함 */
-  const low=AC.createOscillator(); low.type='sine'; low.frequency.value=220;
-  const lowG=AC.createGain();
-  lowG.gain.setValueAtTime(0,t);
-  lowG.gain.linearRampToValueAtTime(0.12, t+0.004);
-  lowG.gain.exponentialRampToValueAtTime(0.001, t+0.08);
-  low.connect(lowG); lowG.connect(AC.destination);
-  low.start(t); low.stop(t+0.1);
-}
-
-/* 모든 클릭에 적용 — a 태그와 button에 이벤트 위임 */
-document.addEventListener('click', e => {
-  const target = e.target.closest('a, button, .panel, .pcta');
-  if(target) playClickSound();
-}, true);
 </script>
 </body>
 </html>
