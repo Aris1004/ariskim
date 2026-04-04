@@ -1086,9 +1086,12 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
 }
 .perf-sax-ov img{
   height:100%;
-  width:auto;         /* 자연 비율 → 전신 표시 */
+  width:auto;
   display:block;
-  filter:brightness(.9) contrast(1.06);
+  filter:brightness(1.05) contrast(1.08);
+  /* 핵심: 검정배경 완전 제거 — screen 블렌드 모드 */
+  /* black(0,0,0) pixels → transparent against background */
+  mix-blend-mode:screen;
 }
 /* 왼쪽 그라디언트 — A2와 자연스럽게 합성 */
 /* PNG 투명배경이므로 ::before 그라디언트 불필요 */
@@ -1344,6 +1347,167 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   .hw-l3{font-size:clamp(19px,6.5vw,32px);}
 }
 
+
+/* ── A3 위 문구: "그는 장르가 없는 게 아니라, 장르가 아리스김이다." ── */
+.orch-quote{
+  position:absolute;
+  left:clamp(24px,5vw,60px);
+  bottom:clamp(40px,8%,100px);
+  z-index:10;
+  pointer-events:none;
+}
+.oq-line{
+  font-family:'Noto Serif KR',serif;
+  font-weight:200;
+  letter-spacing:.12em;
+  color:var(--w);
+  text-shadow:0 2px 12px rgba(0,0,0,.95), 0 0 30px rgba(0,0,0,.8);
+  opacity:0;
+  transform:translateY(16px);
+  transition:opacity .9s ease, transform .9s ease;
+}
+.oq-l1{font-size:clamp(16px,2.5vw,26px); transition-delay:.1s;}
+.oq-l2{font-size:clamp(18px,3vw,32px);   transition-delay:.4s;}
+.oq-l3{
+  font-size:clamp(22px,4vw,42px);
+  font-weight:400;
+  transition-delay:.75s;
+}
+.oq-l3 em{
+  font-style:italic;
+  color:var(--gold);
+  text-shadow:0 0 20px rgba(201,168,76,.5), 0 2px 12px rgba(0,0,0,.95);
+}
+/* A3 triggered 되면 문구도 등장 */
+#perf-orchestra.quote-triggered .oq-line{
+  opacity:1;
+  transform:translateY(0);
+}
+
+/* fb-genesis 문구 스크롤 애니메이션 강화 */
+#fb-genesis .fb-sub{
+  opacity:0;
+  transform:translateY(12px);
+  transition:opacity 1.2s ease .3s, transform 1.2s ease .3s;
+  font-size:clamp(13px,1.8vw,20px);
+  letter-spacing:.22em;
+  color:rgba(232,204,122,.75);
+}
+#fb-genesis.genesis-quote-on-DISABLED .fb-sub{
+  opacity:1;
+  transform:translateY(0);
+}
+
+@media(max-width:600px){
+  .orch-quote{bottom:20px;left:16px;}
+  .oq-l1{font-size:15px;}
+  .oq-l2{font-size:17px;}
+  .oq-l3{font-size:20px;}
+}
+
+
+/* ════════════════════════════════════════
+   타자기 효과 — 럭셔리 강한 필체
+   ════════════════════════════════════════ */
+
+/* ── fb-genesis 타자기 ── */
+.genesis-typewriter{
+  text-align:center;
+  margin-bottom:20px;
+}
+
+.gtw-line1{
+  font-family:'Noto Serif KR',serif;
+  font-size:clamp(32px,6vw,80px);
+  font-weight:900;          /* 최강 굵기 */
+  letter-spacing:.06em;
+  color:var(--w);
+  line-height:1.15;
+  text-shadow:
+    0 0 40px rgba(255,255,255,.15),
+    0 4px 20px rgba(0,0,0,.9);
+  min-height:1.2em;
+  display:block;
+}
+
+.gtw-line2{
+  font-family:'Noto Serif KR',serif;
+  font-size:clamp(14px,2vw,22px);
+  font-weight:300;
+  letter-spacing:.22em;
+  color:var(--gold);
+  margin-top:12px;
+  min-height:1.5em;
+  display:block;
+  text-shadow:0 0 20px rgba(201,168,76,.4);
+}
+
+/* 깜빡이는 커서 */
+.gtw-cursor, .oq-cursor{
+  display:inline-block;
+  font-weight:300;
+  color:var(--gold);
+  animation:cursorBlink .7s step-end infinite;
+  opacity:1;
+}
+.gtw-cursor.done, .oq-cursor.done{
+  animation:none;
+  opacity:0;
+}
+@keyframes cursorBlink{
+  0%,100%{opacity:1;}
+  50%{opacity:0;}
+}
+
+/* ── A3 orch-quote 강한 단일 문구 ── */
+.oq-strong{
+  font-family:'Noto Serif KR',serif;
+  font-size:clamp(24px,4.5vw,58px);
+  font-weight:900;
+  letter-spacing:.05em;
+  color:var(--w);
+  text-shadow:
+    0 0 30px rgba(255,255,255,.12),
+    0 3px 15px rgba(0,0,0,.95),
+    0 0 60px rgba(201,168,76,.08);
+  line-height:1.2;
+  /* 골드 언더라인 효과 */
+  border-bottom:2px solid rgba(201,168,76,.4);
+  padding-bottom:8px;
+  display:inline-block;
+  min-height:1.3em;
+}
+.oq-tw-text{display:inline;}
+
+/* 기존 oq-line 제거 (사용 안 함) */
+.oq-line{ display:none; }
+
+/* orch-quote 위치 재조정 */
+.orch-quote{
+  position:absolute;
+  left:clamp(24px,5vw,60px);
+  bottom:clamp(50px,10%,120px);
+  z-index:10;
+  pointer-events:none;
+  opacity:0;
+  transform:translateY(16px);
+  transition:opacity .6s ease, transform .6s ease;
+}
+#perf-orchestra.quote-triggered .orch-quote{
+  opacity:1;
+  transform:translateY(0);
+}
+
+@media(max-width:600px){
+  .gtw-line1{font-size:clamp(28px,8vw,44px);}
+  .gtw-line2{font-size:clamp(12px,3.5vw,16px);}
+  .oq-strong{font-size:clamp(20px,6vw,32px);}
+  .orch-quote{bottom:24px;left:16px;}
+}
+@media(max-width:480px){
+  .gtw-line1{font-size:clamp(24px,9vw,36px);}
+}
+
 </style>
 </head>
 <body>
@@ -1419,7 +1583,13 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   <img src="images/hero_orchestra.jpg" alt="한여름밤의 음악회 오케스트라 공연">
   <!-- A3: 색소폰 아티스트 드라마틱 오버레이 -->
   <div class="perf-sax-ov">
-    <img src="images/hero_saxophone.png" alt="ARIS KIM 색소폰">
+    <img src="images/hero_sax_clean.jpg" alt="ARIS KIM 색소폰">
+  </div>
+  <!-- A3 위 문구: A3 등장 후 타자기로 나타남 -->
+  <div class="orch-quote">
+    <div class="oq-strong">
+      <span class="oq-tw-text" id="oqtw"></span><span class="oq-cursor" id="oq-cur">|</span>
+    </div>
   </div>
 </section>
 
@@ -1478,8 +1648,15 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   <div class="fb-ov"></div>
   <div class="fb-content">
     <div class="fb-eyebrow">The Genesis of Genre · 장르의 창세기</div>
-    <h2 class="fb-title">색소폰 하나로<br><em>장르가 되다</em></h2>
-    <p class="fb-sub">장르가 없는 게 아니라, 장르가 아리스김이다</p>
+    <!-- 타자기 효과 텍스트 -->
+    <div class="genesis-typewriter">
+      <div class="gtw-line1">
+        <span class="gtw-text" id="gtw1"></span><span class="gtw-cursor" id="gtw-cur1">|</span>
+      </div>
+      <div class="gtw-line2">
+        <span class="gtw-text" id="gtw2"></span><span class="gtw-cursor" id="gtw-cur2">|</span>
+      </div>
+    </div>
     <div class="fb-line"></div>
   </div>
 </div>
@@ -2650,10 +2827,16 @@ const perfObs = new IntersectionObserver(entries=>{
 
     /* A2+A3: 색소폰 오버레이 */
     if(sec.id==='perf-orchestra'){
+      // A3 사진 등장
       setTimeout(()=>{
         const ov=sec.querySelector('.perf-sax-ov');
         if(ov) ov.classList.add('triggered');
       }, 3200);
+      // 문구는 A3 완전히 나온 후 + 타자기 시작
+      setTimeout(()=>{
+        sec.classList.add('quote-triggered');
+        setTimeout(startOrchTypewriter, 300);
+      }, 5200);
     }
 
     /* A5: 핀 조명 */
@@ -2671,6 +2854,18 @@ const perfObs = new IntersectionObserver(entries=>{
 },{threshold:0.25});
 
 document.querySelectorAll('#perf-orchestra,#perf-a5').forEach(el=>perfObs.observe(el));
+
+/* genesis 문구 스크롤 트리거 */
+const genObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting) return;
+    const fb = e.target;
+    setTimeout(()=>{ fb.classList.add('genesis-quote-on-DISABLED'); }, 400);
+    genObs.unobserve(fb);
+  });
+},{threshold:0.4});
+const genesis = document.getElementById('fb-genesis');
+if(genesis) genObs.observe(genesis);
 
 // 영상 팝업
 let vlb = null;
@@ -2697,6 +2892,61 @@ if(bham&&bmob){
   });
 }
 function bc(){bham&&bham.classList.remove('on');bmob&&bmob.classList.remove('on');document.body.style.overflow='';}
+
+/* ════════════════════════════════════════
+   타자기 효과 JS
+   ════════════════════════════════════════ */
+function typeWrite(el, cursorEl, text, speed, onDone) {
+  let i = 0;
+  el.textContent = '';
+  cursorEl.classList.remove('done');
+  const iv = setInterval(() => {
+    if (i < text.length) {
+      el.textContent += text[i++];
+    } else {
+      clearInterval(iv);
+      if (cursorEl) cursorEl.classList.add('done');
+      if (onDone) onDone();
+    }
+  }, speed);
+}
+
+/* genesis 타자기 */
+let genesisDone = false;
+const genesisObsTW = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (!e.isIntersecting || genesisDone) return;
+    genesisDone = true;
+    const el1 = document.getElementById('gtw1');
+    const cur1 = document.getElementById('gtw-cur1');
+    const el2 = document.getElementById('gtw2');
+    const cur2 = document.getElementById('gtw-cur2');
+    if (!el1) return;
+    // 1줄: "색소폰 하나로 장르가 되다." — 빠르게
+    typeWrite(el1, cur1, '색소폰 하나로 장르가 되다.', 60, () => {
+      // 1줄 끝난 후 0.6초 대기 → 2줄
+      setTimeout(() => {
+        typeWrite(el2, cur2,
+          '그가 장르가 없는 게 아니라, 장르가 아리스김이다.', 45);
+      }, 600);
+    });
+    genesisObsTW.unobserve(e.target);
+  });
+}, { threshold: 0.5 });
+const genesisEl = document.getElementById('fb-genesis');
+if (genesisEl) genesisObsTW.observe(genesisEl);
+
+/* A3 orch-quote 타자기 */
+let orchQuoteDone = false;
+function startOrchTypewriter() {
+  if (orchQuoteDone) return;
+  orchQuoteDone = true;
+  const el = document.getElementById('oqtw');
+  const cur = document.getElementById('oq-cur');
+  if (!el) return;
+  typeWrite(el, cur, '색소폰 하나로 장르가 되다.', 55);
+}
+
 </script>
 </body>
 </html>
