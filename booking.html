@@ -891,6 +891,68 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   .hero-badges-row{gap:6px;}
   .hero-badge-item{font-size:7.5px;padding:6px 10px;}
 }
+
+/* ══ 콜라보 & 아티스트 프로필 통합 섹션 ══ */
+#collab-section{background:var(--bg);border-top:1px solid rgba(201,168,76,.1);}
+
+/* 상단: 아리스김 × 친친탱고 인트로 */
+.collab-intro{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-bottom:3px;}
+.collab-intro-img{position:relative;height:480px;overflow:hidden;}
+.collab-intro-img img{width:100%;height:100%;object-fit:cover;filter:brightness(.65);transition:filter .6s;}
+.collab-intro-img:hover img{filter:brightness(.82);}
+.collab-intro-img-cap{position:absolute;bottom:0;left:0;right:0;padding:28px 32px;background:linear-gradient(0deg,rgba(4,3,2,.96) 0%,rgba(4,3,2,.3) 70%,transparent 100%);}
+.collab-intro-img-cap .ci-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.55em;color:var(--gold);opacity:.6;margin-bottom:8px;}
+.collab-intro-img-cap .ci-title{font-family:'Cinzel',serif;font-size:clamp(20px,3vw,36px);font-weight:900;color:var(--w);letter-spacing:.06em;margin-bottom:6px;}
+.collab-intro-img-cap .ci-title em{color:var(--gold);font-style:normal;}
+.collab-intro-img-cap .ci-sub{font-family:'Nanum Myeongjo',serif;font-size:13px;letter-spacing:.06em;color:rgba(242,237,228,.55);line-height:1.9;}
+
+/* 중앙 × 구분선 */
+.collab-x-bar{display:flex;align-items:center;justify-content:center;padding:40px 52px;background:rgba(201,168,76,.03);border-top:1px solid rgba(201,168,76,.08);border-bottom:1px solid rgba(201,168,76,.08);}
+.collab-x-bar .cx-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.3));}
+.collab-x-bar .cx-line.r{background:linear-gradient(90deg,rgba(201,168,76,.3),transparent);}
+.collab-x-bar .cx-text{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.45em;color:var(--gold);opacity:.7;padding:0 28px;}
+
+/* 멤버 프로필 그리드 */
+.collab-members{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:3px;}
+.cm-card{position:relative;overflow:hidden;background:var(--deep);}
+.cm-card-img{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:center top;display:block;filter:brightness(.6) contrast(1.05);transition:filter .6s ease,transform .7s ease;}
+.cm-card:hover .cm-card-img{filter:brightness(.85);transform:scale(1.04);}
+.cm-card-info{position:absolute;bottom:0;left:0;right:0;padding:20px 18px 22px;background:linear-gradient(0deg,rgba(4,3,2,.97) 0%,rgba(4,3,2,.6) 55%,transparent 100%);transition:padding .4s;}
+.cm-card:hover .cm-card-info{padding-bottom:28px;}
+.cm-role{font-family:'Cinzel',serif;font-size:7px;letter-spacing:.45em;color:var(--gold);opacity:.65;margin-bottom:6px;display:block;}
+.cm-name-kr{font-family:'Noto Serif KR',serif;font-size:clamp(14px,1.5vw,18px);font-weight:200;letter-spacing:.12em;color:var(--w);margin-bottom:3px;}
+.cm-name-en{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.3em;color:rgba(232,204,122,.45);margin-bottom:10px;}
+.cm-rule{width:20px;height:1px;background:var(--gold);opacity:.45;margin:8px 0;}
+.cm-desc{font-family:'Nanum Myeongjo',serif;font-size:11.5px;letter-spacing:.04em;line-height:1.95;color:rgba(242,237,228,.48);opacity:0;transform:translateY(8px);transition:opacity .4s .05s,transform .4s;}
+.cm-card:hover .cm-desc{opacity:1;transform:translateY(0);}
+
+/* 아리스김 단독 카드 (더 크게) */
+.cm-card.lead{grid-column:span 1;}
+
+/* 하단: 콜라보 스토리 */
+.collab-story{display:grid;grid-template-columns:1fr 1fr;gap:64px;padding:64px 52px;align-items:center;}
+.collab-story-text .cs-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.6em;color:var(--gold);opacity:.55;margin-bottom:18px;display:block;}
+.collab-story-text .cs-title{font-family:'Noto Serif KR',serif;font-size:clamp(18px,2.5vw,28px);font-weight:200;letter-spacing:.1em;color:var(--w);line-height:1.65;margin-bottom:20px;}
+.collab-story-text .cs-body{font-family:'Nanum Myeongjo',serif;font-size:13.5px;letter-spacing:.06em;line-height:2.3;color:rgba(242,237,228,.56);}
+.collab-story-img{position:relative;overflow:hidden;}
+.collab-story-img img{width:100%;display:block;filter:brightness(.75);transition:filter .6s;}
+.collab-story-img:hover img{filter:brightness(.92);}
+.collab-story-img::before{content:'';position:absolute;inset:0;border:1px solid rgba(201,168,76,.18);z-index:1;pointer-events:none;}
+
+/* 반응형 */
+@media(max-width:768px){
+  .collab-intro{grid-template-columns:1fr;}
+  .collab-intro-img{height:320px;}
+  .collab-members{grid-template-columns:1fr 1fr;}
+  .collab-story{grid-template-columns:1fr;gap:32px;padding:48px 24px;}
+}
+@media(max-width:480px){
+  .collab-members{grid-template-columns:1fr 1fr;gap:2px;}
+  .collab-intro-img{height:260px;}
+  .cm-desc{display:none;}
+  .collab-story{padding:40px 18px;}
+}
+
 </style>
 </head>
 <body>
@@ -1272,61 +1334,101 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
 </section>
 
 <!-- 아티스트 프로필 -->
-<section class="sec" id="profile" style="background:var(--deep);border-top:1px solid rgba(201,168,76,.1);">
-  <div class="si">
-    <span class="slabel rv">Artist Profile · 아티스트</span>
-    <h2 class="stitle rv">다학제 아티스트<br><em>아리스김</em></h2>
-    <div class="grule rv"></div>
-    <div style="display:grid;grid-template-columns:280px 1fr;gap:64px;align-items:start;" class="rv">
-      <div>
-        <img src="images/profile.jpg" alt="ARIS KIM 프로필" style="width:100%;display:block;border:1px solid rgba(201,168,76,.22);filter:brightness(.9);">
-        <div style="margin-top:14px;padding:18px 20px;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.12);">
-          <div style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:.35em;color:var(--gold);margin-bottom:12px;opacity:.6;">Multidisciplinary Artist</div>
-          <div style="font-family:'Cinzel',serif;font-size:22px;font-weight:700;color:var(--gl);letter-spacing:.08em;margin-bottom:4px;">ARIS KIM</div>
-          <div style="font-family:'Noto Serif KR',serif;font-size:13px;font-weight:200;color:rgba(232,204,122,.45);letter-spacing:.25em;margin-bottom:18px;">아리스김</div>
-          <div style="display:flex;flex-direction:column;gap:9px;">
-            <div style="display:flex;align-items:center;gap:10px;font-family:'Nanum Myeongjo',serif;font-size:13px;letter-spacing:.08em;color:rgba(242,237,228,.55);"><div style="width:4px;height:4px;border-radius:50%;background:var(--gold);opacity:.5;flex-shrink:0;"></div>색소폰 연주자</div>
-            <div style="display:flex;align-items:center;gap:10px;font-family:'Nanum Myeongjo',serif;font-size:13px;letter-spacing:.08em;color:rgba(242,237,228,.55);"><div style="width:4px;height:4px;border-radius:50%;background:var(--gold);opacity:.5;flex-shrink:0;"></div>비디오 아티스트 · Art Intelligence</div>
-            <div style="display:flex;align-items:center;gap:10px;font-family:'Nanum Myeongjo',serif;font-size:13px;letter-spacing:.08em;color:rgba(242,237,228,.55);"><div style="width:4px;height:4px;border-radius:50%;background:var(--gold);opacity:.5;flex-shrink:0;"></div>탱고 마에스트로 · 아시아 챔피언</div>
-            <div style="display:flex;align-items:center;gap:10px;font-family:'Nanum Myeongjo',serif;font-size:13px;letter-spacing:.08em;color:rgba(242,237,228,.55);"><div style="width:4px;height:4px;border-radius:50%;background:var(--gold);opacity:.5;flex-shrink:0;"></div>카운터테너</div>
-            <div style="display:flex;align-items:center;gap:10px;font-family:'Nanum Myeongjo',serif;font-size:13px;letter-spacing:.08em;color:rgba(242,237,228,.55);"><div style="width:4px;height:4px;border-radius:50%;background:var(--gold);opacity:.5;flex-shrink:0;"></div>현대미술가 · LED 설치미술</div>
-          </div>
-        </div>
+<!-- ══ COLLAB & ARTIST PROFILES ══ -->
+<section id="collab-section">
+
+  <!-- 인트로: 아리스김 × 친친탱고 -->
+  <div class="collab-intro rv">
+    <div class="collab-intro-img">
+      <img src="images/chinchin_collab.jpg" alt="ARIS KIM X CHINCHIN TANGO">
+      <div class="collab-intro-img-cap">
+        <div class="ci-label">Collaboration · 협연</div>
+        <div class="ci-title"><em>A</em>RIS KIM ×<br>친친탱고</div>
+        <div class="ci-sub">아시아 챔피언 색소폰과<br>대한민국 최정상 탱고 밴드의 만남</div>
       </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-        <div style="padding:22px;border:1px solid rgba(201,168,76,.1);background:rgba(201,168,76,.02);">
-          <div style="font-size:16px;margin-bottom:9px;">🏛</div>
-          <div style="font-family:'Noto Serif KR',serif;font-size:13px;font-weight:300;letter-spacing:.08em;color:var(--gl);line-height:1.5;margin-bottom:4px;">뉴욕 카네기홀 초청</div>
-          <div style="font-family:'Nanum Myeongjo',serif;font-size:11px;color:rgba(242,237,228,.35);">New York Carnegie Hall 2022</div>
-        </div>
-        <div style="padding:22px;border:1px solid rgba(201,168,76,.1);background:rgba(201,168,76,.02);">
-          <div style="font-size:16px;margin-bottom:9px;">🎖️</div>
-          <div style="font-family:'Noto Serif KR',serif;font-size:13px;font-weight:300;letter-spacing:.08em;color:var(--gl);line-height:1.5;margin-bottom:4px;">문화체육부 장관상</div>
-          <div style="font-family:'Nanum Myeongjo',serif;font-size:11px;color:rgba(242,237,228,.35);">유인촌 문화체육부 장관상 · 2009</div>
-        </div>
-        <div style="padding:22px;border:1px solid rgba(201,168,76,.1);background:rgba(201,168,76,.02);">
-          <div style="font-size:16px;margin-bottom:9px;">⭐</div>
-          <div style="font-family:'Noto Serif KR',serif;font-size:13px;font-weight:300;letter-spacing:.08em;color:var(--gl);line-height:1.5;margin-bottom:4px;">예술의전당 아티스트 1호</div>
-          <div style="font-family:'Nanum Myeongjo',serif;font-size:11px;color:rgba(242,237,228,.35);">설립 25주년 최초 길거리 아티스트</div>
-        </div>
-        <div style="padding:22px;border:1px solid rgba(201,168,76,.1);background:rgba(201,168,76,.02);">
-          <div style="font-size:16px;margin-bottom:9px;">🥇</div>
-          <div style="font-family:'Noto Serif KR',serif;font-size:13px;font-weight:300;letter-spacing:.08em;color:var(--gl);line-height:1.5;margin-bottom:4px;">아시아 탱고 챔피언</div>
-          <div style="font-family:'Nanum Myeongjo',serif;font-size:11px;color:rgba(242,237,228,.35);">에세나리오 부문 · 한국 최초</div>
-        </div>
-        <div style="padding:22px;border:1px solid rgba(201,168,76,.1);background:rgba(201,168,76,.02);">
-          <div style="font-size:16px;margin-bottom:9px;">🎨</div>
-          <div style="font-family:'Noto Serif KR',serif;font-size:13px;font-weight:300;letter-spacing:.08em;color:var(--gl);line-height:1.5;margin-bottom:4px;">세계 최초 AI 공연 창시</div>
-          <div style="font-family:'Nanum Myeongjo',serif;font-size:11px;color:rgba(242,237,228,.35);">KOCCA 제작지원 · Art Intelligence</div>
-        </div>
-        <div style="padding:22px;border:1px solid rgba(201,168,76,.1);background:rgba(201,168,76,.02);">
-          <div style="font-size:16px;margin-bottom:9px;">🗽</div>
-          <div style="font-family:'Noto Serif KR',serif;font-size:13px;font-weight:300;letter-spacing:.08em;color:var(--gl);line-height:1.5;margin-bottom:4px;">뉴욕 타임스퀘어 퍼포먼스</div>
-          <div style="font-family:'Nanum Myeongjo',serif;font-size:11px;color:rgba(242,237,228,.35);">현대미술 콜라보 · New York 2022</div>
-        </div>
+    </div>
+    <div class="collab-intro-img">
+      <img src="images/perf_klimt_stage.jpg" alt="클림트 미디어아트 무대">
+      <div class="collab-intro-img-cap">
+        <div class="ci-label">Stage · 무대</div>
+        <div class="ci-title">클림트<br><em>미디어아트</em></div>
+        <div class="ci-sub">황금빛 클림트 세계 위를<br>색소폰과 탱고가 날아오른다</div>
       </div>
     </div>
   </div>
+
+  <!-- × 구분바 -->
+  <div class="collab-x-bar">
+    <div class="cx-line"></div>
+    <div class="cx-text">ARIS KIM × CHINCHIN TANGO</div>
+    <div class="cx-line r"></div>
+  </div>
+
+  <!-- 멤버 프로필 카드 -->
+  <div class="collab-members">
+
+    <!-- 아리스 김 -->
+    <div class="cm-card rv">
+      <img class="cm-card-img" src="images/img_gold_jacket.jpg" alt="아리스 김" style="object-position:center top;">
+      <div class="cm-card-info">
+        <span class="cm-role">Saxophone · Tango · Media Art</span>
+        <div class="cm-name-kr">아리스 김</div>
+        <div class="cm-name-en">ARIS KIM</div>
+        <div class="cm-rule"></div>
+        <div class="cm-desc">아시아 탱고 챔피언 · 예술의전당 최초 1호 아티스트 · 뉴욕 카네기홀 · 세계 최초 AI 공연 창시자</div>
+      </div>
+    </div>
+
+    <!-- 멤버 1: 반도네온 -->
+    <div class="cm-card rv" style="transition-delay:.08s">
+      <img class="cm-card-img" src="images/chinchin_m1.jpg" alt="반도네온 김종환">
+      <div class="cm-card-info">
+        <span class="cm-role">Bandoneón · 반도네온</span>
+        <div class="cm-name-kr">김 종 환</div>
+        <div class="cm-name-en">KIM JONG-HWAN</div>
+        <div class="cm-rule"></div>
+        <div class="cm-desc">한국 반도네온의 선구자. 부에노스아이레스 직계 사사. 대한민국 탱고 음악의 심장.</div>
+      </div>
+    </div>
+
+    <!-- 멤버 2: 바이올린 -->
+    <div class="cm-card rv" style="transition-delay:.16s">
+      <img class="cm-card-img" src="images/chinchin_m2.jpg" alt="바이올린 이은진">
+      <div class="cm-card-info">
+        <span class="cm-role">Violin · 바이올린</span>
+        <div class="cm-name-kr">이 은 진</div>
+        <div class="cm-name-en">LEE EUN-JIN</div>
+        <div class="cm-rule"></div>
+        <div class="cm-desc">탱고의 서정을 현으로 노래하는 아티스트. 클래식과 탱고의 경계를 유연하게 넘나든다.</div>
+      </div>
+    </div>
+
+    <!-- 멤버 3: 피아노 -->
+    <div class="cm-card rv" style="transition-delay:.24s">
+      <img class="cm-card-img" src="images/chinchin_m3.jpg" alt="피아노 최원준">
+      <div class="cm-card-info">
+        <span class="cm-role">Piano · 피아노</span>
+        <div class="cm-name-kr">최 원 준</div>
+        <div class="cm-name-en">CHOI WON-JUN</div>
+        <div class="cm-rule"></div>
+        <div class="cm-desc">탱고 피아노의 독보적 터치. 피아졸라 정통 계보를 잇는 한국 탱고 음악의 중심축.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 하단: 콜라보 스토리 -->
+  <div class="collab-story rv">
+    <div class="collab-story-text">
+      <span class="cs-label">Collaboration Story · 협연의 탄생</span>
+      <h3 class="cs-title">탱고의 심장과<br>색소폰의 영혼이<br>하나의 무대 위에서 만나다</h3>
+      <p class="cs-body">친친탱고는 대한민국을 대표하는 정통 아르헨티나 탱고 밴드입니다. 반도네온 · 바이올린 · 피아노 · 베이스가 빚어내는 피아졸라의 세계, 그 위로 아리스 김의 색소폰이 날아오릅니다.<br><br>두 개의 세계가 충돌하는 순간, 관객은 단순한 공연이 아닌 하나의 경험을 목격합니다. 아르헨티나에서 한국으로, 클래식에서 현대로 — 모든 경계를 넘어선 가장 순수한 음악의 언어.</p>
+    </div>
+    <div class="collab-story-img">
+      <img src="images/chinchin_members.jpg" alt="친친탱고 단체 사진">
+    </div>
+  </div>
+
 </section>
 
 <!-- 공연 실적 -->
@@ -1620,16 +1722,7 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   </div>
 </section>
 
-<!-- ══ 친친탱고 콜라보 ══ -->
-<section class="sec" style="background:var(--bg);border-top:1px solid rgba(201,168,76,.1);">
-  <div class="si">
-    <span class="slabel rv">Collaboration · 친친탱고 콜라보레이션</span>
-    <h2 class="stitle rv">ARIS KIM ×<br><em>친친탱고 (CHINCHIN TANGO)</em></h2>
-    <div class="grule rv"></div>
-    <img class="nc-collab-img rv" src="images/chinchin_collab.jpg" alt="ARIS KIM X CHINCHIN TANGO">
-    <img class="nc-members-img rv" src="images/chinchin_members.jpg" alt="친친탱고 멤버 프로필">
-  </div>
-</section>
+
 
 <!-- 비디오 아트 콘서트 -->
 <section class="sec" id="videoart" style="background:var(--deep);border-top:1px solid rgba(201,168,76,.1);">
