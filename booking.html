@@ -1042,121 +1042,192 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
 }
 
 
-/* ══ CINEMATIC HERO SEQUENCE ══ */
+/* ══ CINEMATIC HERO SEQUENCE v2 ══
+   총 18초 시퀀스:
+   0-5s  : 클림트 포스터 (L1)
+   4-8s  : L1→L2 크로스페이드 (오케스트라 A2)
+   8-12s : A2 유지 + A3 색소폰 드라마틱 오버레이
+   11-15s: L2+A3 → L3 전환 (LED 퍼포먼스 A4)
+   14s+  : A4 유지 + 핀 조명 위→아래 모션
+═══════════════════════════════════ */
 
-/* 배경 레이어 3장 */
+/* ── 배경 레이어 공통 */
 .hbg-layer{
   position:absolute;inset:0;width:100%;height:100%;
   object-fit:cover;object-position:center;
   will-change:opacity;
 }
-/* 레이어 1: 클림트 (시작) */
+
+/* L1: 클림트 포스터 */
 .hbg-1{
+  z-index:1;
   object-position:center 30%;
   filter:brightness(.52) contrast(1.05);
-  animation:heroL1 12s ease forwards;
-  z-index:1;
+  animation:heroKlimt 18s ease forwards;
 }
-/* 레이어 2: 오케스트라 */
+@keyframes heroKlimt{
+  0%,27%  {opacity:1;}
+  44%,100%{opacity:0;}
+}
+
+/* L2: A2 오케스트라 공연장 */
 .hbg-2{
-  filter:brightness(.48) contrast(1.08);
-  animation:heroL2 12s ease forwards;
   z-index:2;
+  filter:brightness(.5) contrast(1.08);
+  animation:heroOrchestra 18s ease forwards;
 }
-/* 레이어 3: 나사 사진 (최종) */
+@keyframes heroOrchestra{
+  0%,22%  {opacity:0;}
+  38%,61% {opacity:1;}
+  77%,100%{opacity:0;}
+}
+
+/* L3: A4 LED 퍼포먼스 */
 .hbg-3{
-  object-position:center 20%;
-  filter:brightness(.44) contrast(1.1);
-  animation:heroL3 12s ease forwards;
   z-index:3;
+  filter:brightness(.45) contrast(1.12);
+  animation:heroLED 18s ease forwards;
+}
+@keyframes heroLED{
+  0%,61%  {opacity:0;}
+  78%,100%{opacity:1;}
 }
 
-/* 배경 애니메이션 타이밍 (총 12초, 이후 유지) */
-@keyframes heroL1{
-  0%,30%  {opacity:1;}
-  50%,100%{opacity:0;}
-}
-@keyframes heroL2{
-  0%,25%  {opacity:0;}
-  38%,62% {opacity:1;}
-  78%,100%{opacity:0;}
-}
-@keyframes heroL3{
-  0%,60%  {opacity:0;}
-  80%,100%{opacity:1;}
-}
-
-/* 아리스김 슬라이드 인 사진 */
-.hero-artist-slide{
-  position:absolute;
-  left:0; bottom:0;
-  width:clamp(220px, 32vw, 460px);
-  height:100%;
-  z-index:5;
+/* A3 색소폰 오버레이 — A2 위에 드라마틱하게 겹침 */
+.hero-sax-overlay{
+  position:absolute;inset:0;z-index:4;
   pointer-events:none;
-  overflow:hidden;
+  animation:heroSax 18s ease forwards;
 }
-.hero-artist-slide img{
+.hero-sax-overlay img{
   width:100%;height:100%;
   object-fit:cover;
   object-position:center top;
-  filter:brightness(.88) contrast(1.04);
   display:block;
+  filter:brightness(.88) contrast(1.06);
+  /* 믹스 블렌드로 오케스트라와 자연스럽게 합성 */
 }
-/* 오른쪽으로 페이드아웃 그라디언트 (배경과 자연스럽게 합성) */
-.hero-artist-slide::after{
+/* 아티스트 사진 아래쪽 페이드 (배경과 합성) */
+.hero-sax-overlay::after{
   content:'';
   position:absolute;inset:0;
-  background:linear-gradient(90deg,
-    transparent 0%,
-    transparent 55%,
-    var(--bg) 100%
-  );
-}
-/* 슬라이드 애니메이션:
-   t=4s 시작 → t=5.5s 완전 등장 → t=8.5s 사라지기 시작 → t=10.5s 완전 소멸 */
-.hero-artist-slide{
-  animation:artistSlide 12s ease forwards;
-}
-@keyframes artistSlide{
-  0%,33%  {opacity:0; transform:translateX(-80px);}
-  45%,68% {opacity:1; transform:translateX(0);}
-  85%,100%{opacity:0; transform:translateX(-30px);}
-}
-
-/* 오버레이: 배경 레이어들 위, 아티스트 아래 */
-.hov-cinematic{
-  position:absolute;inset:0;z-index:4;
   background:linear-gradient(
     180deg,
-    rgba(8,7,5,.18) 0%,
-    rgba(8,7,5,.02) 30%,
-    rgba(8,7,5,.5)  65%,
-    rgba(8,7,5,.98) 100%
+    rgba(8,7,5,.0) 0%,
+    rgba(8,7,5,.0) 50%,
+    rgba(8,7,5,.7) 80%,
+    rgba(8,7,5,1)  100%
+  );
+}
+@keyframes heroSax{
+  /* 시작: 아래에서 살짝 올라오며 페이드인 */
+  0%,44%  {opacity:0; transform:scale(1.06) translateY(18px);}
+  55%,64% {opacity:0.92; transform:scale(1.0)  translateY(0);}
+  77%,100%{opacity:0;   transform:scale(0.98) translateY(-8px);}
+}
+
+/* 기본 오버레이 */
+.hov-cinematic{
+  position:absolute;inset:0;z-index:5;
+  background:linear-gradient(
+    180deg,
+    rgba(8,7,5,.15) 0%,
+    rgba(8,7,5,.0)  28%,
+    rgba(8,7,5,.48) 64%,
+    rgba(8,7,5,.97) 100%
   );
 }
 
-/* 텍스트 컨테이너 — 아티스트 사진과 겹치지 않게 오른쪽으로 */
+/* ── 핀 조명 효과 (A4 등장 후) ── */
+/* 다크 오버레이: A4가 보이면 어둡게 덮고 */
+.spot-dark{
+  position:absolute;inset:0;z-index:6;
+  background:rgba(4,3,2,.62);
+  opacity:0;
+  pointer-events:none;
+  animation:spotDark 2s ease 14s forwards;
+}
+@keyframes spotDark{
+  0%  {opacity:0;}
+  100%{opacity:1;}
+}
+
+/* 조명 광원 (맨 위 중앙 빛나는 점) */
+.spot-source{
+  position:absolute;
+  top:0; left:50%;
+  transform:translateX(-50%);
+  width:80px;height:4px;
+  background:radial-gradient(ellipse,rgba(255,248,220,0.95) 0%,transparent 100%);
+  z-index:8;
+  opacity:0;
+  pointer-events:none;
+  animation:spotSourceIn 0.6s ease 14.8s forwards;
+}
+@keyframes spotSourceIn{
+  to{opacity:1;}
+}
+
+/* 조명 빔: 위에서 아래로 쏟아지는 삼각 콘 */
+.spot-beam{
+  position:absolute;inset:0;z-index:7;
+  pointer-events:none;
+  /* clip-path로 삼각형 빔, 위→아래로 확장 */
+  clip-path:polygon(48% 0%, 52% 0%, 52% 0%, 48% 0%);
+  background:linear-gradient(
+    180deg,
+    rgba(255,245,200,0.38) 0%,
+    rgba(255,240,180,0.18) 40%,
+    rgba(255,235,160,0.06) 75%,
+    transparent 100%
+  );
+  opacity:0;
+  animation:spotBeam 2.4s cubic-bezier(.25,.46,.45,.94) 14.8s forwards;
+}
+@keyframes spotBeam{
+  0%{
+    opacity:0;
+    clip-path:polygon(49% 0%,51% 0%,51% 0%,49% 0%);
+  }
+  15%{opacity:1;}
+  100%{
+    opacity:1;
+    clip-path:polygon(34% 0%,66% 0%,72% 100%,28% 100%);
+  }
+}
+
+/* 연주자 하이라이트 (빔 안쪽 밝은 원) */
+.spot-glow{
+  position:absolute;
+  top:18%; left:50%;
+  transform:translateX(-50%);
+  width:clamp(120px,22vw,300px);
+  height:clamp(120px,22vw,300px);
+  background:radial-gradient(ellipse,rgba(255,248,200,0.18) 0%,transparent 70%);
+  z-index:7;
+  pointer-events:none;
+  opacity:0;
+  animation:spotGlow 2s ease 16.2s forwards;
+}
+@keyframes spotGlow{
+  0%  {opacity:0; transform:translateX(-50%) scale(.7);}
+  100%{opacity:1; transform:translateX(-50%) scale(1);}
+}
+
+/* 텍스트 컨테이너 */
 .hcon-cinematic{
-  position:relative;z-index:6;
+  position:relative;z-index:9;
   padding:0 52px 80px;
   width:100%;
-  /* 아티스트 사진 너비만큼 왼쪽 여백 */
-  padding-left:clamp(240px,35vw,500px);
-  transition:padding-left .6s ease;
 }
 
 /* 반응형 */
 @media(max-width:768px){
-  .hcon-cinematic{padding-left:24px !important;}
-  .hero-artist-slide{width:clamp(140px,42vw,240px);}
+  .hcon-cinematic{padding:0 24px 48px;}
+  .spot-glow{top:25%;}
 }
 @media(max-width:480px){
-  .hcon-cinematic{padding:0 18px 52px !important;}
-  .hero-artist-slide{width:clamp(110px,36vw,180px);}
-  .hero-artist-slide::after{
-    background:linear-gradient(90deg,transparent 0%,transparent 40%,var(--bg) 100%);
-  }
+  .hcon-cinematic{padding:0 18px 48px;}
 }
 
 </style>
@@ -1203,7 +1274,26 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
 
 <!-- HERO -->
 <section id="hero">
-  <!-- 배경 레이어 3장 — 시네마틱 크로스페이드 -->
+  <!-- ── 배경 레이어 3장 ── -->
+  <img class="hbg-layer hbg-1" src="images/hero_klimt.jpg"     alt="클림트 미디어아트">
+  <img class="hbg-layer hbg-2" src="images/hero_orchestra.jpg" alt="한여름밤의 음악회">
+  <img class="hbg-layer hbg-3" src="images/hero_led_stage.jpg" alt="LED 색소폰 퍼포먼스">
+
+  <!-- ── A3: 색소폰 아티스트 드라마틱 오버레이 ── -->
+  <div class="hero-sax-overlay">
+    <img src="images/hero_saxophone.jpg" alt="ARIS KIM 색소폰">
+  </div>
+
+  <!-- ── 기본 오버레이 ── -->
+  <div class="hov-cinematic"></div>
+
+  <!-- ── 핀 조명 효과 (A4 등장 후) ── -->
+  <div class="spot-dark"></div>
+  <div class="spot-beam"></div>
+  <div class="spot-source"></div>
+  <div class="spot-glow"></div>
+
+  <div class="hcon hcon-cinematic">
   <img class="hbg-layer hbg-1" src="images/hero_klimt.jpg"      alt="클림트 미디어아트 콘서트">
   <img class="hbg-layer hbg-2" src="images/hero_orchestra.jpg"  alt="오케스트라 공연">
   <img class="hbg-layer hbg-3" src="images/screw_photo.jpg"     alt="황금 나사">
