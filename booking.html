@@ -1091,13 +1091,8 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   filter:brightness(.9) contrast(1.06);
 }
 /* 왼쪽 그라디언트 — A2와 자연스럽게 합성 */
-.perf-sax-ov::before{
-  content:'';
-  position:absolute;top:0;left:0;bottom:0;
-  width:45%;
-  background:linear-gradient(90deg,rgba(8,7,5,.88) 0%,transparent 100%);
-  z-index:1;
-}
+/* PNG 투명배경이므로 ::before 그라디언트 불필요 */
+.perf-sax-ov::before{content:none;}
 /* 태블릿: 전신 비율 유지, 더 작게 */
 @media(max-width:1024px){
   .perf-sax-ov{max-width:52%;}
@@ -1266,6 +1261,89 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   .pa5-title{font-size:clamp(20px,6vw,32px);}
 }
 
+
+/* ── 핸드라이팅 스타일 텍스트 애니메이션 ── */
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap');
+
+.pa5-handwrite{
+  display:flex;flex-direction:column;align-items:center;
+  gap:4px;margin-bottom:20px;
+}
+
+/* 각 줄: clip-path로 왼쪽→오른쪽 필기 효과 */
+.hw-line{
+  font-family:'Nanum Pen Script','Noto Serif KR',serif;
+  color:var(--w);
+  line-height:1.3;
+  clip-path:inset(0 100% 0 0);   /* 처음엔 완전히 숨김 */
+  opacity:0;
+  position:relative;
+  text-shadow:
+    0 0 20px rgba(201,168,76,.6),
+    0 0 40px rgba(201,168,76,.25),
+    0 2px 8px rgba(0,0,0,.95);
+}
+
+/* 펜 끝 빛나는 커서 */
+.hw-line::after{
+  content:'';
+  position:absolute;right:0;top:20%;
+  width:3px;height:60%;
+  background:radial-gradient(ellipse,rgba(255,240,150,.95),transparent);
+  opacity:0;
+  transition:opacity .1s;
+}
+
+/* triggered 시 각 줄 순차 등장 */
+.perf-a5-text.triggered .hw-line{
+  opacity:1;
+}
+.perf-a5-text.triggered .hw-l1{
+  animation:hwWrite 1.4s cubic-bezier(.25,.1,.25,1) 0.2s both,
+            hwCursor 1.4s ease 0.2s both;
+}
+.perf-a5-text.triggered .hw-l2{
+  animation:hwWrite 1.5s cubic-bezier(.25,.1,.25,1) 1.4s both,
+            hwCursor 1.5s ease 1.4s both;
+}
+.perf-a5-text.triggered .hw-l3{
+  animation:hwWrite 1.8s cubic-bezier(.25,.1,.25,1) 2.7s both,
+            hwCursor 1.8s ease 2.7s both;
+}
+
+@keyframes hwWrite{
+  0%  {clip-path:inset(0 100% 0 0);}
+  100%{clip-path:inset(0 0% 0 0);}
+}
+
+@keyframes hwCursor{
+  0%,5%  {background:transparent;}
+  10%    {background:linear-gradient(90deg,transparent 0%,transparent calc(100% - 3px),rgba(255,240,150,.9) calc(100% - 3px),rgba(255,240,150,.9) 100%);}
+  90%    {background:linear-gradient(90deg,transparent 0%,transparent calc(100% - 3px),rgba(255,240,150,.9) calc(100% - 3px),rgba(255,240,150,.9) 100%);}
+  100%   {background:transparent;}
+}
+
+.hw-l1{font-size:clamp(18px,4vw,38px);font-weight:400;letter-spacing:.08em;}
+.hw-l2{font-size:clamp(16px,3.5vw,34px);font-weight:400;letter-spacing:.06em;color:rgba(232,204,122,.9);}
+.hw-l3{font-size:clamp(22px,5vw,52px);font-weight:700;letter-spacing:.03em;}
+.hw-l3 em{
+  font-style:italic;
+  color:var(--gold);
+  text-shadow:
+    0 0 30px rgba(201,168,76,.8),
+    0 0 60px rgba(201,168,76,.4),
+    0 3px 12px rgba(0,0,0,.95);
+}
+
+/* 기존 pa5-title 숨김 */
+.pa5-title{display:none;}
+
+@media(max-width:600px){
+  .hw-l1{font-size:clamp(16px,5.5vw,24px);}
+  .hw-l2{font-size:clamp(14px,5vw,20px);}
+  .hw-l3{font-size:clamp(19px,6.5vw,32px);}
+}
+
 </style>
 </head>
 <body>
@@ -1341,7 +1419,7 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   <img src="images/hero_orchestra.jpg" alt="한여름밤의 음악회 오케스트라 공연">
   <!-- A3: 색소폰 아티스트 드라마틱 오버레이 -->
   <div class="perf-sax-ov">
-    <img src="images/hero_saxophone.jpg" alt="ARIS KIM 색소폰">
+    <img src="images/hero_saxophone.png" alt="ARIS KIM 색소폰">
   </div>
 </section>
 
@@ -1356,10 +1434,15 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   <div class="spot2-beam"></div>
   <div class="spot2-source"></div>
   <div class="spot2-glow"></div>
-  <!-- 핀 조명과 함께 등장하는 드라마틱 문구 -->
+  <!-- 핀 조명과 함께 등장하는 핸드라이팅 드라마틱 문구 -->
   <div class="perf-a5-text">
-    <div class="pa5-label">KLIMT MEDIA ART CONCERT</div>
-    <h2 class="pa5-title">현대미술과 융합된<br><em>빛의 콘서트</em></h2>
+    <div class="pa5-label">KLIMT MEDIA ART CONCERT · ARIS KIM</div>
+    <!-- 캔버스 핸드라이팅 타이틀 -->
+    <div class="pa5-handwrite">
+      <div class="hw-line hw-l1">현대미술과 융합된</div>
+      <div class="hw-line hw-l2">아리스김만의 독보적인</div>
+      <div class="hw-line hw-l3"><em>"클림트 빛의 콘서트"</em></div>
+    </div>
     <div class="pa5-rule"></div>
     <p class="pa5-sub">구스타프 클림트의 황금빛 세계가 무대 위에 살아 숨쉰다</p>
   </div>
