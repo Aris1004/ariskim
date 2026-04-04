@@ -68,10 +68,10 @@ body{background:var(--bg);color:var(--w);font-family:'Nanum Myeongjo',serif;over
 /* HERO */
 #hero{position:relative;width:100%;height:100vh;overflow:hidden;display:flex;align-items:flex-end;}
 .hbg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  object-position:center 30%;filter:brightness(.28) contrast(1.1);}
+  object-position:center 30%;filter:brightness(.50) contrast(1.05);}
 .hov{position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(8,7,5,.12) 0%,rgba(8,7,5,.04) 28%,
-  rgba(8,7,5,.55) 62%,rgba(8,7,5,.98) 100%);}
+  background:linear-gradient(180deg,rgba(8,7,5,.08) 0%,rgba(8,7,5,.02) 28%,
+  rgba(8,7,5,.42) 62%,rgba(8,7,5,.92) 100%);}
 .hcon{position:relative;z-index:2;padding:0 52px 80px;width:100%;}
 .hey{font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:.65em;
   color:var(--gold);opacity:.7;margin-bottom:16px;animation:fu 1.2s .3s both;}
@@ -355,8 +355,8 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   .nav-ham{display:flex!important;}
   /* 히어로: 배경 더 어둡게 + 오버레이 강화 */
   #hero{height:80vh;}
-  .hbg{filter:brightness(.12) contrast(1.1)!important;}
-  .hov{background:linear-gradient(180deg,rgba(8,7,5,.55) 0%,rgba(8,7,5,.18) 30%,rgba(8,7,5,.78) 65%,rgba(8,7,5,1) 100%)!important;}
+  .hbg{filter:brightness(.45) contrast(1.05)!important;}
+  .hov{background:linear-gradient(180deg,rgba(8,7,5,.05) 0%,rgba(8,7,5,.02) 30%,rgba(8,7,5,.45) 65%,rgba(8,7,5,.92) 100%)!important;}
   .hcon{padding:0 24px 48px;}
   .hey{font-size:7px;letter-spacing:.4em;}
   .hen{font-size:clamp(28px,6vw,44px)!important;}
@@ -394,8 +394,8 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
 
   /* 히어로: 모바일 최적화 — 글자 겹침 완전 제거 */
   #hero{height:100vh;}
-  .hbg{filter:brightness(.10) contrast(1.1)!important;}
-  .hov{background:linear-gradient(180deg,rgba(8,7,5,.65) 0%,rgba(8,7,5,.25) 28%,rgba(8,7,5,.85) 65%,rgba(8,7,5,1) 100%)!important;}
+  .hbg{filter:brightness(.50) contrast(1.05)!important;}
+  .hov{background:linear-gradient(180deg,rgba(8,7,5,.05) 0%,rgba(8,7,5,.0) 25%,rgba(8,7,5,.40) 62%,rgba(8,7,5,.90) 100%)!important;}
   .hcon{padding:0 18px 52px;}
   .hey{display:none;}
   /* 핵심: 대형 타이틀 대폭 축소 */
