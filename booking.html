@@ -1042,192 +1042,140 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
 }
 
 
-/* ══ CINEMATIC HERO SEQUENCE v2 ══
-   총 18초 시퀀스:
-   0-5s  : 클림트 포스터 (L1)
-   4-8s  : L1→L2 크로스페이드 (오케스트라 A2)
-   8-12s : A2 유지 + A3 색소폰 드라마틱 오버레이
-   11-15s: L2+A3 → L3 전환 (LED 퍼포먼스 A4)
-   14s+  : A4 유지 + 핀 조명 위→아래 모션
-═══════════════════════════════════ */
 
-/* ── 배경 레이어 공통 */
-.hbg-layer{
-  position:absolute;inset:0;width:100%;height:100%;
-  object-fit:cover;object-position:center;
-  will-change:opacity;
+
+
+/* ══ PERFORMANCE SHOWCASE SECTIONS ══ */
+
+/* 공통: 전체 사진 보여주기 */
+.perf-section{
+  position:relative;width:100%;overflow:hidden;
+  border-top:1px solid rgba(201,168,76,.08);
 }
 
-/* L1: 클림트 포스터 */
-.hbg-1{
-  z-index:1;
-  object-position:center 30%;
-  filter:brightness(.52) contrast(1.05);
-  animation:heroKlimt 18s ease forwards;
+/* ── A2: 오케스트라 공연 전체 사진 ── */
+.perf-orchestra{
+  /* 이미지 비율 유지: A2 = 2000x1115 ≈ 16:9 */
 }
-@keyframes heroKlimt{
-  0%,27%  {opacity:1;}
-  44%,100%{opacity:0;}
+.perf-orchestra > img{
+  width:100%;
+  display:block;
+  filter:brightness(.78) contrast(1.05);
 }
 
-/* L2: A2 오케스트라 공연장 */
-.hbg-2{
-  z-index:2;
-  filter:brightness(.5) contrast(1.08);
-  animation:heroOrchestra 18s ease forwards;
-}
-@keyframes heroOrchestra{
-  0%,22%  {opacity:0;}
-  38%,61% {opacity:1;}
-  77%,100%{opacity:0;}
-}
-
-/* L3: A4 LED 퍼포먼스 */
-.hbg-3{
-  z-index:3;
-  filter:brightness(.45) contrast(1.12);
-  animation:heroLED 18s ease forwards;
-}
-@keyframes heroLED{
-  0%,61%  {opacity:0;}
-  78%,100%{opacity:1;}
-}
-
-/* A3 색소폰 오버레이 — A2 위에 드라마틱하게 겹침 */
-.hero-sax-overlay{
-  position:absolute;inset:0;z-index:4;
+/* A3: 색소폰 아티스트 오버레이 */
+.perf-sax-ov{
+  position:absolute;inset:0;
+  opacity:0;
+  transform:scale(1.07) translateY(12px);
+  transition:opacity 1.8s cubic-bezier(.25,.46,.45,.94),
+             transform 2.2s cubic-bezier(.25,.46,.45,.94);
   pointer-events:none;
-  animation:heroSax 18s ease forwards;
 }
-.hero-sax-overlay img{
+.perf-sax-ov.triggered{
+  opacity:.82;
+  transform:scale(1.0) translateY(0);
+}
+.perf-sax-ov img{
   width:100%;height:100%;
   object-fit:cover;
   object-position:center top;
   display:block;
-  filter:brightness(.88) contrast(1.06);
-  /* 믹스 블렌드로 오케스트라와 자연스럽게 합성 */
+  filter:brightness(.85) contrast(1.08);
+  mix-blend-mode:normal;
 }
-/* 아티스트 사진 아래쪽 페이드 (배경과 합성) */
-.hero-sax-overlay::after{
+/* 오른쪽과 아래 페이드 — A2가 살짝 비치도록 */
+.perf-sax-ov::after{
   content:'';
   position:absolute;inset:0;
-  background:linear-gradient(
-    180deg,
-    rgba(8,7,5,.0) 0%,
-    rgba(8,7,5,.0) 50%,
-    rgba(8,7,5,.7) 80%,
-    rgba(8,7,5,1)  100%
-  );
-}
-@keyframes heroSax{
-  /* 시작: 아래에서 살짝 올라오며 페이드인 */
-  0%,44%  {opacity:0; transform:scale(1.06) translateY(18px);}
-  55%,64% {opacity:0.92; transform:scale(1.0)  translateY(0);}
-  77%,100%{opacity:0;   transform:scale(0.98) translateY(-8px);}
+  background:
+    linear-gradient(90deg, rgba(8,7,5,0) 0%, rgba(8,7,5,0) 55%, rgba(8,7,5,.85) 100%),
+    linear-gradient(180deg, rgba(8,7,5,0) 0%, rgba(8,7,5,0) 60%, rgba(8,7,5,.9) 100%);
 }
 
-/* 기본 오버레이 */
-.hov-cinematic{
-  position:absolute;inset:0;z-index:5;
-  background:linear-gradient(
-    180deg,
-    rgba(8,7,5,.15) 0%,
-    rgba(8,7,5,.0)  28%,
-    rgba(8,7,5,.48) 64%,
-    rgba(8,7,5,.97) 100%
-  );
+/* ── A5: 클림트 LED 퍼포먼스 전체 사진 ── */
+.perf-a5{
+  /* A5 = 1115x2000 (세로형) */
+}
+.perf-a5 > img{
+  width:100%;
+  display:block;
+  filter:brightness(.82) contrast(1.06);
+}
+/* A5 위 기본 오버레이 */
+.perf-a5-ov{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(8,7,5,.05) 0%,rgba(8,7,5,0) 30%,rgba(8,7,5,.12) 70%,rgba(8,7,5,.6) 100%);
 }
 
-/* ── 핀 조명 효과 (A4 등장 후) ── */
-/* 다크 오버레이: A4가 보이면 어둡게 덮고 */
-.spot-dark{
-  position:absolute;inset:0;z-index:6;
-  background:rgba(4,3,2,.62);
+/* ── 핀 조명 (A5용) — IntersectionObserver로 트리거 ── */
+.spot2-dark{
+  position:absolute;inset:0;
+  background:rgba(4,3,2,.58);
   opacity:0;
   pointer-events:none;
-  animation:spotDark 2s ease 14s forwards;
+  transition:opacity 1s ease;
 }
-@keyframes spotDark{
-  0%  {opacity:0;}
-  100%{opacity:1;}
-}
+.spot2-dark.triggered{ opacity:1; }
 
-/* 조명 광원 (맨 위 중앙 빛나는 점) */
-.spot-source{
+/* 조명 광원 점 */
+.spot2-source{
   position:absolute;
   top:0; left:50%;
   transform:translateX(-50%);
-  width:80px;height:4px;
-  background:radial-gradient(ellipse,rgba(255,248,220,0.95) 0%,transparent 100%);
-  z-index:8;
+  width:100px; height:5px;
+  background:radial-gradient(ellipse, rgba(255,248,220,.9) 0%,transparent 100%);
+  pointer-events:none;
   opacity:0;
-  pointer-events:none;
-  animation:spotSourceIn 0.6s ease 14.8s forwards;
+  transition:opacity .5s ease .8s;
 }
-@keyframes spotSourceIn{
-  to{opacity:1;}
-}
+.spot2-source.triggered{ opacity:1; }
 
-/* 조명 빔: 위에서 아래로 쏟아지는 삼각 콘 */
-.spot-beam{
-  position:absolute;inset:0;z-index:7;
+/* 조명 빔 */
+.spot2-beam{
+  position:absolute;inset:0;
   pointer-events:none;
-  /* clip-path로 삼각형 빔, 위→아래로 확장 */
-  clip-path:polygon(48% 0%, 52% 0%, 52% 0%, 48% 0%);
+  clip-path:polygon(49% 0%,51% 0%,51% 0%,49% 0%);
   background:linear-gradient(
     180deg,
-    rgba(255,245,200,0.38) 0%,
-    rgba(255,240,180,0.18) 40%,
-    rgba(255,235,160,0.06) 75%,
+    rgba(255,245,200,.42) 0%,
+    rgba(255,240,170,.20) 35%,
+    rgba(255,235,150,.08) 65%,
     transparent 100%
   );
   opacity:0;
-  animation:spotBeam 2.4s cubic-bezier(.25,.46,.45,.94) 14.8s forwards;
+  transition:
+    clip-path 2.2s cubic-bezier(.25,.46,.45,.94) .6s,
+    opacity    .4s ease .6s;
 }
-@keyframes spotBeam{
-  0%{
-    opacity:0;
-    clip-path:polygon(49% 0%,51% 0%,51% 0%,49% 0%);
-  }
-  15%{opacity:1;}
-  100%{
-    opacity:1;
-    clip-path:polygon(34% 0%,66% 0%,72% 100%,28% 100%);
-  }
+.spot2-beam.triggered{
+  opacity:1;
+  /* A5 세로형 — 연주자는 이미지 하단 중앙 약 65% 지점 */
+  clip-path:polygon(30% 0%,70% 0%,82% 100%,18% 100%);
 }
 
-/* 연주자 하이라이트 (빔 안쪽 밝은 원) */
-.spot-glow{
+/* 연주자 글로우 */
+.spot2-glow{
   position:absolute;
-  top:18%; left:50%;
-  transform:translateX(-50%);
-  width:clamp(120px,22vw,300px);
-  height:clamp(120px,22vw,300px);
-  background:radial-gradient(ellipse,rgba(255,248,200,0.18) 0%,transparent 70%);
-  z-index:7;
+  top:58%; left:50%;
+  transform:translateX(-50%) scale(.5);
+  width:clamp(80px,18vw,200px);
+  height:clamp(80px,18vw,200px);
+  background:radial-gradient(ellipse, rgba(255,248,190,.22) 0%,transparent 70%);
   pointer-events:none;
   opacity:0;
-  animation:spotGlow 2s ease 16.2s forwards;
+  transition:opacity .8s ease 2s, transform .8s ease 2s;
 }
-@keyframes spotGlow{
-  0%  {opacity:0; transform:translateX(-50%) scale(.7);}
-  100%{opacity:1; transform:translateX(-50%) scale(1);}
-}
-
-/* 텍스트 컨테이너 */
-.hcon-cinematic{
-  position:relative;z-index:9;
-  padding:0 52px 80px;
-  width:100%;
+.spot2-glow.triggered{
+  opacity:1;
+  transform:translateX(-50%) scale(1);
 }
 
 /* 반응형 */
-@media(max-width:768px){
-  .hcon-cinematic{padding:0 24px 48px;}
-  .spot-glow{top:25%;}
-}
 @media(max-width:480px){
-  .hcon-cinematic{padding:0 18px 48px;}
+  .spot2-beam.triggered{
+    clip-path:polygon(28% 0%,72% 0%,85% 100%,15% 100%);
+  }
 }
 
 </style>
@@ -1274,25 +1222,8 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
 
 <!-- HERO -->
 <section id="hero">
-  <!-- ── 배경 레이어 3장 ── -->
-  <img class="hbg-layer hbg-1" src="images/hero_klimt.jpg"     alt="클림트 미디어아트">
-  <img class="hbg-layer hbg-2" src="images/hero_orchestra.jpg" alt="한여름밤의 음악회">
-  <img class="hbg-layer hbg-3" src="images/hero_led_stage.jpg" alt="LED 색소폰 퍼포먼스">
-
-  <!-- ── A3: 색소폰 아티스트 드라마틱 오버레이 ── -->
-  <div class="hero-sax-overlay">
-    <img src="images/hero_saxophone.jpg" alt="ARIS KIM 색소폰">
-  </div>
-
-  <!-- ── 기본 오버레이 ── -->
-  <div class="hov-cinematic"></div>
-
-  <!-- ── 핀 조명 효과 (A4 등장 후) ── -->
-  <div class="spot-dark"></div>
-  <div class="spot-beam"></div>
-  <div class="spot-source"></div>
-  <div class="spot-glow"></div>
-
+  <img class="hbg" src="images/hero_klimt.jpg" alt="ARIS KIM 클림트 미디어아트 색소폰 콘서트">
+  <div class="hov"></div>
   <div class="hcon hcon-cinematic">
   <img class="hbg-layer hbg-1" src="images/hero_klimt.jpg"      alt="클림트 미디어아트 콘서트">
   <img class="hbg-layer hbg-2" src="images/hero_orchestra.jpg"  alt="오케스트라 공연">
@@ -1326,6 +1257,29 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
     </div>
   </div>
   <div class="hscroll"><span>SCROLL</span><div class="hscroll-line"></div></div>
+</section>
+
+<!-- ══ PERFORMANCE SHOWCASE: A2 + A3 ══ -->
+<section class="perf-section perf-orchestra" id="perf-orchestra">
+  <!-- A2: 오케스트라 공연 전체 사진 -->
+  <img src="images/hero_orchestra.jpg" alt="한여름밤의 음악회 오케스트라 공연">
+  <!-- A3: 색소폰 아티스트 드라마틱 오버레이 -->
+  <div class="perf-sax-ov">
+    <img src="images/hero_saxophone.jpg" alt="ARIS KIM 색소폰">
+  </div>
+</section>
+
+<!-- ══ PERFORMANCE SHOWCASE: A5 클림트 LED ══ -->
+<section class="perf-section perf-a5" id="perf-a5">
+  <!-- A5: 클림트 LED 퍼포먼스 전체 사진 -->
+  <img src="images/hero_a5_klimt_led.jpg" alt="클림트 LED 퍼포먼스">
+  <!-- 기본 오버레이 -->
+  <div class="perf-a5-ov"></div>
+  <!-- 핀 조명 요소들 -->
+  <div class="spot2-dark"></div>
+  <div class="spot2-beam"></div>
+  <div class="spot2-source"></div>
+  <div class="spot2-glow"></div>
 </section>
 
 <!-- TRUST NUMBERS -->
@@ -2568,6 +2522,36 @@ const obs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');});
 },{threshold:.1});
 document.querySelectorAll('.rv,.rvl,.rvr').forEach(el=>obs.observe(el));
+
+/* ── 공연 쇼케이스 스크롤 트리거 ── */
+const perfObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting) return;
+    const sec = e.target;
+
+    /* A2+A3: 색소폰 오버레이 */
+    if(sec.id==='perf-orchestra'){
+      setTimeout(()=>{
+        const ov=sec.querySelector('.perf-sax-ov');
+        if(ov) ov.classList.add('triggered');
+      }, 800);
+    }
+
+    /* A5: 핀 조명 */
+    if(sec.id==='perf-a5'){
+      setTimeout(()=>{
+        ['spot2-dark','spot2-beam','spot2-source','spot2-glow'].forEach(cls=>{
+          const el=sec.querySelector('.'+cls);
+          if(el) el.classList.add('triggered');
+        });
+      }, 600);
+    }
+
+    perfObs.unobserve(sec);
+  });
+},{threshold:0.25});
+
+document.querySelectorAll('#perf-orchestra,#perf-a5').forEach(el=>perfObs.observe(el));
 
 // 영상 팝업
 let vlb = null;
