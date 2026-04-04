@@ -953,6 +953,60 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   .collab-story{padding:40px 18px;}
 }
 
+
+/* ══ 멤버 프로필 — 사진 + 텍스트 가로 레이아웃 ══ */
+.member-list{display:flex;flex-direction:column;gap:2px;margin-top:3px;}
+.member-row{display:grid;grid-template-columns:220px 1fr;align-items:stretch;background:var(--deep);border:1px solid rgba(201,168,76,.08);overflow:hidden;transition:border-color .4s;}
+.member-row:hover{border-color:rgba(201,168,76,.22);}
+
+/* 사진 영역 */
+.member-photo{position:relative;overflow:hidden;}
+.member-photo img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;filter:brightness(.75) contrast(1.05);transition:filter .6s,transform .7s;}
+.member-row:hover .member-photo img{filter:brightness(.92);transform:scale(1.04);}
+.member-photo-overlay{position:absolute;inset:0;background:linear-gradient(90deg,transparent 60%,var(--deep) 100%);}
+
+/* 텍스트 영역 */
+.member-info{padding:28px 32px 28px 28px;border-left:1px solid rgba(201,168,76,.1);display:flex;flex-direction:column;justify-content:center;}
+.member-instrument{font-family:'Cinzel',serif;font-size:7px;letter-spacing:.55em;color:var(--gold);opacity:.55;margin-bottom:10px;display:flex;align-items:center;gap:10px;}
+.member-instrument::after{content:'';flex:0 0 24px;height:1px;background:var(--gold);opacity:.35;}
+.member-name-kr{font-family:'Noto Serif KR',serif;font-size:clamp(20px,2.5vw,28px);font-weight:200;letter-spacing:.15em;color:var(--w);margin-bottom:4px;}
+.member-name-en{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.35em;color:rgba(232,204,122,.38);margin-bottom:18px;}
+.member-rule{width:28px;height:1px;background:var(--gold);opacity:.4;margin-bottom:16px;}
+.member-career{list-style:none;display:flex;flex-direction:column;gap:7px;}
+.member-career li{font-family:'Nanum Myeongjo',serif;font-size:13px;letter-spacing:.05em;color:rgba(242,237,228,.58);line-height:1.7;padding-left:14px;position:relative;}
+.member-career li::before{content:'—';position:absolute;left:0;color:var(--gold);opacity:.5;font-size:11px;}
+
+/* 아리스김 — 상단 히어로 가로형 (더 크게) */
+.member-row.lead{grid-template-columns:280px 1fr;}
+.member-row.lead .member-photo img{filter:brightness(.8);}
+.member-row.lead .member-name-kr{font-size:clamp(24px,3vw,36px);}
+.member-row.lead .member-career li{font-size:13.5px;}
+
+/* 콜라보 인트로 헤더 */
+.collab-header{padding:60px 52px 40px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;border-bottom:1px solid rgba(201,168,76,.08);}
+.collab-header-text .ch-label{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:.6em;color:var(--gold);opacity:.55;margin-bottom:16px;display:block;}
+.collab-header-text .ch-title{font-family:'Noto Serif KR',serif;font-size:clamp(22px,3.5vw,38px);font-weight:200;letter-spacing:.1em;color:var(--w);line-height:1.55;margin-bottom:20px;}
+.collab-header-text .ch-title em{color:var(--gold);font-style:normal;}
+.collab-header-text .ch-desc{font-family:'Nanum Myeongjo',serif;font-size:13.5px;letter-spacing:.06em;line-height:2.2;color:rgba(242,237,228,.52);}
+.collab-header-img{position:relative;overflow:hidden;}
+.collab-header-img img{width:100%;display:block;filter:brightness(.72);}
+.collab-header-img::before{content:'';position:absolute;inset:0;border:1px solid rgba(201,168,76,.15);z-index:1;pointer-events:none;}
+
+@media(max-width:768px){
+  .member-row,.member-row.lead{grid-template-columns:160px 1fr;}
+  .member-info{padding:20px 20px 20px 18px;}
+  .member-name-kr{font-size:18px!important;}
+  .collab-header{grid-template-columns:1fr;gap:28px;padding:40px 24px 28px;}
+  .collab-header-img{display:none;}
+}
+@media(max-width:480px){
+  .member-row,.member-row.lead{grid-template-columns:120px 1fr;}
+  .member-info{padding:16px;}
+  .member-career li{font-size:11.5px;}
+  .member-name-kr{font-size:16px!important;}
+  .collab-header{padding:32px 18px 24px;}
+}
+
 </style>
 </head>
 <body>
@@ -1335,103 +1389,128 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
 
 <!-- 아티스트 프로필 -->
 <!-- ══ COLLAB & ARTIST PROFILES ══ -->
-<section id="collab-section">
+<section id="collab-section" style="background:var(--bg);border-top:1px solid rgba(201,168,76,.1);">
 
-  <!-- 인트로: 아리스김 × 친친탱고 -->
-  <div class="collab-intro rv">
-    <div class="collab-intro-img">
+  <!-- 콜라보 인트로 헤더 -->
+  <div class="collab-header rv">
+    <div class="collab-header-text">
+      <span class="ch-label">Collaboration · 협연 아티스트</span>
+      <h2 class="ch-title"><em>A</em>RIS KIM ×<br>친친탱고<br>(CHINCHIN TANGO)</h2>
+      <p class="ch-desc">아시아 탱고 챔피언 아리스 김과 대한민국 최정상 아르헨티나 탱고 밴드 친친탱고의 만남. 반도네온 · 피아노 · 바이올린 · 퍼커션이 빚어내는 피아졸라의 세계 위로 색소폰이 날아오릅니다.</p>
+    </div>
+    <div class="collab-header-img">
       <img src="images/chinchin_collab.jpg" alt="ARIS KIM X CHINCHIN TANGO">
-      <div class="collab-intro-img-cap">
-        <div class="ci-label">Collaboration · 협연</div>
-        <div class="ci-title"><em>A</em>RIS KIM ×<br>친친탱고</div>
-        <div class="ci-sub">아시아 챔피언 색소폰과<br>대한민국 최정상 탱고 밴드의 만남</div>
-      </div>
-    </div>
-    <div class="collab-intro-img">
-      <img src="images/perf_klimt_stage.jpg" alt="클림트 미디어아트 무대">
-      <div class="collab-intro-img-cap">
-        <div class="ci-label">Stage · 무대</div>
-        <div class="ci-title">클림트<br><em>미디어아트</em></div>
-        <div class="ci-sub">황금빛 클림트 세계 위를<br>색소폰과 탱고가 날아오른다</div>
-      </div>
     </div>
   </div>
 
-  <!-- × 구분바 -->
-  <div class="collab-x-bar">
-    <div class="cx-line"></div>
-    <div class="cx-text">ARIS KIM × CHINCHIN TANGO</div>
-    <div class="cx-line r"></div>
+  <!-- 멤버 프로필 리스트 -->
+  <div class="member-list">
+
+    <!-- ARIS KIM -->
+    <div class="member-row lead rv">
+      <div class="member-photo" style="height:320px;">
+        <img src="images/img_gold_jacket.jpg" alt="아리스 김">
+        <div class="member-photo-overlay"></div>
+      </div>
+      <div class="member-info">
+        <div class="member-instrument">Saxophone · Tango · Media Art · AI Performance</div>
+        <div class="member-name-kr">아 리 스  김</div>
+        <div class="member-name-en">ARIS KIM</div>
+        <div class="member-rule"></div>
+        <ul class="member-career">
+          <li>한국예술종합학교 음악원 색소폰 전공 · 학생회장 2년</li>
+          <li>예술의전당 설립 25주년 최초 1호 아티스트 선정</li>
+          <li>아시아 탱고 챔피언십 에세나리오 부문 대상 (2016)</li>
+          <li>뉴욕 카네기홀 초청 공연 · 뉴욕 타임스퀘어 현대미술 퍼포먼스 (2022)</li>
+          <li>세계 최초 AI 공연 창시 · KOCCA 제작지원 선정</li>
+          <li>현) 색소폰 연주자 · 미디어아트 퍼포머 · 탱고 마에스트로 · 카운터테너</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 반도네온 김종완 -->
+    <div class="member-row rv" style="transition-delay:.06s">
+      <div class="member-photo" style="height:260px;">
+        <img src="images/chinchin_m1.jpg" alt="반도네온 김종완">
+        <div class="member-photo-overlay"></div>
+      </div>
+      <div class="member-info">
+        <div class="member-instrument">Bandoneón · 반도네온 · 작곡</div>
+        <div class="member-name-kr">김 종 완</div>
+        <div class="member-name-en">KIM JONG-HWAN</div>
+        <div class="member-rule"></div>
+        <ul class="member-career">
+          <li>서울대학교 음악대학 작곡과 석사과정 재학</li>
+          <li>2020 한국음악상 젊은음악가상 수상</li>
+          <li>영화 〈내겐 너무 소중한 너〉 외 다수 작곡</li>
+          <li>현) 웨스턴심포니오케스트라 전속작곡가</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 피아노 이안나 -->
+    <div class="member-row rv" style="transition-delay:.12s">
+      <div class="member-photo" style="height:260px;">
+        <img src="images/chinchin_m2.jpg" alt="피아노 이안나">
+        <div class="member-photo-overlay"></div>
+      </div>
+      <div class="member-info">
+        <div class="member-instrument">Piano · 피아노</div>
+        <div class="member-name-kr">이 안 나</div>
+        <div class="member-name-en">LEE AN-NA</div>
+        <div class="member-rule"></div>
+        <ul class="member-career">
+          <li>부산대학교 예술대학 음악학과 및 동대학원 졸업</li>
+          <li>부산대학교 예술영재교육원 강사 역임</li>
+          <li>현) 친친탱고 · 스플렌데라 · 원잇앙상블 피아니스트</li>
+          <li>음악당라온 전속 연주자</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 바이올린 강소연 -->
+    <div class="member-row rv" style="transition-delay:.18s">
+      <div class="member-photo" style="height:260px;">
+        <img src="images/chinchin_m3.jpg" alt="바이올린 강소연">
+        <div class="member-photo-overlay"></div>
+      </div>
+      <div class="member-info">
+        <div class="member-instrument">Violin · 바이올린</div>
+        <div class="member-name-kr">강 소 연</div>
+        <div class="member-name-en">KANG SO-YEON</div>
+        <div class="member-rule"></div>
+        <ul class="member-career">
+          <li>부산대학교 예술대학 음악학과 졸업</li>
+          <li>진주시립교향악단 협연</li>
+          <li>금정문화회관 신인음악회 초청 연주</li>
+          <li>현) 김해신포니에타 단원</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- 퍼커션 이영훈 -->
+    <div class="member-row rv" style="transition-delay:.24s">
+      <div class="member-photo" style="height:260px;">
+        <img src="images/chinchin_m4.jpg" alt="퍼커션 이영훈">
+        <div class="member-photo-overlay"></div>
+      </div>
+      <div class="member-info">
+        <div class="member-instrument">Percussion · 퍼커션</div>
+        <div class="member-name-kr">이 영 훈</div>
+        <div class="member-name-en">LEE YOUNG-HOON</div>
+        <div class="member-rule"></div>
+        <ul class="member-career">
+          <li>동의대학교 산업문화대학원 뉴미디어 음악과 졸업</li>
+          <li>해운대/부산 재즈페스티벌 라틴재즈밴드 'Getz' 수상</li>
+          <li>월드뮤직단체 'Afrovibe Studio' 대표</li>
+        </ul>
+      </div>
+    </div>
+
   </div>
-
-  <!-- 멤버 프로필 카드 -->
-  <div class="collab-members">
-
-    <!-- 아리스 김 -->
-    <div class="cm-card rv">
-      <img class="cm-card-img" src="images/img_gold_jacket.jpg" alt="아리스 김" style="object-position:center top;">
-      <div class="cm-card-info">
-        <span class="cm-role">Saxophone · Tango · Media Art</span>
-        <div class="cm-name-kr">아리스 김</div>
-        <div class="cm-name-en">ARIS KIM</div>
-        <div class="cm-rule"></div>
-        <div class="cm-desc">아시아 탱고 챔피언 · 예술의전당 최초 1호 아티스트 · 뉴욕 카네기홀 · 세계 최초 AI 공연 창시자</div>
-      </div>
-    </div>
-
-    <!-- 멤버 1: 반도네온 -->
-    <div class="cm-card rv" style="transition-delay:.08s">
-      <img class="cm-card-img" src="images/chinchin_m1.jpg" alt="반도네온 김종환">
-      <div class="cm-card-info">
-        <span class="cm-role">Bandoneón · 반도네온</span>
-        <div class="cm-name-kr">김 종 환</div>
-        <div class="cm-name-en">KIM JONG-HWAN</div>
-        <div class="cm-rule"></div>
-        <div class="cm-desc">한국 반도네온의 선구자. 부에노스아이레스 직계 사사. 대한민국 탱고 음악의 심장.</div>
-      </div>
-    </div>
-
-    <!-- 멤버 2: 바이올린 -->
-    <div class="cm-card rv" style="transition-delay:.16s">
-      <img class="cm-card-img" src="images/chinchin_m2.jpg" alt="바이올린 이은진">
-      <div class="cm-card-info">
-        <span class="cm-role">Violin · 바이올린</span>
-        <div class="cm-name-kr">이 은 진</div>
-        <div class="cm-name-en">LEE EUN-JIN</div>
-        <div class="cm-rule"></div>
-        <div class="cm-desc">탱고의 서정을 현으로 노래하는 아티스트. 클래식과 탱고의 경계를 유연하게 넘나든다.</div>
-      </div>
-    </div>
-
-    <!-- 멤버 3: 피아노 -->
-    <div class="cm-card rv" style="transition-delay:.24s">
-      <img class="cm-card-img" src="images/chinchin_m3.jpg" alt="피아노 최원준">
-      <div class="cm-card-info">
-        <span class="cm-role">Piano · 피아노</span>
-        <div class="cm-name-kr">최 원 준</div>
-        <div class="cm-name-en">CHOI WON-JUN</div>
-        <div class="cm-rule"></div>
-        <div class="cm-desc">탱고 피아노의 독보적 터치. 피아졸라 정통 계보를 잇는 한국 탱고 음악의 중심축.</div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- 하단: 콜라보 스토리 -->
-  <div class="collab-story rv">
-    <div class="collab-story-text">
-      <span class="cs-label">Collaboration Story · 협연의 탄생</span>
-      <h3 class="cs-title">탱고의 심장과<br>색소폰의 영혼이<br>하나의 무대 위에서 만나다</h3>
-      <p class="cs-body">친친탱고는 대한민국을 대표하는 정통 아르헨티나 탱고 밴드입니다. 반도네온 · 바이올린 · 피아노 · 베이스가 빚어내는 피아졸라의 세계, 그 위로 아리스 김의 색소폰이 날아오릅니다.<br><br>두 개의 세계가 충돌하는 순간, 관객은 단순한 공연이 아닌 하나의 경험을 목격합니다. 아르헨티나에서 한국으로, 클래식에서 현대로 — 모든 경계를 넘어선 가장 순수한 음악의 언어.</p>
-    </div>
-    <div class="collab-story-img">
-      <img src="images/chinchin_members.jpg" alt="친친탱고 단체 사진">
-    </div>
-  </div>
-
 </section>
 
-<!-- 공연 실적 -->
+<!-- 공연 실적 --><!-- 공연 실적 -->
 <section class="sec" id="references" style="background:var(--deep);border-top:1px solid rgba(201,168,76,.12);">
   <div class="si">
     <span class="slabel rv">Performance References · 공연 실적</span>
