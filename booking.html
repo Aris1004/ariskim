@@ -36,7 +36,6 @@ body{background:var(--bg);color:var(--w);font-family:'Nanum Myeongjo',serif;over
 }
 /* 스크롤 시 등장하는 독립 처음으로 버튼 */
 #back-home-btn{
-  position:fixed;top:14px;right:16px;z-index:9100;
   font-family:'Cinzel',serif;font-size:9px;font-weight:700;
   letter-spacing:.25em;color:#111;text-decoration:none;
   padding:9px 18px;
@@ -45,8 +44,9 @@ body{background:var(--bg);color:var(--w);font-family:'Nanum Myeongjo',serif;over
   border:1px solid rgba(180,140,30,.5);
   opacity:0;pointer-events:none;
   transition:opacity .4s ease,transform .4s ease;
-  transform:translateY(-8px);
+  transform:translateY(-6px);
   white-space:nowrap;
+  display:inline-block;
 }
 #back-home-btn.show{opacity:1;pointer-events:auto;transform:translateY(0);}
 #back-home-btn:hover{filter:brightness(1.12);transform:translateY(-1px);}
@@ -816,10 +816,9 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
     <li><a href="#contact">연락처</a></li>
   </ul>
   <div class="nav-right">
+    <a href="index.html?skip=1" id="back-home-btn">← 처음으로</a>
     <a href="#contact" class="ncta">공연 의뢰하기</a>
   </div>
-  <!-- 스크롤 시 등장하는 처음으로 버튼 (fixed) -->
-  <a href="index.html?skip=1" id="back-home-btn">← 처음으로</a>
 <button class="nav-ham" id="bham"><span></span><span></span><span></span></button>
 </nav>
 <div id="bmob">
