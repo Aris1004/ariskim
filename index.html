@@ -212,9 +212,9 @@ function playPressureBuild(delay, dur){
   g.gain.linearRampToValueAtTime(0,t+dur+0.4);
   var rv=makeReverb(3,2.2);
   var rvG=AC.createGain(); rvG.gain.value=0.35;
-  rv.connect(rvG); rvG.connect(AC.destination);
+  rv.connect(rvG); connectDest(rvG);
   src.connect(lp); lp.connect(g);
-  g.connect(AC.destination); g.connect(rv);
+  connectDest(g); g.connect(rv);
   src.start(t);
 }
 
@@ -236,9 +236,9 @@ function playBeamSwoosh(delay){
   g.gain.exponentialRampToValueAtTime(0.001,t+0.85);
   var rv=makeReverb(3.5,1.5);
   var rvG=AC.createGain(); rvG.gain.value=0.5;
-  rv.connect(rvG); rvG.connect(AC.destination);
+  rv.connect(rvG); connectDest(rvG);
   src.connect(hp); hp.connect(g);
-  g.connect(AC.destination); g.connect(rv);
+  connectDest(g); g.connect(rv);
   src.start(t);
 }
 
@@ -257,7 +257,7 @@ function playRevealShimmer(delay){
   var bp=AC.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=2200; bp.Q.value=4;
   var rv=makeReverb(6,1.0);
   var rvG=AC.createGain(); rvG.gain.value=1.2;
-  rv.connect(rvG); rvG.connect(AC.destination);
+  rv.connect(rvG); connectDest(rvG);
   var g=AC.createGain();
   g.gain.setValueAtTime(1.5,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.15);
   src.connect(bp); bp.connect(g); g.connect(rv); src.start(t);
@@ -274,7 +274,7 @@ function playSeismicBoom(delay){
   var sg=AC.createGain();
   sg.gain.setValueAtTime(0,t); sg.gain.linearRampToValueAtTime(4.0,t+0.006);
   sg.gain.exponentialRampToValueAtTime(0.001,t+3.0);
-  sub.connect(sg); sg.connect(AC.destination);
+  sub.connect(sg); connectDest(sg);
   sub.start(t); sub.stop(t+3.2);
   noiseBurst(40, 1.5, 2.5, 0.01, 2.0, delay);
   noiseBurst(75, 2, 1.2, 0.02, 1.5, delay+0.05);
@@ -293,7 +293,109 @@ function playSeismicRumble(delay, dur){
   var g=AC.createGain();
   g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(2.2,t+0.3);
   g.gain.setValueAtTime(2.5,t+0.8); g.gain.linearRampToValueAtTime(0,t+dur);
-  src.connect(lp); lp.connect(g); g.connect(AC.destination); src.start(t);
+  src.connect(lp); lp.connect(g); connectDest(g); src.start(t);
+}
+
+/* destination 헬퍼 — masterBus 있으면 경유 */
+function connectDest(node){
+  var bus = getMasterBus();
+  node.connect(bus || AC.destination);
+}
+/* ── 마스터 버스: 씬 전환 시 서서히 fade out ── */
+var masterBus = null;   // GainNode — 모든 사운드가 거침
+var masterFading = false;
+
+function getMasterBus(){
+  if(!AC) return null;
+  if(!masterBus){
+    masterBus = AC.createGain();
+    masterBus.gain.value = 1.0;
+    masterBus.connect(AC.destination);
+  }
+  return masterBus;
+}
+
+/* 마스터 볼륨을 targetVol까지 dur초에 걸쳐 fade */
+function masterFadeTo(targetVol, dur, onEnd){
+  var bus = getMasterBus(); if(!bus) return;
+  var t = AC.currentTime;
+  bus.gain.cancelScheduledValues(t);
+  bus.gain.setValueAtTime(bus.gain.value, t);
+  if(targetVol < 0.001){
+    bus.gain.linearRampToValueAtTime(0.001, t + dur);
+    if(onEnd) setTimeout(onEnd, dur * 1000 + 50);
+  } else {
+    bus.gain.linearRampToValueAtTime(targetVol, t + dur);
+    if(onEnd) setTimeout(onEnd, dur * 1000 + 50);
+  }
+}
+
+/* noiseBurst — 마스터 버스 경유 버전 */
+function noiseBurstM(freq, Q, vol, atk, dcy, delay){
+  if(!AC) return;
+  var bus = getMasterBus();
+  delay = delay||0;
+  var t = AC.currentTime + delay;
+  var dur = atk + dcy + 0.05;
+  var buf = AC.createBuffer(1, Math.ceil(AC.sampleRate*dur), AC.sampleRate);
+  var d = buf.getChannelData(0);
+  for(var i=0;i<d.length;i++) d[i]=(Math.random()*2-1);
+  var src = AC.createBufferSource(); src.buffer=buf;
+  var bp = AC.createBiquadFilter(); bp.type='bandpass';
+  bp.frequency.value=freq; bp.Q.value=Q;
+  var g = AC.createGain();
+  g.gain.setValueAtTime(0,t);
+  g.gain.linearRampToValueAtTime(vol, t+atk);
+  g.gain.exponentialRampToValueAtTime(0.001, t+atk+dcy);
+  src.connect(bp); bp.connect(g); g.connect(bus||AC.destination);
+  src.start(t); src.stop(t+dur+0.01);
+}
+
+/* F. 금가루 씬 — 크리스털 공기감 (shimmer + airy reverb) */
+function playGoldDustAmbience(){
+  if(!AC) return;
+  var bus = getMasterBus();
+  var t = AC.currentTime;
+
+  /* 높은 대역 에어 shimmer — 금가루가 공기 중에 떠도는 느낌 */
+  function airShimmer(freq, vol, delay, dur){
+    var tt = t + delay;
+    var buf = AC.createBuffer(1, Math.ceil(AC.sampleRate*dur), AC.sampleRate);
+    var d = buf.getChannelData(0);
+    for(var i=0;i<d.length;i++) d[i]=(Math.random()*2-1);
+    var src = AC.createBufferSource(); src.buffer=buf;
+    var bp = AC.createBiquadFilter(); bp.type='bandpass';
+    bp.frequency.value=freq; bp.Q.value=12;
+    var rv = makeReverb(5, 0.8);
+    var rvG = AC.createGain(); rvG.gain.value = 1.8;
+    var g = AC.createGain();
+    g.gain.setValueAtTime(0, tt);
+    g.gain.linearRampToValueAtTime(vol, tt + 0.8);
+    g.gain.linearRampToValueAtTime(vol * 0.7, tt + dur - 1.0);
+    g.gain.linearRampToValueAtTime(0, tt + dur);
+    rv.connect(rvG); rvG.connect(bus||AC.destination);
+    src.connect(bp); bp.connect(g); g.connect(rv);
+    src.start(tt);
+  }
+
+  /* 3개 레이어 — 서로 다른 주파수로 겹쳐 공기 질감 */
+  airShimmer(3800, 0.18, 0.0, 7.0);   // 고주파 크리스털
+  airShimmer(2200, 0.14, 0.3, 7.5);   // 중고주파 유리알
+  airShimmer(1100, 0.10, 0.7, 8.0);   // 중주파 따뜻한 여운
+
+  /* 아주 낮은 드론 — 공간감 */
+  var osc = AC.createOscillator(); osc.type='sine';
+  osc.frequency.setValueAtTime(55, t);
+  osc.frequency.linearRampToValueAtTime(48, t + 6);
+  var og = AC.createGain();
+  og.gain.setValueAtTime(0, t);
+  og.gain.linearRampToValueAtTime(0.12, t + 1.5);
+  og.gain.linearRampToValueAtTime(0, t + 8);
+  var rv2 = makeReverb(6, 1.5);
+  var rv2G = AC.createGain(); rv2G.gain.value = 0.6;
+  rv2.connect(rv2G); rv2G.connect(bus||AC.destination);
+  osc.connect(og); og.connect(rv2);
+  osc.start(t); osc.stop(t + 9);
 }
 
 /* 인트로 오디오 스케줄러 */
@@ -307,6 +409,10 @@ function scheduleIntroAudio(){
   if(e<2.8)  playRevealShimmer(s(2.4));
   if(e<4.2)  playSeismicBoom(s(3.6));
   if(e<4.5)  playSeismicRumble(s(3.7), 3.0);
+  /* 지진 여운이 가라앉은 후 금가루 앰비언스 시작 */
+  if(e<6.5)  setTimeout(function(){
+    if(AC && AC.state==='running') playGoldDustAmbience();
+  }, Math.max(0, (6.2 - e)) * 1000);
 }
 
 /* 첫 인터랙션 시 AudioContext resume */
@@ -491,6 +597,10 @@ function phase1(done){
 function phase2(done){
   /* 핀 조명 사라질 때 골드 파티클 점화 */
   spawnGoldBurst();
+
+  /* 씬 전환: 오디오를 끊지 않고 3.5초에 걸쳐 서서히 fade out */
+  masterFadeTo(0, 3.5);
+
   document.getElementById('s1').classList.add('out');
   setTimeout(function(){
     document.getElementById('s1').style.display='none';
@@ -539,103 +649,102 @@ document.addEventListener('keydown',function(e){
 });
 
 /* ════════════════════════════════════
-   골드 파티클 시스템
+   골드 금가루 — 안개처럼 우아하게 흩날림
    ════════════════════════════════════ */
 var PCVS = document.getElementById('pcvs');
-var PCX  = PCVS.getContext('2d');
+var PCX  = PCVS ? PCVS.getContext('2d') : null;
 var particles = [];
 var pAnimId   = null;
 var pLastTime = 0;
 
 function resizePCVS(){
+  if(!PCVS) return;
   PCVS.width  = innerWidth;
   PCVS.height = innerHeight;
 }
 resizePCVS();
 window.addEventListener('resize', resizePCVS);
 
-/* 파티클 1개 생성 */
-function makeParticle(ox, oy){
-  var colors = ['#E8CC7A','#C9A84C','#F5E0A0','#FFF8E0','#D4A843','#FFE88A'];
-  var isStar = Math.random() > 0.55;
-  var speed  = 1.5 + Math.random() * 4.5;
-  var angle  = -Math.PI * 0.5 + (Math.random() - 0.5) * Math.PI * 1.8;
+/* ── 금가루 1개 ── */
+function makeGoldDust(ox, oy){
+  var colors = [
+    'rgba(255,240,160,',   // 밝은 샴페인 골드
+    'rgba(232,204,122,',   // 메인 골드
+    'rgba(255,248,200,',   // 아이보리 골드
+    'rgba(201,168,76,',    // 딥 골드
+    'rgba(255,255,220,',   // 크림 화이트
+  ];
+  var c = colors[Math.floor(Math.random() * colors.length)];
+  var size = 0.6 + Math.random() * 2.2;   // 아주 작고 섬세함
+
   return {
-    x:  ox,
-    y:  oy,
-    vx: Math.cos(angle) * speed,
-    vy: Math.sin(angle) * speed - Math.random() * 2,
-    size:   isStar ? 2 + Math.random() * 5 : 1 + Math.random() * 3.5,
-    color:  colors[Math.floor(Math.random() * colors.length)],
-    alpha:  0.7 + Math.random() * 0.3,
-    life:   1.2 + Math.random() * 2.2,
-    maxLife:0,
-    rot:    Math.random() * Math.PI * 2,
-    rotV:   (Math.random() - 0.5) * 0.18,
-    isStar: isStar,
-    glow:   Math.random() > 0.6
+    x:     ox,
+    y:     oy,
+    /* 드리프트: 매우 느리고 수평에 가까운 흐름 */
+    vx:    (Math.random() - 0.5) * 0.55,
+    vy:    -0.08 - Math.random() * 0.32,  // 아주 천천히 올라가다 떨어짐
+    ax:    (Math.random() - 0.5) * 0.006, // 수평 가속 (흔들림)
+    size:  size,
+    color: c,
+    alpha: 0.0,                           // fade-in 시작
+    peak:  0.18 + Math.random() * 0.55,  // 최대 투명도
+    life:  3.5 + Math.random() * 4.5,    // 긴 수명 — 천천히 사라짐
+    maxLife: 0,                           // 후에 채움
+    phase: Math.random() * Math.PI * 2,  // sin 흔들림 위상
+    freq:  0.004 + Math.random() * 0.008, // 흔들림 주기
+    twinkle: Math.random() > 0.45,        // 반짝임 여부
+    twinkleSpeed: 0.03 + Math.random() * 0.06,
+    twinklePhase: Math.random() * Math.PI * 2,
   };
 }
 
-/* 폭발: 핀 조명 위치(상단 중앙)에서 버스트 */
+/* ── 스폰: phase2 시작 시 조용히 퍼뜨림 ── */
+var dustSpawnId = null;
+var dustTotal   = 0;
+
 function spawnGoldBurst(){
+  if(!PCVS) return;
   resizePCVS();
   PCVS.style.display = 'block';
-  var cx = innerWidth * 0.5;
+  dustTotal = 0;
 
-  /* 1. 상단 중앙 — 조명 소스 폭발 (촘촘하게) */
-  for(var i = 0; i < 80; i++){
-    var p = makeParticle(
-      cx + (Math.random()-0.5) * innerWidth * 0.15,
-      innerHeight * (0.05 + Math.random() * 0.25)
-    );
-    p.maxLife = p.life;
-    particles.push(p);
+  /* 화면 전체에 걸쳐 수백 개를 시간차로 등장 — 안개가 피어오르는 느낌 */
+  function spawnWave(count, delay){
+    setTimeout(function(){
+      for(var i = 0; i < count; i++){
+        setTimeout(function(){
+          if(dustTotal > 600) return;
+          /* 조명 빔이 있던 중앙에서 더 밀도 높게, 양 옆으로 갈수록 적게 */
+          var cx = innerWidth * 0.5;
+          var spread = innerWidth * 0.55;
+          /* 정규분포 근사: 3개 uniform 합산 */
+          var rx = (Math.random()+Math.random()+Math.random()-1.5) / 1.5;
+          var x  = cx + rx * spread * 0.8;
+          /* Y: 화면 하단 30%~90% 사이에서 올라오기 시작 */
+          var y  = innerHeight * (0.35 + Math.random() * 0.55);
+          var p  = makeGoldDust(x, y);
+          p.maxLife = p.life;
+          particles.push(p);
+          dustTotal++;
+        }, i * (4 + Math.random() * 10));  // 각 파티클 미세 시간차
+      }
+    }, delay);
   }
 
-  /* 2. 빔 경로를 따라 산포 */
-  for(var j = 0; j < 100; j++){
-    var ratio = Math.random();
-    var spread = ratio * innerWidth * 0.32;
-    var pp = makeParticle(
-      cx + (Math.random()-0.5) * spread * 2,
-      innerHeight * ratio * 0.85
-    );
-    pp.maxLife = pp.life;
-    pp.vx *= 0.7;
-    pp.vy *= 0.5;
-    particles.push(pp);
-  }
+  /* 3번에 나눠서 파도처럼 등장 */
+  spawnWave(120, 0);
+  spawnWave(160, 600);
+  spawnWave(180, 1400);
+  spawnWave(120, 2600);
+  spawnWave( 80, 4000);
 
-  /* 3. 반짝이 대형 스타 (희귀) */
-  for(var k = 0; k < 18; k++){
-    var sp = makeParticle(
-      cx + (Math.random()-0.5) * innerWidth * 0.6,
-      innerHeight * Math.random() * 0.7
-    );
-    sp.size   = 4 + Math.random() * 8;
-    sp.isStar = true;
-    sp.glow   = true;
-    sp.life   = sp.maxLife = 1.8 + Math.random() * 1.5;
-    sp.vx    *= 0.4; sp.vy *= 0.4;
-    particles.push(sp);
+  if(!pAnimId){
+    pLastTime = performance.now();
+    pAnimId = requestAnimationFrame(animParticles);
   }
-
-  if(!pAnimId) pAnimId = requestAnimationFrame(animParticles);
 }
 
-/* 4-포인트 스타 그리기 */
-function drawStar4(ctx, size){
-  var s = size, i = s * 0.28;
-  ctx.beginPath();
-  ctx.moveTo(0,-s); ctx.lineTo(i,-i);
-  ctx.lineTo(s,0);  ctx.lineTo(i,i);
-  ctx.lineTo(0,s);  ctx.lineTo(-i,i);
-  ctx.lineTo(-s,0); ctx.lineTo(-i,-i);
-  ctx.closePath();
-}
-
-/* 파티클 애니메이션 루프 */
+/* ── 렌더 루프 ── */
 function animParticles(ts){
   var dt = Math.min((ts - pLastTime) / 1000, 0.05);
   pLastTime = ts;
@@ -646,45 +755,59 @@ function animParticles(ts){
   for(var i = particles.length - 1; i >= 0; i--){
     var p = particles[i];
     p.life -= dt;
-    if(p.life <= 0){ particles.splice(i,1); continue; }
+    if(p.life <= 0){ particles.splice(i, 1); continue; }
     alive = true;
 
-    p.x  += p.vx;
+    /* 위치 업데이트 */
+    p.vx += p.ax;
+    p.vx *= 0.998;                           // 아주 천천히 감속
+    p.vy += 0.0035;                          // 매우 약한 중력 (천천히 낙하)
+    p.x  += p.vx + Math.sin(ts * p.freq + p.phase) * 0.22; // 사인 흔들림
     p.y  += p.vy;
-    p.vy += 0.09;   /* 중력 */
-    p.vx *= 0.992;  /* 공기저항 */
-    p.rot += p.rotV;
+    p.phase += 0.012;
 
+    /* 투명도: 앞 15% fade-in, 뒤 30% fade-out, 중간 유지 */
     var ratio = p.life / p.maxLife;
-    /* 앞뒤 fade: 처음 10% fade-in, 나머지 fade-out */
-    var a = ratio > 0.88
-      ? p.alpha * ((1 - ratio) / 0.12)
-      : p.alpha * ratio * 1.1;
-    a = Math.min(Math.max(a, 0), p.alpha);
-
-    PCX.save();
-    PCX.globalAlpha = a;
-    PCX.fillStyle   = p.color;
-    PCX.translate(p.x, p.y);
-    PCX.rotate(p.rot);
-
-    if(p.glow){
-      PCX.shadowColor = p.color;
-      PCX.shadowBlur  = p.size * 3;
-    }
-
-    if(p.isStar){
-      drawStar4(PCX, p.size);
-      PCX.fill();
+    var baseA;
+    if(ratio > 0.85){
+      baseA = p.peak * ((1 - ratio) / 0.15);  // fade-in
+    } else if(ratio < 0.30){
+      baseA = p.peak * (ratio / 0.30);          // fade-out
     } else {
-      PCX.beginPath();
-      PCX.arc(0, 0, p.size, 0, Math.PI * 2);
-      PCX.fill();
+      baseA = p.peak;
     }
+
+    /* 반짝임 */
+    var twinkA = baseA;
+    if(p.twinkle){
+      p.twinklePhase += p.twinkleSpeed;
+      twinkA = baseA * (0.5 + 0.5 * Math.sin(p.twinklePhase));
+    }
+    twinkA = Math.max(0, Math.min(twinkA, 1));
+
+    /* 그리기 */
+    PCX.save();
+    /* 작은 글로우 */
+    if(p.size > 1.4){
+      PCX.shadowColor = p.color + '0.6)';
+      PCX.shadowBlur  = p.size * 2.5;
+    }
+    /* 타원형 금가루 (납작하게) */
+    PCX.globalAlpha = twinkA;
+    PCX.fillStyle   = p.color + twinkA + ')';
+    PCX.beginPath();
+    PCX.ellipse(
+      p.x, p.y,
+      p.size,                    // rx
+      p.size * (0.3 + Math.random() * 0.4), // ry — 납작한 티끌 모양
+      p.phase * 0.5,             // rotation
+      0, Math.PI * 2
+    );
+    PCX.fill();
     PCX.restore();
   }
 
-  if(alive){
+  if(alive || dustTotal < 600){
     pAnimId = requestAnimationFrame(animParticles);
   } else {
     pAnimId = null;
