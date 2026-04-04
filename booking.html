@@ -954,36 +954,10 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
 }
 
 
-/* ══ 멤버 프로필 — 사진 + 텍스트 가로 레이아웃 ══ */
-.member-list{display:flex;flex-direction:column;gap:2px;margin-top:3px;}
-.member-row{display:grid;grid-template-columns:220px 1fr;align-items:stretch;background:var(--deep);border:1px solid rgba(201,168,76,.08);overflow:hidden;transition:border-color .4s;}
-.member-row:hover{border-color:rgba(201,168,76,.22);}
-
-/* 사진 영역 */
-.member-photo{position:relative;overflow:hidden;}
-.member-photo img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;filter:brightness(.75) contrast(1.05);transition:filter .6s,transform .7s;}
-.member-row:hover .member-photo img{filter:brightness(.92);transform:scale(1.04);}
-.member-photo-overlay{position:absolute;inset:0;background:linear-gradient(90deg,transparent 60%,var(--deep) 100%);}
-
-/* 텍스트 영역 */
-.member-info{padding:28px 32px 28px 28px;border-left:1px solid rgba(201,168,76,.1);display:flex;flex-direction:column;justify-content:center;}
-.member-instrument{font-family:'Cinzel',serif;font-size:7px;letter-spacing:.55em;color:var(--gold);opacity:.55;margin-bottom:10px;display:flex;align-items:center;gap:10px;}
-.member-instrument::after{content:'';flex:0 0 24px;height:1px;background:var(--gold);opacity:.35;}
-.member-name-kr{font-family:'Noto Serif KR',serif;font-size:clamp(20px,2.5vw,28px);font-weight:200;letter-spacing:.15em;color:var(--w);margin-bottom:4px;}
-.member-name-en{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.35em;color:rgba(232,204,122,.38);margin-bottom:18px;}
-.member-rule{width:28px;height:1px;background:var(--gold);opacity:.4;margin-bottom:16px;}
-.member-career{list-style:none;display:flex;flex-direction:column;gap:7px;}
-.member-career li{font-family:'Nanum Myeongjo',serif;font-size:13px;letter-spacing:.05em;color:rgba(242,237,228,.58);line-height:1.7;padding-left:14px;position:relative;}
-.member-career li::before{content:'—';position:absolute;left:0;color:var(--gold);opacity:.5;font-size:11px;}
-
-/* 아리스김 — 상단 히어로 가로형 (더 크게) */
-.member-row.lead{grid-template-columns:280px 1fr;}
-.member-row.lead .member-photo img{filter:brightness(.8);}
-.member-row.lead .member-name-kr{font-size:clamp(24px,3vw,36px);}
-.member-row.lead .member-career li{font-size:13.5px;}
+/* ══ 멤버 프로필 v2 — 실제 사진 적용 ══ */
 
 /* 콜라보 인트로 헤더 */
-.collab-header{padding:60px 52px 40px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;border-bottom:1px solid rgba(201,168,76,.08);}
+.collab-header{padding:60px 52px 48px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;border-bottom:1px solid rgba(201,168,76,.08);}
 .collab-header-text .ch-label{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:.6em;color:var(--gold);opacity:.55;margin-bottom:16px;display:block;}
 .collab-header-text .ch-title{font-family:'Noto Serif KR',serif;font-size:clamp(22px,3.5vw,38px);font-weight:200;letter-spacing:.1em;color:var(--w);line-height:1.55;margin-bottom:20px;}
 .collab-header-text .ch-title em{color:var(--gold);font-style:normal;}
@@ -992,19 +966,79 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
 .collab-header-img img{width:100%;display:block;filter:brightness(.72);}
 .collab-header-img::before{content:'';position:absolute;inset:0;border:1px solid rgba(201,168,76,.15);z-index:1;pointer-events:none;}
 
+/* 아리스김 히어로 카드 */
+.member-list{display:flex;flex-direction:column;gap:1px;margin-top:1px;}
+
+.member-lead{display:grid;grid-template-columns:300px 1fr;align-items:stretch;background:var(--deep);border-bottom:1px solid rgba(201,168,76,.1);}
+.member-lead-photo{position:relative;overflow:hidden;height:360px;}
+.member-lead-photo img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;filter:brightness(.82);transition:filter .6s,transform .7s;}
+.member-lead:hover .member-lead-photo img{filter:brightness(.96);transform:scale(1.03);}
+.member-lead-photo::after{content:'';position:absolute;top:0;right:0;bottom:0;width:80px;background:linear-gradient(90deg,transparent,var(--deep));}
+.member-lead-info{padding:40px 44px;display:flex;flex-direction:column;justify-content:center;border-left:1px solid rgba(201,168,76,.08);}
+
+/* 멤버 카드 — 5열 그리드 */
+.member-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(201,168,76,.06);}
+.member-card{background:var(--deep);position:relative;overflow:hidden;cursor:default;transition:background .4s;}
+.member-card:hover{background:#0f0c08;}
+
+/* 사진 */
+.member-card-photo{position:relative;overflow:hidden;
+  /* 실제 사진이 작으므로 적절한 높이로 */
+  height:280px;}
+.member-card-photo img{
+  width:100%;height:100%;
+  object-fit:contain; /* contain → 사진 전체가 보이게 */
+  object-position:center bottom;
+  display:block;
+  filter:brightness(.88) contrast(1.02);
+  transition:filter .5s,transform .6s;
+  background:transparent;}
+.member-card:hover .member-card-photo img{filter:brightness(1.0);transform:scale(1.03);}
+
+/* 카드 하단 정보 */
+.member-card-body{padding:20px 20px 24px;border-top:1px solid rgba(201,168,76,.1);}
+.mc-instrument{font-family:'Cinzel',serif;font-size:7px;letter-spacing:.5em;color:var(--gold);opacity:.5;margin-bottom:10px;display:block;}
+.mc-name-kr{font-family:'Noto Serif KR',serif;font-size:clamp(16px,1.8vw,22px);font-weight:200;letter-spacing:.2em;color:var(--w);margin-bottom:3px;}
+.mc-name-en{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.3em;color:rgba(232,204,122,.35);margin-bottom:14px;}
+.mc-rule{width:20px;height:1px;background:var(--gold);opacity:.38;margin-bottom:12px;}
+.mc-career{list-style:none;display:flex;flex-direction:column;gap:5px;}
+.mc-career li{font-family:'Nanum Myeongjo',serif;font-size:11.5px;letter-spacing:.04em;color:rgba(242,237,228,.5);line-height:1.75;padding-left:12px;position:relative;}
+.mc-career li::before{content:'—';position:absolute;left:0;color:var(--gold);opacity:.45;font-size:10px;}
+
+/* 아리스김 공통 텍스트 */
+.member-instrument{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:.55em;color:var(--gold);opacity:.55;margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.member-instrument::after{content:'';flex:0 0 30px;height:1px;background:var(--gold);opacity:.3;}
+.member-name-kr{font-family:'Noto Serif KR',serif;font-size:clamp(26px,3.5vw,40px);font-weight:200;letter-spacing:.18em;color:var(--w);margin-bottom:4px;}
+.member-name-en{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.38em;color:rgba(232,204,122,.35);margin-bottom:20px;}
+.member-rule{width:32px;height:1px;background:var(--gold);opacity:.38;margin-bottom:18px;}
+.member-career{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.member-career li{font-family:'Nanum Myeongjo',serif;font-size:13.5px;letter-spacing:.06em;color:rgba(242,237,228,.56);line-height:1.8;padding-left:16px;position:relative;}
+.member-career li::before{content:'—';position:absolute;left:0;color:var(--gold);opacity:.45;font-size:11px;}
+
+/* 반응형 */
+@media(max-width:1024px){
+  .member-grid{grid-template-columns:repeat(2,1fr);}
+  .member-lead{grid-template-columns:240px 1fr;}
+  .member-lead-photo{height:300px;}
+}
 @media(max-width:768px){
-  .member-row,.member-row.lead{grid-template-columns:160px 1fr;}
-  .member-info{padding:20px 20px 20px 18px;}
-  .member-name-kr{font-size:18px!important;}
   .collab-header{grid-template-columns:1fr;gap:28px;padding:40px 24px 28px;}
   .collab-header-img{display:none;}
+  .member-lead{grid-template-columns:180px 1fr;}
+  .member-lead-photo{height:250px;}
+  .member-lead-info{padding:28px 24px;}
+  .member-card-photo{height:220px;}
+  .member-grid{grid-template-columns:repeat(2,1fr);}
 }
 @media(max-width:480px){
-  .member-row,.member-row.lead{grid-template-columns:120px 1fr;}
-  .member-info{padding:16px;}
-  .member-career li{font-size:11.5px;}
-  .member-name-kr{font-size:16px!important;}
   .collab-header{padding:32px 18px 24px;}
+  .member-lead{grid-template-columns:1fr;grid-template-rows:auto auto;}
+  .member-lead-photo{height:280px;}
+  .member-lead-photo::after{display:none;}
+  .member-lead-info{padding:24px 18px;border-left:none;border-top:1px solid rgba(201,168,76,.1);}
+  .member-grid{grid-template-columns:1fr 1fr;}
+  .member-card-photo{height:200px;}
+  .mc-career li{font-size:10.5px;}
 }
 
 </style>
@@ -1391,7 +1425,7 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
 <!-- ══ COLLAB & ARTIST PROFILES ══ -->
 <section id="collab-section" style="background:var(--bg);border-top:1px solid rgba(201,168,76,.1);">
 
-  <!-- 콜라보 인트로 헤더 -->
+  <!-- 인트로 헤더 -->
   <div class="collab-header rv">
     <div class="collab-header-text">
       <span class="ch-label">Collaboration · 협연 아티스트</span>
@@ -1403,16 +1437,14 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
     </div>
   </div>
 
-  <!-- 멤버 프로필 리스트 -->
   <div class="member-list">
 
-    <!-- ARIS KIM -->
-    <div class="member-row lead rv">
-      <div class="member-photo" style="height:320px;">
-        <img src="images/img_gold_jacket.jpg" alt="아리스 김">
-        <div class="member-photo-overlay"></div>
+    <!-- ARIS KIM — 리드 가로형 -->
+    <div class="member-lead rv">
+      <div class="member-lead-photo">
+        <img src="images/img_gold_jacket.jpg" alt="아리스 김" style="object-position:center top;">
       </div>
-      <div class="member-info">
+      <div class="member-lead-info">
         <div class="member-instrument">Saxophone · Tango · Media Art · AI Performance</div>
         <div class="member-name-kr">아 리 스  김</div>
         <div class="member-name-en">ARIS KIM</div>
@@ -1428,89 +1460,89 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
       </div>
     </div>
 
-    <!-- 반도네온 김종완 -->
-    <div class="member-row rv" style="transition-delay:.06s">
-      <div class="member-photo" style="height:260px;">
-        <img src="images/chinchin_m1.jpg" alt="반도네온 김종완">
-        <div class="member-photo-overlay"></div>
-      </div>
-      <div class="member-info">
-        <div class="member-instrument">Bandoneón · 반도네온 · 작곡</div>
-        <div class="member-name-kr">김 종 완</div>
-        <div class="member-name-en">KIM JONG-HWAN</div>
-        <div class="member-rule"></div>
-        <ul class="member-career">
-          <li>서울대학교 음악대학 작곡과 석사과정 재학</li>
-          <li>2020 한국음악상 젊은음악가상 수상</li>
-          <li>영화 〈내겐 너무 소중한 너〉 외 다수 작곡</li>
-          <li>현) 웨스턴심포니오케스트라 전속작곡가</li>
-        </ul>
-      </div>
-    </div>
+    <!-- 4인 멤버 그리드 -->
+    <div class="member-grid">
 
-    <!-- 피아노 이안나 -->
-    <div class="member-row rv" style="transition-delay:.12s">
-      <div class="member-photo" style="height:260px;">
-        <img src="images/chinchin_m2.jpg" alt="피아노 이안나">
-        <div class="member-photo-overlay"></div>
+      <!-- 반도네온 김종완 -->
+      <div class="member-card rv">
+        <div class="member-card-photo">
+          <img src="images/member_jonghwan.jpg" alt="반도네온 김종완">
+        </div>
+        <div class="member-card-body">
+          <span class="mc-instrument">Bandoneón · 반도네온 · 작곡</span>
+          <div class="mc-name-kr">김 종 완</div>
+          <div class="mc-name-en">KIM JONG-HWAN</div>
+          <div class="mc-rule"></div>
+          <ul class="mc-career">
+            <li>서울대학교 음악대학 작곡과 석사과정 재학</li>
+            <li>2020 한국음악상 젊은음악가상 수상</li>
+            <li>영화 〈내겐 너무 소중한 너〉 외 다수 작곡</li>
+            <li>현) 웨스턴심포니오케스트라 전속작곡가</li>
+          </ul>
+        </div>
       </div>
-      <div class="member-info">
-        <div class="member-instrument">Piano · 피아노</div>
-        <div class="member-name-kr">이 안 나</div>
-        <div class="member-name-en">LEE AN-NA</div>
-        <div class="member-rule"></div>
-        <ul class="member-career">
-          <li>부산대학교 예술대학 음악학과 및 동대학원 졸업</li>
-          <li>부산대학교 예술영재교육원 강사 역임</li>
-          <li>현) 친친탱고 · 스플렌데라 · 원잇앙상블 피아니스트</li>
-          <li>음악당라온 전속 연주자</li>
-        </ul>
-      </div>
-    </div>
 
-    <!-- 바이올린 강소연 -->
-    <div class="member-row rv" style="transition-delay:.18s">
-      <div class="member-photo" style="height:260px;">
-        <img src="images/chinchin_m3.jpg" alt="바이올린 강소연">
-        <div class="member-photo-overlay"></div>
+      <!-- 바이올린 강소연 -->
+      <div class="member-card rv" style="transition-delay:.08s">
+        <div class="member-card-photo">
+          <img src="images/member_soyeon.jpg" alt="바이올린 강소연">
+        </div>
+        <div class="member-card-body">
+          <span class="mc-instrument">Violin · 바이올린</span>
+          <div class="mc-name-kr">강 소 연</div>
+          <div class="mc-name-en">KANG SO-YEON</div>
+          <div class="mc-rule"></div>
+          <ul class="mc-career">
+            <li>부산대학교 예술대학 음악학과 졸업</li>
+            <li>진주시립교향악단 협연</li>
+            <li>금정문화회관 신인음악회 초청 연주</li>
+            <li>현) 김해신포니에타 단원</li>
+          </ul>
+        </div>
       </div>
-      <div class="member-info">
-        <div class="member-instrument">Violin · 바이올린</div>
-        <div class="member-name-kr">강 소 연</div>
-        <div class="member-name-en">KANG SO-YEON</div>
-        <div class="member-rule"></div>
-        <ul class="member-career">
-          <li>부산대학교 예술대학 음악학과 졸업</li>
-          <li>진주시립교향악단 협연</li>
-          <li>금정문화회관 신인음악회 초청 연주</li>
-          <li>현) 김해신포니에타 단원</li>
-        </ul>
-      </div>
-    </div>
 
-    <!-- 퍼커션 이영훈 -->
-    <div class="member-row rv" style="transition-delay:.24s">
-      <div class="member-photo" style="height:260px;">
-        <img src="images/chinchin_m4.jpg" alt="퍼커션 이영훈">
-        <div class="member-photo-overlay"></div>
+      <!-- 피아노 이안나 -->
+      <div class="member-card rv" style="transition-delay:.16s">
+        <div class="member-card-photo">
+          <img src="images/member_anna.jpg" alt="피아노 이안나">
+        </div>
+        <div class="member-card-body">
+          <span class="mc-instrument">Piano · 피아노</span>
+          <div class="mc-name-kr">이 안 나</div>
+          <div class="mc-name-en">LEE AN-NA</div>
+          <div class="mc-rule"></div>
+          <ul class="mc-career">
+            <li>부산대학교 예술대학 음악학과 및 동대학원 졸업</li>
+            <li>부산대학교 예술영재교육원 강사 역임</li>
+            <li>현) 친친탱고 · 스플렌데라 · 원잇앙상블 피아니스트</li>
+            <li>음악당라온 전속 연주자</li>
+          </ul>
+        </div>
       </div>
-      <div class="member-info">
-        <div class="member-instrument">Percussion · 퍼커션</div>
-        <div class="member-name-kr">이 영 훈</div>
-        <div class="member-name-en">LEE YOUNG-HOON</div>
-        <div class="member-rule"></div>
-        <ul class="member-career">
-          <li>동의대학교 산업문화대학원 뉴미디어 음악과 졸업</li>
-          <li>해운대/부산 재즈페스티벌 라틴재즈밴드 'Getz' 수상</li>
-          <li>월드뮤직단체 'Afrovibe Studio' 대표</li>
-        </ul>
-      </div>
-    </div>
 
-  </div>
+      <!-- 퍼커션 이영훈 -->
+      <div class="member-card rv" style="transition-delay:.24s">
+        <div class="member-card-photo">
+          <img src="images/member_younghoon.jpg" alt="퍼커션 이영훈">
+        </div>
+        <div class="member-card-body">
+          <span class="mc-instrument">Percussion · 퍼커션</span>
+          <div class="mc-name-kr">이 영 훈</div>
+          <div class="mc-name-en">LEE YOUNG-HOON</div>
+          <div class="mc-rule"></div>
+          <ul class="mc-career">
+            <li>동의대학교 산업문화대학원 뉴미디어 음악과 졸업</li>
+            <li>해운대/부산 재즈페스티벌 라틴재즈밴드 'Getz' 수상</li>
+            <li>월드뮤직단체 'Afrovibe Studio' 대표</li>
+          </ul>
+        </div>
+      </div>
+
+    </div><!-- /member-grid -->
+  </div><!-- /member-list -->
 </section>
 
-<!-- 공연 실적 --><!-- 공연 실적 -->
+<!-- 공연 실적 --><!-- 공연 실적 --><!-- 공연 실적 -->
 <section class="sec" id="references" style="background:var(--deep);border-top:1px solid rgba(201,168,76,.12);">
   <div class="si">
     <span class="slabel rv">Performance References · 공연 실적</span>
