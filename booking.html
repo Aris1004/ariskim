@@ -723,6 +723,103 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
 .fullbleed-new{position:relative;width:100%;overflow:hidden;line-height:0;}
 .fullbleed-new img{width:100%;display:block;object-fit:cover;}
 .fullbleed-new-ov{position:absolute;inset:0;background:linear-gradient(0deg,rgba(4,3,2,.88) 0%,rgba(4,3,2,.08) 40%,rgba(4,3,2,.08) 60%,rgba(4,3,2,.88) 100%);}
+/* ══ CINEMATIC FULLBLEED SECTIONS v2 ══ */
+.fb{position:relative;width:100%;overflow:hidden;}
+.fb-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;}
+.fb-ov{position:absolute;inset:0;}
+.fb-content{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center;}
+
+/* 장르의 창세기 */
+#fb-genesis{height:90vh;min-height:520px;}
+#fb-genesis .fb-bg{object-position:center 20%;filter:brightness(.55) contrast(1.1);}
+#fb-genesis .fb-ov{background:linear-gradient(180deg,rgba(8,7,5,.7) 0%,rgba(8,7,5,.1) 35%,rgba(8,7,5,.1) 65%,rgba(8,7,5,.85) 100%);}
+#fb-genesis .fb-content{align-items:center;text-align:center;height:90vh;min-height:520px;padding:0 24px;}
+#fb-genesis .fb-eyebrow{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.7em;color:var(--gold);opacity:.6;margin-bottom:24px;}
+#fb-genesis .fb-title{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,7vw,96px);font-weight:300;font-style:italic;color:var(--w);line-height:1.1;margin-bottom:18px;text-shadow:0 0 60px rgba(201,168,76,.25);}
+#fb-genesis .fb-title em{color:var(--gold);font-style:normal;}
+#fb-genesis .fb-sub{font-family:'Noto Serif KR',serif;font-size:clamp(12px,1.5vw,17px);font-weight:200;letter-spacing:.25em;color:rgba(232,204,122,.65);margin-top:10px;}
+#fb-genesis .fb-line{width:1px;height:60px;background:linear-gradient(180deg,var(--gold),transparent);margin:28px auto 0;}
+
+/* 두 명의 이단아 */
+#fb-rebels{height:80vh;min-height:480px;}
+#fb-rebels .fb-bg{filter:brightness(.45) contrast(1.15);}
+#fb-rebels .fb-ov{background:linear-gradient(135deg,rgba(8,7,5,.85) 0%,rgba(8,7,5,.2) 50%,rgba(8,7,5,.5) 100%);}
+#fb-rebels .fb-content{height:80vh;min-height:480px;padding:0 clamp(24px,8vw,100px);justify-content:flex-end;padding-bottom:72px;}
+#fb-rebels .fb-eyebrow{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:.55em;color:var(--gold);opacity:.55;margin-bottom:14px;}
+#fb-rebels .fb-title{font-family:'Noto Serif KR',serif;font-size:clamp(28px,5.5vw,72px);font-weight:200;color:var(--w);line-height:1.2;letter-spacing:.06em;margin-bottom:16px;}
+#fb-rebels .fb-title em{color:var(--gl);font-style:normal;}
+#fb-rebels .fb-desc{font-family:'Nanum Myeongjo',serif;font-size:clamp(12px,1.3vw,15px);letter-spacing:.06em;line-height:2.2;color:rgba(242,237,228,.6);max-width:520px;}
+#fb-rebels .fb-duo{display:flex;gap:40px;margin-top:28px;}
+#fb-rebels .fb-duo-item{border-left:2px solid var(--gold);padding-left:14px;}
+#fb-rebels .fb-duo-name{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.35em;color:var(--gold);margin-bottom:4px;}
+#fb-rebels .fb-duo-sub{font-family:'Nanum Myeongjo',serif;font-size:11px;color:rgba(242,237,228,.45);letter-spacing:.08em;}
+
+/* Concert Gallery → 공연사진 콜라주로 대체 */
+.fb-gallery-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;height:70vh;min-height:420px;gap:3px;}
+.fb-gal-item{position:relative;overflow:hidden;}
+.fb-gal-item img{width:100%;height:100%;object-fit:cover;filter:brightness(.72);transition:filter .6s,transform .7s;}
+.fb-gal-item:hover img{filter:brightness(.95);transform:scale(1.04);}
+.fb-gal-item.tall{grid-row:1/3;}
+.fb-gal-cap{position:absolute;bottom:0;left:0;right:0;padding:12px 14px;background:linear-gradient(0deg,rgba(4,3,2,.9) 0%,transparent 100%);font-family:'Gowun Batang',serif;font-size:10px;letter-spacing:.2em;color:rgba(232,204,122,.8);}
+
+/* Art Intelligence → 텍스트 중심 시네마틱 */
+#fb-ai{height:65vh;min-height:400px;background:linear-gradient(135deg,#0a0603 0%,#030201 50%,#080502 100%);}
+#fb-ai .fb-ov{background:radial-gradient(ellipse at 30% 50%,rgba(201,168,76,.06) 0%,transparent 65%);}
+#fb-ai .fb-content{height:65vh;min-height:400px;padding:0 clamp(24px,8vw,100px);flex-direction:row;align-items:center;gap:80px;}
+#fb-ai .fb-ai-left{flex:1;}
+#fb-ai .fb-ai-right{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+#fb-ai .fb-eyebrow{font-family:'Cinzel',serif;font-size:7px;letter-spacing:.7em;color:var(--gold);opacity:.5;margin-bottom:16px;}
+#fb-ai .fb-title{font-family:'Cinzel',serif;font-size:clamp(24px,4vw,52px);font-weight:900;color:var(--w);letter-spacing:.04em;line-height:1.1;margin-bottom:14px;}
+#fb-ai .fb-title span{color:var(--gold);}
+#fb-ai .fb-sub{font-family:'Nanum Myeongjo',serif;font-size:13px;letter-spacing:.06em;line-height:2.1;color:rgba(242,237,228,.55);max-width:380px;}
+#fb-ai .ai-card{border:1px solid rgba(201,168,76,.14);background:rgba(201,168,76,.03);padding:18px 16px;}
+#fb-ai .ai-card-num{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.4em;color:var(--gold);opacity:.45;margin-bottom:8px;}
+#fb-ai .ai-card-kr{font-family:'Noto Serif KR',serif;font-size:13px;font-weight:200;letter-spacing:.1em;color:var(--w);margin-bottom:6px;}
+#fb-ai .ai-card-en{font-family:'Nanum Myeongjo',serif;font-size:11px;color:rgba(242,237,228,.42);letter-spacing:.04em;line-height:1.8;}
+
+/* Golden Kiss → 인용구 시네마틱 */
+#fb-golden{height:55vh;min-height:320px;}
+#fb-golden .fb-bg{filter:brightness(.35) contrast(1.2) saturate(1.3);}
+#fb-golden .fb-ov{background:linear-gradient(180deg,rgba(8,7,5,.6) 0%,rgba(8,7,5,.25) 40%,rgba(8,7,5,.55) 100%);}
+#fb-golden .fb-content{height:55vh;min-height:320px;align-items:center;text-align:center;padding:0 clamp(20px,10vw,120px);}
+#fb-golden .fb-quote{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,2.8vw,34px);font-style:italic;font-weight:300;color:var(--w);line-height:1.75;margin-bottom:20px;text-shadow:0 2px 20px rgba(0,0,0,.5);}
+#fb-golden .fb-attr{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.55em;color:var(--gold);opacity:.55;}
+#fb-golden .fb-rule{width:50px;height:1px;background:var(--gold);opacity:.4;margin:20px auto;}
+
+/* Masterpiece → 제목 타이포그래피 */
+#fb-masterpiece{height:60vh;min-height:360px;}
+#fb-masterpiece .fb-bg{filter:brightness(.4) contrast(1.15) saturate(1.2);}
+#fb-masterpiece .fb-ov{background:linear-gradient(90deg,rgba(8,7,5,.88) 0%,rgba(8,7,5,.4) 55%,rgba(8,7,5,.1) 100%);}
+#fb-masterpiece .fb-content{height:60vh;min-height:360px;padding:0 clamp(24px,8vw,100px);}
+#fb-masterpiece .fb-eyebrow{font-family:'Cinzel',serif;font-size:7px;letter-spacing:.65em;color:var(--gold);opacity:.5;margin-bottom:12px;}
+#fb-masterpiece .fb-title{font-family:'Cinzel',serif;font-size:clamp(22px,4.5vw,60px);font-weight:900;letter-spacing:.08em;color:var(--w);line-height:1.15;margin-bottom:16px;}
+#fb-masterpiece .fb-title em{color:var(--gold);font-style:normal;}
+#fb-masterpiece .fb-sub{font-family:'Nanum Myeongjo',serif;font-size:clamp(12px,1.2vw,15px);letter-spacing:.08em;line-height:2.1;color:rgba(242,237,228,.52);max-width:450px;}
+
+/* 모바일 반응형 */
+@media(max-width:768px){
+  #fb-genesis{height:70vh;}
+  #fb-rebels{height:70vh;}
+  #fb-rebels .fb-duo{flex-direction:column;gap:16px;}
+  #fb-rebels .fb-content{padding-bottom:48px;}
+  .fb-gallery-grid{grid-template-columns:1fr;grid-template-rows:repeat(4,200px);height:auto;}
+  .fb-gal-item.tall{grid-row:auto;}
+  #fb-ai .fb-content{flex-direction:column;gap:32px;padding:40px 24px;}
+  #fb-ai .fb-ai-right{grid-template-columns:1fr 1fr;}
+  #fb-golden{height:50vh;}
+  #fb-masterpiece{height:55vh;}
+}
+@media(max-width:480px){
+  #fb-genesis{height:100svh;}
+  #fb-genesis .fb-title{font-size:clamp(32px,10vw,48px);}
+  #fb-rebels{height:85vh;}
+  #fb-rebels .fb-title{font-size:clamp(24px,7vw,36px);}
+  #fb-ai{height:auto;min-height:auto;}
+  #fb-ai .fb-content{height:auto;padding:52px 20px;}
+  #fb-ai .fb-ai-right{grid-template-columns:1fr;}
+  #fb-masterpiece .fb-title{font-size:clamp(20px,6.5vw,32px);}
+}
+
 
 /* HERO BADGES */
 .hero-badges-row{display:flex;flex-wrap:wrap;gap:9px;margin:16px 0 22px;}
@@ -887,15 +984,36 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
 
 
 <!-- ══ GENESIS OF GENRE ══ -->
-<div class="fullbleed-new rv">
-  <img src="images/genesis_of_genre.jpg" alt="The Genesis of Genre — 장르의 창세기">
-  <div class="fullbleed-new-ov"></div>
+<div class="fb rv" id="fb-genesis">
+  <img class="fb-bg" src="images/screw_photo.jpg" alt="장르의 창세기">
+  <div class="fb-ov"></div>
+  <div class="fb-content">
+    <div class="fb-eyebrow">The Genesis of Genre · 장르의 창세기</div>
+    <h2 class="fb-title">색소폰 하나로<br><em>장르가 되다</em></h2>
+    <p class="fb-sub">장르가 없는 게 아니라, 장르가 아리스김이다</p>
+    <div class="fb-line"></div>
+  </div>
 </div>
 
 <!-- ══ TWO REBELS ══ -->
-<div class="fullbleed-new rv">
-  <img src="images/two_rebels.jpg" alt="두 명의 이단아 — 클림트 × 아리스 김">
-  <div class="fullbleed-new-ov"></div>
+<div class="fb rv" id="fb-rebels">
+  <img class="fb-bg" src="images/two_rebels.jpg" alt="두 명의 이단아">
+  <div class="fb-ov"></div>
+  <div class="fb-content">
+    <div class="fb-eyebrow">Two Rebels · 두 명의 이단아</div>
+    <h2 class="fb-title">클림트 × <em>아리스 김</em></h2>
+    <p class="fb-desc">19세기 빈의 반항아 클림트가 황금으로 세상을 칠했다면,<br>21세기 아리스김은 색소폰으로 그 황금 속을 날아오른다.</p>
+    <div class="fb-duo">
+      <div class="fb-duo-item">
+        <div class="fb-duo-name">Gustav Klimt</div>
+        <div class="fb-duo-sub">오스트리아 황금의 화가 · 1862~1918</div>
+      </div>
+      <div class="fb-duo-item">
+        <div class="fb-duo-name">Aris Kim</div>
+        <div class="fb-duo-sub">한국 미디어아트 색소폰 · 2003~</div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- ══ NEW ARTIST PROFILE CARDS ══ -->
@@ -1008,10 +1126,20 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   </div>
 </section>
 
-<!-- ══ CONCERT GALLERY SLIDE ══ -->
-<div class="fullbleed-new rv">
-  <img src="images/concert_gallery.jpg" alt="Aris Kim Concert Gallery">
-  <div class="fullbleed-new-ov"></div>
+<!-- ══ CONCERT GALLERY GRID ══ -->
+<div class="fb-gallery-grid rv">
+  <div class="fb-gal-item tall">
+    <img src="images/perf_klimt_stage.jpg" alt="클림트 미디어아트 무대">
+    <div class="fb-gal-cap">클림트 미디어아트 콘서트</div>
+  </div>
+  <div class="fb-gal-item">
+    <img src="images/perf_arishow.jpg" alt="아리쇼 퍼포먼스">
+    <div class="fb-gal-cap">아리쇼 종합 공연</div>
+  </div>
+  <div class="fb-gal-item">
+    <img src="images/perf_hall.jpg" alt="공연장 전경">
+    <div class="fb-gal-cap">한여름밤의 음악회</div>
+  </div>
 </div>
 
 <!-- 수상 경력 -->
@@ -1066,9 +1194,14 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
 </section>
 
 <!-- ══ MASTERPIECE COLLECTION ══ -->
-<div class="fullbleed-new rv">
-  <img src="images/masterpiece_collection.jpg" alt="ARIS KIM: THE MASTERPIECE COLLECTION">
-  <div class="fullbleed-new-ov"></div>
+<div class="fb rv" id="fb-masterpiece">
+  <img class="fb-bg" src="images/masterpiece_collection.jpg" alt="The Masterpiece Collection">
+  <div class="fb-ov"></div>
+  <div class="fb-content">
+    <div class="fb-eyebrow">Masterpiece Collection · 걸작의 세계</div>
+    <h2 class="fb-title">ARIS KIM :<br><em>THE MASTERPIECE</em><br>COLLECTION</h2>
+    <p class="fb-sub">예술의 전당에서 카네기홀까지.<br>아리스김이 만들어온 걸작들.</p>
+  </div>
 </div>
 
 <!-- 언론 보도 -->
@@ -1395,15 +1528,49 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
 </section>
 
 <!-- ══ ART INTELLIGENCE ══ -->
-<div class="fullbleed-new rv">
-  <img src="images/art_intelligence.jpg" alt="ART INTELLIGENCE — Abrazo Technology">
-  <div class="fullbleed-new-ov"></div>
+<div class="fb rv" id="fb-ai">
+  <div class="fb-ov"></div>
+  <div class="fb-content">
+    <div class="fb-ai-left">
+      <div class="fb-eyebrow">Art Intelligence · 세계 최초 AI 공연</div>
+      <h2 class="fb-title"><span>ART</span><br>INTELLIGENCE</h2>
+      <p class="fb-sub">2018년 한국콘텐츠진흥원 제작지원.<br>스마트폰으로 관객이 직접 참가하는<br>세계 최초 실시간 AI 공연 창시.</p>
+    </div>
+    <div class="fb-ai-right">
+      <div class="ai-card">
+        <div class="ai-card-num">TECHNOLOGY</div>
+        <div class="ai-card-kr">관객 참여형 AI</div>
+        <div class="ai-card-en">실시간 스마트폰 연동 공연 시스템</div>
+      </div>
+      <div class="ai-card">
+        <div class="ai-card-num">VISION</div>
+        <div class="ai-card-kr">인간 × 기술</div>
+        <div class="ai-card-en">차가운 AI와 뜨거운 색소폰의 만남</div>
+      </div>
+      <div class="ai-card">
+        <div class="ai-card-num">RESULT</div>
+        <div class="ai-card-kr">세계 최초</div>
+        <div class="ai-card-en">KOCCA 공식 제작지원 선정</div>
+      </div>
+      <div class="ai-card">
+        <div class="ai-card-num">RECOGNITION</div>
+        <div class="ai-card-kr">제2의 백남준</div>
+        <div class="ai-card-en">서울신문 · 2016 월드스타 선정</div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- ══ GOLDEN KISS CONCEPT ══ -->
-<div class="fullbleed-new rv">
-  <img src="images/golden_kiss_concept.jpg" alt="The Golden Kiss of Art">
-  <div class="fullbleed-new-ov"></div>
+<div class="fb rv" id="fb-golden">
+  <img class="fb-bg" src="images/perf_sax_stage.jpg" alt="황금빛 색소폰의 향연">
+  <div class="fb-ov"></div>
+  <div class="fb-content">
+    <div class="fb-rule"></div>
+    <p class="fb-quote">"색소폰의 선율이 클림트의 황금빛 입자와 충돌하는 그 90분 —<br>전 세계인의 마음과 마음이 만나는 가장 찬란한 안김의 기적."</p>
+    <div class="fb-rule"></div>
+    <div class="fb-attr">— ARIS KIM</div>
+  </div>
 </div>
 
 <!-- ══ 무대 기술 계획 ══ -->
