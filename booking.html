@@ -1413,16 +1413,16 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
 /* ── fb-genesis 타자기 ── */
 .genesis-typewriter{
   text-align:center;
-  margin-bottom:20px;
+  margin-bottom:24px;
 }
 
 .gtw-line1{
   font-family:'Noto Serif KR',serif;
   font-size:clamp(32px,6vw,80px);
-  font-weight:900;          /* 최강 굵기 */
+  font-weight:900;
   letter-spacing:.06em;
   color:var(--w);
-  line-height:1.15;
+  line-height:1.2;
   text-shadow:
     0 0 40px rgba(255,255,255,.15),
     0 4px 20px rgba(0,0,0,.9);
@@ -1430,16 +1430,46 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   display:block;
 }
 
-.gtw-line2{
-  font-family:'Noto Serif KR',serif;
-  font-size:clamp(14px,2vw,22px);
-  font-weight:300;
-  letter-spacing:.22em;
-  color:var(--gold);
-  margin-top:12px;
-  min-height:1.5em;
+/* 한 칸 빈 줄 */
+.gtw-spacer{
   display:block;
-  text-shadow:0 0 20px rgba(201,168,76,.4);
+  height:clamp(14px,2vw,28px);
+}
+
+/* 큰 노란 문구 */
+.genesis-big-quote{
+  font-family:'Noto Serif KR',serif;
+  font-size:clamp(20px,3.8vw,52px);
+  font-weight:700;
+  letter-spacing:.05em;
+  color:var(--gold);          /* 노란/골드 */
+  line-height:1.35;
+  text-shadow:
+    0 0 30px rgba(201,168,76,.55),
+    0 0 60px rgba(201,168,76,.22),
+    0 3px 14px rgba(0,0,0,.95);
+  margin-top:20px;
+  opacity:0;
+  transform:translateY(10px);
+  transition:opacity 1.2s ease, transform 1.2s ease;
+}
+.genesis-big-quote.show{
+  opacity:1;
+  transform:translateY(0);
+}
+.genesis-big-quote em{
+  font-style:italic;
+  color:var(--gl);  /* 더 밝은 골드 */
+}
+
+/* gtw-line2 제거 (더 이상 사용 안 함) */
+.gtw-line2{ display:none; }
+
+@media(max-width:600px){
+  .genesis-big-quote{
+    font-size:clamp(16px,5.5vw,28px);
+    margin-top:14px;
+  }
 }
 
 /* 깜빡이는 커서 */
@@ -1648,14 +1678,20 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   <div class="fb-ov"></div>
   <div class="fb-content">
     <div class="fb-eyebrow">The Genesis of Genre · 장르의 창세기</div>
-    <!-- 타자기 효과 텍스트 -->
+    <!-- 타자기: 색소폰 하나로, / (빈줄) / 장르가 되다. -->
     <div class="genesis-typewriter">
       <div class="gtw-line1">
         <span class="gtw-text" id="gtw1"></span><span class="gtw-cursor" id="gtw-cur1">|</span>
       </div>
-      <div class="gtw-line2">
-        <span class="gtw-text" id="gtw2"></span><span class="gtw-cursor" id="gtw-cur2">|</span>
+      <!-- 한 칸 여백 -->
+      <div class="gtw-spacer"></div>
+      <div class="gtw-line1 gtw-line3">
+        <span class="gtw-text" id="gtw3"></span><span class="gtw-cursor" id="gtw-cur3">|</span>
       </div>
+    </div>
+    <!-- 큰 노란 문구: 타자기 후 등장 -->
+    <div class="genesis-big-quote" id="genesis-big-quote">
+      장르가 없는 게 아니라,<br>장르가 <em>아리스김</em>이다.
     </div>
     <div class="fb-line"></div>
   </div>
@@ -2911,28 +2947,38 @@ function typeWrite(el, cursorEl, text, speed, onDone) {
   }, speed);
 }
 
-/* genesis 타자기 */
+/* genesis 타자기 — 3단계 */
 let genesisDone = false;
 const genesisObsTW = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if (!e.isIntersecting || genesisDone) return;
     genesisDone = true;
-    const el1 = document.getElementById('gtw1');
+    const el1  = document.getElementById('gtw1');
     const cur1 = document.getElementById('gtw-cur1');
-    const el2 = document.getElementById('gtw2');
-    const cur2 = document.getElementById('gtw-cur2');
+    const el3  = document.getElementById('gtw3');
+    const cur3 = document.getElementById('gtw-cur3');
+    const big  = document.getElementById('genesis-big-quote');
     if (!el1) return;
-    // 1줄: "색소폰 하나로 장르가 되다." — 빠르게
-    typeWrite(el1, cur1, '색소폰 하나로 장르가 되다.', 60, () => {
-      // 1줄 끝난 후 0.6초 대기 → 2줄
+
+    // 1단계: "색소폰 하나로,"
+    typeWrite(el1, cur1, '색소폰 하나로,', 65, () => {
+
+      // 0.7초 빈 줄 간격 후
       setTimeout(() => {
-        typeWrite(el2, cur2,
-          '그가 장르가 없는 게 아니라, 장르가 아리스김이다.', 45);
-      }, 600);
+
+        // 2단계: "장르가 되다."
+        typeWrite(el3, cur3, '장르가 되다.', 65, () => {
+
+          // 0.9초 후 큰 노란 문구 등장
+          setTimeout(() => {
+            if (big) big.classList.add('show');
+          }, 900);
+        });
+      }, 700);
     });
     genesisObsTW.unobserve(e.target);
   });
-}, { threshold: 0.5 });
+}, { threshold: 0.45 });
 const genesisEl = document.getElementById('fb-genesis');
 if (genesisEl) genesisObsTW.observe(genesisEl);
 
