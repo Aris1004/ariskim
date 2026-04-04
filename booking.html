@@ -1047,60 +1047,87 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
 
 /* ══ PERFORMANCE SHOWCASE SECTIONS ══ */
 
-/* 공통: 전체 사진 보여주기 */
+/* ── 공통: 전체 사진 나열 섹션 ── */
 .perf-section{
-  position:relative;width:100%;overflow:hidden;
+  position:relative;width:100%;
   border-top:1px solid rgba(201,168,76,.08);
+  background:var(--bg);
 }
 
-/* ── A2: 오케스트라 공연 전체 사진 ── */
-.perf-orchestra{
-  /* 이미지 비율 유지: A2 = 2000x1115 ≈ 16:9 */
-}
+/* A2: 오케스트라 — 가로형 (2000×1115) */
+/* width:100%;height:auto → 크롭 없이 전체 표시 */
+.perf-orchestra{overflow:hidden;}
 .perf-orchestra > img{
   width:100%;
+  height:auto;          /* 자연 비율 유지 */
   display:block;
   filter:brightness(.78) contrast(1.05);
 }
 
 /* A3: 색소폰 아티스트 오버레이 */
+/* A3 전신 오버레이 — 오른쪽 하단 고정, 전신 표시 */
 .perf-sax-ov{
-  position:absolute;inset:0;
+  position:absolute;
+  right:0; bottom:0;
+  /* A3 비율 1493:2000 → 높이 100% 기준 너비 자동 */
+  height:100%;
+  width:auto;
+  max-width:48%;        /* PC에서 너무 크지 않게 */
   opacity:0;
-  transform:scale(1.07) translateY(12px);
-  transition:opacity 1.8s cubic-bezier(.25,.46,.45,.94),
-             transform 2.2s cubic-bezier(.25,.46,.45,.94);
+  transform:translateX(40px);
+  transition:opacity 2s cubic-bezier(.25,.46,.45,.94) ,
+             transform 2.4s cubic-bezier(.25,.46,.45,.94);
   pointer-events:none;
+  z-index:3;
 }
 .perf-sax-ov.triggered{
-  opacity:.82;
-  transform:scale(1.0) translateY(0);
+  opacity:1;
+  transform:translateX(0);
 }
 .perf-sax-ov img{
-  width:100%;height:100%;
-  object-fit:cover;
-  object-position:center top;
+  height:100%;
+  width:auto;         /* 자연 비율 → 전신 표시 */
   display:block;
-  filter:brightness(.85) contrast(1.08);
-  mix-blend-mode:normal;
+  filter:brightness(.9) contrast(1.06);
 }
-/* 오른쪽과 아래 페이드 — A2가 살짝 비치도록 */
-.perf-sax-ov::after{
+/* 왼쪽 그라디언트 — A2와 자연스럽게 합성 */
+.perf-sax-ov::before{
   content:'';
-  position:absolute;inset:0;
-  background:
-    linear-gradient(90deg, rgba(8,7,5,0) 0%, rgba(8,7,5,0) 55%, rgba(8,7,5,.85) 100%),
-    linear-gradient(180deg, rgba(8,7,5,0) 0%, rgba(8,7,5,0) 60%, rgba(8,7,5,.9) 100%);
+  position:absolute;top:0;left:0;bottom:0;
+  width:45%;
+  background:linear-gradient(90deg,rgba(8,7,5,.88) 0%,transparent 100%);
+  z-index:1;
+}
+/* 태블릿: 전신 비율 유지, 더 작게 */
+@media(max-width:1024px){
+  .perf-sax-ov{max-width:52%;}
+}
+/* 모바일: A2 아래에 A3 스택 */
+@media(max-width:600px){
+  .perf-sax-ov{
+    position:relative;
+    width:100%; height:auto; max-width:100%;
+    transform:translateY(20px);
+  }
+  .perf-sax-ov.triggered{transform:translateY(0);}
+  .perf-sax-ov img{width:100%;height:auto;}
+  .perf-sax-ov::before{display:none;}
 }
 
-/* ── A5: 클림트 LED 퍼포먼스 전체 사진 ── */
-.perf-a5{
-  /* A5 = 1115x2000 (세로형) */
-}
+/* ── A5: 클림트 LED 퍼포먼스 (1115×2000 세로형) ── */
+.perf-a5{display:flex;justify-content:center;background:var(--bg);}
+/* PC: 뷰포트 높이에 맞추고 중앙 배치 */
 .perf-a5 > img{
-  width:100%;
   display:block;
   filter:brightness(.82) contrast(1.06);
+  /* 세로형이므로: 최대 높이 100vh, 너비 자동 */
+  max-height:100vh;
+  width:auto;
+  height:auto;
+}
+/* 모바일: 전체 너비 */
+@media(max-width:600px){
+  .perf-a5 > img{width:100%;max-height:none;height:auto;}
 }
 /* A5 위 기본 오버레이 */
 .perf-a5-ov{
@@ -1178,6 +1205,67 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   }
 }
 
+
+/* ── A5 드라마틱 텍스트 오버레이 ── */
+.perf-a5{position:relative;}  /* flex가 있어 추가 */
+.perf-a5-text{
+  position:absolute;
+  top:8%; left:50%;
+  transform:translateX(-50%);
+  text-align:center;
+  z-index:10;
+  width:90%;
+  max-width:560px;
+  opacity:0;
+  transform:translateX(-50%) translateY(-20px);
+  transition:opacity .9s ease 2.4s, transform .9s ease 2.4s;
+  pointer-events:none;
+}
+.perf-a5-text.triggered{
+  opacity:1;
+  transform:translateX(-50%) translateY(0);
+}
+.pa5-label{
+  font-family:'Cinzel',serif;
+  font-size:clamp(7px,1.1vw,10px);
+  letter-spacing:.55em;
+  color:var(--gold);
+  opacity:.62;
+  margin-bottom:14px;
+}
+.pa5-title{
+  font-family:'Cormorant Garamond','Noto Serif KR',serif;
+  font-size:clamp(22px,4.5vw,56px);
+  font-weight:300;
+  font-style:normal;
+  color:var(--w);
+  line-height:1.2;
+  letter-spacing:.04em;
+  text-shadow:0 0 40px rgba(201,168,76,.3), 0 2px 8px rgba(0,0,0,.8);
+  margin-bottom:16px;
+}
+.pa5-title em{
+  color:var(--gold);
+  font-style:italic;
+}
+.pa5-rule{
+  width:40px;height:1px;
+  background:var(--gold);opacity:.5;
+  margin:0 auto 16px;
+}
+.pa5-sub{
+  font-family:'Noto Serif KR',serif;
+  font-size:clamp(11px,1.5vw,15px);
+  font-weight:200;
+  letter-spacing:.14em;
+  color:rgba(242,237,228,.62);
+  text-shadow:0 1px 6px rgba(0,0,0,.9);
+}
+@media(max-width:600px){
+  .perf-a5-text{top:5%;width:88%;}
+  .pa5-title{font-size:clamp(20px,6vw,32px);}
+}
+
 </style>
 </head>
 <body>
@@ -1225,19 +1313,6 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   <img class="hbg" src="images/hero_klimt.jpg" alt="ARIS KIM 클림트 미디어아트 색소폰 콘서트">
   <div class="hov"></div>
   <div class="hcon hcon-cinematic">
-  <img class="hbg-layer hbg-1" src="images/hero_klimt.jpg"      alt="클림트 미디어아트 콘서트">
-  <img class="hbg-layer hbg-2" src="images/hero_orchestra.jpg"  alt="오케스트라 공연">
-  <img class="hbg-layer hbg-3" src="images/screw_photo.jpg"     alt="황금 나사">
-
-  <!-- 아리스김 — 왼쪽에서 슬라이드 인 -->
-  <div class="hero-artist-slide">
-    <img src="images/hero_artist_black.jpg" alt="ARIS KIM">
-  </div>
-
-  <!-- 오버레이 -->
-  <div class="hov-cinematic"></div>
-
-  <div class="hcon hcon-cinematic">
     <div class="hey">Concert Booking · Professional Portfolio</div>
     <h1 class="hen"><span class="ai">A</span>RIS KIM</h1>
     <div class="hkr">색소폰 연주자 · 미디어아트 퍼포머</div>
@@ -1257,6 +1332,7 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
     </div>
   </div>
   <div class="hscroll"><span>SCROLL</span><div class="hscroll-line"></div></div>
+  <div class="hscroll"><span>SCROLL</span><div class="hscroll-line"></div>
 </section>
 
 <!-- ══ PERFORMANCE SHOWCASE: A2 + A3 ══ -->
@@ -1280,6 +1356,13 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   <div class="spot2-beam"></div>
   <div class="spot2-source"></div>
   <div class="spot2-glow"></div>
+  <!-- 핀 조명과 함께 등장하는 드라마틱 문구 -->
+  <div class="perf-a5-text">
+    <div class="pa5-label">KLIMT MEDIA ART CONCERT</div>
+    <h2 class="pa5-title">현대미술과 융합된<br><em>빛의 콘서트</em></h2>
+    <div class="pa5-rule"></div>
+    <p class="pa5-sub">구스타프 클림트의 황금빛 세계가 무대 위에 살아 숨쉰다</p>
+  </div>
 </section>
 
 <!-- TRUST NUMBERS -->
@@ -2534,13 +2617,13 @@ const perfObs = new IntersectionObserver(entries=>{
       setTimeout(()=>{
         const ov=sec.querySelector('.perf-sax-ov');
         if(ov) ov.classList.add('triggered');
-      }, 800);
+      }, 3200);
     }
 
     /* A5: 핀 조명 */
     if(sec.id==='perf-a5'){
       setTimeout(()=>{
-        ['spot2-dark','spot2-beam','spot2-source','spot2-glow'].forEach(cls=>{
+        ['spot2-dark','spot2-beam','spot2-source','spot2-glow','perf-a5-text'].forEach(cls=>{
           const el=sec.querySelector('.'+cls);
           if(el) el.classList.add('triggered');
         });
