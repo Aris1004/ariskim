@@ -32,12 +32,24 @@ body{background:var(--bg);color:var(--w);font-family:'Nanum Myeongjo',serif;over
 
 /* 처음으로 - 금색 럭셔리 버튼 */
 .home-btn{
-  display:inline-block;font-family:'Cinzel',serif;font-size:9px;font-weight:700;
-  letter-spacing:.28em;color:var(--gl);text-decoration:none;padding:9px 20px;
-  background:rgba(8,6,3,.85);
-  box-shadow:0 2px 10px rgba(0,0,0,.4);
-  border:1px solid rgba(201,168,76,.38);transition:all .3s;position:relative;overflow:hidden;
+  display:none; /* nav 안의 버튼은 숨김 — 별도 fixed 버튼 사용 */
 }
+/* 스크롤 시 등장하는 독립 처음으로 버튼 */
+#back-home-btn{
+  position:fixed;top:14px;right:16px;z-index:9100;
+  font-family:'Cinzel',serif;font-size:9px;font-weight:700;
+  letter-spacing:.25em;color:#111;text-decoration:none;
+  padding:9px 18px;
+  background:linear-gradient(135deg,#B8922E 0%,#E8CC7A 40%,#C9A84C 60%,#F5E090 80%,#C9A84C 100%);
+  box-shadow:0 2px 12px rgba(201,168,76,.5);
+  border:1px solid rgba(180,140,30,.5);
+  opacity:0;pointer-events:none;
+  transition:opacity .4s ease,transform .4s ease;
+  transform:translateY(-8px);
+  white-space:nowrap;
+}
+#back-home-btn.show{opacity:1;pointer-events:auto;transform:translateY(0);}
+#back-home-btn:hover{filter:brightness(1.12);transform:translateY(-1px);}
 .home-btn::before{content:'';position:absolute;inset:0;
   background:linear-gradient(135deg,transparent 30%,rgba(255,255,255,.15) 50%,transparent 70%);
   opacity:0;transition:opacity .3s;}
@@ -347,11 +359,11 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   .hov{background:linear-gradient(180deg,rgba(8,7,5,.55) 0%,rgba(8,7,5,.18) 30%,rgba(8,7,5,.78) 65%,rgba(8,7,5,1) 100%)!important;}
   .hcon{padding:0 24px 48px;}
   .hey{font-size:7px;letter-spacing:.4em;}
-  .hen{font-size:clamp(32px,8vw,54px);}
-  .hkr{font-size:clamp(12px,2.8vw,16px);letter-spacing:.1em;}
-  .htag{font-size:12px;margin:14px 0 18px;}
-  .hero-badges-row{flex-direction:column;gap:5px;margin:12px 0 18px;}
-  .hero-badge-item{font-size:7.5px;padding:6px 12px;width:fit-content;}
+  .hen{font-size:clamp(28px,6vw,44px)!important;}
+  .hkr{font-size:clamp(11px,2.2vw,14px)!important;letter-spacing:.08em;}
+  .htag{font-size:11.5px;margin:10px 0 14px;max-width:100%;}
+  .hero-badges-row{flex-direction:column;gap:4px;margin:10px 0 14px;}
+  .hero-badge-item{font-size:7px;padding:5px 10px;width:fit-content;}
   .hbtns{gap:10px;}
   .hscroll{display:none;}
   .sec{padding:56px 24px;}
@@ -380,19 +392,21 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   .nav-ham{display:flex!important;}
   .nlogo{font-size:13px;}
 
-  /* 히어로: 배경 매우 어둡게 + 오버레이 최대 강화 */
-  #hero{height:88vh;}
+  /* 히어로: 모바일 최적화 — 글자 겹침 완전 제거 */
+  #hero{height:100vh;}
   .hbg{filter:brightness(.10) contrast(1.1)!important;}
   .hov{background:linear-gradient(180deg,rgba(8,7,5,.65) 0%,rgba(8,7,5,.25) 28%,rgba(8,7,5,.85) 65%,rgba(8,7,5,1) 100%)!important;}
-  .hcon{padding:0 18px 48px;}
-  .hey{font-size:7px;letter-spacing:.38em;}
-  .hen{font-size:clamp(36px,10.5vw,52px);letter-spacing:.04em;}
-  .hkr{font-size:clamp(11px,3.5vw,14px);letter-spacing:.06em;}
-  .htag{font-size:12.5px;margin:12px 0 18px;line-height:1.95;}
-  .hero-badges-row{flex-direction:column;gap:5px;margin:10px 0 16px;}
+  .hcon{padding:0 18px 52px;}
+  .hey{display:none;}
+  /* 핵심: 대형 타이틀 대폭 축소 */
+  .hen{font-size:clamp(26px,8vw,36px)!important;letter-spacing:.03em;line-height:1.05;}
+  .hkr{font-size:clamp(10px,3vw,13px)!important;letter-spacing:.05em;margin-top:4px;}
+  /* 긴 설명 텍스트 숨김 — 공간 확보 */
+  .htag{display:none!important;}
+  .hero-badges-row{flex-direction:column;gap:4px;margin:8px 0 14px;}
   .hero-badge-item{font-size:7px;padding:5px 10px;width:fit-content;}
-  .hbtns{flex-direction:column;gap:10px;}
-  .btn-cta,.btn-sub{text-align:center;padding:13px 24px;}
+  .hbtns{flex-direction:column;gap:8px;}
+  .btn-cta,.btn-sub{text-align:center;padding:12px 20px;font-size:11px;}
   .hscroll{display:none;}
 
   /* TRUST */
@@ -802,9 +816,10 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
     <li><a href="#contact">연락처</a></li>
   </ul>
   <div class="nav-right">
-    <a href="index.html?skip=1" class="home-btn">← 처음으로</a>
     <a href="#contact" class="ncta">공연 의뢰하기</a>
   </div>
+  <!-- 스크롤 시 등장하는 처음으로 버튼 (fixed) -->
+  <a href="index.html?skip=1" id="back-home-btn">← 처음으로</a>
 <button class="nav-ham" id="bham"><span></span><span></span><span></span></button>
 </nav>
 <div id="bmob">
@@ -1949,10 +1964,16 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 const prog=document.getElementById('prog');
 const nav=document.getElementById('nav');
+const backBtn=document.getElementById('back-home-btn');
 window.addEventListener('scroll',()=>{
   const p=(window.scrollY/(document.documentElement.scrollHeight-innerHeight))*100;
   prog.style.width=p+'%';
   nav.classList.toggle('on',window.scrollY>60);
+  // 처음으로 버튼: 절반 스크롤 시 등장
+  if(backBtn){
+    const half=window.innerHeight*0.5;
+    backBtn.classList.toggle('show', window.scrollY>half);
+  }
 });
 const obs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on');});
