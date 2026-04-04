@@ -1041,6 +1041,124 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   .mc-career li{font-size:10.5px;}
 }
 
+
+/* ══ CINEMATIC HERO SEQUENCE ══ */
+
+/* 배경 레이어 3장 */
+.hbg-layer{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;object-position:center;
+  will-change:opacity;
+}
+/* 레이어 1: 클림트 (시작) */
+.hbg-1{
+  object-position:center 30%;
+  filter:brightness(.52) contrast(1.05);
+  animation:heroL1 12s ease forwards;
+  z-index:1;
+}
+/* 레이어 2: 오케스트라 */
+.hbg-2{
+  filter:brightness(.48) contrast(1.08);
+  animation:heroL2 12s ease forwards;
+  z-index:2;
+}
+/* 레이어 3: 나사 사진 (최종) */
+.hbg-3{
+  object-position:center 20%;
+  filter:brightness(.44) contrast(1.1);
+  animation:heroL3 12s ease forwards;
+  z-index:3;
+}
+
+/* 배경 애니메이션 타이밍 (총 12초, 이후 유지) */
+@keyframes heroL1{
+  0%,30%  {opacity:1;}
+  50%,100%{opacity:0;}
+}
+@keyframes heroL2{
+  0%,25%  {opacity:0;}
+  38%,62% {opacity:1;}
+  78%,100%{opacity:0;}
+}
+@keyframes heroL3{
+  0%,60%  {opacity:0;}
+  80%,100%{opacity:1;}
+}
+
+/* 아리스김 슬라이드 인 사진 */
+.hero-artist-slide{
+  position:absolute;
+  left:0; bottom:0;
+  width:clamp(220px, 32vw, 460px);
+  height:100%;
+  z-index:5;
+  pointer-events:none;
+  overflow:hidden;
+}
+.hero-artist-slide img{
+  width:100%;height:100%;
+  object-fit:cover;
+  object-position:center top;
+  filter:brightness(.88) contrast(1.04);
+  display:block;
+}
+/* 오른쪽으로 페이드아웃 그라디언트 (배경과 자연스럽게 합성) */
+.hero-artist-slide::after{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(90deg,
+    transparent 0%,
+    transparent 55%,
+    var(--bg) 100%
+  );
+}
+/* 슬라이드 애니메이션:
+   t=4s 시작 → t=5.5s 완전 등장 → t=8.5s 사라지기 시작 → t=10.5s 완전 소멸 */
+.hero-artist-slide{
+  animation:artistSlide 12s ease forwards;
+}
+@keyframes artistSlide{
+  0%,33%  {opacity:0; transform:translateX(-80px);}
+  45%,68% {opacity:1; transform:translateX(0);}
+  85%,100%{opacity:0; transform:translateX(-30px);}
+}
+
+/* 오버레이: 배경 레이어들 위, 아티스트 아래 */
+.hov-cinematic{
+  position:absolute;inset:0;z-index:4;
+  background:linear-gradient(
+    180deg,
+    rgba(8,7,5,.18) 0%,
+    rgba(8,7,5,.02) 30%,
+    rgba(8,7,5,.5)  65%,
+    rgba(8,7,5,.98) 100%
+  );
+}
+
+/* 텍스트 컨테이너 — 아티스트 사진과 겹치지 않게 오른쪽으로 */
+.hcon-cinematic{
+  position:relative;z-index:6;
+  padding:0 52px 80px;
+  width:100%;
+  /* 아티스트 사진 너비만큼 왼쪽 여백 */
+  padding-left:clamp(240px,35vw,500px);
+  transition:padding-left .6s ease;
+}
+
+/* 반응형 */
+@media(max-width:768px){
+  .hcon-cinematic{padding-left:24px !important;}
+  .hero-artist-slide{width:clamp(140px,42vw,240px);}
+}
+@media(max-width:480px){
+  .hcon-cinematic{padding:0 18px 52px !important;}
+  .hero-artist-slide{width:clamp(110px,36vw,180px);}
+  .hero-artist-slide::after{
+    background:linear-gradient(90deg,transparent 0%,transparent 40%,var(--bg) 100%);
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1085,9 +1203,20 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
 
 <!-- HERO -->
 <section id="hero">
-  <img class="hbg" src="images/hero_klimt.jpg" alt="ARIS KIM 클림트 미디어아트 색소폰 콘서트">
-  <div class="hov"></div>
-  <div class="hcon">
+  <!-- 배경 레이어 3장 — 시네마틱 크로스페이드 -->
+  <img class="hbg-layer hbg-1" src="images/hero_klimt.jpg"      alt="클림트 미디어아트 콘서트">
+  <img class="hbg-layer hbg-2" src="images/hero_orchestra.jpg"  alt="오케스트라 공연">
+  <img class="hbg-layer hbg-3" src="images/screw_photo.jpg"     alt="황금 나사">
+
+  <!-- 아리스김 — 왼쪽에서 슬라이드 인 -->
+  <div class="hero-artist-slide">
+    <img src="images/hero_artist_black.jpg" alt="ARIS KIM">
+  </div>
+
+  <!-- 오버레이 -->
+  <div class="hov-cinematic"></div>
+
+  <div class="hcon hcon-cinematic">
     <div class="hey">Concert Booking · Professional Portfolio</div>
     <h1 class="hen"><span class="ai">A</span>RIS KIM</h1>
     <div class="hkr">색소폰 연주자 · 미디어아트 퍼포머</div>
