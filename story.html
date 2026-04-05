@@ -217,35 +217,7 @@ footer{background:var(--bg);border-top:1px solid rgba(201,168,76,.08);
 .ft-info{font-family:"Gowun Batang",serif;font-size:9.5px;letter-spacing:.12em;
   color:rgba(242,237,228,.2);line-height:1.9;text-align:right;}
 
-/* ── TANGO ── */
-#tango{background:var(--deep);}
-.tango-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
-.tango-img{width:100%;aspect-ratio:3/4;object-fit:cover;
-  filter:brightness(.88);border:1px solid rgba(201,168,76,.1);}
-.tango-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px;}
-.tango-tag{font-family:"Cinzel",serif;font-size:8px;letter-spacing:.22em;
-  border:1px solid rgba(201,168,76,.22);color:var(--gold);padding:5px 12px;}
-
-/* ── YEMISA ── */
-.yemisa-card{width:180px;cursor:pointer;position:relative;flex-shrink:0;}
-.yemisa-card img{width:100%;aspect-ratio:9/16;object-fit:cover;
-  filter:brightness(.75);transition:filter .3s;display:block;}
-.yemisa-card:hover img{filter:brightness(.95);}
-.yemisa-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  width:42px;height:42px;border-radius:50%;background:rgba(201,168,76,.85);
-  display:flex;align-items:center;justify-content:center;
-  font-size:16px;color:var(--bg);pointer-events:none;}
-.yemisa-label{font-family:"Cinzel",serif;font-size:8px;letter-spacing:.35em;
-  color:var(--muted);text-align:center;margin-top:8px;}
-
-/* ── RESPONSIVE ADDITIONS ── */
-@media(max-width:900px){
-  .tango-grid{grid-template-columns:1fr;}
-  .yemisa-card{width:140px;}
-}
-@media(max-width:600px){
-  .yemisa-card{width:120px;}
-}
+/* ── RESPONSIVE ── */
 @media(max-width:900px){
   #nav{padding:0 24px;}
   .nlinks{display:none;}
@@ -286,7 +258,7 @@ footer{background:var(--bg);border-top:1px solid rgba(201,168,76,.08);
     <li><a href="booking.html">Booking</a></li>
   </ul>
   <div class="nav-right">
-    <a href="booking.html" class="ncta">공연기획</a>
+    <a href="booking.html" class="ncta">공연 의뢰하기</a>
     <div id="bham" onclick="document.getElementById('bmob').classList.add('open')">
       <span></span><span></span><span></span>
     </div>
@@ -513,72 +485,6 @@ footer{background:var(--bg);border-top:1px solid rgba(201,168,76,.08);
   </div>
 </section>
 
-<!-- ══ 탱고 ══ -->
-<section class="sec" id="tango">
-  <div class="sec-inner">
-    <div class="tango-grid">
-      <div class="rv-l">
-        <span class="sec-label">Tango · 탱고</span>
-        <h2 class="sec-title">AI 시대,<br><em>탱고가 답이었다</em></h2>
-        <div class="gold-rule"></div>
-        <p class="body-txt">
-          아리스김이 개발한 뉴럴탱고(Neural Tango)는 인간의 신체 접촉을 통해 옥시토신을 분비하고
-          AI 시대에 인간만이 가질 수 있는 '스킨 데이터'를 연결하는 교육 철학이다.<br><br>
-          2016 아시아 탱고 챔피언십 에세나리오 부문 우승. 바탱고(솔로탱고) 특허 창시.
-          마린 탱고 고등학교 설립. ARIS Method / Neural Tango —
-          AI가 결코 대체할 수 없는 야생의 감각.
-        </p>
-        <div class="tango-tags rv d2">
-          <span class="tango-tag">아시아 탱고 챔피언</span>
-          <span class="tango-tag">바탱고 특허</span>
-          <span class="tango-tag">뉴럴탱고</span>
-          <span class="tango-tag">ANSC-14</span>
-          <span class="tango-tag">마린 탱고 고등학교</span>
-        </div>
-      </div>
-      <div class="rv-r">
-        <img class="tango-img" src="images/img_35_141kb.jpg" alt="아리스김 탱고">
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ 예미사 ══ -->
-<section id="yemisa" style="background:var(--bg);padding:88px 52px;border-top:1px solid rgba(201,168,76,.08);">
-  <div class="sec-inner">
-    <span class="sec-label rv" style="display:block;text-align:center;margin-bottom:12px;">Artist Stories · 예미사</span>
-    <h2 class="sec-title rv" style="text-align:center;font-family:'Noto Serif KR',serif;font-weight:200;">예술에 미친 사연</h2>
-    <p style="font-family:'Nanum Myeongjo',serif;font-size:12px;letter-spacing:.1em;color:rgba(242,237,228,.35);text-align:center;margin:8px 0 44px;" class="rv">(예미사 — 예술에 미친사연)</p>
-    <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap;" class="rv">
-      <div class="yemisa-card" onclick="openVid('zc8haHlZlGs',true)">
-        <img src="https://img.youtube.com/vi/zc8haHlZlGs/hqdefault.jpg" alt="예미사1">
-        <div class="yemisa-play">▶</div>
-        <div class="yemisa-label">예미사 #1</div>
-      </div>
-      <div class="yemisa-card" onclick="openVid('QYxPOhUZ5mI',true)">
-        <img src="https://img.youtube.com/vi/QYxPOhUZ5mI/hqdefault.jpg" alt="예미사2">
-        <div class="yemisa-play">▶</div>
-        <div class="yemisa-label">예미사 #2</div>
-      </div>
-      <div class="yemisa-card" onclick="openVid('Qb8z-U-Cu74',true)">
-        <img src="https://img.youtube.com/vi/Qb8z-U-Cu74/hqdefault.jpg" alt="예미사3">
-        <div class="yemisa-play">▶</div>
-        <div class="yemisa-label">예미사 #3</div>
-      </div>
-      <div class="yemisa-card" onclick="openVid('GFhdTlGDMZU',true)">
-        <img src="https://img.youtube.com/vi/GFhdTlGDMZU/hqdefault.jpg" alt="예미사4">
-        <div class="yemisa-play">▶</div>
-        <div class="yemisa-label">예미사 #4</div>
-      </div>
-      <div class="yemisa-card" onclick="openVid('wjQfXyIyFcw',true)">
-        <img src="https://img.youtube.com/vi/wjQfXyIyFcw/hqdefault.jpg" alt="예미사5">
-        <div class="yemisa-play">▶</div>
-        <div class="yemisa-label">예미사 #5</div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <!-- ══ 현대미술 컬렉션 ══ -->
 <section id="art" class="sec">
   <div class="sec-inner">
@@ -642,7 +548,7 @@ footer{background:var(--bg);border-top:1px solid rgba(201,168,76,.08);
       <em>무대를 함께 만들어 봅시다.</em>
     </p>
     <p class="cta-sub">공연 의뢰 · 기업 갈라 · 대학 초청 · 지자체 행사</p>
-    <a href="booking.html" class="cta-btn">공연기획 보러가기</a>
+    <a href="booking.html" class="cta-btn">공연 의뢰하기</a>
     <div class="cta-divider"></div>
     <p style="font-family:'Gowun Batang',serif;font-size:10.5px;letter-spacing:.15em;color:rgba(242,237,228,.25);">
       arishow@naver.com
@@ -690,22 +596,6 @@ document.querySelectorAll('.art-tabs button').forEach(btn => {
     });
   });
 });
-
-// openVid (예미사 유튜브)
-let _vlb = null;
-function openVid(id, isShorts=false){
-  if(_vlb){_vlb.remove();_vlb=null;}
-  _vlb = document.createElement('div');
-  _vlb.style.cssText = 'position:fixed;inset:0;background:rgba(4,3,2,.97);z-index:9999;display:flex;align-items:center;justify-content:center;cursor:pointer;';
-  const w = isShorts ? 'min(52vh,340px)' : 'min(90vw,960px)';
-  const h2 = isShorts ? 'min(90vh,604px)' : 'min(56.25vw,540px)';
-  _vlb.innerHTML = `<div style="position:relative;width:${w};height:${h2};">
-    <iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0" frameborder="0" allow="autoplay;encrypted-media" allowfullscreen style="width:100%;height:100%;"></iframe>
-    <button onclick="event.stopPropagation();_vlb&&_vlb.remove();_vlb=null;" style="position:absolute;top:-36px;right:0;background:none;border:none;font-family:'Cinzel',serif;font-size:11px;letter-spacing:.3em;color:rgba(201,168,76,.7);cursor:pointer;">CLOSE ✕</button>
-  </div>`;
-  _vlb.onclick = () => {_vlb&&_vlb.remove();_vlb=null;};
-  document.body.appendChild(_vlb);
-}
 
 // 모바일 메뉴
 function bc() { document.getElementById('bmob').classList.remove('open'); }
