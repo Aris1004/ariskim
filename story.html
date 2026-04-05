@@ -215,17 +215,39 @@ body{background:var(--bg);color:var(--w);font-family:"Nanum Myeongjo",serif;over
 
 /* 리스트 레이아웃 */
 .art-grid{display:flex;flex-direction:column;gap:2px;}
-.ac{display:grid;grid-template-columns:280px 1fr;align-items:stretch;
-  background:var(--deep);border:1px solid rgba(201,168,76,.07);
-  overflow:hidden;transition:border-color .4s;cursor:default;}
+.ac{
+  display:flex;
+  align-items:stretch;
+  background:var(--deep);
+  border:1px solid rgba(201,168,76,.07);
+  overflow:hidden;
+  transition:border-color .4s;
+  cursor:default;
+}
 .ac:hover{border-color:rgba(201,168,76,.2);}
 .ac.hide{display:none;}
 
 /* 왼쪽: 이미지 */
-.ac-img{position:relative;overflow:hidden;height:200px;}
-.ac-img img{width:100%;height:100%;object-fit:cover;
-  filter:brightness(.85);transition:filter .5s,transform .6s;display:block;}
-.ac:hover .ac-img img{filter:brightness(1.0);transform:scale(1.03);}
+.ac-img{
+  position:relative;
+  overflow:hidden;
+  width:280px;
+  flex-shrink:0;
+  /* 배경: 이미지 여백 부분을 자연스럽게 */
+  background:#0a0806;
+}
+.ac-img img{
+  width:100%;
+  height:100%;
+  object-fit:contain;  /* 전체 이미지 잘림 없이 표시 */
+  object-position:center;
+  filter:brightness(.9);
+  transition:filter .5s,transform .6s;
+  display:block;
+  /* 최소 세로 높이 보장 */
+  min-height:160px;
+}
+.ac:hover .ac-img img{filter:brightness(1.0);transform:scale(1.02);}
 
 /* 오른쪽: 텍스트 */
 .ac-info{
@@ -242,19 +264,30 @@ body{background:var(--bg);color:var(--w);font-family:"Nanum Myeongjo",serif;over
   color:var(--gold);opacity:.55;}
 
 /* 반응형 */
+@media(max-width:1024px){
+  .ac-img{width:220px;}
+}
 @media(max-width:768px){
-  .ac{grid-template-columns:180px 1fr;}
-  .ac-img{height:160px;}
-  .ac-info{padding:16px 18px;}
+  .ac-img{width:160px;}
+  .ac-info{padding:14px 16px;}
   .ac-title{font-size:14px;}
   .ac-sub{font-size:12px;}
 }
 @media(max-width:480px){
-  .ac{grid-template-columns:130px 1fr;}
-  .ac-img{height:130px;}
-  .ac-info{padding:12px 14px;}
-  .ac-title{font-size:13px;}
-  .ac-sub{font-size:11px;line-height:1.7;}
+  /* 스마트폰: 세로 배치 (위:이미지 아래:텍스트) */
+  .ac{flex-direction:column;}
+  .ac-img{
+    width:100%;
+    min-height:200px;
+    max-height:280px;
+  }
+  .ac-img img{
+    min-height:200px;
+    max-height:280px;
+  }
+  .ac-info{padding:14px 16px;border-left:none;border-top:1px solid rgba(201,168,76,.1);}
+  .ac-title{font-size:14px;}
+  .ac-sub{font-size:12px;line-height:1.7;}
 }
 
 /* ═══════════════════════════════════════
@@ -354,8 +387,13 @@ footer{background:var(--bg);border-top:1px solid rgba(201,168,76,.1);
 @media(max-width:480px){
   #nav{padding:0 18px;height:52px;}
   .nlinks{display:none!important;}
-  .nav-right .ncta{display:none!important;}
-  #back-home-btn{display:none!important;}
+  .nav-right .ncta{display:none!important;} /* 공연의뢰는 모바일 메뉴로 */
+  /* 처음으로 버튼: 모바일에서도 표시 — 텍스트만 줄임 */
+  #back-home-btn{
+    font-size:9px;
+    padding:7px 12px;
+    letter-spacing:.1em;
+  }
   .nav-ham{display:flex!important;}
   .nlogo{font-size:13px;}
   #fb-genesis{height:100svh;}
