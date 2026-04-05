@@ -34,16 +34,19 @@ body{background:var(--bg);color:var(--w);font-family:"Nanum Myeongjo",serif;over
 .nav-right{display:flex;align-items:center;gap:12px;}
 /* 처음으로 버튼 — 스크롤 50% 후 등장 */
 #back-home-btn{
-  font-family:"Gowun Batang",serif;font-size:10px;letter-spacing:.18em;
-  color:#080705;background:var(--gold);padding:9px 20px;
-  text-decoration:none;
+  font-family:'Cinzel',serif;font-size:9px;font-weight:700;
+  letter-spacing:.25em;color:#111;text-decoration:none;
+  padding:9px 18px;
+  background:linear-gradient(135deg,#B8922E 0%,#E8CC7A 40%,#C9A84C 60%,#F5E090 80%,#C9A84C 100%);
+  box-shadow:0 2px 12px rgba(201,168,76,.5);
+  border:1px solid rgba(180,140,30,.5);
   opacity:0;pointer-events:none;
+  transition:opacity .4s ease,transform .4s ease;
   transform:translateY(-6px);
-  transition:opacity .4s ease, transform .4s ease, filter .3s;
   white-space:nowrap;
-  border:1px solid var(--gold);}
+  display:inline-block;}
 #back-home-btn.show{opacity:1;pointer-events:auto;transform:translateY(0);}
-#back-home-btn:hover{filter:brightness(1.1);transform:translateY(-1px);}
+#back-home-btn:hover{filter:brightness(1.12);transform:translateY(-1px);}
 .ncta{font-family:"Gowun Batang",serif;font-size:11px;letter-spacing:.2em;
   color:var(--gold);border:1px solid rgba(201,168,76,.38);padding:9px 20px;
   text-decoration:none;transition:all .3s;}
