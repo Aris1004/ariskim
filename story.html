@@ -203,7 +203,7 @@ body{background:var(--bg);color:var(--w);font-family:"Nanum Myeongjo",serif;over
   letter-spacing:.05em;color:rgba(242,237,228,.6);line-height:1.8;}
 
 /* ═══════════════════════════════════════
-   6. ART COLLECTION (그대로)
+   6. ART COLLECTION — 좌:이미지 우:설명
 ═══════════════════════════════════════ */
 .art-tabs{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:32px;}
 .art-tabs button{background:none;border:1px solid rgba(201,168,76,.2);
@@ -212,23 +212,50 @@ body{background:var(--bg);color:var(--w);font-family:"Nanum Myeongjo",serif;over
 .art-tabs button.active{border-color:var(--gold);color:var(--gold);
   background:rgba(201,168,76,.06);}
 .art-tabs button:hover{border-color:rgba(201,168,76,.5);color:var(--gl);}
-.art-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
-.ac{position:relative;overflow:hidden;cursor:pointer;}
+
+/* 리스트 레이아웃 */
+.art-grid{display:flex;flex-direction:column;gap:2px;}
+.ac{display:grid;grid-template-columns:280px 1fr;align-items:stretch;
+  background:var(--deep);border:1px solid rgba(201,168,76,.07);
+  overflow:hidden;transition:border-color .4s;cursor:default;}
+.ac:hover{border-color:rgba(201,168,76,.2);}
 .ac.hide{display:none;}
-.ac-img{aspect-ratio:4/3;overflow:hidden;}
+
+/* 왼쪽: 이미지 */
+.ac-img{position:relative;overflow:hidden;height:200px;}
 .ac-img img{width:100%;height:100%;object-fit:cover;
-  filter:brightness(.82);transition:transform .5s,filter .4s;}
-.ac:hover .ac-img img{transform:scale(1.05);filter:brightness(1);}
-.ac-info{position:absolute;bottom:0;left:0;right:0;
-  padding:20px 14px 12px;
-  background:linear-gradient(to top,rgba(8,7,5,.92) 0%,transparent 100%);
-  transform:translateY(55%);transition:transform .4s;}
-.ac:hover .ac-info{transform:translateY(0);}
-.ac-title{font-family:"Gowun Batang",serif;font-size:13.5px;font-weight:700;color:var(--w);}
-.ac-sub{font-family:"Nanum Myeongjo",serif;font-size:11px;
-  color:rgba(242,237,228,.55);margin-top:3px;line-height:1.5;}
-.ac-size{font-family:"Cinzel",serif;font-size:9px;letter-spacing:.1em;
-  color:var(--gold);opacity:.65;margin-top:4px;}
+  filter:brightness(.85);transition:filter .5s,transform .6s;display:block;}
+.ac:hover .ac-img img{filter:brightness(1.0);transform:scale(1.03);}
+
+/* 오른쪽: 텍스트 */
+.ac-info{
+  padding:24px 28px;
+  display:flex;flex-direction:column;justify-content:center;
+  border-left:1px solid rgba(201,168,76,.08);
+  /* 겹침 없이 항상 노출 */
+  position:static;transform:none;background:none;}
+.ac-title{font-family:"Gowun Batang",serif;font-size:clamp(15px,1.6vw,19px);
+  font-weight:700;color:var(--w);margin-bottom:8px;}
+.ac-sub{font-family:"Nanum Myeongjo",serif;font-size:13px;
+  color:rgba(242,237,228,.55);line-height:1.85;margin-bottom:10px;}
+.ac-size{font-family:"Cinzel",serif;font-size:8.5px;letter-spacing:.18em;
+  color:var(--gold);opacity:.55;}
+
+/* 반응형 */
+@media(max-width:768px){
+  .ac{grid-template-columns:180px 1fr;}
+  .ac-img{height:160px;}
+  .ac-info{padding:16px 18px;}
+  .ac-title{font-size:14px;}
+  .ac-sub{font-size:12px;}
+}
+@media(max-width:480px){
+  .ac{grid-template-columns:130px 1fr;}
+  .ac-img{height:130px;}
+  .ac-info{padding:12px 14px;}
+  .ac-title{font-size:13px;}
+  .ac-sub{font-size:11px;line-height:1.7;}
+}
 
 /* ═══════════════════════════════════════
    7. TANGO
@@ -623,7 +650,7 @@ window.addEventListener('scroll', () => {
   nav.classList.toggle('on', window.scrollY > 60);
   // 처음으로 버튼: 스크롤 50% 지점에서 등장
   if(backBtn){
-    const half = (document.documentElement.scrollHeight - innerHeight) * 0.3;
+    const half = (document.documentElement.scrollHeight - innerHeight) * 0.10;
     backBtn.classList.toggle('show', window.scrollY > half);
   }
 });
