@@ -34,13 +34,16 @@ body{background:var(--bg);color:var(--w);font-family:"Nanum Myeongjo",serif;over
 .nav-right{display:flex;align-items:center;gap:12px;}
 /* 처음으로 버튼 — 스크롤 50% 후 등장 */
 #back-home-btn{
-  font-family:"Gowun Batang",serif;font-size:10px;letter-spacing:.2em;
-  color:var(--bg);background:var(--gold);padding:9px 20px;
-  text-decoration:none;transition:all .3s;
+  font-family:"Gowun Batang",serif;font-size:10px;letter-spacing:.18em;
+  color:#080705;background:var(--gold);padding:9px 20px;
+  text-decoration:none;
   opacity:0;pointer-events:none;
-  transform:translateY(-6px);transition:opacity .4s,transform .4s,filter .3s;}
+  transform:translateY(-6px);
+  transition:opacity .4s ease, transform .4s ease, filter .3s;
+  white-space:nowrap;
+  border:1px solid var(--gold);}
 #back-home-btn.show{opacity:1;pointer-events:auto;transform:translateY(0);}
-#back-home-btn:hover{filter:brightness(1.12);transform:translateY(-1px);}
+#back-home-btn:hover{filter:brightness(1.1);transform:translateY(-1px);}
 .ncta{font-family:"Gowun Batang",serif;font-size:11px;letter-spacing:.2em;
   color:var(--gold);border:1px solid rgba(201,168,76,.38);padding:9px 20px;
   text-decoration:none;transition:all .3s;}
@@ -369,7 +372,7 @@ footer{background:var(--bg);border-top:1px solid rgba(201,168,76,.1);
   </ul>
   <div class="nav-right">
     <a href="index.html?skip=1" id="back-home-btn">← 처음으로</a>
-    <a href="booking.html" class="ncta">공연 의뢰하기</a>
+    <a href="booking.html#contact" class="ncta">공연 의뢰하기</a>
   </div>
   <button class="nav-ham" id="sham"><span></span><span></span><span></span></button>
 </nav>
@@ -379,7 +382,7 @@ footer{background:var(--bg);border-top:1px solid rgba(201,168,76,.1);
   <a href="#art" onclick="bc()">현대미술</a>
   <a href="#tango" onclick="bc()">탱고</a>
   <a href="#yemisa" onclick="bc()">예미사</a>
-  <a href="booking.html" class="bmcta" onclick="bc()">공연 의뢰하기</a>
+  <a href="booking.html#contact" class="bmcta" onclick="bc()">공연 의뢰하기</a>
 </div>
 
 <!-- ① 나사 애니메이션 — 맨 처음 -->
@@ -599,7 +602,7 @@ footer{background:var(--bg);border-top:1px solid rgba(201,168,76,.1);
   <h2 class="cta-title rv"><span style="color:var(--gold)">A</span>RIS KIM을<br>무대로 초대하세요</h2>
   <p class="cta-sub rv">기업 · 대학 · 문화재단 · 지자체 · 정부 행사<br>클림트 미디어아트 색소폰 콘서트 · 탱고 퍼포먼스 · 현대미술 전시 연계</p>
   <div class="cta-btns rv">
-    <a href="booking.html" class="btn-gold">공연 의뢰하기</a>
+    <a href="booking.html#contact" class="btn-gold">공연 의뢰하기</a>
     <a href="index.html" class="btn-out">← 메인으로</a>
   </div>
 </section>
@@ -620,7 +623,7 @@ window.addEventListener('scroll', () => {
   nav.classList.toggle('on', window.scrollY > 60);
   // 처음으로 버튼: 스크롤 50% 지점에서 등장
   if(backBtn){
-    const half = (document.documentElement.scrollHeight - innerHeight) * 0.5;
+    const half = (document.documentElement.scrollHeight - innerHeight) * 0.3;
     backBtn.classList.toggle('show', window.scrollY > half);
   }
 });
