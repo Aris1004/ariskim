@@ -1,5 +1,8 @@
-cd /d "C:\Users\GAPER\Downloads\Compressed\5\site_final"
+@echo off
+cd /d %~dp0
+git add .
+git pull origin main --rebase
 git add .
 git commit -m "update"
-git push
+git push origin main
 pause
