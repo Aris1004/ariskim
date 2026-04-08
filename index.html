@@ -89,6 +89,23 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
 @media(min-width:769px) and (max-width:1024px){.ptitle{font-size:clamp(18px,3vw,34px);}.pkr{font-size:clamp(10px,1.3vw,14px);}.pc{padding:36px 24px;}#photo-wrap{width:28vw;}}
 @media(min-width:481px) and (max-width:768px){#s3{flex-direction:row;}.panel{flex:1;}.panel:hover{flex:1.4;}#dl{left:50%;top:0;width:1px;height:100%;}.pc{transform:none!important;opacity:1!important;padding:24px 16px;}.ptitle{font-size:clamp(14px,2.8vw,22px);letter-spacing:.04em;}.pkr{font-size:10px;}.pdesc,.ptag{display:none;}.pcta{padding:9px 18px;font-size:9px;}#photo-wrap{width:40vw;height:72vh;}.cor{width:10px;height:10px;}.enter-ring{width:80px;height:80px;}}
 @media(max-width:480px){#s3{flex-direction:column;}.panel{flex:1!important;min-height:50vh;transition:flex 0s!important;}.panel:hover{flex:1!important;}#dl{left:0!important;top:50%!important;width:100%!important;height:1px!important;}#dl::before{width:30px;height:30px;}.pc{transform:none!important;opacity:1!important;padding:24px 16px;}.ptag,.pdesc,.cor{display:none;}.ptitle{font-size:clamp(18px,5.5vw,26px);letter-spacing:.05em;}.pkr{font-size:11px;}.pcta{padding:10px 22px;font-size:10px;}#photo-wrap{width:68vw;height:62vh;}#sig{display:none;}.enter-ring{width:80px;height:80px;}.enter-txt{font-size:9px;letter-spacing:.4em;}}
+
+/* Galaxy Z Fold5 unfolded & similar square-ish tablet screens */
+@media(min-width:481px) and (max-width:900px) and (min-aspect-ratio:3/4) and (max-aspect-ratio:5/4){
+html,body{overflow-y:auto!important;overflow-x:hidden!important;}
+#s3{position:relative!important;flex-direction:column!important;min-height:100vh;}
+.panel{flex:none!important;min-height:50vh;transition:flex 0s!important;}
+.panel:hover{flex:none!important;}
+#dl{left:0!important;top:50%!important;width:100%!important;height:1px!important;}
+#dl::before{width:30px;height:30px;}
+.pc{transform:none!important;opacity:1!important;padding:32px 24px;}
+.ptag{display:none;}
+.ptitle{font-size:clamp(20px,4vw,36px);}
+.pkr{font-size:12px;}
+.pdesc{display:none;}
+.pcta{padding:10px 24px;font-size:10px;}
+}
+
 /* GOLDEN SPARK FULL-SCREEN INTRO */
 .golden-spark-overlay{position:fixed;inset:0;z-index:99999;background:#040302;display:flex;align-items:center;justify-content:center;pointer-events:auto;animation:sparkFadeOut 0.8s ease 1.6s forwards;}
 .golden-spark-overlay.done{display:none;}
@@ -103,6 +120,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
 <div class="golden-spark-overlay" id="sparkOverlay"><div class="golden-spark-dot"></div></div>
 
 <div id="flash"></div>
+<canvas id="pcvs" style="position:fixed;inset:0;z-index:390;pointer-events:none;display:none;"></canvas>
 
 <!-- PHASE 1 -->
 <div id="s1">
@@ -220,9 +238,9 @@ function playPressureBuild(delay, dur){
   g.gain.linearRampToValueAtTime(0,t+dur+0.4);
   var rv=makeReverb(3,2.2);
   var rvG=AC.createGain(); rvG.gain.value=0.35;
-  rv.connect(rvG); rvG.connect(AC.destination);
+  rv.connect(rvG); connectDest(rvG);
   src.connect(lp); lp.connect(g);
-  g.connect(AC.destination); g.connect(rv);
+  connectDest(g); g.connect(rv);
   src.start(t);
 }
 
@@ -244,9 +262,9 @@ function playBeamSwoosh(delay){
   g.gain.exponentialRampToValueAtTime(0.001,t+0.85);
   var rv=makeReverb(3.5,1.5);
   var rvG=AC.createGain(); rvG.gain.value=0.5;
-  rv.connect(rvG); rvG.connect(AC.destination);
+  rv.connect(rvG); connectDest(rvG);
   src.connect(hp); hp.connect(g);
-  g.connect(AC.destination); g.connect(rv);
+  connectDest(g); g.connect(rv);
   src.start(t);
 }
 
@@ -265,7 +283,7 @@ function playRevealShimmer(delay){
   var bp=AC.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=2200; bp.Q.value=4;
   var rv=makeReverb(6,1.0);
   var rvG=AC.createGain(); rvG.gain.value=1.2;
-  rv.connect(rvG); rvG.connect(AC.destination);
+  rv.connect(rvG); connectDest(rvG);
   var g=AC.createGain();
   g.gain.setValueAtTime(1.5,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.15);
   src.connect(bp); bp.connect(g); g.connect(rv); src.start(t);
@@ -282,7 +300,7 @@ function playSeismicBoom(delay){
   var sg=AC.createGain();
   sg.gain.setValueAtTime(0,t); sg.gain.linearRampToValueAtTime(4.0,t+0.006);
   sg.gain.exponentialRampToValueAtTime(0.001,t+3.0);
-  sub.connect(sg); sg.connect(AC.destination);
+  sub.connect(sg); connectDest(sg);
   sub.start(t); sub.stop(t+3.2);
   noiseBurst(40, 1.5, 2.5, 0.01, 2.0, delay);
   noiseBurst(75, 2, 1.2, 0.02, 1.5, delay+0.05);
@@ -301,7 +319,109 @@ function playSeismicRumble(delay, dur){
   var g=AC.createGain();
   g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(2.2,t+0.3);
   g.gain.setValueAtTime(2.5,t+0.8); g.gain.linearRampToValueAtTime(0,t+dur);
-  src.connect(lp); lp.connect(g); g.connect(AC.destination); src.start(t);
+  src.connect(lp); lp.connect(g); connectDest(g); src.start(t);
+}
+
+/* destination 헬퍼 — masterBus 있으면 경유 */
+function connectDest(node){
+  var bus = getMasterBus();
+  node.connect(bus || AC.destination);
+}
+/* ── 마스터 버스: 씬 전환 시 서서히 fade out ── */
+var masterBus = null;   // GainNode — 모든 사운드가 거침
+var masterFading = false;
+
+function getMasterBus(){
+  if(!AC) return null;
+  if(!masterBus){
+    masterBus = AC.createGain();
+    masterBus.gain.value = 1.0;
+    masterBus.connect(AC.destination);
+  }
+  return masterBus;
+}
+
+/* 마스터 볼륨을 targetVol까지 dur초에 걸쳐 fade */
+function masterFadeTo(targetVol, dur, onEnd){
+  var bus = getMasterBus(); if(!bus) return;
+  var t = AC.currentTime;
+  bus.gain.cancelScheduledValues(t);
+  bus.gain.setValueAtTime(bus.gain.value, t);
+  if(targetVol < 0.001){
+    bus.gain.linearRampToValueAtTime(0.001, t + dur);
+    if(onEnd) setTimeout(onEnd, dur * 1000 + 50);
+  } else {
+    bus.gain.linearRampToValueAtTime(targetVol, t + dur);
+    if(onEnd) setTimeout(onEnd, dur * 1000 + 50);
+  }
+}
+
+/* noiseBurst — 마스터 버스 경유 버전 */
+function noiseBurstM(freq, Q, vol, atk, dcy, delay){
+  if(!AC) return;
+  var bus = getMasterBus();
+  delay = delay||0;
+  var t = AC.currentTime + delay;
+  var dur = atk + dcy + 0.05;
+  var buf = AC.createBuffer(1, Math.ceil(AC.sampleRate*dur), AC.sampleRate);
+  var d = buf.getChannelData(0);
+  for(var i=0;i<d.length;i++) d[i]=(Math.random()*2-1);
+  var src = AC.createBufferSource(); src.buffer=buf;
+  var bp = AC.createBiquadFilter(); bp.type='bandpass';
+  bp.frequency.value=freq; bp.Q.value=Q;
+  var g = AC.createGain();
+  g.gain.setValueAtTime(0,t);
+  g.gain.linearRampToValueAtTime(vol, t+atk);
+  g.gain.exponentialRampToValueAtTime(0.001, t+atk+dcy);
+  src.connect(bp); bp.connect(g); g.connect(bus||AC.destination);
+  src.start(t); src.stop(t+dur+0.01);
+}
+
+/* F. 금가루 씬 — 크리스털 공기감 (shimmer + airy reverb) */
+function playGoldDustAmbience(){
+  if(!AC) return;
+  var bus = getMasterBus();
+  var t = AC.currentTime;
+
+  /* 높은 대역 에어 shimmer — 금가루가 공기 중에 떠도는 느낌 */
+  function airShimmer(freq, vol, delay, dur){
+    var tt = t + delay;
+    var buf = AC.createBuffer(1, Math.ceil(AC.sampleRate*dur), AC.sampleRate);
+    var d = buf.getChannelData(0);
+    for(var i=0;i<d.length;i++) d[i]=(Math.random()*2-1);
+    var src = AC.createBufferSource(); src.buffer=buf;
+    var bp = AC.createBiquadFilter(); bp.type='bandpass';
+    bp.frequency.value=freq; bp.Q.value=12;
+    var rv = makeReverb(5, 0.8);
+    var rvG = AC.createGain(); rvG.gain.value = 1.8;
+    var g = AC.createGain();
+    g.gain.setValueAtTime(0, tt);
+    g.gain.linearRampToValueAtTime(vol, tt + 0.8);
+    g.gain.linearRampToValueAtTime(vol * 0.7, tt + dur - 1.0);
+    g.gain.linearRampToValueAtTime(0, tt + dur);
+    rv.connect(rvG); rvG.connect(bus||AC.destination);
+    src.connect(bp); bp.connect(g); g.connect(rv);
+    src.start(tt);
+  }
+
+  /* 3개 레이어 — 서로 다른 주파수로 겹쳐 공기 질감 */
+  airShimmer(3800, 0.18, 0.0, 7.0);   // 고주파 크리스털
+  airShimmer(2200, 0.14, 0.3, 7.5);   // 중고주파 유리알
+  airShimmer(1100, 0.10, 0.7, 8.0);   // 중주파 따뜻한 여운
+
+  /* 아주 낮은 드론 — 공간감 */
+  var osc = AC.createOscillator(); osc.type='sine';
+  osc.frequency.setValueAtTime(55, t);
+  osc.frequency.linearRampToValueAtTime(48, t + 6);
+  var og = AC.createGain();
+  og.gain.setValueAtTime(0, t);
+  og.gain.linearRampToValueAtTime(0.12, t + 1.5);
+  og.gain.linearRampToValueAtTime(0, t + 8);
+  var rv2 = makeReverb(6, 1.5);
+  var rv2G = AC.createGain(); rv2G.gain.value = 0.6;
+  rv2.connect(rv2G); rv2G.connect(bus||AC.destination);
+  osc.connect(og); og.connect(rv2);
+  osc.start(t); osc.stop(t + 9);
 }
 
 /* 인트로 오디오 스케줄러 */
@@ -315,6 +435,10 @@ function scheduleIntroAudio(){
   if(e<2.8)  playRevealShimmer(s(2.4));
   if(e<4.2)  playSeismicBoom(s(3.6));
   if(e<4.5)  playSeismicRumble(s(3.7), 3.0);
+  /* 지진 여운이 가라앉은 후 금가루 앰비언스 시작 */
+  if(e<6.5)  setTimeout(function(){
+    if(AC && AC.state==='running') playGoldDustAmbience();
+  }, Math.max(0, (6.2 - e)) * 1000);
 }
 
 /* 첫 인터랙션 시 AudioContext resume */
@@ -497,6 +621,12 @@ function phase1(done){
 
 /* ─── PHASE 2 & 3 ─── */
 function phase2(done){
+  /* 핀 조명 사라질 때 골드 파티클 점화 */
+  spawnGoldBurst();
+
+  /* 씬 전환: 오디오를 끊지 않고 3.5초에 걸쳐 서서히 fade out */
+  masterFadeTo(0, 3.5);
+
   document.getElementById('s1').classList.add('out');
   setTimeout(function(){
     document.getElementById('s1').style.display='none';
@@ -548,6 +678,175 @@ document.addEventListener('keydown',function(e){
   if(e.key==='ArrowLeft') location.href='story.html';
   if(e.key==='ArrowRight') location.href='booking.html';
 });
+
+/* ════════════════════════════════════
+   골드 금가루 — 안개처럼 우아하게 흩날림
+   ════════════════════════════════════ */
+var PCVS = document.getElementById('pcvs');
+var PCX  = PCVS ? PCVS.getContext('2d') : null;
+var particles = [];
+var pAnimId   = null;
+var pLastTime = 0;
+
+function resizePCVS(){
+  if(!PCVS) return;
+  PCVS.width  = innerWidth;
+  PCVS.height = innerHeight;
+}
+resizePCVS();
+window.addEventListener('resize', resizePCVS);
+
+/* ── 금가루 1개 ── */
+function makeGoldDust(ox, oy){
+  var colors = [
+    'rgba(255,240,160,',   // 밝은 샴페인 골드
+    'rgba(232,204,122,',   // 메인 골드
+    'rgba(255,248,200,',   // 아이보리 골드
+    'rgba(201,168,76,',    // 딥 골드
+    'rgba(255,255,220,',   // 크림 화이트
+  ];
+  var c = colors[Math.floor(Math.random() * colors.length)];
+  var size = 0.6 + Math.random() * 2.2;   // 아주 작고 섬세함
+
+  return {
+    x:     ox,
+    y:     oy,
+    /* 드리프트: 매우 느리고 수평에 가까운 흐름 */
+    vx:    (Math.random() - 0.5) * 0.55,
+    vy:    -0.08 - Math.random() * 0.32,  // 아주 천천히 올라가다 떨어짐
+    ax:    (Math.random() - 0.5) * 0.006, // 수평 가속 (흔들림)
+    size:  size,
+    color: c,
+    alpha: 0.0,                           // fade-in 시작
+    peak:  0.18 + Math.random() * 0.55,  // 최대 투명도
+    life:  3.5 + Math.random() * 4.5,    // 긴 수명 — 천천히 사라짐
+    maxLife: 0,                           // 후에 채움
+    phase: Math.random() * Math.PI * 2,  // sin 흔들림 위상
+    freq:  0.004 + Math.random() * 0.008, // 흔들림 주기
+    twinkle: Math.random() > 0.45,        // 반짝임 여부
+    twinkleSpeed: 0.03 + Math.random() * 0.06,
+    twinklePhase: Math.random() * Math.PI * 2,
+  };
+}
+
+/* ── 스폰: phase2 시작 시 조용히 퍼뜨림 ── */
+var dustSpawnId = null;
+var dustTotal   = 0;
+
+function spawnGoldBurst(){
+  if(!PCVS) return;
+  resizePCVS();
+  PCVS.style.display = 'block';
+  dustTotal = 0;
+
+  /* 화면 전체에 걸쳐 수백 개를 시간차로 등장 — 안개가 피어오르는 느낌 */
+  function spawnWave(count, delay){
+    setTimeout(function(){
+      for(var i = 0; i < count; i++){
+        setTimeout(function(){
+          if(dustTotal > 600) return;
+          /* 조명 빔이 있던 중앙에서 더 밀도 높게, 양 옆으로 갈수록 적게 */
+          var cx = innerWidth * 0.5;
+          var spread = innerWidth * 0.55;
+          /* 정규분포 근사: 3개 uniform 합산 */
+          var rx = (Math.random()+Math.random()+Math.random()-1.5) / 1.5;
+          var x  = cx + rx * spread * 0.8;
+          /* Y: 화면 하단 30%~90% 사이에서 올라오기 시작 */
+          var y  = innerHeight * (0.35 + Math.random() * 0.55);
+          var p  = makeGoldDust(x, y);
+          p.maxLife = p.life;
+          particles.push(p);
+          dustTotal++;
+        }, i * (4 + Math.random() * 10));  // 각 파티클 미세 시간차
+      }
+    }, delay);
+  }
+
+  /* 3번에 나눠서 파도처럼 등장 */
+  spawnWave(120, 0);
+  spawnWave(160, 600);
+  spawnWave(180, 1400);
+  spawnWave(120, 2600);
+  spawnWave( 80, 4000);
+
+  if(!pAnimId){
+    pLastTime = performance.now();
+    pAnimId = requestAnimationFrame(animParticles);
+  }
+}
+
+/* ── 렌더 루프 ── */
+function animParticles(ts){
+  var dt = Math.min((ts - pLastTime) / 1000, 0.05);
+  pLastTime = ts;
+
+  PCX.clearRect(0, 0, PCVS.width, PCVS.height);
+  var alive = false;
+
+  for(var i = particles.length - 1; i >= 0; i--){
+    var p = particles[i];
+    p.life -= dt;
+    if(p.life <= 0){ particles.splice(i, 1); continue; }
+    alive = true;
+
+    /* 위치 업데이트 */
+    p.vx += p.ax;
+    p.vx *= 0.998;                           // 아주 천천히 감속
+    p.vy += 0.0035;                          // 매우 약한 중력 (천천히 낙하)
+    p.x  += p.vx + Math.sin(ts * p.freq + p.phase) * 0.22; // 사인 흔들림
+    p.y  += p.vy;
+    p.phase += 0.012;
+
+    /* 투명도: 앞 15% fade-in, 뒤 30% fade-out, 중간 유지 */
+    var ratio = p.life / p.maxLife;
+    var baseA;
+    if(ratio > 0.85){
+      baseA = p.peak * ((1 - ratio) / 0.15);  // fade-in
+    } else if(ratio < 0.30){
+      baseA = p.peak * (ratio / 0.30);          // fade-out
+    } else {
+      baseA = p.peak;
+    }
+
+    /* 반짝임 */
+    var twinkA = baseA;
+    if(p.twinkle){
+      p.twinklePhase += p.twinkleSpeed;
+      twinkA = baseA * (0.5 + 0.5 * Math.sin(p.twinklePhase));
+    }
+    twinkA = Math.max(0, Math.min(twinkA, 1));
+
+    /* 그리기 */
+    PCX.save();
+    /* 작은 글로우 */
+    if(p.size > 1.4){
+      PCX.shadowColor = p.color + '0.6)';
+      PCX.shadowBlur  = p.size * 2.5;
+    }
+    /* 타원형 금가루 (납작하게) */
+    PCX.globalAlpha = twinkA;
+    PCX.fillStyle   = p.color + twinkA + ')';
+    PCX.beginPath();
+    PCX.ellipse(
+      p.x, p.y,
+      p.size,                    // rx
+      p.size * (0.3 + Math.random() * 0.4), // ry — 납작한 티끌 모양
+      p.phase * 0.5,             // rotation
+      0, Math.PI * 2
+    );
+    PCX.fill();
+    PCX.restore();
+  }
+
+  if(alive || dustTotal < 600){
+    pAnimId = requestAnimationFrame(animParticles);
+  } else {
+    pAnimId = null;
+    PCX.clearRect(0, 0, PCVS.width, PCVS.height);
+    PCVS.style.display = 'none';
+  }
+}
+
 </script>
 </body>
 </html>
