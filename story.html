@@ -3,432 +3,1059 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ARIS KIM | 아리스 김 처음 만나다</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Nanum+Myeongjo:wght@400;700&family=Noto+Serif+KR:wght@200;300;400&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+<title>ARIS KIM | 아리스 김 — 장르의 뮤즈</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Serif+KR:wght@200;300;400;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-a,a:link,a:visited{color:rgba(242,237,228,.75);text-decoration:none;-webkit-tap-highlight-color:transparent;}
-a:hover,a:active{color:rgba(242,237,228,.75);text-decoration:none;}
-:root{--gold:#C9A84C;--gl:#E8CC7A;--bg:#080705;--deep:#0D0B07;--w:#F2EDE4;}
+:root{
+  --gold:#C9A84C;
+  --bg:#0A0908;
+  --deep:#0E0C09;
+  --text:#F2EDE4;
+}
 html{scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--w);font-family:"Nanum Myeongjo",serif;overflow-x:hidden;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:"Noto Serif KR",serif;
+  overflow-x:hidden;
+  line-height:1.6;
+}
+a,a:link,a:visited{color:inherit;text-decoration:none;-webkit-tap-highlight-color:transparent;}
+a:hover,a:active{color:var(--gold);}
 
-/* ── PROGRESS ── */
-#prog{position:fixed;top:0;left:0;height:2px;
-  background:linear-gradient(90deg,var(--gold),var(--gl));
-  z-index:9999;width:0%;transition:width .1s;}
+/* ════════════════════════════════════════════════
+   PROGRESS BAR (Top)
+════════════════════════════════════════════════ */
+#prog{
+  position:fixed;top:0;left:0;height:2px;
+  background:linear-gradient(90deg,var(--gold),#E8CC7A);
+  z-index:9999;width:0%;
+  transition:width .15s ease;
+}
 
-/* ── NAV (booking.html 방식) ── */
-#nav{position:fixed;top:0;left:0;right:0;height:64px;z-index:9000;
-  display:flex;align-items:center;justify-content:space-between;padding:0 48px;
-  transition:background .5s;}
-#nav.on{background:rgba(8,7,5,.95);backdrop-filter:blur(18px);
-  border-bottom:1px solid rgba(201,168,76,.1);}
-.nlogo{font-family:"Cinzel",serif;font-size:15px;font-weight:700;
-  color:var(--gl);letter-spacing:.14em;text-decoration:none;}
-.nlogo .ai{color:var(--gold);}
-.nlinks{display:flex;gap:4px;list-style:none;}
-.nlinks a{font-family:"Gowun Batang",serif;font-size:11.5px;letter-spacing:.12em;
-  color:rgba(242,237,228,.4);text-decoration:none;transition:color .3s;padding:4px 10px;}
-.nlinks a:hover{color:var(--gl);}
-.nav-right{display:flex;align-items:center;gap:12px;}
-/* 처음으로 버튼 — 스크롤 50% 후 등장 */
+/* ════════════════════════════════════════════════
+   NAVIGATION — Luxury Fixed Header
+════════════════════════════════════════════════ */
+#nav{
+  position:fixed;top:0;left:0;right:0;height:72px;
+  z-index:8500;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 80px;
+  background:transparent;
+  transition:all .6s cubic-bezier(.4,0,.2,1);
+}
+#nav.on{
+  background:rgba(10,9,8,.95);
+  backdrop-filter:blur(24px);
+  border-bottom:1px solid rgba(201,168,76,.08);
+  padding:0 80px;
+}
+.nlogo{
+  font-family:"Cinzel",serif;
+  font-size:14px;
+  font-weight:700;
+  letter-spacing:.25em;
+  color:var(--gold);
+  text-decoration:none;
+  transition:color .4s cubic-bezier(.4,0,.2,1);
+}
+.nlogo:hover{color:#E8CC7A;}
+.nlinks{
+  display:flex;
+  list-style:none;
+  gap:48px;
+}
+.nlinks a{
+  font-family:"Noto Serif KR",serif;
+  font-size:11px;
+  font-weight:300;
+  letter-spacing:.15em;
+  color:rgba(242,237,228,.6);
+  text-decoration:none;
+  transition:color .5s cubic-bezier(.4,0,.2,1),text-shadow .5s cubic-bezier(.4,0,.2,1);
+  position:relative;
+}
+.nlinks a:hover{
+  color:var(--gold);
+  text-shadow:0 0 12px rgba(201,168,76,.4);
+}
+.nav-right{
+  display:flex;
+  align-items:center;
+  gap:28px;
+}
 #back-home-btn{
-  font-family:'Cinzel',serif;font-size:9px;font-weight:700;
-  letter-spacing:.25em;color:#111;text-decoration:none;
-  padding:9px 18px;
-  background:linear-gradient(135deg,#B8922E 0%,#E8CC7A 40%,#C9A84C 60%,#F5E090 80%,#C9A84C 100%);
-  box-shadow:0 2px 12px rgba(201,168,76,.5);
-  border:1px solid rgba(180,140,30,.5);
-  opacity:0;pointer-events:none;
-  transition:opacity .4s ease,transform .4s ease;
-  transform:translateY(-6px);
+  font-family:"Cinzel",serif;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.3em;
+  color:#0A0908;
+  padding:10px 24px;
+  background:linear-gradient(135deg,#B8922E,#E8CC7A,#C9A84C,#F5E090);
+  border:1px solid rgba(180,140,30,.6);
+  box-shadow:0 4px 16px rgba(201,168,76,.35);
+  opacity:0;
+  pointer-events:none;
+  transform:translateY(-8px);
+  transition:all .5s cubic-bezier(.4,0,.2,1);
   white-space:nowrap;
-  display:inline-block;}
-#back-home-btn.show{opacity:1;pointer-events:auto;transform:translateY(0);}
-#back-home-btn:hover{filter:brightness(1.12);transform:translateY(-1px);}
-.ncta{font-family:"Gowun Batang",serif;font-size:11px;letter-spacing:.2em;
-  color:var(--gold);border:1px solid rgba(201,168,76,.38);padding:9px 20px;
-  text-decoration:none;transition:all .3s;}
-.ncta:hover{background:var(--gold);color:var(--bg);}
-/* 햄버거 */
-.nav-ham{display:none;flex-direction:column;gap:5px;cursor:pointer;
-  background:none;border:none;padding:4px;}
-.nav-ham span{display:block;width:24px;height:1px;background:var(--gold);transition:all .3s;}
-.nav-ham.on span:nth-child(1){transform:translateY(6px) rotate(45deg);}
+  cursor:pointer;
+}
+#back-home-btn.show{
+  opacity:1;
+  pointer-events:auto;
+  transform:translateY(0);
+}
+#back-home-btn:hover{
+  filter:brightness(1.15);
+  box-shadow:0 6px 24px rgba(201,168,76,.5);
+  transform:translateY(-2px);
+}
+.ncta{
+  font-family:"Noto Serif KR",serif;
+  font-size:10px;
+  font-weight:400;
+  letter-spacing:.15em;
+  color:var(--gold);
+  border:1px solid rgba(201,168,76,.4);
+  padding:11px 28px;
+  transition:all .5s cubic-bezier(.4,0,.2,1);
+  cursor:pointer;
+}
+.ncta:hover{
+  background:var(--gold);
+  color:var(--bg);
+  box-shadow:0 4px 16px rgba(201,168,76,.3);
+}
+/* Hamburger */
+.nav-ham{
+  display:none;
+  flex-direction:column;
+  gap:6px;
+  cursor:pointer;
+  background:none;
+  border:none;
+  padding:6px;
+}
+.nav-ham span{
+  display:block;
+  width:24px;
+  height:1.5px;
+  background:var(--gold);
+  transition:all .4s cubic-bezier(.4,0,.2,1);
+}
+.nav-ham.on span:nth-child(1){transform:translateY(8px) rotate(45deg);}
 .nav-ham.on span:nth-child(2){opacity:0;}
-.nav-ham.on span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
-/* 모바일 풀스크린 메뉴 */
-#bmob{display:none;position:fixed;inset:0;background:rgba(8,7,5,.98);z-index:8999;
-  flex-direction:column;align-items:center;justify-content:center;gap:28px;}
+.nav-ham.on span:nth-child(3){transform:translateY(-8px) rotate(-45deg);}
+/* Mobile menu */
+#bmob{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(10,9,8,.98);
+  z-index:8499;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:36px;
+}
 #bmob.on{display:flex;}
-#bmob a{font-family:"Gowun Batang",serif;font-size:16px;letter-spacing:.22em;
-  color:rgba(242,237,228,.65);text-decoration:none;transition:color .3s;}
+#bmob a{
+  font-family:"Noto Serif KR",serif;
+  font-size:14px;
+  font-weight:300;
+  letter-spacing:.15em;
+  color:rgba(242,237,228,.7);
+  text-decoration:none;
+  transition:color .4s cubic-bezier(.4,0,.2,1);
+}
 #bmob a:hover{color:var(--gold);}
-#bmob .bmcta{border:1px solid rgba(201,168,76,.4);padding:12px 36px;color:var(--gold)!important;margin-top:8px;}
+#bmob .bmcta{
+  border:1px solid rgba(201,168,76,.4);
+  padding:12px 36px;
+  color:var(--gold);
+  margin-top:12px;
+}
 
-/* ── REVEAL ── */
-.rv{opacity:0;transform:translateY(24px);transition:opacity .9s ease,transform .9s ease;}
+/* ════════════════════════════════════════════════
+   REVEAL ANIMATIONS
+════════════════════════════════════════════════ */
+.rv{
+  opacity:0;
+  transform:translateY(28px);
+  transition:opacity 1.2s cubic-bezier(.4,0,.2,1),transform 1.2s cubic-bezier(.4,0,.2,1);
+}
 .rv.on{opacity:1;transform:translateY(0);}
-.rv-l{opacity:0;transform:translateX(-28px);transition:opacity .9s ease,transform .9s ease;}
+.rv-l{
+  opacity:0;
+  transform:translateX(-32px);
+  transition:opacity 1.2s cubic-bezier(.4,0,.2,1),transform 1.2s cubic-bezier(.4,0,.2,1);
+}
 .rv-l.on{opacity:1;transform:translateX(0);}
-.rv-r{opacity:0;transform:translateX(28px);transition:opacity .9s ease,transform .9s ease;}
+.rv-r{
+  opacity:0;
+  transform:translateX(32px);
+  transition:opacity 1.2s cubic-bezier(.4,0,.2,1),transform 1.2s cubic-bezier(.4,0,.2,1);
+}
 .rv-r.on{opacity:1;transform:translateX(0);}
 
-/* ── 섹션 공통 ── */
-.sec{padding:100px 48px;}
-.sec-inner{max-width:1160px;margin:0 auto;}
-.sec-label{font-family:"Cinzel",serif;font-size:8.5px;letter-spacing:.6em;
-  color:var(--gold);opacity:.5;margin-bottom:14px;display:block;}
-.sec-title{font-family:"Noto Serif KR",serif;
-  font-size:clamp(22px,3.5vw,44px);font-weight:200;
-  letter-spacing:.12em;color:var(--w);line-height:1.3;margin-bottom:8px;}
-.sec-title em{color:var(--gl);font-style:normal;}
-.gold-rule{width:42px;height:1px;background:var(--gold);opacity:.4;margin:20px 0 40px;}
-.body-txt{font-family:"Nanum Myeongjo",serif;
-  font-size:clamp(13px,1.4vw,15.5px);letter-spacing:.06em;
-  line-height:2.3;color:rgba(242,237,228,.62);}
+/* ════════════════════════════════════════════════
+   SECTION STYLING
+════════════════════════════════════════════════ */
+.sec{
+  padding:180px 80px;
+  background:var(--bg);
+}
+.sec-inner{
+  max-width:1000px;
+  margin:0 auto;
+}
+.sec-label{
+  font-family:"Cinzel",serif;
+  font-size:8px;
+  font-weight:700;
+  letter-spacing:.8em;
+  color:var(--gold);
+  opacity:.5;
+  margin-bottom:16px;
+  display:block;
+}
+.sec-title{
+  font-family:"Noto Serif KR",serif;
+  font-size:clamp(28px,4vw,56px);
+  font-weight:200;
+  letter-spacing:.08em;
+  color:var(--text);
+  line-height:1.35;
+  margin-bottom:8px;
+}
+.sec-title em{
+  color:var(--gold);
+  font-style:normal;
+  font-weight:300;
+}
+.gold-rule{
+  width:80px;
+  height:1px;
+  background:var(--gold);
+  opacity:.5;
+  margin:32px 0 52px;
+}
+.body-txt{
+  font-family:"Noto Serif KR",serif;
+  font-size:clamp(13px,1.3vw,15px);
+  font-weight:300;
+  letter-spacing:.04em;
+  line-height:2.4;
+  color:rgba(242,237,228,.58);
+}
 
-/* ═══════════════════════════════════════
-   1. 나사 애니메이션 섹션 (맨 첫 번째)
-═══════════════════════════════════════ */
-.fb{position:relative;width:100%;overflow:hidden;}
-.fb-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;}
-.fb-ov{position:absolute;inset:0;}
-.fb-content{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center;}
-
-#fb-genesis{height:100vh;min-height:520px;}
-#fb-genesis .fb-bg{object-position:center 20%;filter:brightness(.55) contrast(1.1);}
-#fb-genesis .fb-ov{background:linear-gradient(180deg,rgba(8,7,5,.7) 0%,rgba(8,7,5,.1) 35%,rgba(8,7,5,.1) 65%,rgba(8,7,5,.88) 100%);}
-#fb-genesis .fb-content{align-items:center;text-align:center;height:100vh;min-height:520px;padding:0 24px;}
-#fb-genesis .fb-eyebrow{font-family:"Cinzel",serif;font-size:8px;letter-spacing:.7em;color:var(--gold);opacity:.6;margin-bottom:28px;}
-#fb-genesis .fb-line{width:1px;height:60px;background:linear-gradient(180deg,var(--gold),transparent);margin:28px auto 0;}
-
-/* 타자기 */
-.genesis-typewriter{text-align:center;margin-bottom:24px;}
+/* ════════════════════════════════════════════════
+   SECTION 1: CINEMATIC OPENING
+════════════════════════════════════════════════ */
+#fb-genesis{
+  position:relative;
+  width:100%;
+  height:100vh;
+  min-height:640px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.fb-bg{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center 35%;
+  filter:brightness(.35) contrast(1.15);
+}
+.fb-ov{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,rgba(10,9,8,.4) 0%,rgba(10,9,8,.2) 40%,rgba(10,9,8,.3) 60%,rgba(10,9,8,.95) 100%);
+}
+.fb-content{
+  position:relative;
+  z-index:2;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:0 60px;
+}
+.genesis-typewriter{
+  text-align:center;
+  margin-bottom:28px;
+}
 .gtw-line1{
   font-family:"Noto Serif KR",serif;
-  font-size:clamp(32px,6vw,80px);
-  font-weight:900;letter-spacing:.06em;color:var(--w);
+  font-size:clamp(28px,5vw,64px);
+  font-weight:700;
+  letter-spacing:.06em;
+  color:var(--text);
   line-height:1.2;
-  text-shadow:0 0 40px rgba(255,255,255,.15),0 4px 20px rgba(0,0,0,.9);
-  min-height:1.2em;display:block;}
-.gtw-spacer{display:block;height:clamp(14px,2vw,28px);}
+  text-shadow:0 0 40px rgba(255,255,255,.12),0 4px 24px rgba(0,0,0,.95);
+  min-height:1.2em;
+  display:block;
+}
+.gtw-spacer{display:block;height:clamp(18px,2.5vw,32px);}
 .genesis-big-quote{
   font-family:"Noto Serif KR",serif;
-  font-size:clamp(18px,3.2vw,44px);
-  font-weight:700;letter-spacing:.05em;color:var(--gold);
-  line-height:1.35;
-  text-shadow:0 0 30px rgba(201,168,76,.55),0 0 60px rgba(201,168,76,.22),0 3px 14px rgba(0,0,0,.95);
-  margin-top:22px;opacity:0;transform:translateY(10px);
-  transition:opacity 1.2s ease,transform 1.2s ease;}
-.genesis-big-quote.show{opacity:1;transform:translateY(0);}
-.genesis-big-quote em{font-style:italic;color:var(--gl);}
-.gtw-cursor{display:inline-block;font-weight:300;color:var(--gold);
-  animation:cursorBlink .7s step-end infinite;}
+  font-size:clamp(16px,2.5vw,32px);
+  font-weight:300;
+  letter-spacing:.05em;
+  color:var(--gold);
+  line-height:1.4;
+  text-shadow:0 0 32px rgba(201,168,76,.5),0 0 64px rgba(201,168,76,.2),0 3px 16px rgba(0,0,0,.98);
+  margin-top:24px;
+  opacity:0;
+  transform:translateY(12px);
+  transition:opacity 1.2s cubic-bezier(.4,0,.2,1),transform 1.2s cubic-bezier(.4,0,.2,1);
+}
+.genesis-big-quote.show{
+  opacity:1;
+  transform:translateY(0);
+}
+.genesis-big-quote em{
+  font-style:italic;
+  color:#E8CC7A;
+}
+.gtw-cursor{
+  display:inline-block;
+  font-weight:300;
+  color:var(--gold);
+  animation:cursorBlink .7s step-end infinite;
+}
 .gtw-cursor.done{animation:none;opacity:0;}
 @keyframes cursorBlink{0%,100%{opacity:1;}50%{opacity:0;}}
 
-/* ═══════════════════════════════════════
-   2. HERO — 처음 만나다
-═══════════════════════════════════════ */
-#hero{position:relative;width:100%;height:100vh;overflow:hidden;
-  display:flex;align-items:center;justify-content:center;}
+/* ════════════════════════════════════════════════
+   SECTION 2: HERO
+════════════════════════════════════════════════ */
+#hero{
+  position:relative;
+  width:100%;
+  height:100vh;
+  min-height:640px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
 .hbg{position:absolute;inset:0;}
-/* 투명도 수정: .2 → .55 */
-.hbg img{width:100%;height:100%;object-fit:cover;filter:brightness(.55) contrast(1.05);}
-.hov{position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(8,7,5,.15) 0%,rgba(8,7,5,.0) 30%,
-  rgba(8,7,5,.55) 70%,rgba(8,7,5,1) 100%);}
-.hcont{position:relative;z-index:2;text-align:center;padding:0 48px;}
-.htag{font-family:"Cinzel",serif;font-size:clamp(8px,1vw,10px);letter-spacing:.65em;
-  color:var(--gold);opacity:.6;margin-bottom:24px;animation:fu 1.2s .3s both;}
-.htitle{font-family:"Cinzel",serif;font-size:clamp(48px,9vw,120px);font-weight:900;
-  line-height:.92;color:var(--w);letter-spacing:.04em;animation:fu 1.2s .5s both;}
+.hbg img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  filter:brightness(.45) contrast(1.08);
+}
+.hov{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg,rgba(10,9,8,.08) 0%,rgba(10,9,8,.0) 25%,rgba(10,9,8,.4) 70%,rgba(10,9,8,1) 100%);
+}
+.hcont{
+  position:relative;
+  z-index:2;
+  text-align:left;
+  padding:0 80px;
+  max-width:900px;
+}
+.htag{
+  font-family:"Cinzel",serif;
+  font-size:clamp(8px,1vw,10px);
+  font-weight:700;
+  letter-spacing:.8em;
+  color:var(--gold);
+  opacity:.6;
+  margin-bottom:32px;
+  animation:heroFade 1.2s .3s both;
+}
+.htitle{
+  font-family:"Cinzel",serif;
+  font-size:clamp(48px,9vw,120px);
+  font-weight:900;
+  line-height:.95;
+  color:var(--text);
+  letter-spacing:.03em;
+  animation:heroFade 1.2s .5s both;
+}
 .htitle .ai{color:var(--gold);}
-.hkr{font-family:"Gowun Batang",serif;font-size:clamp(16px,3vw,38px);font-weight:700;
-  letter-spacing:.35em;color:var(--gl);margin-top:8px;animation:fu 1.2s .7s both;}
-.hline{width:1px;height:72px;background:linear-gradient(180deg,var(--gold),transparent);
-  margin:28px auto;animation:fu 1.2s .9s both;}
-.hsub{font-family:"Cormorant Garamond",serif;font-size:clamp(14px,1.8vw,20px);
-  font-style:italic;color:rgba(242,237,228,.5);letter-spacing:.08em;line-height:1.9;
-  animation:fu 1.2s 1.1s both;max-width:680px;margin:0 auto;}
-.hscroll{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);
-  display:flex;flex-direction:column;align-items:center;gap:8px;
-  animation:fu 1.4s 1.6s both;}
-.hscroll span{font-family:"Cinzel",serif;font-size:7px;letter-spacing:.55em;
-  color:rgba(201,168,76,.35);}
-.hscroll-line{width:1px;height:44px;
+.hkr{
+  font-family:"Noto Serif KR",serif;
+  font-size:clamp(14px,2.8vw,32px);
+  font-weight:200;
+  letter-spacing:.4em;
+  color:var(--gold);
+  margin-top:12px;
+  animation:heroFade 1.2s .7s both;
+}
+.hline{
+  width:1px;
+  height:80px;
   background:linear-gradient(180deg,var(--gold),transparent);
-  animation:sp 2s ease infinite;}
-@keyframes fu{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
-@keyframes sp{0%,100%{opacity:.3;transform:scaleY(.6);}50%{opacity:1;transform:scaleY(1);}}
+  margin:32px 0;
+  animation:heroFade 1.2s .9s both;
+}
+.hsub{
+  font-family:"Noto Serif KR",serif;
+  font-size:clamp(13px,1.7vw,18px);
+  font-weight:300;
+  color:rgba(242,237,228,.55);
+  letter-spacing:.04em;
+  line-height:2;
+  animation:heroFade 1.2s 1.1s both;
+  max-width:700px;
+}
+.hscroll{
+  position:absolute;
+  bottom:48px;
+  left:80px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  animation:heroFade 1.4s 1.6s both;
+}
+.hscroll span{
+  font-family:"Cinzel",serif;
+  font-size:7px;
+  letter-spacing:.6em;
+  color:rgba(201,168,76,.3);
+}
+.hscroll-line{
+  width:1px;
+  height:48px;
+  background:linear-gradient(180deg,var(--gold),transparent);
+  animation:scrollPulse 2.2s ease-in-out infinite;
+}
+@keyframes heroFade{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
+@keyframes scrollPulse{0%,100%{opacity:.25;transform:scaleY(.55);}50%{opacity:1;transform:scaleY(1);}}
 
-/* ═══════════════════════════════════════
-   3. GENESIS — 탄생 (그대로 유지)
-═══════════════════════════════════════ */
-#genesis{background:linear-gradient(180deg,var(--bg),var(--deep));}
-.gen-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center;}
-.gen-img-wrap{position:relative;}
-.gen-img{width:100%;aspect-ratio:3/4;object-fit:cover;
-  border:1px solid rgba(201,168,76,.14);filter:brightness(.88);}
-.gen-badge{position:absolute;bottom:-18px;right:-18px;
-  background:var(--bg);border:1px solid rgba(201,168,76,.22);padding:18px 22px;}
-.gen-badge-n{font-family:"Cinzel",serif;font-size:26px;font-weight:700;color:var(--gl);}
-.gen-badge-l{font-family:"Gowun Batang",serif;font-size:9.5px;letter-spacing:.2em;
-  color:rgba(242,237,228,.38);margin-top:4px;}
-.gen-words{display:flex;flex-wrap:wrap;gap:8px;margin-top:32px;}
-.gen-word{font-family:"Cinzel",serif;font-size:8px;letter-spacing:.3em;
-  border:1px solid rgba(201,168,76,.25);color:var(--gold);padding:6px 14px;}
+/* ════════════════════════════════════════════════
+   SECTION 3: GENESIS
+════════════════════════════════════════════════ */
+#genesis{
+  background:linear-gradient(180deg,var(--bg) 0%,var(--deep) 100%);
+  padding:200px 80px;
+}
+.gen-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:100px;
+  align-items:start;
+}
+.gen-img-wrap{
+  position:relative;
+  height:600px;
+}
+.gen-img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  border:1px solid rgba(201,168,76,.15);
+  filter:brightness(.92);
+  transition:filter .8s cubic-bezier(.4,0,.2,1);
+}
+.gen-img-wrap:hover .gen-img{
+  filter:brightness(1);
+}
+.gen-badge{
+  position:absolute;
+  bottom:-28px;
+  right:-28px;
+  background:var(--bg);
+  border:1px solid rgba(201,168,76,.25);
+  padding:24px 32px;
+  backdrop-filter:blur(20px);
+}
+.gen-badge-n{
+  font-family:"Cinzel",serif;
+  font-size:32px;
+  font-weight:900;
+  color:var(--gold);
+}
+.gen-badge-l{
+  font-family:"Noto Serif KR",serif;
+  font-size:10px;
+  font-weight:300;
+  letter-spacing:.12em;
+  color:rgba(242,237,228,.4);
+  margin-top:6px;
+}
+.gen-words{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:48px;
+}
+.gen-word{
+  font-family:"Cinzel",serif;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.25em;
+  border:1px solid rgba(201,168,76,.3);
+  color:var(--gold);
+  padding:8px 18px;
+  transition:all .4s cubic-bezier(.4,0,.2,1);
+  cursor:default;
+}
+.gen-word:hover{
+  background:rgba(201,168,76,.08);
+  border-color:rgba(201,168,76,.6);
+}
 
-/* ═══════════════════════════════════════
-   4. QUOTE
-═══════════════════════════════════════ */
-#quote-sec{padding:80px 48px;background:var(--deep);}
-.quote-box{max-width:860px;margin:0 auto;text-align:center;}
-.quote-box blockquote{font-family:"Cormorant Garamond",serif;
-  font-size:clamp(20px,3.2vw,38px);font-style:italic;font-weight:300;
-  color:var(--w);line-height:1.7;margin-bottom:22px;}
-.quote-box cite{font-family:"Cinzel",serif;font-size:9px;
-  letter-spacing:.45em;color:var(--gold);opacity:.5;font-style:normal;}
+/* ════════════════════════════════════════════════
+   SECTION 4: QUOTE
+════════════════════════════════════════════════ */
+#quote-sec{
+  padding:160px 80px;
+  background:var(--deep);
+  text-align:center;
+}
+.quote-box{
+  max-width:900px;
+  margin:0 auto;
+}
+.quote-box blockquote{
+  font-family:"Noto Serif KR",serif;
+  font-size:clamp(18px,3vw,30px);
+  font-weight:200;
+  color:var(--text);
+  line-height:1.6;
+  margin-bottom:28px;
+  font-style:italic;
+}
+.quote-box cite{
+  font-family:"Cinzel",serif;
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.5em;
+  color:var(--gold);
+  opacity:.6;
+  font-style:normal;
+}
 
-/* ═══════════════════════════════════════
-   5. HISTORY — 연보 (그대로 유지)
-═══════════════════════════════════════ */
-.hist-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 64px;margin-top:8px;
-  position:relative;}
-.hist-grid::before{content:"";position:absolute;left:50%;top:0;bottom:0;
-  width:1px;background:rgba(201,168,76,.12);transform:translateX(-50%);}
-.hist-item{padding:22px 0;border-bottom:1px solid rgba(201,168,76,.08);}
-.hist-year{font-family:"Cinzel",serif;font-size:clamp(18px,2vw,26px);
-  font-weight:700;color:var(--gold);line-height:1;margin-bottom:6px;}
-.hist-txt{font-family:"Nanum Myeongjo",serif;font-size:13px;
-  letter-spacing:.05em;color:rgba(242,237,228,.6);line-height:1.8;}
+/* ════════════════════════════════════════════════
+   SECTION 5: HISTORY
+════════════════════════════════════════════════ */
+#history{background:var(--deep);}
+.hist-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:0 80px;
+  margin-top:12px;
+  position:relative;
+}
+.hist-grid::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:0;
+  bottom:0;
+  width:1px;
+  background:rgba(201,168,76,.12);
+  transform:translateX(-50%);
+}
+.hist-item{
+  padding:28px 0;
+  border-bottom:1px solid rgba(201,168,76,.08);
+}
+.hist-year{
+  font-family:"Cinzel",serif;
+  font-size:clamp(18px,2vw,26px);
+  font-weight:700;
+  color:var(--gold);
+  line-height:1;
+  margin-bottom:8px;
+}
+.hist-txt{
+  font-family:"Noto Serif KR",serif;
+  font-size:12px;
+  font-weight:300;
+  letter-spacing:.04em;
+  color:rgba(242,237,228,.6);
+  line-height:2;
+}
 
-/* ═══════════════════════════════════════
-   6. ART COLLECTION — 좌:이미지 우:설명
-═══════════════════════════════════════ */
-.art-tabs{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:32px;}
-.art-tabs button{background:none;border:1px solid rgba(201,168,76,.2);
-  font-family:"Gowun Batang",serif;font-size:11px;letter-spacing:.12em;
-  color:rgba(242,237,228,.45);padding:8px 18px;cursor:pointer;transition:all .25s;}
-.art-tabs button.active{border-color:var(--gold);color:var(--gold);
-  background:rgba(201,168,76,.06);}
-.art-tabs button:hover{border-color:rgba(201,168,76,.5);color:var(--gl);}
-
-/* 리스트 레이아웃 */
-.art-grid{display:flex;flex-direction:column;gap:2px;}
+/* ════════════════════════════════════════════════
+   SECTION 6: ART COLLECTION
+════════════════════════════════════════════════ */
+#art{background:var(--bg);}
+.art-tabs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:44px;
+}
+.art-tabs button{
+  background:none;
+  border:1px solid rgba(201,168,76,.25);
+  font-family:"Noto Serif KR",serif;
+  font-size:11px;
+  font-weight:300;
+  letter-spacing:.1em;
+  color:rgba(242,237,228,.5);
+  padding:10px 22px;
+  cursor:pointer;
+  transition:all .5s cubic-bezier(.4,0,.2,1);
+}
+.art-tabs button.active{
+  border-color:var(--gold);
+  color:var(--gold);
+  background:rgba(201,168,76,.08);
+}
+.art-tabs button:hover{
+  border-color:rgba(201,168,76,.6);
+  color:var(--gold);
+}
+.art-grid{
+  display:flex;
+  flex-direction:column;
+  gap:0;
+}
 .ac{
   display:flex;
   align-items:stretch;
   background:var(--deep);
-  border:1px solid rgba(201,168,76,.07);
+  border:1px solid rgba(201,168,76,.08);
+  border-top:none;
   overflow:hidden;
-  transition:border-color .4s;
-  cursor:default;
+  transition:all .5s cubic-bezier(.4,0,.2,1);
 }
-.ac:hover{border-color:rgba(201,168,76,.2);}
+.ac:first-child{border-top:1px solid rgba(201,168,76,.08);}
+.ac:hover{
+  border-color:rgba(201,168,76,.25);
+}
 .ac.hide{display:none;}
-
-/* 왼쪽: 이미지 */
 .ac-img{
   position:relative;
   overflow:hidden;
-  width:280px;
+  width:300px;
   flex-shrink:0;
-  /* 배경: 이미지 여백 부분을 자연스럽게 */
   background:#0a0806;
 }
 .ac-img img{
   width:100%;
   height:100%;
-  object-fit:contain;  /* 전체 이미지 잘림 없이 표시 */
+  object-fit:contain;
   object-position:center;
-  filter:brightness(.9);
-  transition:filter .5s,transform .6s;
+  filter:brightness(.92);
+  transition:filter .6s cubic-bezier(.4,0,.2,1),transform .6s cubic-bezier(.4,0,.2,1);
   display:block;
-  /* 최소 세로 높이 보장 */
-  min-height:160px;
+  min-height:200px;
 }
-.ac:hover .ac-img img{filter:brightness(1.0);transform:scale(1.02);}
-
-/* 오른쪽: 텍스트 */
+.ac:hover .ac-img img{
+  filter:brightness(1.05);
+  transform:scale(1.03);
+}
 .ac-info{
-  padding:24px 28px;
-  display:flex;flex-direction:column;justify-content:center;
+  padding:32px 40px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
   border-left:1px solid rgba(201,168,76,.08);
-  /* 겹침 없이 항상 노출 */
-  position:static;transform:none;background:none;}
-.ac-title{font-family:"Gowun Batang",serif;font-size:clamp(15px,1.6vw,19px);
-  font-weight:700;color:var(--w);margin-bottom:8px;}
-.ac-sub{font-family:"Nanum Myeongjo",serif;font-size:13px;
-  color:rgba(242,237,228,.55);line-height:1.85;margin-bottom:10px;}
-.ac-size{font-family:"Cinzel",serif;font-size:8.5px;letter-spacing:.18em;
-  color:var(--gold);opacity:.55;}
-
-/* 반응형 */
-@media(max-width:1024px){
-  .ac-img{width:220px;}
 }
-@media(max-width:768px){
-  .ac-img{width:160px;}
-  .ac-info{padding:14px 16px;}
-  .ac-title{font-size:14px;}
-  .ac-sub{font-size:12px;}
+.ac-title{
+  font-family:"Noto Serif KR",serif;
+  font-size:clamp(14px,1.5vw,18px);
+  font-weight:400;
+  color:var(--text);
+  margin-bottom:10px;
 }
-@media(max-width:480px){
-  /* 스마트폰: 세로 배치 (위:이미지 아래:텍스트) */
-  .ac{flex-direction:column;}
-  .ac-img{
-    width:100%;
-    min-height:200px;
-    max-height:280px;
-  }
-  .ac-img img{
-    min-height:200px;
-    max-height:280px;
-  }
-  .ac-info{padding:14px 16px;border-left:none;border-top:1px solid rgba(201,168,76,.1);}
-  .ac-title{font-size:14px;}
-  .ac-sub{font-size:12px;line-height:1.7;}
+.ac-sub{
+  font-family:"Noto Serif KR",serif;
+  font-size:12px;
+  font-weight:300;
+  color:rgba(242,237,228,.55);
+  line-height:1.9;
+  margin-bottom:12px;
+}
+.ac-size{
+  font-family:"Cinzel",serif;
+  font-size:8px;
+  font-weight:700;
+  letter-spacing:.15em;
+  color:var(--gold);
+  opacity:.5;
 }
 
-/* ═══════════════════════════════════════
-   7. TANGO
-═══════════════════════════════════════ */
-.tango-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
-.tango-img{width:100%;aspect-ratio:3/4;object-fit:cover;
-  filter:brightness(.88);border:1px solid rgba(201,168,76,.1);}
-.tango-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px;}
-.tango-tag{font-family:"Cinzel",serif;font-size:8px;letter-spacing:.22em;
-  border:1px solid rgba(201,168,76,.22);color:var(--gold);padding:5px 12px;}
+/* ════════════════════════════════════════════════
+   SECTION 7: TANGO
+════════════════════════════════════════════════ */
+#tango{background:var(--deep);padding:200px 80px;}
+.tango-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:100px;
+  align-items:start;
+}
+.tango-text{order:-1;}
+.tango-img{
+  width:100%;
+  aspect-ratio:3/4;
+  object-fit:cover;
+  object-position:center;
+  filter:brightness(.92);
+  border:1px solid rgba(201,168,76,.15);
+  transition:filter .8s cubic-bezier(.4,0,.2,1);
+}
+.tango-img:hover{filter:brightness(1);}
+.tango-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:44px;
+}
+.tango-tag{
+  font-family:"Cinzel",serif;
+  font-size:8px;
+  font-weight:700;
+  letter-spacing:.25em;
+  border:1px solid rgba(201,168,76,.3);
+  color:var(--gold);
+  padding:8px 18px;
+  transition:all .4s cubic-bezier(.4,0,.2,1);
+  cursor:default;
+}
+.tango-tag:hover{
+  background:rgba(201,168,76,.08);
+  border-color:rgba(201,168,76,.6);
+}
 
-/* ═══════════════════════════════════════
-   8. 예미사
-═══════════════════════════════════════ */
-.yemisa-card{width:180px;cursor:pointer;position:relative;}
-.yemisa-card img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;filter:brightness(.7);}
-.yemisa-card:hover img{filter:brightness(.9);}
-.yemisa-play{position:absolute;top:50%;left:50%;transform:translate(-50%,-60%);
-  font-size:22px;color:var(--gold);opacity:.8;}
-.yemisa-label{font-family:"Gowun Batang",serif;font-size:11px;letter-spacing:.1em;
-  color:rgba(242,237,228,.5);margin-top:8px;text-align:center;}
+/* ════════════════════════════════════════════════
+   SECTION 8: YEMISA
+════════════════════════════════════════════════ */
+#yemisa{
+  background:var(--bg);
+  padding:180px 80px;
+  border-top:1px solid rgba(201,168,76,.08);
+}
+.yemisa-inner{
+  max-width:1000px;
+  margin:0 auto;
+  text-align:center;
+}
+.yemisa-label{
+  font-family:"Cinzel",serif;
+  font-size:8px;
+  font-weight:700;
+  letter-spacing:.8em;
+  color:var(--gold);
+  opacity:.5;
+  margin-bottom:16px;
+  display:block;
+}
+.yemisa-title{
+  font-family:"Noto Serif KR",serif;
+  font-size:clamp(28px,4vw,56px);
+  font-weight:200;
+  letter-spacing:.08em;
+  color:var(--text);
+  margin-bottom:8px;
+}
+.yemisa-sub{
+  font-family:"Noto Serif KR",serif;
+  font-size:12px;
+  font-weight:300;
+  letter-spacing:.08em;
+  color:rgba(242,237,228,.4);
+  margin-bottom:52px;
+}
+.yemisa-grid{
+  display:flex;
+  justify-content:center;
+  gap:24px;
+  flex-wrap:wrap;
+}
+.yemisa-card{
+  width:190px;
+  cursor:pointer;
+  position:relative;
+  transition:all .5s cubic-bezier(.4,0,.2,1);
+}
+.yemisa-card:hover{transform:translateY(-4px);}
+.yemisa-card img{
+  width:100%;
+  aspect-ratio:16/9;
+  object-fit:cover;
+  display:block;
+  filter:brightness(.75);
+  transition:filter .6s cubic-bezier(.4,0,.2,1);
+}
+.yemisa-card:hover img{filter:brightness(.95);}
+.yemisa-play{
+  position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  font-size:28px;
+  color:var(--gold);
+  opacity:.85;
+  transition:all .5s cubic-bezier(.4,0,.2,1);
+}
+.yemisa-card:hover .yemisa-play{
+  opacity:1;
+  transform:translate(-50%,-50%) scale(1.2);
+}
+.yemisa-label-card{
+  font-family:"Noto Serif KR",serif;
+  font-size:11px;
+  font-weight:300;
+  letter-spacing:.06em;
+  color:rgba(242,237,228,.5);
+  margin-top:12px;
+  text-align:center;
+}
 
-/* ═══════════════════════════════════════
-   9. BACKSTAGE + CTA
-═══════════════════════════════════════ */
-#backstage-sec{position:relative;height:400px;overflow:hidden;}
-#backstage-sec img{width:100%;height:100%;object-fit:cover;filter:brightness(.35);}
-#backstage-sec .ov{position:absolute;inset:0;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:0 48px;}
-#backstage-sec .ov h2{font-family:"Cinzel",serif;
-  font-size:clamp(22px,4vw,52px);font-weight:900;letter-spacing:.1em;
-  color:var(--gl);text-shadow:0 0 40px rgba(201,168,76,.4);margin-bottom:16px;}
-#backstage-sec .ov p{font-family:"Nanum Myeongjo",serif;
-  font-size:clamp(13px,1.5vw,16px);color:rgba(242,237,228,.55);
-  line-height:2;max-width:600px;}
+/* ════════════════════════════════════════════════
+   SECTION 9: BACKSTAGE
+════════════════════════════════════════════════ */
+#backstage-sec{
+  position:relative;
+  width:100%;
+  height:480px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+#backstage-sec img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  filter:brightness(.3);
+}
+.backstage-ov{
+  position:absolute;
+  inset:0;
+  background:rgba(10,9,8,.55);
+}
+.backstage-content{
+  position:relative;
+  z-index:2;
+  text-align:center;
+  padding:0 80px;
+  max-width:900px;
+}
+.backstage-title{
+  font-family:"Cinzel",serif;
+  font-size:clamp(28px,4vw,56px);
+  font-weight:900;
+  letter-spacing:.08em;
+  color:var(--gold);
+  text-shadow:0 0 40px rgba(201,168,76,.4);
+  margin-bottom:20px;
+}
+.backstage-txt{
+  font-family:"Noto Serif KR",serif;
+  font-size:clamp(12px,1.4vw,15px);
+  font-weight:300;
+  color:rgba(242,237,228,.6);
+  line-height:2.2;
+}
 
-/* CTA */
-#cta{background:var(--deep);padding:100px 48px;text-align:center;}
-.cta-label{font-family:"Cinzel",serif;font-size:8.5px;letter-spacing:.6em;
-  color:var(--gold);opacity:.5;margin-bottom:18px;display:block;}
-.cta-title{font-family:"Cinzel",serif;font-size:clamp(24px,4vw,52px);
-  font-weight:900;letter-spacing:.1em;color:var(--w);margin-bottom:12px;}
-.cta-sub{font-family:"Nanum Myeongjo",serif;
-  font-size:clamp(13px,1.4vw,16px);color:rgba(242,237,228,.48);
-  line-height:2;margin-bottom:44px;max-width:640px;margin-left:auto;margin-right:auto;}
-.cta-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
-.btn-gold{font-family:"Gowun Batang",serif;font-size:11.5px;letter-spacing:.22em;
-  background:var(--gold);color:var(--bg);padding:15px 44px;
-  text-decoration:none;font-weight:700;transition:all .3s;}
-.btn-gold:hover{background:var(--gl);}
-.btn-out{font-family:"Gowun Batang",serif;font-size:11.5px;letter-spacing:.22em;
-  border:1px solid rgba(201,168,76,.35);color:var(--gold);padding:15px 44px;
-  text-decoration:none;transition:all .3s;}
-.btn-out:hover{background:rgba(201,168,76,.08);border-color:var(--gold);}
+/* ════════════════════════════════════════════════
+   SECTION 10: CTA
+════════════════════════════════════════════════ */
+#cta{
+  background:var(--deep);
+  padding:200px 80px;
+  text-align:center;
+}
+.cta-label{
+  font-family:"Cinzel",serif;
+  font-size:8px;
+  font-weight:700;
+  letter-spacing:.8em;
+  color:var(--gold);
+  opacity:.5;
+  margin-bottom:20px;
+  display:block;
+}
+.cta-title{
+  font-family:"Cinzel",serif;
+  font-size:clamp(28px,4vw,56px);
+  font-weight:900;
+  letter-spacing:.08em;
+  color:var(--text);
+  margin-bottom:16px;
+}
+.cta-title .ai{color:var(--gold);}
+.cta-sub{
+  font-family:"Noto Serif KR",serif;
+  font-size:clamp(12px,1.3vw,15px);
+  font-weight:300;
+  color:rgba(242,237,228,.55);
+  line-height:2.2;
+  margin-bottom:56px;
+  max-width:800px;
+  margin-left:auto;
+  margin-right:auto;
+}
+.cta-btns{
+  display:flex;
+  gap:20px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+.btn-gold{
+  font-family:"Noto Serif KR",serif;
+  font-size:11px;
+  font-weight:400;
+  letter-spacing:.15em;
+  background:var(--gold);
+  color:var(--bg);
+  padding:14px 44px;
+  text-decoration:none;
+  transition:all .5s cubic-bezier(.4,0,.2,1);
+  cursor:pointer;
+  border:none;
+}
+.btn-gold:hover{
+  background:#E8CC7A;
+  transform:translateY(-2px);
+  box-shadow:0 6px 24px rgba(201,168,76,.3);
+}
+.btn-out{
+  font-family:"Noto Serif KR",serif;
+  font-size:11px;
+  font-weight:400;
+  letter-spacing:.15em;
+  border:1px solid rgba(201,168,76,.4);
+  color:var(--gold);
+  padding:14px 44px;
+  text-decoration:none;
+  background:none;
+  transition:all .5s cubic-bezier(.4,0,.2,1);
+  cursor:pointer;
+}
+.btn-out:hover{
+  background:rgba(201,168,76,.08);
+  border-color:var(--gold);
+  transform:translateY(-2px);
+}
 
-/* FOOTER */
-footer{background:var(--bg);border-top:1px solid rgba(201,168,76,.1);
-  padding:32px 48px;display:flex;justify-content:space-between;align-items:center;}
-.ft-logo{font-family:"Cinzel",serif;font-size:14px;font-weight:700;
-  color:var(--gold);letter-spacing:.14em;}
-.ft-logo .ai{color:var(--gl);}
-.ft-copy{font-family:"Gowun Batang",serif;font-size:10px;
-  letter-spacing:.14em;color:rgba(242,237,228,.25);}
+/* ════════════════════════════════════════════════
+   FOOTER
+════════════════════════════════════════════════ */
+footer{
+  background:var(--bg);
+  border-top:1px solid rgba(201,168,76,.1);
+  padding:44px 80px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+}
+.ft-logo{
+  font-family:"Cinzel",serif;
+  font-size:13px;
+  font-weight:700;
+  letter-spacing:.2em;
+  color:var(--gold);
+}
+.ft-logo .ai{color:#E8CC7A;}
+.ft-copy{
+  font-family:"Noto Serif KR",serif;
+  font-size:9px;
+  font-weight:300;
+  letter-spacing:.08em;
+  color:rgba(242,237,228,.25);
+}
 
-/* ═══════════════════════════════════════
+/* ════════════════════════════════════════════════
    RESPONSIVE
-═══════════════════════════════════════ */
+════════════════════════════════════════════════ */
 @media(min-width:769px) and (max-width:1024px){
-  #nav{padding:0 32px;}
-  .nlinks{gap:8px;}
-  .nlinks a{font-size:10px;padding:4px 8px;}
-  .nav-ham{display:none!important;}
-  .sec{padding:72px 36px;}
-  .gen-grid,.tango-grid{grid-template-columns:1fr 1fr;gap:48px;}
-  .hist-grid{grid-template-columns:1fr 1fr;gap:0 40px;}
-  .art-grid{grid-template-columns:1fr 1fr 1fr;}
+  #nav{padding:0 56px;}
+  .nlinks{gap:32px;}
+  .nlinks a{font-size:10px;}
+  .sec{padding:140px 56px;}
+  .sec-inner{max-width:900px;}
+  .gen-grid,.tango-grid{grid-template-columns:1fr;gap:60px;}
+  .gen-img-wrap{height:500px;}
+  .hist-grid{grid-template-columns:1fr;gap:0;}
+  .hist-grid::before{display:none;}
+  .ac-img{width:240px;}
+  footer{padding:36px 56px;}
 }
 @media(min-width:481px) and (max-width:768px){
-  #nav{padding:0 24px;height:52px;}
-  .nlinks{display:none!important;}
+  #nav{padding:0 36px;height:60px;}
+  .nlinks{display:none;}
   .nav-right .ncta{display:none;}
-  .nav-ham{display:flex!important;}
+  .nav-ham{display:flex;}
   #fb-genesis{height:85vh;}
   #hero{height:85vh;}
-  .hcont{padding:0 28px 56px;}
-  .htitle{font-size:clamp(32px,8vw,52px);}
-  .hkr{font-size:clamp(14px,3.5vw,22px);}
-  .hsub{font-size:13px;}
+  .hcont{padding:0 40px;}
+  .hsub{font-size:12px;}
   .hscroll{display:none;}
-  .sec{padding:56px 28px;}
-  .gen-grid,.tango-grid{grid-template-columns:1fr 1fr;gap:32px;}
-  .hist-grid{grid-template-columns:1fr 1fr;gap:0 32px;}
-  .art-grid{grid-template-columns:1fr 1fr 1fr;}
+  .sec{padding:100px 40px;}
+  .sec-inner{max-width:100%;}
+  .gen-grid,.tango-grid{grid-template-columns:1fr;gap:48px;}
+  .gen-img-wrap{height:450px;order:-1;}
+  .hist-grid{grid-template-columns:1fr;gap:0;}
+  .hist-grid::before{display:none;}
+  .ac-img{width:200px;}
+  .ac-info{padding:20px 24px;}
+  .yemisa-grid{gap:16px;}
+  .yemisa-card{width:150px;}
+  #backstage-sec{height:360px;}
+  .backstage-content{padding:0 40px;}
+  footer{padding:32px 40px;flex-direction:column;text-align:center;}
+  .cta-btns{flex-direction:column;align-items:center;}
+  .btn-gold,.btn-out{width:100%;max-width:260px;}
 }
 @media(max-width:480px){
-  #nav{padding:0 18px;height:52px;}
-  .nlinks{display:none!important;}
-  .nav-right .ncta{display:none!important;} /* 공연의뢰는 모바일 메뉴로 */
-  /* 처음으로 버튼: 모바일에서도 표시 — 텍스트만 줄임 */
-  #back-home-btn{
-    font-size:9px;
-    padding:7px 12px;
-    letter-spacing:.1em;
-  }
-  .nav-ham{display:flex!important;}
-  .nlogo{font-size:13px;}
-  #fb-genesis{height:100svh;}
-  .gtw-line1{font-size:clamp(26px,8vw,42px);}
-  .genesis-big-quote{font-size:clamp(15px,5vw,24px);}
-  #hero{height:92vh;}
-  .hcont{padding:0 18px 52px;}
-  .htitle{font-size:clamp(40px,11vw,56px);letter-spacing:.12em;}
-  .hkr{font-size:clamp(16px,5vw,22px);letter-spacing:.22em;}
-  .hsub{font-size:13px;line-height:1.85;}
-  .hline{height:44px;margin:16px auto;}
+  #nav{padding:0 24px;height:56px;}
+  .nlinks{display:none;}
+  .nav-right .ncta{display:none;}
+  #back-home-btn{font-size:8px;padding:8px 16px;}
+  .nav-ham{display:flex;}
+  #fb-genesis{height:100vh;}
+  .gtw-line1{font-size:clamp(22px,7vw,40px);}
+  .genesis-big-quote{font-size:clamp(13px,4vw,22px);}
+  #hero{height:95vh;}
+  .hcont{padding:0 24px;}
+  .hsub{font-size:11px;line-height:1.8;}
+  .hline{height:48px;margin:20px 0;}
   .hscroll{display:none;}
-  .sec{padding:56px 18px;}
-  .gen-grid,.tango-grid{grid-template-columns:1fr!important;gap:28px!important;}
-  .gen-img-wrap{order:-1;}
-  .hist-grid{grid-template-columns:1fr!important;}
+  .sec{padding:80px 24px;}
+  .sec-title{font-size:clamp(22px,5vw,36px);}
+  .gen-grid,.tango-grid{grid-template-columns:1fr;gap:40px;}
+  .gen-img-wrap{height:400px;order:-1;}
+  .hist-grid{grid-template-columns:1fr;gap:0;}
   .hist-grid::before{display:none;}
-  .art-grid{grid-template-columns:1fr 1fr!important;}
-  .art-tabs button{font-size:9.5px;padding:6px 10px;letter-spacing:.08em;}
-  .ac-info{transform:translateY(0)!important;}
+  .art-tabs button{font-size:10px;padding:8px 14px;}
+  .ac{flex-direction:column;}
+  .ac-img{width:100%;min-height:200px;max-height:280px;}
+  .ac-img img{min-height:200px;max-height:280px;}
+  .ac-info{padding:16px 20px;border-left:none;border-top:1px solid rgba(201,168,76,.1);}
+  .yemisa-grid{gap:12px;}
   .yemisa-card{width:130px;}
-  #backstage-sec{height:240px;}
-  footer{padding:24px 18px;flex-direction:column;text-align:center;gap:10px;}
+  #backstage-sec{height:280px;}
+  .backstage-content{padding:0 24px;}
+  footer{padding:28px 24px;flex-direction:column;text-align:center;gap:12px;}
   .cta-btns{flex-direction:column;align-items:center;}
-  .btn-gold,.btn-out{width:100%;max-width:260px;text-align:center;padding:13px 20px;}
+  .btn-gold,.btn-out{width:100%;max-width:240px;font-size:10px;}
 }
 </style>
 </head>
 <body>
+
+<!-- PROGRESS BAR -->
 <div id="prog"></div>
 
-<!-- NAV -->
+<!-- NAVIGATION -->
 <nav id="nav">
   <a href="index.html" class="nlogo"><span class="ai">A</span>RIS KIM</a>
   <ul class="nlinks">
@@ -440,25 +1067,24 @@ footer{background:var(--bg);border-top:1px solid rgba(201,168,76,.1);
   </ul>
   <div class="nav-right">
     <a href="index.html?skip=1" id="back-home-btn">← 처음으로</a>
-    <a href="booking.html#contact" class="ncta">공연 의뢰하기</a>
+    <a href="booking.html#contact" class="ncta">공연 의뢰</a>
   </div>
   <button class="nav-ham" id="sham"><span></span><span></span><span></span></button>
 </nav>
 <div id="bmob">
-  <a href="#genesis" onclick="bc()">탄생</a>
-  <a href="#history" onclick="bc()">연보</a>
-  <a href="#art" onclick="bc()">현대미술</a>
-  <a href="#tango" onclick="bc()">탱고</a>
-  <a href="#yemisa" onclick="bc()">예미사</a>
-  <a href="booking.html#contact" class="bmcta" onclick="bc()">공연 의뢰하기</a>
+  <a href="#genesis" onclick="closeMobMenu()">탄생</a>
+  <a href="#history" onclick="closeMobMenu()">연보</a>
+  <a href="#art" onclick="closeMobMenu()">현대미술</a>
+  <a href="#tango" onclick="closeMobMenu()">탱고</a>
+  <a href="#yemisa" onclick="closeMobMenu()">예미사</a>
+  <a href="booking.html#contact" class="bmcta" onclick="closeMobMenu()">공연 의뢰</a>
 </div>
 
-<!-- ① 나사 애니메이션 — 맨 처음 -->
-<div class="fb" id="fb-genesis">
+<!-- SECTION 1: CINEMATIC OPENING -->
+<div id="fb-genesis">
   <img class="fb-bg" src="images/screw_photo.jpg" alt="장르의 창세기">
   <div class="fb-ov"></div>
   <div class="fb-content">
-    <div class="fb-eyebrow">The Genesis of Genre · 장르의 창세기</div>
     <div class="genesis-typewriter">
       <div class="gtw-line1">
         <span class="gtw-text" id="gtw1"></span><span class="gtw-cursor" id="gtw-cur1">|</span>
@@ -471,16 +1097,15 @@ footer{background:var(--bg);border-top:1px solid rgba(201,168,76,.1);
     <div class="genesis-big-quote" id="genesis-big-quote">
       장르가 없는 게 아니라,<br>장르가 <em>아리스김</em>이다.
     </div>
-    <div class="fb-line"></div>
   </div>
 </div>
 
-<!-- ② HERO — 처음 만나다 -->
+<!-- SECTION 2: HERO -->
 <section id="hero">
   <div class="hbg"><img src="images/img_01_242kb.jpg" alt="Aris Kim"></div>
   <div class="hov"></div>
   <div class="hcont">
-    <div class="htag">ARIS KIM · 아리스 김 · 처음 만나다</div>
+    <div class="htag">ARIS KIM · 아리스 김</div>
     <h1 class="htitle"><span class="ai">A</span>RIS KIM</h1>
     <div class="hkr">아 리 스 김</div>
     <div class="hline"></div>
@@ -495,7 +1120,7 @@ footer{background:var(--bg);border-top:1px solid rgba(201,168,76,.1);
   </div>
 </section>
 
-<!-- ③ GENESIS — 탄생 (원본 그대로) -->
+<!-- SECTION 3: GENESIS -->
 <section class="sec" id="genesis">
   <div class="sec-inner">
     <div class="gen-grid">
@@ -530,18 +1155,18 @@ footer{background:var(--bg);border-top:1px solid rgba(201,168,76,.1);
   </div>
 </section>
 
-<!-- ④ QUOTE -->
+<!-- SECTION 4: QUOTE -->
 <section id="quote-sec">
   <div class="quote-box rv">
     <blockquote>
-      "나의 무대는 색소폰이 아니라<br>그냥 아리스 김이었던 거 같아."
+      나의 무대는 색소폰이 아니라<br>그냥 아리스 김이었던 거 같아.
     </blockquote>
-    <cite>ARIS KIM — 인터뷰 中</cite>
+    <cite>— ARIS KIM</cite>
   </div>
 </section>
 
-<!-- ⑤ HISTORY — 연보 (원본 그대로) -->
-<section class="sec" id="history" style="background:var(--deep);">
+<!-- SECTION 5: HISTORY -->
+<section class="sec" id="history">
   <div class="sec-inner">
     <span class="sec-label rv">History · 연보</span>
     <h2 class="sec-title rv">아리스김이<br><em>걸어온 길</em></h2>
@@ -563,13 +1188,13 @@ footer{background:var(--bg);border-top:1px solid rgba(201,168,76,.1);
   </div>
 </section>
 
-<!-- ⑥ ART COLLECTION -->
-<section class="sec" id="art" style="background:var(--bg);">
+<!-- SECTION 6: ART COLLECTION -->
+<section class="sec" id="art">
   <div class="sec-inner">
     <span class="sec-label rv">Contemporary Art · 현대미술</span>
     <h2 class="sec-title rv">아리스김<br><em>현대미술 컬렉션</em></h2>
     <div class="gold-rule rv"></div>
-    <p class="body-txt rv" style="margin-bottom:36px;">
+    <p class="body-txt rv" style="margin-bottom:44px;">
       아시아 탱고 챔피언으로서 탱고의 Abrazo Technology(안기의 기술) 철학을 기반으로 모든 예술을 안은 채 자신의 파괴된 배설물로 현대 미술을 재배열하고 재창조시켜 현대 예술의 방향성에 대해 고민하는 실존 인물.
     </p>
     <div class="art-tabs rv">
@@ -613,11 +1238,11 @@ footer{background:var(--bg);border-top:1px solid rgba(201,168,76,.1);
   </div>
 </section>
 
-<!-- ⑦ TANGO -->
-<section class="sec" id="tango" style="background:var(--deep);">
+<!-- SECTION 7: TANGO -->
+<section class="sec" id="tango">
   <div class="sec-inner">
     <div class="tango-grid">
-      <div class="rv-l">
+      <div class="tango-text rv-l">
         <span class="sec-label">Tango · 탱고</span>
         <h2 class="sec-title">AI 시대,<br><em>탱고가 답이었다</em></h2>
         <div class="gold-rule"></div>
@@ -640,34 +1265,38 @@ footer{background:var(--bg);border-top:1px solid rgba(201,168,76,.1);
   </div>
 </section>
 
-<!-- ⑧ 예미사 -->
-<section id="yemisa" style="background:var(--bg);padding:88px 52px;border-top:1px solid rgba(201,168,76,.08);">
-  <div class="sec-inner">
-    <span class="sec-label rv" style="display:block;text-align:center;margin-bottom:12px;">Artist Stories · 예미사</span>
-    <h2 class="sec-title rv" style="text-align:center;font-family:'Noto Serif KR',serif;font-weight:200;">예술에 미친 사연</h2>
-    <p style="font-family:'Nanum Myeongjo',serif;font-size:12px;letter-spacing:.1em;color:rgba(242,237,228,.35);text-align:center;margin:8px 0 44px;" class="rv">(예미사 — 예술에 미친사연)</p>
-    <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;" class="rv">
-      <div class="yemisa-card" onclick="openVid('zc8haHlZlGs',true)"><img src="https://img.youtube.com/vi/zc8haHlZlGs/hqdefault.jpg" alt="예미사1"><div class="yemisa-play">▶</div><div class="yemisa-label">예미사 #1</div></div>
-      <div class="yemisa-card" onclick="openVid('QYxPOhUZ5mI',true)"><img src="https://img.youtube.com/vi/QYxPOhUZ5mI/hqdefault.jpg" alt="예미사2"><div class="yemisa-play">▶</div><div class="yemisa-label">예미사 #2</div></div>
-      <div class="yemisa-card" onclick="openVid('Qb8z-U-Cu74',true)"><img src="https://img.youtube.com/vi/Qb8z-U-Cu74/hqdefault.jpg" alt="예미사3"><div class="yemisa-play">▶</div><div class="yemisa-label">예미사 #3</div></div>
-      <div class="yemisa-card" onclick="openVid('GFhdTlGDMZU',true)"><img src="https://img.youtube.com/vi/GFhdTlGDMZU/hqdefault.jpg" alt="예미사4"><div class="yemisa-play">▶</div><div class="yemisa-label">예미사 #4</div></div>
-      <div class="yemisa-card" onclick="openVid('wjQfXyIyFcw',true)"><img src="https://img.youtube.com/vi/wjQfXyIyFcw/hqdefault.jpg" alt="예미사5"><div class="yemisa-play">▶</div><div class="yemisa-label">예미사 #5</div></div>
+<!-- SECTION 8: YEMISA -->
+<section id="yemisa">
+  <div class="yemisa-inner">
+    <span class="yemisa-label rv">Artist Stories · 예미사</span>
+    <h2 class="yemisa-title rv">예술에 미친 사연</h2>
+    <p class="yemisa-sub rv">(예미사 — 예술에 미친사연)</p>
+    <div class="yemisa-grid rv">
+      <div class="yemisa-card" onclick="openVid('zc8haHlZlGs',true)"><img src="https://img.youtube.com/vi/zc8haHlZlGs/hqdefault.jpg" alt="예미사1"><div class="yemisa-play">▶</div><div class="yemisa-label-card">예미사 #1</div></div>
+      <div class="yemisa-card" onclick="openVid('QYxPOhUZ5mI',true)"><img src="https://img.youtube.com/vi/QYxPOhUZ5mI/hqdefault.jpg" alt="예미사2"><div class="yemisa-play">▶</div><div class="yemisa-label-card">예미사 #2</div></div>
+      <div class="yemisa-card" onclick="openVid('Qb8z-U-Cu74',true)"><img src="https://img.youtube.com/vi/Qb8z-U-Cu74/hqdefault.jpg" alt="예미사3"><div class="yemisa-play">▶</div><div class="yemisa-label-card">예미사 #3</div></div>
+      <div class="yemisa-card" onclick="openVid('GFhdTlGDMZU',true)"><img src="https://img.youtube.com/vi/GFhdTlGDMZU/hqdefault.jpg" alt="예미사4"><div class="yemisa-play">▶</div><div class="yemisa-label-card">예미사 #4</div></div>
+      <div class="yemisa-card" onclick="openVid('wjQfXyIyFcw',true)"><img src="https://img.youtube.com/vi/wjQfXyIyFcw/hqdefault.jpg" alt="예미사5"><div class="yemisa-play">▶</div><div class="yemisa-label-card">예미사 #5</div></div>
     </div>
   </div>
 </section>
 
-<!-- ⑨ BACKSTAGE + CTA -->
+<!-- SECTION 9: BACKSTAGE -->
 <section id="backstage-sec">
   <img src="images/img_06_142kb.jpg" alt="Backstage">
-  <div class="ov">
-    <h2 class="rv">모든 것을 다 쏟아냈다</h2>
-    <p class="rv">공연 준비할 때도 재밌었고, 모든 힘이 다 빠진 상태로 관객들과 인사하고.<br>정말로 모든 것을 어떻게 말로 표현하냐.</p>
+  <div class="backstage-ov"></div>
+  <div class="backstage-content rv">
+    <h2 class="backstage-title">모든 것을 다 쏟아냈다</h2>
+    <p class="backstage-txt">
+      공연 준비할 때도 재밌었고, 모든 힘이 다 빠진 상태로<br>관객들과 인사하고. 정말로 모든 것을 어떻게 말로 표현하냐.
+    </p>
   </div>
 </section>
 
+<!-- SECTION 10: CTA -->
 <section id="cta">
   <span class="cta-label rv">Booking · 공연 의뢰</span>
-  <h2 class="cta-title rv"><span style="color:var(--gold)">A</span>RIS KIM을<br>무대로 초대하세요</h2>
+  <h2 class="cta-title rv"><span class="ai">A</span>RIS KIM을<br>무대로 초대하세요</h2>
   <p class="cta-sub rv">기업 · 대학 · 문화재단 · 지자체 · 정부 행사<br>클림트 미디어아트 색소폰 콘서트 · 탱고 퍼포먼스 · 현대미술 전시 연계</p>
   <div class="cta-btns rv">
     <a href="booking.html#contact" class="btn-gold">공연 의뢰하기</a>
@@ -675,34 +1304,36 @@ footer{background:var(--bg);border-top:1px solid rgba(201,168,76,.1);
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer>
   <div class="ft-logo"><span class="ai">A</span>RIS KIM</div>
   <div class="ft-copy">© 2025 ARISHOW COMPANY. All rights reserved.</div>
 </footer>
 
 <script>
-// 진행바 + 네비게이션
+// Progress bar
 const prog = document.getElementById('prog');
-const nav  = document.getElementById('nav');
+const nav = document.getElementById('nav');
 const backBtn = document.getElementById('back-home-btn');
 window.addEventListener('scroll', () => {
   const p = (window.scrollY / (document.documentElement.scrollHeight - innerHeight)) * 100;
   prog.style.width = p + '%';
   nav.classList.toggle('on', window.scrollY > 60);
-  // 처음으로 버튼: 스크롤 50% 지점에서 등장
-  if(backBtn){
+  if(backBtn) {
     const half = (document.documentElement.scrollHeight - innerHeight) * 0.10;
     backBtn.classList.toggle('show', window.scrollY > half);
   }
 });
 
-// Reveal 애니메이션
+// Reveal animations
 const obs = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('on'); });
-}, {threshold: .12});
+  entries.forEach(e => {
+    if(e.isIntersecting) e.target.classList.add('on');
+  });
+}, {threshold: .15});
 document.querySelectorAll('.rv,.rv-l,.rv-r').forEach(el => obs.observe(el));
 
-// 현대미술 필터
+// Art collection filtering
 document.querySelectorAll('.art-tabs button').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.art-tabs button').forEach(b => b.classList.remove('active'));
@@ -714,29 +1345,29 @@ document.querySelectorAll('.art-tabs button').forEach(btn => {
   });
 });
 
-// 모바일 메뉴
+// Mobile menu
 const sham = document.getElementById('sham');
 const bmob = document.getElementById('bmob');
-if(sham && bmob){
+if(sham && bmob) {
   sham.addEventListener('click', () => {
     sham.classList.toggle('on');
     bmob.classList.toggle('on');
     document.body.style.overflow = bmob.classList.contains('on') ? 'hidden' : '';
   });
 }
-function bc(){
+function closeMobMenu() {
   if(sham) sham.classList.remove('on');
   if(bmob) bmob.classList.remove('on');
   document.body.style.overflow = '';
 }
 
-// 유튜브 라이트박스
+// YouTube lightbox
 let vlb = null;
-function openVid(id, isShorts=false){
-  if(vlb){ vlb.remove(); vlb=null; }
+function openVid(id, isShorts=false) {
+  if(vlb) { vlb.remove(); vlb=null; }
   vlb = document.createElement('div');
   vlb.style.cssText = 'position:fixed;inset:0;background:rgba(4,3,2,.97);z-index:9999;display:flex;align-items:center;justify-content:center;cursor:pointer;';
-  const w  = isShorts ? 'min(52vh,340px)' : 'min(90vw,960px)';
+  const w = isShorts ? 'min(52vh,340px)' : 'min(90vw,960px)';
   const h2 = isShorts ? 'min(90vh,604px)' : 'min(56.25vw,540px)';
   vlb.innerHTML = `<div style="position:relative;width:${w};height:${h2};">
     <iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0" frameborder="0" allow="autoplay;encrypted-media" allowfullscreen style="width:100%;height:100%;"></iframe>
@@ -746,13 +1377,13 @@ function openVid(id, isShorts=false){
   document.body.appendChild(vlb);
 }
 
-// ── 나사 타자기 애니메이션 ──
+// Typewriter animation
 function typeWrite(el, cursorEl, text, speed, onDone) {
   let i = 0;
   el.textContent = '';
-  cursorEl.classList.remove('done');
+  if(cursorEl) cursorEl.classList.remove('done');
   const iv = setInterval(() => {
-    if(i < text.length){
+    if(i < text.length) {
       el.textContent += text[i++];
     } else {
       clearInterval(iv);
@@ -767,18 +1398,15 @@ const genesisObsTW = new IntersectionObserver(entries => {
   entries.forEach(e => {
     if(!e.isIntersecting || genesisDone) return;
     genesisDone = true;
-    const el1  = document.getElementById('gtw1');
+    const el1 = document.getElementById('gtw1');
     const cur1 = document.getElementById('gtw-cur1');
-    const el3  = document.getElementById('gtw3');
+    const el3 = document.getElementById('gtw3');
     const cur3 = document.getElementById('gtw-cur3');
-    const big  = document.getElementById('genesis-big-quote');
+    const big = document.getElementById('genesis-big-quote');
     if(!el1) return;
-
-    // 1단계: "색소폰 하나로,"
-    typeWrite(el1, cur1, '색소폰 하나로,', 65, () => {
+    typeWrite(el1, cur1, '색소폰 하나로,', 70, () => {
       setTimeout(() => {
-        // 2단계: "장르가 되다."
-        typeWrite(el3, cur3, '장르가 되다.', 65, () => {
+        typeWrite(el3, cur3, '장르가 되다.', 70, () => {
           setTimeout(() => {
             if(big) big.classList.add('show');
           }, 900);
@@ -792,5 +1420,6 @@ const genesisObsTW = new IntersectionObserver(entries => {
 const genesisEl = document.getElementById('fb-genesis');
 if(genesisEl) genesisObsTW.observe(genesisEl);
 </script>
+
 </body>
 </html>

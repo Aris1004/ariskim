@@ -1,1544 +1,1788 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ARIS KIM | 공연 기획 및 섭외</title>
-<meta property="og:title" content="ARIS KIM | 공연 기획 및 섭외">
-<meta property="og:description" content="뉴욕 카네기홀 · 예술의전당 최초 1호 · 클림트 미디어아트 색소폰 콘서트">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;1,300&family=Nanum+Myeongjo:wght@400;700&family=Noto+Serif+KR:wght@200;300;400&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box;}
-a,a:link,a:visited{color:rgba(242,237,228,.75);text-decoration:none;-webkit-tap-highlight-color:transparent;}
-a:hover,a:active{color:rgba(242,237,228,.75);text-decoration:none;}
-:root{--gold:#C9A84C;--gl:#E8CC7A;--bg:#080705;--deep:#0D0A06;--w:#F2EDE4;--kr:'Noto Serif KR',serif;}
-html{scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--w);font-family:'Nanum Myeongjo',serif;overflow-x:hidden;}
-
-/* NAV */
-#nav{position:fixed;top:0;left:0;right:0;height:64px;z-index:9000;
-  display:flex;align-items:center;justify-content:space-between;padding:0 52px;
-  transition:background .5s;}
-#nav.on{background:rgba(8,7,5,.95);backdrop-filter:blur(18px);
-  border-bottom:1px solid rgba(201,168,76,.1);}
-.nlogo{font-family:'Cinzel',serif;font-size:15px;font-weight:700;
-  color:var(--gl);letter-spacing:.14em;text-decoration:none;}
-.nlogo .ai{color:var(--gold);}
-.nlinks{display:flex;gap:4px;list-style:none;}
-.nlinks a{font-family:'Gowun Batang',serif;font-size:13px;letter-spacing:.12em;
-  color:rgba(242,237,228,.4);text-decoration:none;transition:color .3s;padding:4px 10px;}
-.nlinks a:hover{color:var(--gl);}
-.nav-right{display:flex;align-items:center;gap:12px;}
-
-/* 처음으로 - 금색 럭셔리 버튼 */
-.home-btn{
-  display:none; /* nav 안의 버튼은 숨김 — 별도 fixed 버튼 사용 */
-}
-/* 스크롤 시 등장하는 독립 처음으로 버튼 */
-#back-home-btn{
-  font-family:'Cinzel',serif;font-size:9px;font-weight:700;
-  letter-spacing:.25em;color:#111;text-decoration:none;
-  padding:9px 18px;
-  background:linear-gradient(135deg,#B8922E 0%,#E8CC7A 40%,#C9A84C 60%,#F5E090 80%,#C9A84C 100%);
-  box-shadow:0 2px 12px rgba(201,168,76,.5);
-  border:1px solid rgba(180,140,30,.5);
-  opacity:0;pointer-events:none;
-  transition:opacity .4s ease,transform .4s ease;
-  transform:translateY(-6px);
-  white-space:nowrap;
-  display:inline-block;
-}
-#back-home-btn.show{opacity:1;pointer-events:auto;transform:translateY(0);}
-#back-home-btn:hover{filter:brightness(1.12);transform:translateY(-1px);}
-.home-btn::before{content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,transparent 30%,rgba(255,255,255,.15) 50%,transparent 70%);
-  opacity:0;transition:opacity .3s;}
-.home-btn:hover::before{opacity:1;}
-.home-btn:hover{box-shadow:0 4px 18px rgba(201,168,76,.55);transform:translateY(-1px);}
-
-.ncta{font-family:'Gowun Batang',serif;font-size:11px;letter-spacing:.2em;
-  color:var(--gold);border:1px solid rgba(201,168,76,.38);padding:9px 22px;
-  text-decoration:none;font-weight:700;transition:all .3s;}
-.ncta:hover{background:var(--gold);color:var(--bg);}
-
-/* PROGRESS */
-#prog{position:fixed;top:0;left:0;height:2px;
-  background:linear-gradient(90deg,var(--gold),var(--gl));z-index:9999;width:0%;transition:width .1s;}
-
-/* HERO */
-#hero{position:relative;width:100%;height:100vh;overflow:hidden;display:flex;align-items:flex-end;}
-.hbg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  object-position:center 30%;filter:brightness(.50) contrast(1.05);}
-.hov{position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(8,7,5,.08) 0%,rgba(8,7,5,.02) 28%,
-  rgba(8,7,5,.42) 62%,rgba(8,7,5,.92) 100%);}
-.hcon{position:relative;z-index:2;padding:0 52px 80px;width:100%;}
-.hey{font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:.65em;
-  color:var(--gold);opacity:.7;margin-bottom:16px;animation:fu 1.2s .3s both;}
-.hen{font-family:'Cinzel',serif;font-size:clamp(42px,8.5vw,110px);
-  font-weight:900;line-height:.92;color:var(--w);letter-spacing:.06em;
-  animation:fu 1.2s .5s both;}
-.hen .ai{color:var(--gold);}
-.hkr{font-family:'Noto Serif KR',serif;font-size:clamp(18px,3.5vw,44px);
-  font-weight:200;letter-spacing:.35em;color:var(--gl);line-height:1;margin-top:6px;
-  animation:fu 1.2s .7s both;}
-.htag{font-family:'Nanum Myeongjo',serif;font-size:clamp(13px,1.5vw,16px);
-  letter-spacing:.08em;color:rgba(242,237,228,.55);
-  margin:22px 0 32px;max-width:580px;line-height:2.1;animation:fu 1.2s .9s both;}
-.hbtns{display:flex;gap:14px;flex-wrap:wrap;animation:fu 1.2s 1.1s both;}
-.btn-cta{font-family:'Gowun Batang',serif;font-size:12.5px;letter-spacing:.22em;
-  padding:15px 44px;background:var(--gold);color:var(--bg);
-  text-decoration:none;font-weight:700;transition:all .3s;}
-.btn-cta:hover{background:var(--gl);transform:translateY(-2px);}
-.btn-sub{font-family:'Gowun Batang',serif;font-size:12px;letter-spacing:.18em;
-  padding:15px 36px;border:1px solid rgba(242,237,228,.25);color:rgba(242,237,228,.7);
-  text-decoration:none;transition:all .3s;}
-.btn-sub:hover{border-color:rgba(242,237,228,.55);color:var(--w);}
-.hscroll{position:absolute;bottom:28px;right:52px;display:flex;flex-direction:column;
-  align-items:center;gap:6px;animation:fu 1.4s 1.6s both;}
-.hscroll span{font-family:'Cinzel',serif;font-size:7px;letter-spacing:.5em;color:rgba(201,168,76,.35);}
-.hscroll-line{width:1px;height:40px;background:linear-gradient(180deg,var(--gold),transparent);animation:sp 2s ease infinite;}
-@keyframes fu{from{opacity:0;transform:translateY(22px);}to{opacity:1;transform:translateY(0);}}
-@keyframes sp{0%,100%{opacity:.3;transform:scaleY(.6);}50%{opacity:1;transform:scaleY(1);}}
-
-/* SECTION BASE */
-.sec{padding:96px 52px;}
-.si{max-width:1160px;margin:0 auto;}
-.slabel{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.65em;
-  color:var(--gold);opacity:.48;display:block;margin-bottom:14px;}
-.stitle{font-family:'Noto Serif KR',serif;font-size:clamp(22px,3.5vw,44px);
-  font-weight:200;letter-spacing:.14em;color:var(--w);line-height:1.3;margin-bottom:8px;}
-.stitle em{color:var(--gl);font-style:normal;font-weight:300;}
-.grule{width:42px;height:1px;background:var(--gold);opacity:.4;margin:20px 0 40px;}
-.body{font-family:'Nanum Myeongjo',serif;font-size:clamp(13px,1.4vw,15.5px);
-  letter-spacing:.06em;line-height:2.3;color:rgba(242,237,228,.6);}
-
-/* REVEAL */
-.rv{opacity:0;transform:translateY(22px);transition:opacity .9s ease,transform .9s ease;}
-.rv.on{opacity:1;transform:translateY(0);}
-.rvl{opacity:0;transform:translateX(-26px);transition:opacity .9s ease,transform .9s ease;}
-.rvl.on{opacity:1;transform:translateX(0);}
-.rvr{opacity:0;transform:translateX(26px);transition:opacity .9s ease,transform .9s ease;}
-.rvr.on{opacity:1;transform:translateX(0);}
-
-/* ── TRUST NUMBERS ── */
-#trust{background:var(--deep);padding:64px 52px;}
-.trust-grid{max-width:1160px;margin:0 auto;
-  display:grid;grid-template-columns:repeat(4,1fr);gap:2px;}
-.trust-card{
-  background:rgba(201,168,76,.04);
-  border:1px solid rgba(201,168,76,.12);
-  padding:36px 28px;text-align:center;
-  transition:background .35s,border-color .35s;
-}
-.trust-card:hover{background:rgba(201,168,76,.08);border-color:rgba(201,168,76,.28);}
-.trust-num{font-family:'Cinzel',serif;
-  font-size:clamp(32px,4.5vw,56px);font-weight:900;
-  color:var(--gold);line-height:1;margin-bottom:8px;}
-.trust-label{font-family:'Noto Serif KR',serif;font-size:clamp(10px,1.1vw,13px);
-  font-weight:200;letter-spacing:.18em;color:rgba(242,237,228,.5);line-height:1.6;}
-
-/* ── 공연 형식 ── */
-#format{background:var(--bg);}
-.format-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:8px;}
-.format-card{
-  background:rgba(14,11,7,.8);
-  border:1px solid rgba(201,168,76,.1);
-  padding:40px 36px;
-  transition:border-color .4s,background .4s;
-  position:relative;overflow:hidden;
-}
-.format-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,transparent,var(--gold),transparent);
-  opacity:0;transition:opacity .4s;
-}
-.format-card:hover{border-color:rgba(201,168,76,.3);background:rgba(20,16,10,.9);}
-.format-card:hover::before{opacity:1;}
-.fc-num{font-family:'Cinzel',serif;font-size:clamp(36px,5vw,64px);
-  font-weight:900;color:rgba(201,168,76,.12);line-height:1;margin-bottom:12px;}
-.fc-title{font-family:'Cinzel',serif;font-size:clamp(16px,1.8vw,22px);
-  font-weight:700;letter-spacing:.1em;color:var(--w);margin-bottom:14px;}
-.fc-kr{font-family:'Noto Serif KR',serif;font-size:clamp(13px,1.3vw,16px);
-  font-weight:200;letter-spacing:.22em;color:var(--gl);margin-bottom:20px;}
-.fc-body{font-family:'Nanum Myeongjo',serif;font-size:clamp(12px,1.2vw,14px);
-  letter-spacing:.05em;line-height:2.1;color:rgba(242,237,228,.55);}
-.fc-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:20px;}
-.fc-tag{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.2em;
-  border:1px solid rgba(201,168,76,.22);color:var(--gold);padding:5px 12px;}
-
-/* ── 수상/이력 ── */
-#awards{background:var(--deep);}
-.awards-split{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;}
-.awards-img{width:100%;display:block;border:1px solid rgba(201,168,76,.15);}
-.award-list{list-style:none;display:flex;flex-direction:column;gap:0;}
-.award-item{
-  display:flex;align-items:flex-start;gap:20px;
-  padding:20px 0;border-bottom:1px solid rgba(201,168,76,.08);
-}
-.award-year{
-  font-family:'Cinzel',serif;font-size:clamp(13px,1.4vw,16px);
-  font-weight:700;color:var(--gold);min-width:52px;margin-top:2px;
-}
-.award-txt{font-family:'Nanum Myeongjo',serif;font-size:clamp(13px,1.3vw,15px);
-  letter-spacing:.05em;color:rgba(242,237,228,.72);line-height:1.8;}
-
-/* ── 프로그램 ── */
-#program{background:var(--bg);}
-.prog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;}
-.prog-card{
-  border:1px solid rgba(201,168,76,.1);
-  padding:36px 30px;
-  background:rgba(12,9,5,.6);
-  transition:all .4s;
-  position:relative;
-}
-.prog-card:hover{border-color:rgba(201,168,76,.35);background:rgba(20,15,8,.8);}
-.prog-num{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.4em;
-  color:var(--gold);opacity:.45;margin-bottom:12px;}
-.prog-title{font-family:'Noto Serif KR',serif;font-size:clamp(16px,1.8vw,22px);
-  font-weight:300;color:var(--w);margin-bottom:6px;letter-spacing:.12em;}
-.prog-en{font-family:'Cinzel',serif;font-size:clamp(10px,1.1vw,13px);
-  letter-spacing:.15em;color:var(--gl);opacity:.65;margin-bottom:18px;}
-.prog-body{font-family:'Nanum Myeongjo',serif;font-size:clamp(12px,1.15vw,14px);
-  letter-spacing:.05em;line-height:2;color:rgba(242,237,228,.52);}
-
-/* ── 공연 갤러리 ── */
-#gallery{background:var(--deep);padding:80px 52px;}
-.gal-grid{
-  display:grid;
-  grid-template-columns:2fr 1fr 1fr;
-  grid-template-rows:260px 260px;
-  gap:3px;max-width:1200px;margin:32px auto 0;
-}
-.gal-item{overflow:hidden;position:relative;}
-.gal-item.big{grid-row:1/3;}
-.gal-item img{width:100%;height:100%;object-fit:cover;
-  filter:brightness(.75);transition:transform .6s ease,filter .4s;}
-.gal-item:hover img{transform:scale(1.06);filter:brightness(.95);}
-.gal-cap{
-  position:absolute;bottom:0;left:0;right:0;padding:14px 16px;
-  background:linear-gradient(to top,rgba(8,7,5,.9),transparent);
-  font-family:'Gowun Batang',serif;font-size:11px;letter-spacing:.18em;
-  color:rgba(242,237,228,.7);opacity:0;transition:opacity .4s;
-}
-.gal-item:hover .gal-cap{opacity:1;}
-
-/* ── 공연 실적 ── */
-#history{background:var(--bg);}
-.hist-list{margin-top:8px;}
-.hist-item{
-  display:grid;grid-template-columns:100px 1fr;gap:24px;
-  padding:20px 0;border-bottom:1px solid rgba(201,168,76,.07);
-  align-items:start;
-}
-.hist-year{font-family:'Cinzel',serif;font-size:clamp(14px,1.6vw,18px);
-  font-weight:700;color:var(--gold);padding-top:3px;}
-.hist-txt{font-family:'Nanum Myeongjo',serif;font-size:clamp(13px,1.3vw,15px);
-  letter-spacing:.05em;line-height:1.85;color:rgba(242,237,228,.65);}
-
-/* ── 의뢰 프로세스 ── */
-#process{background:var(--deep);padding:88px 52px;}
-.proc-steps{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  gap:0;max-width:1160px;margin:40px auto 0;
-  position:relative;
-}
-.proc-steps::before{
-  content:'';position:absolute;
-  top:32px;left:12%;right:12%;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(201,168,76,.3),rgba(201,168,76,.3),transparent);
-}
-.proc-step{text-align:center;padding:0 20px;position:relative;}
-.proc-circle{
-  width:64px;height:64px;border-radius:50%;
-  border:1px solid rgba(201,168,76,.35);
-  display:flex;align-items:center;justify-content:center;
-  margin:0 auto 20px;
-  font-family:'Cinzel',serif;font-size:20px;font-weight:700;
-  color:var(--gold);background:var(--deep);
-  position:relative;z-index:1;
-}
-.proc-title{font-family:'Noto Serif KR',serif;font-size:clamp(14px,1.4vw,17px);
-  font-weight:300;color:var(--w);margin-bottom:10px;letter-spacing:.12em;}
-.proc-body{font-family:'Nanum Myeongjo',serif;font-size:clamp(11px,1.1vw,13px);
-  letter-spacing:.04em;line-height:1.9;color:rgba(242,237,228,.48);}
-
-/* ── CONTACT CTA ── */
-#contact{
-  position:relative;padding:100px 52px;text-align:center;
-  background:var(--bg);overflow:hidden;
-}
-#contact::before{
-  content:'';position:absolute;inset:0;
-  background:radial-gradient(ellipse at center,rgba(201,168,76,.06) 0%,transparent 65%);
-}
-.contact-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.65em;
-  color:var(--gold);opacity:.48;margin-bottom:18px;display:block;}
-.contact-title{font-family:'Noto Serif KR',serif;font-size:clamp(24px,4.5vw,56px);
-  font-weight:200;letter-spacing:.14em;color:var(--w);margin-bottom:14px;
-  position:relative;line-height:1.4;}
-.contact-sub{font-family:'Nanum Myeongjo',serif;
-  font-size:clamp(13px,1.4vw,16px);color:rgba(242,237,228,.48);
-  line-height:2;margin-bottom:48px;max-width:580px;margin-left:auto;margin-right:auto;
-  position:relative;}
-.contact-btns{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative;}
-.cta-main{font-family:'Gowun Batang',serif;font-size:13px;letter-spacing:.22em;
-  background:var(--gold);color:var(--bg);padding:17px 52px;
-  text-decoration:none;font-weight:700;transition:all .3s;}
-.cta-main:hover{background:var(--gl);transform:translateY(-2px);}
-.cta-kakao{font-family:'Gowun Batang',serif;font-size:13px;letter-spacing:.2em;
-  border:1px solid rgba(201,168,76,.35);color:var(--gold);padding:17px 40px;
-  text-decoration:none;transition:all .3s;}
-.cta-kakao:hover{background:rgba(201,168,76,.08);border-color:var(--gold);}
-
-/* FOOTER */
-footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
-  padding:32px 52px;display:flex;justify-content:space-between;align-items:center;
-  flex-wrap:wrap;gap:16px;}
-.ft-logo{font-family:'Cinzel',serif;font-size:14px;font-weight:700;
-  color:var(--gold);letter-spacing:.14em;}
-.ft-logo .ai{color:var(--gl);}
-.ft-info{font-family:'Gowun Batang',serif;font-size:10px;
-  letter-spacing:.12em;color:rgba(242,237,228,.25);line-height:1.8;}
-
-/* MOBILE */
-
-/* 햄버거 버튼 */
-.nav-ham{
-  display:none;flex-direction:column;gap:5px;
-  cursor:pointer;background:none;border:none;padding:4px;
-}
-.nav-ham span{display:block;width:24px;height:1px;background:var(--gold);transition:all .3s;}
-.nav-ham.on span:nth-child(1){transform:translateY(6px) rotate(45deg);}
-.nav-ham.on span:nth-child(2){opacity:0;}
-.nav-ham.on span:nth-child(3){transform:translateY(-6px) rotate(-45deg);}
-#bmob{display:none;position:fixed;inset:0;background:rgba(8,7,5,.98);z-index:8999;
-  flex-direction:column;align-items:center;justify-content:center;gap:24px;}
-#bmob.on{display:flex;}
-#bmob a{font-family:'Gowun Batang',serif;font-size:16px;letter-spacing:.22em;
-  color:var(--w);text-decoration:none;transition:color .3s;}
-#bmob a:hover{color:var(--gold);}
-#bmob .bmcta{border:1px solid rgba(201,168,76,.4);padding:12px 36px;color:var(--gold)!important;margin-top:8px;}
-
-
-/* ═══════════════════════════════════════
-   4-BREAKPOINT RESPONSIVE SYSTEM
-═══════════════════════════════════════ */
-
-/* ── 태블릿 (769~1024px) ── */
-@media (min-width:769px) and (max-width:1024px){
-  #nav{padding:0 28px;}
-  .nlinks{gap:8px;}
-  .nlinks a{font-size:9.5px;padding:4px 6px;}
-  .nav-ham{display:none!important;}
-  .home-btn{font-size:8px;padding:8px 14px;letter-spacing:.2em;}
-  .ncta{padding:8px 16px;font-size:10px;}
-  .sec{padding:72px 36px;}
-  #trust{padding:52px 36px;}
-  .trust-grid{grid-template-columns:repeat(4,1fr);}
-  .format-grid{grid-template-columns:1fr 1fr;}
-  .awards-split{grid-template-columns:1fr 1fr;gap:40px;}
-  .prog-grid{grid-template-columns:1fr 1fr;}
-  .proc-steps{grid-template-columns:repeat(4,1fr);}
-  .gal-grid{grid-template-columns:2fr 1fr 1fr;}
-  #videos .si > div{grid-template-columns:repeat(3,1fr)!important;}
-  #profile .si > div{grid-template-columns:220px 1fr;gap:40px;}
-}
-
-/* ── 스마트폰 가로 (481~768px) ── */
-@media (min-width:481px) and (max-width:768px){
-  #nav{padding:0 20px;height:52px;}
-  .nlinks{display:none!important;}
-  .nav-right .ncta{display:none;}
-  .nav-right .home-btn{padding:7px 14px;font-size:8px;}
-  .nav-ham{display:flex!important;}
-  /* 히어로: 배경 더 어둡게 + 오버레이 강화 */
-  #hero{height:80vh;}
-  .hbg{filter:brightness(.45) contrast(1.05)!important;}
-  .hov{background:linear-gradient(180deg,rgba(8,7,5,.05) 0%,rgba(8,7,5,.02) 30%,rgba(8,7,5,.45) 65%,rgba(8,7,5,.92) 100%)!important;}
-  .hcon{padding:0 24px 48px;}
-  .hey{font-size:7px;letter-spacing:.4em;}
-  .hen{font-size:clamp(28px,6vw,44px)!important;}
-  .hkr{font-size:clamp(11px,2.2vw,14px)!important;letter-spacing:.08em;}
-  .htag{font-size:11.5px;margin:10px 0 14px;max-width:100%;}
-  .hero-badges-row{flex-direction:column;gap:4px;margin:10px 0 14px;}
-  .hero-badge-item{font-size:7px;padding:5px 10px;width:fit-content;}
-  .hbtns{gap:10px;}
-  .hscroll{display:none;}
-  .sec{padding:56px 24px;}
-  #trust{padding:36px 24px;}
-  .trust-grid{grid-template-columns:1fr 1fr!important;}
-  .trust-num{font-size:clamp(22px,5vw,32px);}
-  .format-grid{grid-template-columns:1fr 1fr!important;}
-  .awards-split{grid-template-columns:1fr 1fr!important;gap:28px;}
-  .prog-grid{grid-template-columns:1fr 1fr!important;}
-  .proc-steps{grid-template-columns:1fr 1fr!important;}
-  .proc-steps::before{display:none;}
-  .gal-grid{grid-template-columns:1fr 1fr!important;grid-template-rows:auto!important;}
-  .gal-item.big{grid-row:auto!important;}
-  #videos .si > div{grid-template-columns:1fr 1fr!important;gap:12px!important;}
-  #profile .si > div{grid-template-columns:1fr!important;gap:24px;}
-  .contact-btns{flex-direction:row;flex-wrap:wrap;justify-content:center;}
-}
-
-/* ── 스마트폰 세로 (480px 이하) ── */
-@media (max-width:480px){
-  /* NAV */
-  #nav{padding:0 16px;height:52px;}
-  .nlinks{display:none!important;}
-  .nav-right .ncta{display:none!important;}
-  .nav-right .home-btn{display:none!important;}
-  .nav-ham{display:flex!important;}
-  .nlogo{font-size:13px;}
-
-  /* 히어로: 모바일 최적화 — 글자 겹침 완전 제거 */
-  #hero{height:100vh;}
-  .hbg{filter:brightness(.50) contrast(1.05)!important;}
-  .hov{background:linear-gradient(180deg,rgba(8,7,5,.05) 0%,rgba(8,7,5,.0) 25%,rgba(8,7,5,.40) 62%,rgba(8,7,5,.90) 100%)!important;}
-  .hcon{padding:0 18px 52px;}
-  .hey{display:none;}
-  /* 핵심: 대형 타이틀 대폭 축소 */
-  .hen{font-size:clamp(26px,8vw,36px)!important;letter-spacing:.03em;line-height:1.05;}
-  .hkr{font-size:clamp(10px,3vw,13px)!important;letter-spacing:.05em;margin-top:4px;}
-  /* 긴 설명 텍스트 숨김 — 공간 확보 */
-  .htag{display:none!important;}
-  .hero-badges-row{flex-direction:column;gap:4px;margin:8px 0 14px;}
-  .hero-badge-item{font-size:7px;padding:5px 10px;width:fit-content;}
-  .hbtns{flex-direction:column;gap:8px;}
-  .btn-cta,.btn-sub{text-align:center;padding:12px 20px;font-size:11px;}
-  .hscroll{display:none;}
-
-  /* TRUST */
-  #trust{padding:32px 16px;}
-  .trust-grid{grid-template-columns:1fr 1fr!important;gap:2px;}
-  .trust-card{padding:24px 16px;}
-  .trust-num{font-size:clamp(20px,6vw,30px);}
-  .trust-label{font-size:10px;letter-spacing:.1em;}
-
-  /* 섹션 공통 */
-  .sec{padding:52px 16px;}
-  .slabel{font-size:7px;letter-spacing:.4em;}
-  .stitle{font-size:clamp(20px,6.5vw,30px);}
-  .grule{margin:14px 0 26px;}
-  #gallery{padding:52px 16px;}
-  #process{padding:52px 16px;}
-  #contact{padding:64px 16px!important;}
-
-  /* 공연형식 */
-  .format-grid{grid-template-columns:1fr!important;}
-  .format-card{padding:24px 18px;}
-  .fc-num{font-size:32px;}
-  .fc-title{font-size:15px;}
-
-  /* 수상 */
-  .awards-split{grid-template-columns:1fr!important;gap:24px;}
-
-  /* 프로그램 */
-  .prog-grid{grid-template-columns:1fr!important;}
-
-  /* 공연철학 */
-  #concept .si > div:nth-child(3){grid-template-columns:1fr!important;}
-
-  /* 셋리스트 */
-  #setlist .si > div:last-child{grid-template-columns:1fr!important;}
-
-  /* 영상 */
-  #videos .si > div{grid-template-columns:1fr 1fr!important;gap:8px!important;}
-
-  /* 프로세스 */
-  .proc-steps{grid-template-columns:1fr 1fr!important;}
-  .proc-steps::before{display:none;}
-  .proc-circle{width:48px;height:48px;font-size:15px;}
-  .proc-title{font-size:13px;}
-  .proc-body{font-size:11px;}
-
-  /* 갤러리 */
-  .gal-grid{grid-template-columns:1fr 1fr!important;grid-template-rows:auto!important;}
-  .gal-item.big{grid-row:auto!important;}
-
-  /* 아티스트 */
-  #profile .si > div{grid-template-columns:1fr!important;gap:24px;}
-  #profile .si > div > div:last-child{grid-template-columns:1fr 1fr!important;}
-
-  /* 연락처 */
-  .contact-title{font-size:clamp(20px,6vw,32px);}
-  .contact-sub{font-size:12.5px;}
-  .contact-btns{flex-direction:column;align-items:center;}
-  .cta-main,.cta-kakao{width:100%;max-width:260px;text-align:center;padding:14px 16px;font-size:11px;}
-
-  footer{padding:22px 16px!important;flex-direction:column!important;text-align:center;gap:8px;}
-  .ft-info{font-size:9px;}
-}
-
-
-/* 레퍼런스 */
-.ref-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
-.ref-card{
-  background:rgba(14,11,7,.9);
-  border:1px solid rgba(201,168,76,.1);
-  padding:28px 24px;
-  transition:border-color .35s,background .35s;
-}
-.ref-card:hover{border-color:rgba(201,168,76,.32);background:rgba(22,17,10,.9);}
-.ref-icon{font-size:22px;margin-bottom:12px;}
-.ref-org{font-family:'Cinzel',serif;font-size:clamp(12px,1.3vw,15px);font-weight:700;
-  color:var(--gl);letter-spacing:.06em;margin-bottom:4px;}
-.ref-loc{font-family:'Nanum Myeongjo',serif;font-size:11px;letter-spacing:.08em;
-  color:rgba(242,237,228,.35);margin-bottom:10px;}
-.ref-desc{font-family:'Nanum Myeongjo',serif;font-size:12.5px;letter-spacing:.05em;
-  line-height:1.75;color:rgba(242,237,228,.58);}
-
-/* 기술 라이더 */
-.rider-card{
-  background:rgba(12,9,5,.7);border:1px solid rgba(201,168,76,.1);
-  padding:32px 28px;transition:border-color .35s;
-}
-.rider-card:hover{border-color:rgba(201,168,76,.28);}
-.rider-icon{font-size:24px;margin-bottom:14px;}
-.rider-title{font-family:'Noto Serif KR',serif;font-size:clamp(15px,1.5vw,18px);
-  font-weight:300;color:var(--w);letter-spacing:.1em;margin-bottom:16px;}
-.rider-list{list-style:none;display:flex;flex-direction:column;gap:10px;}
-.rider-list li{font-family:'Nanum Myeongjo',serif;font-size:13px;
-  letter-spacing:.05em;color:rgba(242,237,228,.55);line-height:1.6;
-  padding-left:14px;position:relative;}
-.rider-list li::before{content:'—';position:absolute;left:0;color:var(--gold);opacity:.4;}
-.rider-list li em{color:var(--gl);font-style:normal;font-weight:700;}
-
-/* FAQ */
-.faq-item{border:1px solid rgba(201,168,76,.1);background:rgba(12,9,5,.6);}
-.faq-q{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:22px 28px;cursor:pointer;
-  font-family:'Noto Serif KR',serif;font-size:clamp(13px,1.4vw,16px);
-  font-weight:300;color:var(--w);letter-spacing:.07em;
-  transition:background .3s;gap:20px;
-}
-.faq-q:hover{background:rgba(201,168,76,.06);}
-.faq-q.open{background:rgba(201,168,76,.06);color:var(--gl);}
-.faq-arrow{font-size:18px;color:var(--gold);flex-shrink:0;transition:transform .3s;line-height:1;}
-.faq-q.open .faq-arrow{transform:rotate(45deg);}
-.faq-a{
-  display:none;padding:0 28px 22px 28px;
-  font-family:'Nanum Myeongjo',serif;font-size:13.5px;
-  letter-spacing:.06em;line-height:2.1;color:rgba(242,237,228,.6);
-  border-top:1px solid rgba(201,168,76,.08);
-  padding-top:18px;
-}
-.faq-a.open{display:block;}
-
-/* ── 탱고 마에스트로 ── */
-#tango{background:var(--bg);}
-.tango-hero{
-  position:relative;width:100%;height:520px;overflow:hidden;
-  display:flex;align-items:flex-end;margin-bottom:3px;
-}
-.tango-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 25%;filter:brightness(.35) contrast(1.1);}
-.tango-hero-ov{position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,7,5,.1) 0%,rgba(8,7,5,.85) 100%);}
-.tango-hero-txt{position:relative;z-index:2;padding:0 52px 48px;width:100%;}
-.tango-hero-txt .slabel{display:block;margin-bottom:10px;}
-.tango-hero-txt .stitle{margin-bottom:0;}
-.tango-quote{
-  font-family:'Cormorant Garamond',serif;font-size:clamp(18px,2.5vw,28px);
-  font-style:italic;color:rgba(232,204,122,.75);letter-spacing:.06em;
-  line-height:1.7;margin:14px 0 0;max-width:620px;
-}
-.tango-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px;}
-.tango-card{position:relative;overflow:hidden;height:380px;}
-.tango-card img{width:100%;height:100%;object-fit:cover;filter:brightness(.6) contrast(1.1);transition:transform .7s ease,filter .5s;}
-.tango-card:hover img{transform:scale(1.05);filter:brightness(.8);}
-.tango-card-info{
-  position:absolute;bottom:0;left:0;right:0;
-  padding:28px 28px;
-  background:linear-gradient(to top,rgba(8,7,5,.92),transparent);
-}
-.tango-card-title{font-family:'Cinzel',serif;font-size:clamp(13px,1.5vw,17px);font-weight:700;color:var(--gl);letter-spacing:.1em;margin-bottom:4px;}
-.tango-card-sub{font-family:'Nanum Myeongjo',serif;font-size:12.5px;letter-spacing:.07em;color:rgba(242,237,228,.6);line-height:1.7;}
-.tango-cred{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:2px;
-  background:var(--deep);padding:0;
-}
-.tango-cred-item{
-  padding:32px 28px;border:1px solid rgba(201,168,76,.1);
-  background:rgba(201,168,76,.03);text-align:center;
-  transition:background .3s,border-color .3s;
-}
-.tango-cred-item:hover{background:rgba(201,168,76,.07);border-color:rgba(201,168,76,.25);}
-.tango-cred-val{font-family:'Cinzel',serif;font-size:clamp(22px,3vw,36px);font-weight:900;color:var(--gold);line-height:1;margin-bottom:8px;}
-.tango-cred-desc{font-family:'Noto Serif KR',serif;font-size:clamp(11px,1.1vw,13px);font-weight:200;letter-spacing:.16em;color:rgba(242,237,228,.5);line-height:1.6;}
-
-/* ── 비디오 아트 콘서트 ── */
-#videoart{background:var(--bg);}
-.va-split{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:8px;}
-.va-main{position:relative;overflow:hidden;}
-.va-main img{width:100%;height:100%;object-fit:cover;filter:brightness(.55) contrast(1.15);transition:transform .7s;}
-.va-main:hover img{transform:scale(1.04);}
-.va-grid3{display:grid;grid-template-columns:1fr 1fr;gap:3px;}
-.va-grid3 .va-sm{position:relative;overflow:hidden;height:240px;}
-.va-grid3 .va-sm img{width:100%;height:100%;object-fit:cover;filter:brightness(.5);transition:transform .6s;}
-.va-grid3 .va-sm:hover img{transform:scale(1.06);filter:brightness(.75);}
-.va-quote-block{
-  background:linear-gradient(135deg,rgba(8,7,5,.97),rgba(14,11,7,.97));
-  border:1px solid rgba(201,168,76,.18);
-  padding:52px 48px;display:flex;flex-direction:column;justify-content:center;
-}
-.va-quote{
-  font-family:'Cormorant Garamond',serif;font-size:clamp(17px,2.2vw,24px);
-  font-style:italic;color:var(--gl);line-height:1.9;letter-spacing:.05em;
-  margin-bottom:20px;position:relative;padding-left:20px;
-}
-.va-quote::before{content:'"';position:absolute;left:0;top:-4px;color:var(--gold);font-size:2em;line-height:1;}
-.va-attr{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.42em;color:rgba(201,168,76,.55);}
-.va-badge-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px;}
-.va-badge{
-  font-family:'Cinzel',serif;font-size:8px;letter-spacing:.22em;
-  border:1px solid rgba(201,168,76,.28);color:var(--gold);
-  padding:7px 16px;background:rgba(201,168,76,.04);
-}
-
-/* ── 언론 보도 ── */
-#press{background:var(--deep);}
-.press-hero-quote{
-  text-align:center;padding:64px 52px;
-  border-bottom:1px solid rgba(201,168,76,.12);
-  background:linear-gradient(180deg,rgba(201,168,76,.04),transparent);
-}
-.press-hero-q{
-  font-family:'Noto Serif KR',serif;font-size:clamp(20px,3.5vw,42px);
-  font-weight:200;letter-spacing:.14em;color:var(--gl);line-height:1.4;
-  margin-bottom:10px;
-}
-.press-hero-q em{color:var(--gold);font-style:normal;}
-.press-hero-src{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.5em;color:rgba(201,168,76,.45);}
-.press-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:2px;margin-top:0;}
-.press-card{
-  background:rgba(14,11,7,.9);border:1px solid rgba(201,168,76,.1);
-  padding:36px 32px;transition:all .4s;position:relative;overflow:hidden;
-  display:flex;flex-direction:column;gap:12px;
-}
-.press-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:2px;
-  background:linear-gradient(90deg,transparent,var(--gold),transparent);
-  opacity:0;transition:opacity .4s;
-}
-.press-card:hover{background:rgba(20,16,10,.9);border-color:rgba(201,168,76,.28);}
-.press-card:hover::before{opacity:1;}
-.press-media{font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:.38em;color:var(--gold);opacity:.65;}
-.press-year{font-family:'Nanum Myeongjo',serif;font-size:11px;color:rgba(242,237,228,.3);margin-top:-4px;}
-.press-headline{font-family:'Noto Serif KR',serif;font-size:clamp(14px,1.6vw,18px);font-weight:300;color:var(--w);letter-spacing:.06em;line-height:1.55;}
-.press-headline em{color:var(--gl);font-style:normal;}
-.press-link{
-  display:inline-flex;align-items:center;gap:6px;margin-top:auto;
-  font-family:'Gowun Batang',serif;font-size:10px;letter-spacing:.18em;
-  color:rgba(201,168,76,.55);text-decoration:none;transition:color .3s;
-}
-.press-link:hover{color:var(--gold);}
-.broadcast-strip{
-  display:flex;flex-wrap:wrap;gap:2px;
-  border-top:1px solid rgba(201,168,76,.1);
-  background:rgba(201,168,76,.03);
-}
-.broadcast-item{
-  flex:1;min-width:140px;
-  padding:22px 20px;text-align:center;
-  border-right:1px solid rgba(201,168,76,.08);
-}
-.broadcast-item:last-child{border-right:none;}
-.broadcast-name{font-family:'Cinzel',serif;font-size:11px;font-weight:700;color:var(--gl);letter-spacing:.12em;margin-bottom:4px;}
-.broadcast-desc{font-family:'Nanum Myeongjo',serif;font-size:11px;color:rgba(242,237,228,.35);letter-spacing:.05em;}
-
-/* ── 대담 인터뷰 ── */
-#interview{background:var(--bg);}
-.interview-opening{
-  position:relative;overflow:hidden;
-  background:linear-gradient(135deg,rgba(8,7,5,.98),rgba(14,10,5,.98));
-  border:1px solid rgba(201,168,76,.15);
-  padding:64px 60px;text-align:center;margin-bottom:3px;
-}
-.interview-opening .big-q{
-  font-family:'Cormorant Garamond',serif;font-size:clamp(18px,3vw,36px);
-  font-style:italic;color:var(--gl);line-height:1.8;letter-spacing:.04em;
-  margin-bottom:16px;
-}
-.interview-opening .big-src{font-family:'Nanum Myeongjo',serif;font-size:12px;letter-spacing:.12em;color:rgba(242,237,228,.38);}
-.qa-grid{display:grid;grid-template-columns:1fr 1fr;gap:3px;}
-.qa-card{
-  background:rgba(14,11,7,.9);border:1px solid rgba(201,168,76,.1);
-  padding:40px 36px;transition:all .35s;
-}
-.qa-card:hover{border-color:rgba(201,168,76,.28);background:rgba(20,16,10,.95);}
-.qa-q{
-  font-family:'Noto Serif KR',serif;font-size:clamp(13px,1.35vw,15px);
-  font-weight:300;color:var(--gold);letter-spacing:.1em;
-  margin-bottom:18px;padding-bottom:14px;
-  border-bottom:1px solid rgba(201,168,76,.15);
-  display:flex;gap:10px;align-items:flex-start;
-}
-.qa-q::before{content:'Q';font-family:'Cinzel',serif;font-size:11px;font-weight:700;color:var(--gold);opacity:.55;flex-shrink:0;margin-top:2px;}
-.qa-a{
-  font-family:'Nanum Myeongjo',serif;font-size:clamp(13px,1.25vw,14.5px);
-  letter-spacing:.06em;line-height:2.2;color:rgba(242,237,228,.65);
-}
-.qa-a::before{content:'"';color:var(--gold);opacity:.4;font-size:1.5em;line-height:0;vertical-align:-.3em;margin-right:3px;}
-.interview-prof-row{
-  display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-top:3px;
-}
-.interview-prof{
-  background:var(--deep);border:1px solid rgba(201,168,76,.1);
-  padding:36px 32px;display:grid;grid-template-columns:140px 1fr;gap:28px;align-items:start;
-}
-.interview-prof img{width:140px;height:180px;object-fit:cover;border:1px solid rgba(201,168,76,.18);filter:brightness(.85);}
-.interview-prof-name{font-family:'Cinzel',serif;font-size:13px;font-weight:700;color:var(--gl);letter-spacing:.1em;margin-bottom:6px;}
-.interview-prof-role{font-family:'Noto Serif KR',serif;font-size:12px;font-weight:200;letter-spacing:.14em;color:rgba(201,168,76,.6);margin-bottom:14px;}
-.interview-prof-body{font-family:'Nanum Myeongjo',serif;font-size:12.5px;letter-spacing:.05em;line-height:2;color:rgba(242,237,228,.55);}
-.interview-photos{display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-top:3px;}
-.interview-photos div{overflow:hidden;height:200px;}
-.interview-photos div img{width:100%;height:100%;object-fit:cover;filter:brightness(.65) contrast(1.1);transition:transform .6s,filter .4s;}
-.interview-photos div:hover img{transform:scale(1.07);filter:brightness(.9);}
-
-@media(max-width:768px){
-  .tango-hero{height:360px;}
-  .tango-hero-txt{padding:0 24px 32px;}
-  .tango-grid{grid-template-columns:1fr!important;}
-  .tango-cred{grid-template-columns:1fr 1fr!important;}
-  .va-split{grid-template-columns:1fr!important;}
-  .press-grid{grid-template-columns:1fr!important;}
-  .broadcast-strip{flex-wrap:wrap;}
-  .broadcast-item{min-width:120px;}
-  .qa-grid{grid-template-columns:1fr!important;}
-  .interview-prof-row{grid-template-columns:1fr!important;}
-  .interview-photos{grid-template-columns:1fr 1fr!important;}
-  .interview-prof{grid-template-columns:1fr!important;}
-}
-@media(max-width:480px){
-  .tango-cred{grid-template-columns:1fr!important;}
-  .press-grid{grid-template-columns:1fr!important;}
-  .tango-hero-txt{padding:0 16px 24px;}
-  .va-quote-block{padding:32px 24px;}
-  .qa-card{padding:28px 20px;}
-  .interview-opening{padding:40px 24px;}
-}
-
-/* ══ NEW SECTIONS ══ */
-.fullbleed-new{position:relative;width:100%;overflow:hidden;line-height:0;}
-.fullbleed-new img{width:100%;display:block;object-fit:cover;}
-.fullbleed-new-ov{position:absolute;inset:0;background:linear-gradient(0deg,rgba(4,3,2,.88) 0%,rgba(4,3,2,.08) 40%,rgba(4,3,2,.08) 60%,rgba(4,3,2,.88) 100%);}
-/* ══ CINEMATIC FULLBLEED SECTIONS v2 ══ */
-.fb{position:relative;width:100%;overflow:hidden;}
-.fb-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;}
-.fb-ov{position:absolute;inset:0;}
-.fb-content{position:relative;z-index:2;display:flex;flex-direction:column;justify-content:center;}
-
-/* 장르의 창세기 */
-#fb-genesis{height:90vh;min-height:520px;}
-#fb-genesis .fb-bg{object-position:center 20%;filter:brightness(.55) contrast(1.1);}
-#fb-genesis .fb-ov{background:linear-gradient(180deg,rgba(8,7,5,.7) 0%,rgba(8,7,5,.1) 35%,rgba(8,7,5,.1) 65%,rgba(8,7,5,.85) 100%);}
-#fb-genesis .fb-content{align-items:center;text-align:center;height:90vh;min-height:520px;padding:0 24px;}
-#fb-genesis .fb-eyebrow{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.7em;color:var(--gold);opacity:.6;margin-bottom:24px;}
-#fb-genesis .fb-title{font-family:'Cormorant Garamond',serif;font-size:clamp(38px,7vw,96px);font-weight:300;font-style:italic;color:var(--w);line-height:1.1;margin-bottom:18px;text-shadow:0 0 60px rgba(201,168,76,.25);}
-#fb-genesis .fb-title em{color:var(--gold);font-style:normal;}
-#fb-genesis .fb-sub{font-family:'Noto Serif KR',serif;font-size:clamp(12px,1.5vw,17px);font-weight:200;letter-spacing:.25em;color:rgba(232,204,122,.65);margin-top:10px;}
-#fb-genesis .fb-line{width:1px;height:60px;background:linear-gradient(180deg,var(--gold),transparent);margin:28px auto 0;}
-
-/* 두 명의 이단아 */
-#fb-rebels{height:80vh;min-height:480px;}
-#fb-rebels .fb-bg{filter:brightness(.45) contrast(1.15);}
-#fb-rebels .fb-ov{background:linear-gradient(135deg,rgba(8,7,5,.85) 0%,rgba(8,7,5,.2) 50%,rgba(8,7,5,.5) 100%);}
-#fb-rebels .fb-content{height:80vh;min-height:480px;padding:0 clamp(24px,8vw,100px);justify-content:flex-end;padding-bottom:72px;}
-#fb-rebels .fb-eyebrow{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:.55em;color:var(--gold);opacity:.55;margin-bottom:14px;}
-#fb-rebels .fb-title{font-family:'Noto Serif KR',serif;font-size:clamp(28px,5.5vw,72px);font-weight:200;color:var(--w);line-height:1.2;letter-spacing:.06em;margin-bottom:16px;}
-#fb-rebels .fb-title em{color:var(--gl);font-style:normal;}
-#fb-rebels .fb-desc{font-family:'Nanum Myeongjo',serif;font-size:clamp(12px,1.3vw,15px);letter-spacing:.06em;line-height:2.2;color:rgba(242,237,228,.6);max-width:520px;}
-#fb-rebels .fb-duo{display:flex;gap:40px;margin-top:28px;}
-#fb-rebels .fb-duo-item{border-left:2px solid var(--gold);padding-left:14px;}
-#fb-rebels .fb-duo-name{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.35em;color:var(--gold);margin-bottom:4px;}
-#fb-rebels .fb-duo-sub{font-family:'Nanum Myeongjo',serif;font-size:11px;color:rgba(242,237,228,.45);letter-spacing:.08em;}
-
-/* Concert Gallery → 공연사진 콜라주로 대체 */
-.fb-gallery-grid{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;height:70vh;min-height:420px;gap:3px;}
-.fb-gal-item{position:relative;overflow:hidden;}
-.fb-gal-item img{width:100%;height:100%;object-fit:cover;filter:brightness(.72);transition:filter .6s,transform .7s;}
-.fb-gal-item:hover img{filter:brightness(.95);transform:scale(1.04);}
-.fb-gal-item.tall{grid-row:1/3;}
-.fb-gal-cap{position:absolute;bottom:0;left:0;right:0;padding:12px 14px;background:linear-gradient(0deg,rgba(4,3,2,.9) 0%,transparent 100%);font-family:'Gowun Batang',serif;font-size:10px;letter-spacing:.2em;color:rgba(232,204,122,.8);}
-
-/* Art Intelligence → 텍스트 중심 시네마틱 */
-#fb-ai{height:65vh;min-height:400px;background:linear-gradient(135deg,#0a0603 0%,#030201 50%,#080502 100%);}
-#fb-ai .fb-ov{background:radial-gradient(ellipse at 30% 50%,rgba(201,168,76,.06) 0%,transparent 65%);}
-#fb-ai .fb-content{height:65vh;min-height:400px;padding:0 clamp(24px,8vw,100px);flex-direction:row;align-items:center;gap:80px;}
-#fb-ai .fb-ai-left{flex:1;}
-#fb-ai .fb-ai-right{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-#fb-ai .fb-eyebrow{font-family:'Cinzel',serif;font-size:7px;letter-spacing:.7em;color:var(--gold);opacity:.5;margin-bottom:16px;}
-#fb-ai .fb-title{font-family:'Cinzel',serif;font-size:clamp(24px,4vw,52px);font-weight:900;color:var(--w);letter-spacing:.04em;line-height:1.1;margin-bottom:14px;}
-#fb-ai .fb-title span{color:var(--gold);}
-#fb-ai .fb-sub{font-family:'Nanum Myeongjo',serif;font-size:13px;letter-spacing:.06em;line-height:2.1;color:rgba(242,237,228,.55);max-width:380px;}
-#fb-ai .ai-card{border:1px solid rgba(201,168,76,.14);background:rgba(201,168,76,.03);padding:18px 16px;}
-#fb-ai .ai-card-num{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.4em;color:var(--gold);opacity:.45;margin-bottom:8px;}
-#fb-ai .ai-card-kr{font-family:'Noto Serif KR',serif;font-size:13px;font-weight:200;letter-spacing:.1em;color:var(--w);margin-bottom:6px;}
-#fb-ai .ai-card-en{font-family:'Nanum Myeongjo',serif;font-size:11px;color:rgba(242,237,228,.42);letter-spacing:.04em;line-height:1.8;}
-
-/* Golden Kiss → 인용구 시네마틱 */
-#fb-golden{height:55vh;min-height:320px;}
-#fb-golden .fb-bg{filter:brightness(.35) contrast(1.2) saturate(1.3);}
-#fb-golden .fb-ov{background:linear-gradient(180deg,rgba(8,7,5,.6) 0%,rgba(8,7,5,.25) 40%,rgba(8,7,5,.55) 100%);}
-#fb-golden .fb-content{height:55vh;min-height:320px;align-items:center;text-align:center;padding:0 clamp(20px,10vw,120px);}
-#fb-golden .fb-quote{font-family:'Cormorant Garamond',serif;font-size:clamp(16px,2.8vw,34px);font-style:italic;font-weight:300;color:var(--w);line-height:1.75;margin-bottom:20px;text-shadow:0 2px 20px rgba(0,0,0,.5);}
-#fb-golden .fb-attr{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.55em;color:var(--gold);opacity:.55;}
-#fb-golden .fb-rule{width:50px;height:1px;background:var(--gold);opacity:.4;margin:20px auto;}
-
-/* Masterpiece → 제목 타이포그래피 */
-#fb-masterpiece{height:60vh;min-height:360px;}
-#fb-masterpiece .fb-bg{filter:brightness(.4) contrast(1.15) saturate(1.2);}
-#fb-masterpiece .fb-ov{background:linear-gradient(90deg,rgba(8,7,5,.88) 0%,rgba(8,7,5,.4) 55%,rgba(8,7,5,.1) 100%);}
-#fb-masterpiece .fb-content{height:60vh;min-height:360px;padding:0 clamp(24px,8vw,100px);}
-#fb-masterpiece .fb-eyebrow{font-family:'Cinzel',serif;font-size:7px;letter-spacing:.65em;color:var(--gold);opacity:.5;margin-bottom:12px;}
-#fb-masterpiece .fb-title{font-family:'Cinzel',serif;font-size:clamp(22px,4.5vw,60px);font-weight:900;letter-spacing:.08em;color:var(--w);line-height:1.15;margin-bottom:16px;}
-#fb-masterpiece .fb-title em{color:var(--gold);font-style:normal;}
-#fb-masterpiece .fb-sub{font-family:'Nanum Myeongjo',serif;font-size:clamp(12px,1.2vw,15px);letter-spacing:.08em;line-height:2.1;color:rgba(242,237,228,.52);max-width:450px;}
-
-/* 모바일 반응형 */
-@media(max-width:768px){
-  #fb-genesis{height:70vh;}
-  #fb-rebels{height:70vh;}
-  #fb-rebels .fb-duo{flex-direction:column;gap:16px;}
-  #fb-rebels .fb-content{padding-bottom:48px;}
-  .fb-gallery-grid{grid-template-columns:1fr;grid-template-rows:repeat(4,200px);height:auto;}
-  .fb-gal-item.tall{grid-row:auto;}
-  #fb-ai .fb-content{flex-direction:column;gap:32px;padding:40px 24px;}
-  #fb-ai .fb-ai-right{grid-template-columns:1fr 1fr;}
-  #fb-golden{height:50vh;}
-  #fb-masterpiece{height:55vh;}
-}
-@media(max-width:480px){
-  #fb-genesis{height:100svh;}
-  #fb-genesis .fb-title{font-size:clamp(32px,10vw,48px);}
-  #fb-rebels{height:85vh;}
-  #fb-rebels .fb-title{font-size:clamp(24px,7vw,36px);}
-  #fb-ai{height:auto;min-height:auto;}
-  #fb-ai .fb-content{height:auto;padding:52px 20px;}
-  #fb-ai .fb-ai-right{grid-template-columns:1fr;}
-  #fb-masterpiece .fb-title{font-size:clamp(20px,6.5vw,32px);}
-}
-
-
-/* HERO BADGES */
-.hero-badges-row{display:flex;flex-wrap:wrap;gap:9px;margin:16px 0 22px;}
-.hero-badge-item{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.22em;border:1px solid rgba(201,168,76,.38);color:var(--gold);padding:7px 16px;background:rgba(201,168,76,.05);}
-.hero-badge-item strong{color:var(--gl);}
-
-/* NEW PROFILE CARDS */
-.np-grid{display:grid;grid-template-columns:260px 1fr;gap:52px;align-items:start;}
-.np-photo{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:top;border:1px solid rgba(201,168,76,.2);filter:brightness(.9);}
-.np-frame{position:absolute;inset:-7px;border:1px solid rgba(201,168,76,.1);pointer-events:none;}
-.np-tag{position:absolute;bottom:-1px;left:0;right:0;background:rgba(4,3,2,.92);border-top:1px solid rgba(201,168,76,.16);padding:12px;text-align:center;}
-.np-tag .en{font-family:'Cinzel',serif;font-size:12px;font-weight:700;letter-spacing:.2em;color:var(--gl);}
-.np-tag .kr{font-family:'Gowun Batang',serif;font-size:10px;letter-spacing:.3em;color:rgba(242,237,228,.4);margin-top:4px;}
-.np-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.np-card{background:rgba(201,168,76,.03);border:1px solid rgba(201,168,76,.11);padding:20px 18px;position:relative;overflow:hidden;}
-.np-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold),transparent);}
-.np-card-icon{font-size:17px;margin-bottom:8px;}
-.np-card-title{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.3em;color:var(--gold);margin-bottom:12px;}
-.np-card-list{list-style:none;}
-.np-card-list li{font-family:'Nanum Myeongjo',serif;font-size:12px;letter-spacing:.04em;color:rgba(242,237,228,.62);line-height:1.8;padding:3px 0;border-bottom:1px solid rgba(201,168,76,.07);}
-.np-card-list li:last-child{border-bottom:none;}
-
-/* CONCEPT CARDS */
-.nc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:44px;}
-.nc-card{position:relative;background:rgba(201,168,76,.025);border:1px solid rgba(201,168,76,.11);padding:32px 24px 28px;overflow:hidden;transition:background .4s,border-color .4s;}
-.nc-card:hover{background:rgba(201,168,76,.06);border-color:rgba(201,168,76,.26);}
-.nc-card-num{font-family:'Cinzel',serif;font-size:60px;font-weight:900;color:rgba(201,168,76,.055);position:absolute;top:6px;right:14px;line-height:1;user-select:none;}
-.nc-card-icon{font-size:20px;margin-bottom:12px;}
-.nc-card-en{font-family:'Cormorant Garamond',serif;font-size:clamp(13px,1.3vw,16px);font-weight:600;font-style:italic;color:var(--gl);margin-bottom:3px;}
-.nc-card-kr{font-family:'Noto Serif KR',serif;font-size:clamp(15px,1.7vw,20px);font-weight:200;letter-spacing:.1em;color:var(--w);margin-bottom:15px;}
-.nc-card-rule{width:26px;height:1px;background:var(--gold);opacity:.38;margin:13px 0;}
-.nc-card-body{font-family:'Nanum Myeongjo',serif;font-size:13px;letter-spacing:.04em;line-height:2.1;color:rgba(242,237,228,.56);}
-
-/* STAGE TECH */
-.nt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:44px;}
-.nt-card{border:1px solid rgba(201,168,76,.11);background:rgba(4,3,2,.8);padding:30px 24px;position:relative;transition:background .4s;}
-.nt-card:hover{background:rgba(201,168,76,.04);}
-.nt-card-top{position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.38;}
-.nt-card-num{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.4em;color:var(--gold);opacity:.5;margin-bottom:12px;}
-.nt-card-icon{font-size:24px;margin-bottom:12px;}
-.nt-card-ten{font-family:'Cinzel',serif;font-size:clamp(11px,1.1vw,14px);font-weight:700;letter-spacing:.1em;color:var(--w);margin-bottom:3px;}
-.nt-card-tkr{font-family:'Gowun Batang',serif;font-size:clamp(10px,.9vw,12px);letter-spacing:.15em;color:rgba(242,237,228,.4);margin-bottom:14px;}
-.nt-card-list{list-style:none;}
-.nt-card-list li{font-family:'Nanum Myeongjo',serif;font-size:12.5px;letter-spacing:.04em;color:rgba(242,237,228,.58);line-height:1.88;padding:4px 0 4px 13px;position:relative;}
-.nt-card-list li::before{content:'·';position:absolute;left:0;color:var(--gold);opacity:.6;}
-
-/* PERF GALLERY NEW */
-.np-gal-main{width:100%;aspect-ratio:16/7;object-fit:cover;display:block;filter:brightness(.88);margin-bottom:3px;}
-.np-gal-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:3px;}
-.np-gal-grid img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;filter:brightness(.78);transition:filter .5s,transform .6s;}
-.np-gal-grid img:hover{filter:brightness(1.04);transform:scale(1.02);}
-
-/* COLLAB */
-.nc-collab-img,.nc-members-img{width:100%;display:block;border:1px solid rgba(201,168,76,.12);}
-.nc-members-img{margin-top:3px;}
-
-/* AWARDS BOARD */
-.naw-wrap{border:1px solid rgba(201,168,76,.13);overflow:hidden;margin-bottom:28px;}
-.naw-wrap img{width:100%;display:block;filter:brightness(.9);}
-
-@media(max-width:768px){
-  .np-grid{grid-template-columns:1fr!important;}
-  .np-cards{grid-template-columns:1fr!important;}
-  .nc-grid,.nt-grid{grid-template-columns:1fr!important;}
-  .np-gal-grid{grid-template-columns:1fr 1fr!important;}
-}
-@media(max-width:480px){
-  .np-gal-grid{grid-template-columns:1fr!important;}
-  .hero-badges-row{gap:6px;}
-  .hero-badge-item{font-size:7.5px;padding:6px 10px;}
-}
-
-/* ══ 콜라보 & 아티스트 프로필 통합 섹션 ══ */
-#collab-section{background:var(--bg);border-top:1px solid rgba(201,168,76,.1);}
-
-/* 상단: 아리스김 × 친친탱고 인트로 */
-.collab-intro{display:grid;grid-template-columns:1fr 1fr;gap:3px;margin-bottom:3px;}
-.collab-intro-img{position:relative;height:480px;overflow:hidden;}
-.collab-intro-img img{width:100%;height:100%;object-fit:cover;filter:brightness(.65);transition:filter .6s;}
-.collab-intro-img:hover img{filter:brightness(.82);}
-.collab-intro-img-cap{position:absolute;bottom:0;left:0;right:0;padding:28px 32px;background:linear-gradient(0deg,rgba(4,3,2,.96) 0%,rgba(4,3,2,.3) 70%,transparent 100%);}
-.collab-intro-img-cap .ci-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.55em;color:var(--gold);opacity:.6;margin-bottom:8px;}
-.collab-intro-img-cap .ci-title{font-family:'Cinzel',serif;font-size:clamp(20px,3vw,36px);font-weight:900;color:var(--w);letter-spacing:.06em;margin-bottom:6px;}
-.collab-intro-img-cap .ci-title em{color:var(--gold);font-style:normal;}
-.collab-intro-img-cap .ci-sub{font-family:'Nanum Myeongjo',serif;font-size:13px;letter-spacing:.06em;color:rgba(242,237,228,.55);line-height:1.9;}
-
-/* 중앙 × 구분선 */
-.collab-x-bar{display:flex;align-items:center;justify-content:center;padding:40px 52px;background:rgba(201,168,76,.03);border-top:1px solid rgba(201,168,76,.08);border-bottom:1px solid rgba(201,168,76,.08);}
-.collab-x-bar .cx-line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(201,168,76,.3));}
-.collab-x-bar .cx-line.r{background:linear-gradient(90deg,rgba(201,168,76,.3),transparent);}
-.collab-x-bar .cx-text{font-family:'Cinzel',serif;font-size:11px;letter-spacing:.45em;color:var(--gold);opacity:.7;padding:0 28px;}
-
-/* 멤버 프로필 그리드 */
-.collab-members{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:3px;}
-.cm-card{position:relative;overflow:hidden;background:var(--deep);}
-.cm-card-img{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:center top;display:block;filter:brightness(.6) contrast(1.05);transition:filter .6s ease,transform .7s ease;}
-.cm-card:hover .cm-card-img{filter:brightness(.85);transform:scale(1.04);}
-.cm-card-info{position:absolute;bottom:0;left:0;right:0;padding:20px 18px 22px;background:linear-gradient(0deg,rgba(4,3,2,.97) 0%,rgba(4,3,2,.6) 55%,transparent 100%);transition:padding .4s;}
-.cm-card:hover .cm-card-info{padding-bottom:28px;}
-.cm-role{font-family:'Cinzel',serif;font-size:7px;letter-spacing:.45em;color:var(--gold);opacity:.65;margin-bottom:6px;display:block;}
-.cm-name-kr{font-family:'Noto Serif KR',serif;font-size:clamp(14px,1.5vw,18px);font-weight:200;letter-spacing:.12em;color:var(--w);margin-bottom:3px;}
-.cm-name-en{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.3em;color:rgba(232,204,122,.45);margin-bottom:10px;}
-.cm-rule{width:20px;height:1px;background:var(--gold);opacity:.45;margin:8px 0;}
-.cm-desc{font-family:'Nanum Myeongjo',serif;font-size:11.5px;letter-spacing:.04em;line-height:1.95;color:rgba(242,237,228,.48);opacity:0;transform:translateY(8px);transition:opacity .4s .05s,transform .4s;}
-.cm-card:hover .cm-desc{opacity:1;transform:translateY(0);}
-
-/* 아리스김 단독 카드 (더 크게) */
-.cm-card.lead{grid-column:span 1;}
-
-/* 하단: 콜라보 스토리 */
-.collab-story{display:grid;grid-template-columns:1fr 1fr;gap:64px;padding:64px 52px;align-items:center;}
-.collab-story-text .cs-label{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.6em;color:var(--gold);opacity:.55;margin-bottom:18px;display:block;}
-.collab-story-text .cs-title{font-family:'Noto Serif KR',serif;font-size:clamp(18px,2.5vw,28px);font-weight:200;letter-spacing:.1em;color:var(--w);line-height:1.65;margin-bottom:20px;}
-.collab-story-text .cs-body{font-family:'Nanum Myeongjo',serif;font-size:13.5px;letter-spacing:.06em;line-height:2.3;color:rgba(242,237,228,.56);}
-.collab-story-img{position:relative;overflow:hidden;}
-.collab-story-img img{width:100%;display:block;filter:brightness(.75);transition:filter .6s;}
-.collab-story-img:hover img{filter:brightness(.92);}
-.collab-story-img::before{content:'';position:absolute;inset:0;border:1px solid rgba(201,168,76,.18);z-index:1;pointer-events:none;}
-
-/* 반응형 */
-@media(max-width:768px){
-  .collab-intro{grid-template-columns:1fr;}
-  .collab-intro-img{height:320px;}
-  .collab-members{grid-template-columns:1fr 1fr;}
-  .collab-story{grid-template-columns:1fr;gap:32px;padding:48px 24px;}
-}
-@media(max-width:480px){
-  .collab-members{grid-template-columns:1fr 1fr;gap:2px;}
-  .collab-intro-img{height:260px;}
-  .cm-desc{display:none;}
-  .collab-story{padding:40px 18px;}
-}
-
-
-/* ══ 멤버 프로필 v2 — 실제 사진 적용 ══ */
-
-/* 콜라보 인트로 헤더 */
-.collab-header{padding:60px 52px 48px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;border-bottom:1px solid rgba(201,168,76,.08);}
-.collab-header-text .ch-label{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:.6em;color:var(--gold);opacity:.55;margin-bottom:16px;display:block;}
-.collab-header-text .ch-title{font-family:'Noto Serif KR',serif;font-size:clamp(22px,3.5vw,38px);font-weight:200;letter-spacing:.1em;color:var(--w);line-height:1.55;margin-bottom:20px;}
-.collab-header-text .ch-title em{color:var(--gold);font-style:normal;}
-.collab-header-text .ch-desc{font-family:'Nanum Myeongjo',serif;font-size:13.5px;letter-spacing:.06em;line-height:2.2;color:rgba(242,237,228,.52);}
-.collab-header-img{position:relative;overflow:hidden;}
-.collab-header-img img{width:100%;display:block;filter:brightness(.72);}
-.collab-header-img::before{content:'';position:absolute;inset:0;border:1px solid rgba(201,168,76,.15);z-index:1;pointer-events:none;}
-
-/* 아리스김 히어로 카드 */
-.member-list{display:flex;flex-direction:column;gap:1px;margin-top:1px;}
-
-.member-lead{display:grid;grid-template-columns:300px 1fr;align-items:stretch;background:var(--deep);border-bottom:1px solid rgba(201,168,76,.1);}
-.member-lead-photo{position:relative;overflow:hidden;height:360px;}
-.member-lead-photo img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;filter:brightness(.82);transition:filter .6s,transform .7s;}
-.member-lead:hover .member-lead-photo img{filter:brightness(.96);transform:scale(1.03);}
-.member-lead-photo::after{content:'';position:absolute;top:0;right:0;bottom:0;width:80px;background:linear-gradient(90deg,transparent,var(--deep));}
-.member-lead-info{padding:40px 44px;display:flex;flex-direction:column;justify-content:center;border-left:1px solid rgba(201,168,76,.08);}
-
-/* 멤버 카드 — 5열 그리드 */
-.member-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(201,168,76,.06);}
-.member-card{background:var(--deep);position:relative;overflow:hidden;cursor:default;transition:background .4s;}
-.member-card:hover{background:#0f0c08;}
-
-/* 사진 */
-.member-card-photo{position:relative;overflow:hidden;
-  /* 실제 사진이 작으므로 적절한 높이로 */
-  height:280px;}
-.member-card-photo img{
-  width:100%;height:100%;
-  object-fit:contain; /* contain → 사진 전체가 보이게 */
-  object-position:center bottom;
-  display:block;
-  filter:brightness(.88) contrast(1.02);
-  transition:filter .5s,transform .6s;
-  background:transparent;}
-.member-card:hover .member-card-photo img{filter:brightness(1.0);transform:scale(1.03);}
-
-/* 카드 하단 정보 */
-.member-card-body{padding:20px 20px 24px;border-top:1px solid rgba(201,168,76,.1);}
-.mc-instrument{font-family:'Cinzel',serif;font-size:7px;letter-spacing:.5em;color:var(--gold);opacity:.5;margin-bottom:10px;display:block;}
-.mc-name-kr{font-family:'Noto Serif KR',serif;font-size:clamp(16px,1.8vw,22px);font-weight:200;letter-spacing:.2em;color:var(--w);margin-bottom:3px;}
-.mc-name-en{font-family:'Cinzel',serif;font-size:8px;letter-spacing:.3em;color:rgba(232,204,122,.35);margin-bottom:14px;}
-.mc-rule{width:20px;height:1px;background:var(--gold);opacity:.38;margin-bottom:12px;}
-.mc-career{list-style:none;display:flex;flex-direction:column;gap:5px;}
-.mc-career li{font-family:'Nanum Myeongjo',serif;font-size:11.5px;letter-spacing:.04em;color:rgba(242,237,228,.5);line-height:1.75;padding-left:12px;position:relative;}
-.mc-career li::before{content:'—';position:absolute;left:0;color:var(--gold);opacity:.45;font-size:10px;}
-
-/* 아리스김 공통 텍스트 */
-.member-instrument{font-family:'Cinzel',serif;font-size:7.5px;letter-spacing:.55em;color:var(--gold);opacity:.55;margin-bottom:12px;display:flex;align-items:center;gap:10px;}
-.member-instrument::after{content:'';flex:0 0 30px;height:1px;background:var(--gold);opacity:.3;}
-.member-name-kr{font-family:'Noto Serif KR',serif;font-size:clamp(26px,3.5vw,40px);font-weight:200;letter-spacing:.18em;color:var(--w);margin-bottom:4px;}
-.member-name-en{font-family:'Cinzel',serif;font-size:9px;letter-spacing:.38em;color:rgba(232,204,122,.35);margin-bottom:20px;}
-.member-rule{width:32px;height:1px;background:var(--gold);opacity:.38;margin-bottom:18px;}
-.member-career{list-style:none;display:flex;flex-direction:column;gap:8px;}
-.member-career li{font-family:'Nanum Myeongjo',serif;font-size:13.5px;letter-spacing:.06em;color:rgba(242,237,228,.56);line-height:1.8;padding-left:16px;position:relative;}
-.member-career li::before{content:'—';position:absolute;left:0;color:var(--gold);opacity:.45;font-size:11px;}
-
-/* 반응형 */
-@media(max-width:1024px){
-  .member-grid{grid-template-columns:repeat(2,1fr);}
-  .member-lead{grid-template-columns:240px 1fr;}
-  .member-lead-photo{height:300px;}
-}
-@media(max-width:768px){
-  .collab-header{grid-template-columns:1fr;gap:28px;padding:40px 24px 28px;}
-  .collab-header-img{display:none;}
-  .member-lead{grid-template-columns:180px 1fr;}
-  .member-lead-photo{height:250px;}
-  .member-lead-info{padding:28px 24px;}
-  .member-card-photo{height:220px;}
-  .member-grid{grid-template-columns:repeat(2,1fr);}
-}
-@media(max-width:480px){
-  .collab-header{padding:32px 18px 24px;}
-  .member-lead{grid-template-columns:1fr;grid-template-rows:auto auto;}
-  .member-lead-photo{height:280px;}
-  .member-lead-photo::after{display:none;}
-  .member-lead-info{padding:24px 18px;border-left:none;border-top:1px solid rgba(201,168,76,.1);}
-  .member-grid{grid-template-columns:1fr 1fr;}
-  .member-card-photo{height:200px;}
-  .mc-career li{font-size:10.5px;}
-}
-
-
-
-
-
-/* ══ PERFORMANCE SHOWCASE SECTIONS ══ */
-
-/* ── 공통: 전체 사진 나열 섹션 ── */
-.perf-section{
-  position:relative;width:100%;
-  border-top:1px solid rgba(201,168,76,.08);
-  background:var(--bg);
-}
-
-/* A2: 오케스트라 — 가로형 (2000×1115) */
-/* width:100%;height:auto → 크롭 없이 전체 표시 */
-.perf-orchestra{overflow:hidden;}
-.perf-orchestra > img{
-  width:100%;
-  height:auto;          /* 자연 비율 유지 */
-  display:block;
-  filter:brightness(.78) contrast(1.05);
-}
-
-/* A3: 색소폰 아티스트 오버레이 */
-/* A3 전신 오버레이 — 오른쪽 하단 고정, 전신 표시 */
-.perf-sax-ov{
-  position:absolute;
-  right:0; bottom:0;
-  /* A3 비율 1493:2000 → 높이 100% 기준 너비 자동 */
-  height:100%;
-  width:auto;
-  max-width:48%;        /* PC에서 너무 크지 않게 */
-  opacity:0;
-  transform:translateX(40px);
-  transition:opacity 2s cubic-bezier(.25,.46,.45,.94) ,
-             transform 2.4s cubic-bezier(.25,.46,.45,.94);
-  pointer-events:none;
-  z-index:3;
-}
-.perf-sax-ov.triggered{
-  opacity:1;
-  transform:translateX(0);
-}
-.perf-sax-ov img{
-  height:100%;
-  width:auto;
-  display:block;
-  filter:brightness(1.05) contrast(1.08);
-  /* 핵심: 검정배경 완전 제거 — screen 블렌드 모드 */
-  /* black(0,0,0) pixels → transparent against background */
-  mix-blend-mode:screen;
-}
-/* 왼쪽 그라디언트 — A2와 자연스럽게 합성 */
-/* PNG 투명배경이므로 ::before 그라디언트 불필요 */
-.perf-sax-ov::before{content:none;}
-/* 태블릿: 전신 비율 유지, 더 작게 */
-@media(max-width:1024px){
-  .perf-sax-ov{max-width:52%;}
-}
-/* 모바일: A2 아래에 A3 스택 */
-@media(max-width:600px){
-  .perf-sax-ov{
-    position:relative;
-    width:100%; height:auto; max-width:100%;
-    transform:translateY(20px);
-  }
-  .perf-sax-ov.triggered{transform:translateY(0);}
-  .perf-sax-ov img{width:100%;height:auto;}
-  .perf-sax-ov::before{display:none;}
-}
-
-/* ── A5: 클림트 LED 퍼포먼스 (1115×2000 세로형) ── */
-.perf-a5{display:flex;justify-content:center;background:var(--bg);}
-/* PC: 뷰포트 높이에 맞추고 중앙 배치 */
-.perf-a5 > img{
-  display:block;
-  filter:brightness(.82) contrast(1.06);
-  /* 세로형이므로: 최대 높이 100vh, 너비 자동 */
-  max-height:100vh;
-  width:auto;
-  height:auto;
-}
-/* 모바일: 전체 너비 */
-@media(max-width:600px){
-  .perf-a5 > img{width:100%;max-height:none;height:auto;}
-}
-/* A5 위 기본 오버레이 */
-.perf-a5-ov{
-  position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(8,7,5,.05) 0%,rgba(8,7,5,0) 30%,rgba(8,7,5,.12) 70%,rgba(8,7,5,.6) 100%);
-}
-
-/* ── 핀 조명 (A5용) — IntersectionObserver로 트리거 ── */
-.spot2-dark{
-  position:absolute;inset:0;
-  background:rgba(4,3,2,.58);
-  opacity:0;
-  pointer-events:none;
-  transition:opacity 1s ease;
-}
-.spot2-dark.triggered{ opacity:1; }
-
-/* 조명 광원 점 */
-.spot2-source{
-  position:absolute;
-  top:0; left:50%;
-  transform:translateX(-50%);
-  width:100px; height:5px;
-  background:radial-gradient(ellipse, rgba(255,248,220,.9) 0%,transparent 100%);
-  pointer-events:none;
-  opacity:0;
-  transition:opacity .5s ease .8s;
-}
-.spot2-source.triggered{ opacity:1; }
-
-/* 조명 빔 */
-.spot2-beam{
-  position:absolute;inset:0;
-  pointer-events:none;
-  clip-path:polygon(49% 0%,51% 0%,51% 0%,49% 0%);
-  background:linear-gradient(
-    180deg,
-    rgba(255,245,200,.42) 0%,
-    rgba(255,240,170,.20) 35%,
-    rgba(255,235,150,.08) 65%,
-    transparent 100%
-  );
-  opacity:0;
-  transition:
-    clip-path 2.2s cubic-bezier(.25,.46,.45,.94) .6s,
-    opacity    .4s ease .6s;
-}
-.spot2-beam.triggered{
-  opacity:1;
-  /* A5 세로형 — 연주자는 이미지 하단 중앙 약 65% 지점 */
-  clip-path:polygon(30% 0%,70% 0%,82% 100%,18% 100%);
-}
-
-/* 연주자 글로우 */
-.spot2-glow{
-  position:absolute;
-  top:58%; left:50%;
-  transform:translateX(-50%) scale(.5);
-  width:clamp(80px,18vw,200px);
-  height:clamp(80px,18vw,200px);
-  background:radial-gradient(ellipse, rgba(255,248,190,.22) 0%,transparent 70%);
-  pointer-events:none;
-  opacity:0;
-  transition:opacity .8s ease 2s, transform .8s ease 2s;
-}
-.spot2-glow.triggered{
-  opacity:1;
-  transform:translateX(-50%) scale(1);
-}
-
-/* 반응형 */
-@media(max-width:480px){
-  .spot2-beam.triggered{
-    clip-path:polygon(28% 0%,72% 0%,85% 100%,15% 100%);
-  }
-}
-
-
-/* ── A5 드라마틱 텍스트 오버레이 ── */
-.perf-a5{position:relative;}  /* flex가 있어 추가 */
-.perf-a5-text{
-  position:absolute;
-  top:8%; left:50%;
-  transform:translateX(-50%);
-  text-align:center;
-  z-index:10;
-  width:90%;
-  max-width:560px;
-  opacity:0;
-  transform:translateX(-50%) translateY(-20px);
-  transition:opacity .9s ease 2.4s, transform .9s ease 2.4s;
-  pointer-events:none;
-}
-.perf-a5-text.triggered{
-  opacity:1;
-  transform:translateX(-50%) translateY(0);
-}
-.pa5-label{
-  font-family:'Cinzel',serif;
-  font-size:clamp(7px,1.1vw,10px);
-  letter-spacing:.55em;
-  color:var(--gold);
-  opacity:.62;
-  margin-bottom:14px;
-}
-.pa5-title{
-  font-family:'Cormorant Garamond','Noto Serif KR',serif;
-  font-size:clamp(22px,4.5vw,56px);
-  font-weight:300;
-  font-style:normal;
-  color:var(--w);
-  line-height:1.2;
-  letter-spacing:.04em;
-  text-shadow:0 0 40px rgba(201,168,76,.3), 0 2px 8px rgba(0,0,0,.8);
-  margin-bottom:16px;
-}
-.pa5-title em{
-  color:var(--gold);
-  font-style:italic;
-}
-.pa5-rule{
-  width:40px;height:1px;
-  background:var(--gold);opacity:.5;
-  margin:0 auto 16px;
-}
-.pa5-sub{
-  font-family:'Noto Serif KR',serif;
-  font-size:clamp(11px,1.5vw,15px);
-  font-weight:200;
-  letter-spacing:.14em;
-  color:rgba(242,237,228,.62);
-  text-shadow:0 1px 6px rgba(0,0,0,.9);
-}
-@media(max-width:600px){
-  .perf-a5-text{top:5%;width:88%;}
-  .pa5-title{font-size:clamp(20px,6vw,32px);}
-}
-
-
-/* ── 핸드라이팅 스타일 텍스트 애니메이션 ── */
-@import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap');
-
-.pa5-handwrite{
-  display:flex;flex-direction:column;align-items:center;
-  gap:4px;margin-bottom:20px;
-}
-
-/* 각 줄: clip-path로 왼쪽→오른쪽 필기 효과 */
-.hw-line{
-  font-family:'Nanum Pen Script','Noto Serif KR',serif;
-  color:var(--w);
-  line-height:1.3;
-  clip-path:inset(0 100% 0 0);   /* 처음엔 완전히 숨김 */
-  opacity:0;
-  position:relative;
-  text-shadow:
-    0 0 20px rgba(201,168,76,.6),
-    0 0 40px rgba(201,168,76,.25),
-    0 2px 8px rgba(0,0,0,.95);
-}
-
-/* 펜 끝 빛나는 커서 */
-.hw-line::after{
-  content:'';
-  position:absolute;right:0;top:20%;
-  width:3px;height:60%;
-  background:radial-gradient(ellipse,rgba(255,240,150,.95),transparent);
-  opacity:0;
-  transition:opacity .1s;
-}
-
-/* triggered 시 각 줄 순차 등장 */
-.perf-a5-text.triggered .hw-line{
-  opacity:1;
-}
-.perf-a5-text.triggered .hw-l1{
-  animation:hwWrite 1.4s cubic-bezier(.25,.1,.25,1) 0.2s both,
-            hwCursor 1.4s ease 0.2s both;
-}
-.perf-a5-text.triggered .hw-l2{
-  animation:hwWrite 1.5s cubic-bezier(.25,.1,.25,1) 1.4s both,
-            hwCursor 1.5s ease 1.4s both;
-}
-.perf-a5-text.triggered .hw-l3{
-  animation:hwWrite 1.8s cubic-bezier(.25,.1,.25,1) 2.7s both,
-            hwCursor 1.8s ease 2.7s both;
-}
-
-@keyframes hwWrite{
-  0%  {clip-path:inset(0 100% 0 0);}
-  100%{clip-path:inset(0 0% 0 0);}
-}
-
-@keyframes hwCursor{
-  0%,5%  {background:transparent;}
-  10%    {background:linear-gradient(90deg,transparent 0%,transparent calc(100% - 3px),rgba(255,240,150,.9) calc(100% - 3px),rgba(255,240,150,.9) 100%);}
-  90%    {background:linear-gradient(90deg,transparent 0%,transparent calc(100% - 3px),rgba(255,240,150,.9) calc(100% - 3px),rgba(255,240,150,.9) 100%);}
-  100%   {background:transparent;}
-}
-
-.hw-l1{font-size:clamp(18px,4vw,38px);font-weight:400;letter-spacing:.08em;}
-.hw-l2{font-size:clamp(16px,3.5vw,34px);font-weight:400;letter-spacing:.06em;color:rgba(232,204,122,.9);}
-.hw-l3{font-size:clamp(22px,5vw,52px);font-weight:700;letter-spacing:.03em;}
-.hw-l3 em{
-  font-style:italic;
-  color:var(--gold);
-  text-shadow:
-    0 0 30px rgba(201,168,76,.8),
-    0 0 60px rgba(201,168,76,.4),
-    0 3px 12px rgba(0,0,0,.95);
-}
-
-/* 기존 pa5-title 숨김 */
-.pa5-title{display:none;}
-
-@media(max-width:600px){
-  .hw-l1{font-size:clamp(16px,5.5vw,24px);}
-  .hw-l2{font-size:clamp(14px,5vw,20px);}
-  .hw-l3{font-size:clamp(19px,6.5vw,32px);}
-}
-
-
-/* ── A3 위 문구: "그는 장르가 없는 게 아니라, 장르가 아리스김이다." ── */
-.orch-quote{
-  position:absolute;
-  left:clamp(24px,5vw,60px);
-  bottom:clamp(40px,8%,100px);
-  z-index:10;
-  pointer-events:none;
-}
-.oq-line{
-  font-family:'Noto Serif KR',serif;
-  font-weight:200;
-  letter-spacing:.12em;
-  color:var(--w);
-  text-shadow:0 2px 12px rgba(0,0,0,.95), 0 0 30px rgba(0,0,0,.8);
-  opacity:0;
-  transform:translateY(16px);
-  transition:opacity .9s ease, transform .9s ease;
-}
-.oq-l1{font-size:clamp(16px,2.5vw,26px); transition-delay:.1s;}
-.oq-l2{font-size:clamp(18px,3vw,32px);   transition-delay:.4s;}
-.oq-l3{
-  font-size:clamp(22px,4vw,42px);
-  font-weight:400;
-  transition-delay:.75s;
-}
-.oq-l3 em{
-  font-style:italic;
-  color:var(--gold);
-  text-shadow:0 0 20px rgba(201,168,76,.5), 0 2px 12px rgba(0,0,0,.95);
-}
-/* A3 triggered 되면 문구도 등장 */
-#perf-orchestra.quote-triggered .oq-line{
-  opacity:1;
-  transform:translateY(0);
-}
-
-/* fb-genesis 문구 스크롤 애니메이션 강화 */
-#fb-genesis .fb-sub{
-  opacity:0;
-  transform:translateY(12px);
-  transition:opacity 1.2s ease .3s, transform 1.2s ease .3s;
-  font-size:clamp(13px,1.8vw,20px);
-  letter-spacing:.22em;
-  color:rgba(232,204,122,.75);
-}
-#fb-genesis.genesis-quote-on-DISABLED .fb-sub{
-  opacity:1;
-  transform:translateY(0);
-}
-
-@media(max-width:600px){
-  .orch-quote{bottom:20px;left:16px;}
-  .oq-l1{font-size:15px;}
-  .oq-l2{font-size:17px;}
-  .oq-l3{font-size:20px;}
-}
-
-
-/* ════════════════════════════════════════
-   타자기 효과 — 럭셔리 강한 필체
-   ════════════════════════════════════════ */
-
-/* ── fb-genesis 타자기 ── */
-.genesis-typewriter{
-  text-align:center;
-  margin-bottom:24px;
-}
-
-.gtw-line1{
-  font-family:'Noto Serif KR',serif;
-  font-size:clamp(32px,6vw,80px);
-  font-weight:900;
-  letter-spacing:.06em;
-  color:var(--w);
-  line-height:1.2;
-  text-shadow:
-    0 0 40px rgba(255,255,255,.15),
-    0 4px 20px rgba(0,0,0,.9);
-  min-height:1.2em;
-  display:block;
-}
-
-/* 한 칸 빈 줄 */
-.gtw-spacer{
-  display:block;
-  height:clamp(14px,2vw,28px);
-}
-
-/* 큰 노란 문구 */
-.genesis-big-quote{
-  font-family:'Noto Serif KR',serif;
-  font-size:clamp(20px,3.8vw,52px);
-  font-weight:700;
-  letter-spacing:.05em;
-  color:var(--gold);          /* 노란/골드 */
-  line-height:1.35;
-  text-shadow:
-    0 0 30px rgba(201,168,76,.55),
-    0 0 60px rgba(201,168,76,.22),
-    0 3px 14px rgba(0,0,0,.95);
-  margin-top:20px;
-  opacity:0;
-  transform:translateY(10px);
-  transition:opacity 1.2s ease, transform 1.2s ease;
-}
-.genesis-big-quote.show{
-  opacity:1;
-  transform:translateY(0);
-}
-.genesis-big-quote em{
-  font-style:italic;
-  color:var(--gl);  /* 더 밝은 골드 */
-}
-
-/* gtw-line2 제거 (더 이상 사용 안 함) */
-.gtw-line2{ display:none; }
-
-@media(max-width:600px){
-  .genesis-big-quote{
-    font-size:clamp(16px,5.5vw,28px);
-    margin-top:14px;
-  }
-}
-
-/* 깜빡이는 커서 */
-.gtw-cursor, .oq-cursor{
-  display:inline-block;
-  font-weight:300;
-  color:var(--gold);
-  animation:cursorBlink .7s step-end infinite;
-  opacity:1;
-}
-.gtw-cursor.done, .oq-cursor.done{
-  animation:none;
-  opacity:0;
-}
-@keyframes cursorBlink{
-  0%,100%{opacity:1;}
-  50%{opacity:0;}
-}
-
-/* ── A3 orch-quote 강한 단일 문구 ── */
-.oq-strong{
-  font-family:'Noto Serif KR',serif;
-  font-size:clamp(24px,4.5vw,58px);
-  font-weight:900;
-  letter-spacing:.05em;
-  color:var(--w);
-  text-shadow:
-    0 0 30px rgba(255,255,255,.12),
-    0 3px 15px rgba(0,0,0,.95),
-    0 0 60px rgba(201,168,76,.08);
-  line-height:1.2;
-  /* 골드 언더라인 효과 */
-  border-bottom:2px solid rgba(201,168,76,.4);
-  padding-bottom:8px;
-  display:inline-block;
-  min-height:1.3em;
-}
-.oq-tw-text{display:inline;}
-
-/* 기존 oq-line 제거 (사용 안 함) */
-.oq-line{ display:none; }
-
-/* orch-quote 위치 재조정 */
-.orch-quote{
-  position:absolute;
-  left:clamp(24px,5vw,60px);
-  bottom:clamp(50px,10%,120px);
-  z-index:10;
-  pointer-events:none;
-  opacity:0;
-  transform:translateY(16px);
-  transition:opacity .6s ease, transform .6s ease;
-}
-#perf-orchestra.quote-triggered .orch-quote{
-  opacity:1;
-  transform:translateY(0);
-}
-
-@media(max-width:600px){
-  .gtw-line1{font-size:clamp(28px,8vw,44px);}
-  .gtw-line2{font-size:clamp(12px,3.5vw,16px);}
-  .oq-strong{font-size:clamp(20px,6vw,32px);}
-  .orch-quote{bottom:24px;left:16px;}
-}
-@media(max-width:480px){
-  .gtw-line1{font-size:clamp(24px,9vw,36px);}
-}
-
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ARIS KIM · Concert Portfolio · 아리스김 색소폰 공연</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --gold: #C9A84C;
+      --bg: #0A0908;
+      --deep: #0E0C09;
+      --text: #F2EDE4;
+      --sub: rgba(242,237,228,0.6);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Noto Serif KR', serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    .ai { font-family: 'Cinzel', serif; letter-spacing: .12em; }
+
+    /* ════════════════════════════════════════
+       PROGRESS BAR
+       ════════════════════════════════════════ */
+    #prog {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 1px;
+      background: var(--gold);
+      width: 0%;
+      z-index: 2001;
+      transition: width .1s linear;
+    }
+
+    /* ════════════════════════════════════════
+       NAVIGATION
+       ════════════════════════════════════════ */
+    #nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 2000;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 52px;
+      transition: all .4s cubic-bezier(.4,0,.2,1);
+    }
+    #nav.on {
+      background: rgba(10,9,8,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(201,168,76,.08);
+      padding: 16px 52px;
+    }
+    .nlogo {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(13px, 1.3vw, 16px);
+      letter-spacing: .14em;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 700;
+      transition: color .3s;
+    }
+    .nlogo:hover { color: var(--gold); }
+    .nlinks {
+      display: flex;
+      gap: 48px;
+      list-style: none;
+      flex: 1;
+      margin-left: 80px;
+    }
+    .nlinks a {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 13px;
+      letter-spacing: .08em;
+      color: var(--text);
+      text-decoration: none;
+      transition: color .3s;
+      opacity: 0.7;
+    }
+    .nlinks a:hover {
+      color: var(--gold);
+      opacity: 1;
+    }
+    .nav-right {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+    #back-home-btn {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: .2em;
+      color: var(--gold);
+      text-decoration: none;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .4s cubic-bezier(.4,0,.2,1);
+    }
+    #back-home-btn.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .ncta {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: .2em;
+      color: var(--bg);
+      background: var(--gold);
+      padding: 12px 28px;
+      text-decoration: none;
+      transition: all .3s;
+    }
+    .ncta:hover {
+      background: rgba(201,168,76,0.85);
+    }
+
+    /* Mobile hamburger */
+    .nav-ham {
+      display: none;
+      width: 24px;
+      height: 18px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      flex-direction: column;
+      gap: 4px;
+      z-index: 2001;
+    }
+    .nav-ham span {
+      width: 100%;
+      height: 1.5px;
+      background: var(--text);
+      transition: all .3s;
+    }
+    .nav-ham.on span:nth-child(1) {
+      transform: rotate(45deg) translate(8px, 8px);
+    }
+    .nav-ham.on span:nth-child(2) {
+      opacity: 0;
+    }
+    .nav-ham.on span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -7px);
+    }
+    #bmob {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--deep);
+      z-index: 1999;
+      flex-direction: column;
+      padding: 100px 40px 40px;
+      gap: 0;
+      overflow-y: auto;
+    }
+    #bmob.on {
+      display: flex;
+    }
+    #bmob a {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 15px;
+      letter-spacing: .08em;
+      color: var(--text);
+      text-decoration: none;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(201,168,76,.06);
+      transition: color .3s;
+    }
+    #bmob a:hover {
+      color: var(--gold);
+    }
+    .bmcta {
+      background: var(--gold);
+      color: var(--bg) !important;
+      margin-top: 24px;
+      padding: 16px !important;
+      text-align: center;
+    }
+
+    /* ════════════════════════════════════════
+       GLOBAL UTILITIES
+       ════════════════════════════════════════ */
+    .sec { background: var(--bg); padding: 200px 52px; position: relative; }
+    .si { max-width: 1000px; margin: 0 auto; }
+    .slabel {
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      letter-spacing: .5em;
+      color: var(--gold);
+      opacity: 0.6;
+      display: block;
+      margin-bottom: 24px;
+      text-transform: uppercase;
+    }
+    .stitle {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(32px, 4vw, 56px);
+      font-weight: 200;
+      letter-spacing: .08em;
+      line-height: 1.4;
+      color: var(--text);
+      margin-bottom: 32px;
+    }
+    .stitle em {
+      color: var(--gold);
+      font-style: normal;
+      font-weight: 300;
+    }
+    .grule {
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+      opacity: 0.3;
+      margin: 28px 0 0;
+    }
+
+    /* Scroll reveal animations */
+    .rv, .rvl, .rvr {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: all .8s cubic-bezier(.4,0,.2,1);
+    }
+    .rv.on, .rvl.on, .rvr.on {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ════════════════════════════════════════
+       HERO SECTION (100vh)
+       ════════════════════════════════════════ */
+    #hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      padding-bottom: 80px;
+    }
+    .hbg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    .hov {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg,
+        rgba(10,9,8,0) 0%,
+        rgba(10,9,8,0.3) 40%,
+        rgba(10,9,8,0.65) 100%);
+    }
+    .hcon {
+      position: relative;
+      z-index: 1;
+      padding: 0 52px;
+      max-width: 1000px;
+    }
+    .hey {
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      letter-spacing: .5em;
+      color: var(--gold);
+      opacity: 0.7;
+      margin-bottom: 28px;
+      text-transform: uppercase;
+    }
+    .hen {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(48px, 8vw, 96px);
+      font-weight: 900;
+      letter-spacing: .08em;
+      color: var(--text);
+      margin-bottom: 12px;
+      line-height: 1.1;
+    }
+    .hkr {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(14px, 1.6vw, 20px);
+      font-weight: 200;
+      letter-spacing: .1em;
+      color: var(--text);
+      opacity: 0.85;
+      margin-bottom: 40px;
+    }
+    .hero-badges-row {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 40px;
+    }
+    .hero-badge-item {
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: 13px;
+      letter-spacing: .06em;
+      color: var(--text);
+      opacity: 0.75;
+    }
+    .hero-badge-item strong {
+      color: var(--gold);
+      font-weight: 700;
+    }
+    .htag {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 14px;
+      letter-spacing: .08em;
+      line-height: 2;
+      color: var(--text);
+      opacity: 0.8;
+      margin-bottom: 48px;
+      max-width: 700px;
+    }
+    .hbtns {
+      display: flex;
+      gap: 20px;
+    }
+    .btn-cta {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: .2em;
+      color: var(--bg);
+      background: var(--gold);
+      padding: 14px 36px;
+      text-decoration: none;
+      transition: all .3s cubic-bezier(.4,0,.2,1);
+      display: inline-block;
+    }
+    .btn-cta:hover {
+      background: rgba(201,168,76,0.85);
+      transform: translateY(-2px);
+    }
+    .btn-sub {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: .2em;
+      color: var(--gold);
+      border: 1px solid rgba(201,168,76,0.4);
+      padding: 14px 36px;
+      text-decoration: none;
+      transition: all .3s cubic-bezier(.4,0,.2,1);
+      display: inline-block;
+    }
+    .btn-sub:hover {
+      border-color: var(--gold);
+      background: rgba(201,168,76,0.06);
+    }
+    .hscroll {
+      position: absolute;
+      bottom: 40px;
+      left: 52px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      opacity: 0.6;
+      animation: bounce 2s infinite;
+    }
+    .hscroll span {
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      letter-spacing: .2em;
+      color: var(--text);
+    }
+    .hscroll-line {
+      width: 1px;
+      height: 28px;
+      background: var(--text);
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
+    }
+
+    /* ════════════════════════════════════════
+       TRUST NUMBERS
+       ════════════════════════════════════════ */
+    #trust {
+      background: var(--deep);
+      padding: 160px 52px;
+    }
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 3px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .trust-card {
+      padding: 80px 40px;
+      border: 1px solid rgba(201,168,76,.12);
+      background: rgba(201,168,76,.03);
+      text-align: center;
+    }
+    .trust-num {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(32px, 4vw, 48px);
+      font-weight: 900;
+      letter-spacing: .1em;
+      color: var(--gold);
+      margin-bottom: 16px;
+    }
+    .trust-label {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 13px;
+      letter-spacing: .08em;
+      line-height: 1.8;
+      color: var(--text);
+      opacity: 0.8;
+    }
+
+    /* ════════════════════════════════════════
+       PERFORMANCE SHOWCASE
+       ════════════════════════════════════════ */
+    .perf-section {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+    .perf-orchestra {
+      height: 600px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .perf-orchestra img:first-child {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      filter: brightness(.4);
+    }
+    .perf-sax-ov {
+      position: absolute;
+      z-index: 2;
+      opacity: 0;
+      transform: scale(0.9);
+      transition: all 1.2s cubic-bezier(.4,0,.2,1);
+    }
+    .perf-sax-ov.triggered {
+      opacity: 1;
+      transform: scale(1);
+    }
+    .perf-sax-ov img {
+      height: 400px;
+      width: auto;
+      filter: drop-shadow(0 40px 80px rgba(0,0,0,0.8));
+    }
+    .orch-quote {
+      position: absolute;
+      z-index: 3;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 1s cubic-bezier(.4,0,.2,1) 0.6s;
+    }
+    .perf-orchestra.quote-triggered .orch-quote {
+      opacity: 1;
+    }
+    .oq-strong {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(18px, 2.5vw, 32px);
+      font-weight: 200;
+      letter-spacing: .1em;
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .oq-cursor {
+      animation: blink 1s infinite;
+    }
+    .oq-cursor.done {
+      animation: none;
+    }
+    @keyframes blink { 0%, 49%, 100% { opacity: 1; } 50%, 99% { opacity: 0; } }
+
+    /* A5 Klimt LED section */
+    .perf-a5 {
+      height: 700px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .perf-a5 img:first-child {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .perf-a5-ov {
+      position: absolute;
+      inset: 0;
+      background: rgba(10,9,8,0.6);
+    }
+    .spot2-dark {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle 400px at 50% 50%, transparent 0%, rgba(8,7,5,0.95) 100%);
+      opacity: 0;
+      transition: opacity 1.2s cubic-bezier(.4,0,.2,1);
+    }
+    .spot2-dark.triggered { opacity: 1; }
+    .spot2-beam {
+      position: absolute;
+      width: 500px;
+      height: 500px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: conic-gradient(from 0deg, transparent 0deg, rgba(201,168,76,0.15) 45deg, transparent 90deg);
+      opacity: 0;
+      clip-path: polygon(50% 50%, 0% 0%, 100% 0%);
+      animation: spinBeam 6s linear infinite;
+      transition: opacity 1s cubic-bezier(.4,0,.2,1);
+    }
+    .spot2-beam.triggered { opacity: 0.8; }
+    @keyframes spinBeam { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+    .spot2-source {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(201,168,76,0.4) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.8s cubic-bezier(.4,0,.2,1);
+    }
+    .spot2-source.triggered { opacity: 1; }
+    .spot2-glow {
+      position: absolute;
+      width: 150px;
+      height: 150px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(circle, rgba(201,168,76,0.8) 0%, rgba(201,168,76,0) 70%);
+      opacity: 0;
+      filter: blur(40px);
+      transition: opacity 1.2s cubic-bezier(.4,0,.2,1) 0.2s;
+    }
+    .spot2-glow.triggered { opacity: 1; }
+    .perf-a5-text {
+      position: relative;
+      z-index: 3;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 1s cubic-bezier(.4,0,.2,1) 0.8s;
+    }
+    .perf-a5-text.triggered {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .pa5-label {
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      letter-spacing: .5em;
+      color: var(--gold);
+      opacity: 0.7;
+      margin-bottom: 28px;
+    }
+    .pa5-handwrite {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(20px, 3vw, 40px);
+      font-weight: 200;
+      letter-spacing: .12em;
+      color: var(--text);
+      line-height: 1.8;
+      margin-bottom: 28px;
+    }
+    .hw-line {
+      opacity: 0;
+      animation: slideInUp 0.6s cubic-bezier(.4,0,.2,1) forwards;
+    }
+    .hw-l1 { animation-delay: 0s; }
+    .hw-l2 { animation-delay: 0.2s; }
+    .hw-l3 { animation-delay: 0.4s; }
+    @keyframes slideInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .hw-line em {
+      color: var(--gold);
+      font-style: normal;
+    }
+    .pa5-rule {
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+      opacity: 0.3;
+      margin: 20px auto;
+    }
+    .pa5-sub {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 13px;
+      letter-spacing: .08em;
+      color: var(--text);
+      opacity: 0.75;
+    }
+
+    /* ════════════════════════════════════════
+       ARTIST PROFILE
+       ════════════════════════════════════════ */
+    .np-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 80px;
+      align-items: flex-start;
+      margin-top: 40px;
+    }
+    .np-photo {
+      width: 100%;
+      height: auto;
+      display: block;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      filter: brightness(.85);
+    }
+    .np-frame {
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(201,168,76,.15);
+    }
+    .np-tag {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      background: var(--gold);
+      color: var(--bg);
+      padding: 12px 16px;
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      letter-spacing: .1em;
+      text-align: center;
+    }
+    .np-tag .en {
+      font-size: 10px;
+      letter-spacing: .15em;
+      margin-bottom: 4px;
+      display: block;
+    }
+    .np-tag .kr {
+      font-size: 8px;
+      letter-spacing: .2em;
+    }
+    .np-cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    .np-card {
+      padding: 32px;
+      border: 1px solid rgba(201,168,76,.1);
+      background: rgba(201,168,76,.04);
+    }
+    .np-card-icon {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+    .np-card-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 14px;
+      letter-spacing: .08em;
+      color: var(--text);
+      margin-bottom: 16px;
+      font-weight: 300;
+    }
+    .np-card-list {
+      list-style: none;
+    }
+    .np-card-list li {
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: 12.5px;
+      letter-spacing: .06em;
+      color: var(--text);
+      opacity: 0.75;
+      padding: 8px 0;
+      line-height: 1.7;
+      border-bottom: 1px solid rgba(201,168,76,.05);
+    }
+    .np-card-list li:last-child {
+      border-bottom: none;
+    }
+
+    /* ════════════════════════════════════════
+       GALLERY
+       ════════════════════════════════════════ */
+    #gallery {
+      background: var(--deep);
+      padding: 200px 52px;
+    }
+    .gal-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 3px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .gal-item {
+      position: relative;
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      background: rgba(201,168,76,.05);
+    }
+    .gal-item.big {
+      grid-column: 2 / 4;
+      aspect-ratio: 8/3;
+    }
+    .gal-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(.75);
+      transition: transform 0.8s cubic-bezier(.4,0,.2,1), filter 0.8s;
+    }
+    .gal-item:hover img {
+      transform: scale(1.05);
+      filter: brightness(.9);
+    }
+    .gal-cap {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(to top, rgba(10,9,8,0.9), transparent);
+      padding: 32px 20px 20px;
+      font-family: 'Noto Serif KR', serif;
+      font-size: 12px;
+      letter-spacing: .07em;
+      color: var(--text);
+      opacity: 0;
+      transition: opacity .5s cubic-bezier(.4,0,.2,1);
+    }
+    .gal-item:hover .gal-cap {
+      opacity: 1;
+    }
+
+    /* ════════════════════════════════════════
+       FULL BLEED SECTIONS
+       ════════════════════════════════════════ */
+    .fb {
+      position: relative;
+      width: 100%;
+      height: 500px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+    }
+    .fb-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .fb-ov {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg,
+        rgba(10,9,8,0.2) 0%,
+        rgba(10,9,8,0.5) 50%,
+        rgba(10,9,8,0.7) 100%);
+    }
+    .fb-content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 0 52px;
+      max-width: 900px;
+    }
+    .fb-eyebrow {
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      letter-spacing: .5em;
+      color: var(--gold);
+      opacity: 0.6;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+    .fb-title {
+      font-family: 'Cinzel', serif;
+      font-size: clamp(36px, 5vw, 64px);
+      font-weight: 900;
+      letter-spacing: .1em;
+      color: var(--text);
+      line-height: 1.2;
+      margin-bottom: 12px;
+    }
+    .fb-title em {
+      color: var(--gold);
+      font-style: normal;
+    }
+    .fb-sub {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 16px;
+      font-weight: 200;
+      letter-spacing: .08em;
+      color: var(--text);
+      opacity: 0.8;
+      line-height: 1.8;
+    }
+    .fb-line {
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+      opacity: 0.3;
+      margin: 24px auto 0;
+    }
+
+    /* Genesis Typewriter */
+    .genesis-typewriter {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(16px, 2vw, 24px);
+      font-weight: 200;
+      letter-spacing: .1em;
+      color: var(--text);
+      margin-bottom: 28px;
+      min-height: 120px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .gtw-text { opacity: 1; }
+    .gtw-cursor {
+      animation: blink 1s infinite;
+      margin-left: 2px;
+    }
+    .gtw-spacer { height: 20px; }
+    .genesis-big-quote {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(24px, 3vw, 42px);
+      font-weight: 300;
+      letter-spacing: .1em;
+      color: var(--gold);
+      line-height: 1.8;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 1s cubic-bezier(.4,0,.2,1) 0.6s;
+    }
+    .genesis-big-quote.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .genesis-big-quote em {
+      font-weight: 700;
+      font-style: normal;
+    }
+
+    /* ════════════════════════════════════════
+       AWARDS & PRESS
+       ════════════════════════════════════════ */
+    .awards-split {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 80px;
+      align-items: flex-start;
+    }
+    .awards-img {
+      width: 100%;
+      height: auto;
+      display: block;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      border: 1px solid rgba(201,168,76,.15);
+      filter: brightness(.8);
+    }
+    .award-list {
+      list-style: none;
+    }
+    .award-item {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 32px;
+      padding: 28px 0;
+      border-bottom: 1px solid rgba(201,168,76,.08);
+    }
+    .award-item:first-child {
+      padding-top: 0;
+    }
+    .award-year {
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      color: var(--gold);
+    }
+    .award-txt {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 13px;
+      letter-spacing: .08em;
+      line-height: 1.8;
+      color: var(--text);
+      opacity: 0.8;
+    }
+    .naw-wrap {
+      width: 100%;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .naw-wrap img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border: 1px solid rgba(201,168,76,.12);
+      filter: brightness(.85);
+    }
+
+    /* ════════════════════════════════════════
+       PRESS SECTION
+       ════════════════════════════════════════ */
+    .press-hero-quote {
+      padding: 200px 52px;
+      background: var(--bg);
+      text-align: center;
+      border-bottom: 1px solid rgba(201,168,76,.1);
+    }
+    .press-hero-q {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(28px, 4vw, 48px);
+      font-weight: 200;
+      letter-spacing: .1em;
+      color: var(--text);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .press-hero-q em {
+      color: var(--gold);
+      font-style: normal;
+      font-weight: 300;
+    }
+    .press-hero-src {
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      letter-spacing: .2em;
+      color: var(--gold);
+      opacity: 0.6;
+    }
+    .press-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 32px;
+    }
+    .press-card {
+      padding: 40px;
+      border: 1px solid rgba(201,168,76,.1);
+      background: rgba(201,168,76,.03);
+    }
+    .press-media {
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      letter-spacing: .15em;
+      color: var(--gold);
+      opacity: 0.7;
+      margin-bottom: 8px;
+    }
+    .press-year {
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      color: var(--text);
+      opacity: 0.6;
+      margin-bottom: 12px;
+    }
+    .press-headline {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 14px;
+      letter-spacing: .08em;
+      line-height: 1.8;
+      color: var(--text);
+      margin-bottom: 16px;
+      font-weight: 300;
+    }
+    .press-headline em {
+      color: var(--gold);
+      font-style: normal;
+      font-weight: 300;
+    }
+    .press-link {
+      display: inline-block;
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: .15em;
+      color: var(--gold);
+      text-decoration: none;
+      margin-top: 12px;
+      transition: opacity .3s;
+    }
+    .press-link:hover { opacity: 0.7; }
+    .broadcast-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 3px;
+      margin-top: 32px;
+    }
+    .broadcast-item {
+      padding: 32px 20px;
+      border: 1px solid rgba(201,168,76,.1);
+      background: rgba(201,168,76,.04);
+      text-align: center;
+    }
+    .broadcast-name {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: .15em;
+      color: var(--gold);
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+    .broadcast-desc {
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: 12px;
+      letter-spacing: .05em;
+      color: var(--text);
+      opacity: 0.7;
+    }
+
+    /* ════════════════════════════════════════
+       COLLABORATION SECTION
+       ════════════════════════════════════════ */
+    #collab-section {
+      padding: 160px 52px;
+      border-top: 1px solid rgba(201,168,76,.1);
+    }
+    .collab-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+      margin-bottom: 120px;
+    }
+    .collab-header-text { }
+    .ch-label {
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      letter-spacing: .5em;
+      color: var(--gold);
+      opacity: 0.6;
+      display: block;
+      margin-bottom: 16px;
+    }
+    .ch-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(28px, 3.5vw, 44px);
+      font-weight: 200;
+      letter-spacing: .1em;
+      color: var(--text);
+      line-height: 1.4;
+      margin-bottom: 20px;
+    }
+    .ch-title em {
+      color: var(--gold);
+      font-style: normal;
+    }
+    .ch-desc {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 13px;
+      letter-spacing: .07em;
+      line-height: 2;
+      color: var(--text);
+      opacity: 0.75;
+    }
+    .collab-header-img img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border: 1px solid rgba(201,168,76,.15);
+      filter: brightness(.85);
+    }
+    .member-list { max-width: 1000px; margin: 0 auto; }
+    .member-lead {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 60px;
+      align-items: flex-start;
+      padding-bottom: 80px;
+      margin-bottom: 80px;
+      border-bottom: 1px solid rgba(201,168,76,.1);
+    }
+    .member-lead-photo {
+      position: relative;
+    }
+    .member-lead-photo img {
+      width: 100%;
+      height: auto;
+      display: block;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      border: 1px solid rgba(201,168,76,.15);
+    }
+    .member-lead-info { }
+    .member-instrument {
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      letter-spacing: .4em;
+      color: var(--gold);
+      opacity: 0.6;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+    .member-name-kr {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 20px;
+      letter-spacing: .2em;
+      color: var(--text);
+      margin-bottom: 4px;
+      font-weight: 300;
+    }
+    .member-name-en {
+      font-family: 'Cinzel', serif;
+      font-size: 12px;
+      letter-spacing: .15em;
+      color: var(--text);
+      opacity: 0.7;
+      margin-bottom: 12px;
+      font-weight: 400;
+    }
+    .member-rule {
+      width: 40px;
+      height: 1px;
+      background: var(--gold);
+      opacity: 0.3;
+      margin-bottom: 20px;
+    }
+    .member-career {
+      list-style: none;
+    }
+    .member-career li {
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: 12.5px;
+      letter-spacing: .05em;
+      color: var(--text);
+      opacity: 0.75;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(201,168,76,.05);
+      line-height: 1.7;
+    }
+
+    /* Member grid */
+    .member-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 32px;
+    }
+    .member-card {
+      border: 1px solid rgba(201,168,76,.1);
+      padding: 32px;
+      background: rgba(201,168,76,.03);
+    }
+    .member-card-photo {
+      width: 100%;
+      height: auto;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .member-card-photo img {
+      width: 100%;
+      height: auto;
+      display: block;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+    }
+    .member-card-body { }
+    .mc-instrument {
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      letter-spacing: .3em;
+      color: var(--gold);
+      opacity: 0.6;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .mc-name-kr {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 16px;
+      letter-spacing: .15em;
+      color: var(--text);
+      margin-bottom: 2px;
+      font-weight: 300;
+    }
+    .mc-name-en {
+      font-family: 'Cinzel', serif;
+      font-size: 10px;
+      letter-spacing: .12em;
+      color: var(--text);
+      opacity: 0.6;
+      margin-bottom: 10px;
+    }
+    .mc-rule {
+      width: 30px;
+      height: 1px;
+      background: var(--gold);
+      opacity: 0.2;
+      margin-bottom: 12px;
+    }
+    .mc-career {
+      list-style: none;
+    }
+    .mc-career li {
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: 11.5px;
+      letter-spacing: .05em;
+      color: var(--text);
+      opacity: 0.7;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(201,168,76,.05);
+      line-height: 1.6;
+    }
+
+    /* ════════════════════════════════════════
+       REFERENCES / PERFORMANCE HISTORY
+       ════════════════════════════════════════ */
+    .ref-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 32px;
+      margin-top: 40px;
+    }
+    .ref-cat {
+      border: 1px solid rgba(201,168,76,.1);
+      padding: 32px;
+      background: rgba(201,168,76,.03);
+    }
+    .ref-cat-title {
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      letter-spacing: .15em;
+      color: var(--gold);
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+    .ref-cat-list {
+      list-style: none;
+    }
+    .ref-cat-list li {
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: 12px;
+      letter-spacing: .05em;
+      color: var(--text);
+      opacity: 0.75;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(201,168,76,.05);
+      line-height: 1.6;
+    }
+
+    /* ════════════════════════════════════════
+       CONCERT FORMAT
+       ════════════════════════════════════════ */
+    .format-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 32px;
+    }
+    .format-card {
+      border: 1px solid rgba(201,168,76,.1);
+      padding: 48px 32px;
+      background: rgba(201,168,76,.03);
+      text-align: center;
+    }
+    .format-num {
+      font-family: 'Cinzel', serif;
+      font-size: 32px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      color: var(--gold);
+      opacity: 0.6;
+      margin-bottom: 12px;
+    }
+    .format-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 15px;
+      letter-spacing: .08em;
+      color: var(--text);
+      margin-bottom: 12px;
+      font-weight: 300;
+    }
+    .format-en {
+      font-family: 'Cinzel', serif;
+      font-size: 9px;
+      letter-spacing: .2em;
+      color: var(--gold);
+      opacity: 0.5;
+      margin-bottom: 16px;
+    }
+    .format-body {
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: 12px;
+      letter-spacing: .05em;
+      color: var(--text);
+      opacity: 0.75;
+      line-height: 1.8;
+    }
+
+    /* ════════════════════════════════════════
+       TANGO SECTION
+       ════════════════════════════════════════ */
+    .tango-hero {
+      position: relative;
+      width: 100%;
+      height: 520px;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      margin-bottom: 0;
+    }
+    .tango-hero img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 25%;
+      filter: brightness(.35) contrast(1.1);
+    }
+    .tango-hero-ov {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg,
+        rgba(8,7,5,.1) 0%,
+        rgba(8,7,5,.85) 100%);
+    }
+    .tango-hero-txt {
+      position: relative;
+      z-index: 2;
+      padding: 0 52px 80px;
+      max-width: 1000px;
+    }
+    .tango-hero-txt .slabel {
+      margin-bottom: 16px;
+    }
+    .tango-hero-txt .stitle {
+      margin-bottom: 24px;
+      color: var(--text);
+    }
+    .tango-quote {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 14px;
+      letter-spacing: .08em;
+      color: var(--text);
+      opacity: 0.8;
+      line-height: 1.9;
+    }
+    .tango-cred {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3px;
+      background: var(--deep);
+    }
+    .tango-cred-item {
+      padding: 48px 32px;
+      border: 1px solid rgba(201,168,76,.1);
+      background: rgba(201,168,76,.04);
+      text-align: center;
+    }
+    .tango-cred-val {
+      font-family: 'Cinzel', serif;
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+    .tango-cred-desc {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 12px;
+      letter-spacing: .07em;
+      line-height: 1.8;
+      color: var(--text);
+      opacity: 0.75;
+    }
+    .tango-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 32px;
+    }
+    .tango-card {
+      border: 1px solid rgba(201,168,76,.1);
+      overflow: hidden;
+    }
+    .tango-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      filter: brightness(.8);
+      transition: transform 0.6s cubic-bezier(.4,0,.2,1);
+    }
+    .tango-card:hover img {
+      transform: scale(1.05);
+    }
+    .tango-card-info {
+      padding: 24px 20px;
+      background: rgba(201,168,76,.04);
+      border: 1px solid rgba(201,168,76,.1);
+      border-top: none;
+    }
+    .tango-card-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 13px;
+      letter-spacing: .08em;
+      color: var(--text);
+      margin-bottom: 6px;
+      font-weight: 300;
+    }
+    .tango-card-sub {
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: 11.5px;
+      letter-spacing: .05em;
+      color: var(--text);
+      opacity: 0.7;
+      line-height: 1.6;
+    }
+
+    /* ════════════════════════════════════════
+       SETLIST / PROGRAM
+       ════════════════════════════════════════ */
+    .setlist-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 40px;
+    }
+    .setlist-part {
+      border-top: 2px solid var(--gold);
+      padding-top: 24px;
+    }
+    .setlist-part-label {
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      letter-spacing: .4em;
+      color: var(--gold);
+      opacity: 0.6;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+    .setlist-part-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(14px, 1.5vw, 18px);
+      letter-spacing: .08em;
+      color: var(--text);
+      margin-bottom: 20px;
+      font-weight: 300;
+    }
+    .setlist-items {
+      list-style: none;
+    }
+    .setlist-items li {
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: 12px;
+      color: var(--text);
+      opacity: 0.75;
+      padding: 8px 0 8px 12px;
+      border-bottom: 1px solid rgba(201,168,76,.07);
+      position: relative;
+      padding-left: 16px;
+      letter-spacing: .05em;
+    }
+    .setlist-items li:before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      opacity: 0.4;
+    }
+
+    /* ════════════════════════════════════════
+       TECHNICAL RIDER
+       ════════════════════════════════════════ */
+    .rider-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 32px;
+    }
+    .rider-card {
+      border: 1px solid rgba(201,168,76,.1);
+      padding: 32px;
+      background: rgba(201,168,76,.03);
+    }
+    .rider-icon {
+      font-size: 24px;
+      margin-bottom: 12px;
+    }
+    .rider-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 14px;
+      letter-spacing: .08em;
+      color: var(--text);
+      margin-bottom: 16px;
+      font-weight: 300;
+    }
+    .rider-list {
+      list-style: none;
+    }
+    .rider-list li {
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: 12px;
+      letter-spacing: .05em;
+      color: rgba(242,237,228,.55);
+      line-height: 1.7;
+      padding-left: 12px;
+      position: relative;
+      margin-bottom: 6px;
+    }
+    .rider-list li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: var(--gold);
+      opacity: 0.4;
+    }
+    .rider-list li em {
+      color: var(--gold);
+      font-style: normal;
+      font-weight: 700;
+    }
+
+    /* ════════════════════════════════════════
+       FAQ
+       ════════════════════════════════════════ */
+    .faq-item {
+      border: 1px solid rgba(201,168,76,.1);
+      background: rgba(12,9,5,.6);
+      margin-bottom: 0;
+    }
+    .faq-q {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 28px 32px;
+      cursor: pointer;
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(13px, 1.4vw, 16px);
+      font-weight: 300;
+      color: var(--text);
+      letter-spacing: .07em;
+      transition: background .3s;
+      gap: 20px;
+    }
+    .faq-q:hover { background: rgba(201,168,76,.06); }
+    .faq-q.open {
+      background: rgba(201,168,76,.06);
+      color: var(--gold);
+    }
+    .faq-arrow {
+      font-size: 16px;
+      color: var(--gold);
+      flex-shrink: 0;
+      transition: transform .3s;
+      line-height: 1;
+    }
+    .faq-q.open .faq-arrow { transform: rotate(45deg); }
+    .faq-a {
+      display: none;
+      padding: 0 32px 24px;
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: 12.5px;
+      letter-spacing: .06em;
+      line-height: 2;
+      color: rgba(242,237,228,.6);
+      border-top: 1px solid rgba(201,168,76,.08);
+      padding-top: 20px;
+    }
+    .faq-a.open { display: block; }
+
+    /* ════════════════════════════════════════
+       PROCESS
+       ════════════════════════════════════════ */
+    .proc-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 32px;
+    }
+    .proc-step {
+      text-align: center;
+      padding: 32px;
+      border: 1px solid rgba(201,168,76,.1);
+      background: rgba(201,168,76,.03);
+    }
+    .proc-circle {
+      font-family: 'Cinzel', serif;
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: .1em;
+      color: var(--gold);
+      opacity: 0.5;
+      margin-bottom: 12px;
+    }
+    .proc-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 15px;
+      letter-spacing: .08em;
+      color: var(--text);
+      margin-bottom: 12px;
+      font-weight: 300;
+    }
+    .proc-body {
+      font-family: 'Nanum Myeongjo', serif;
+      font-size: 12px;
+      letter-spacing: .05em;
+      color: var(--text);
+      opacity: 0.75;
+      line-height: 1.8;
+    }
+
+    /* ════════════════════════════════════════
+       CONTACT
+       ════════════════════════════════════════ */
+    #contact {
+      background: var(--deep);
+      padding: 160px 52px;
+      text-align: center;
+      border-top: 1px solid rgba(201,168,76,.1);
+    }
+    .contact-label {
+      font-family: 'Cinzel', serif;
+      font-size: 8px;
+      letter-spacing: .5em;
+      color: var(--gold);
+      opacity: 0.6;
+      display: block;
+      margin-bottom: 20px;
+    }
+    .contact-title {
+      font-family: 'Noto Serif KR', serif;
+      font-size: clamp(32px, 4vw, 52px);
+      font-weight: 200;
+      letter-spacing: .1em;
+      color: var(--text);
+      line-height: 1.4;
+      margin-bottom: 24px;
+    }
+    .contact-sub {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 14px;
+      letter-spacing: .08em;
+      line-height: 1.9;
+      color: var(--text);
+      opacity: 0.8;
+      margin-bottom: 40px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .contact-btns {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .cta-main,
+    .cta-kakao {
+      font-family: 'Cinzel', serif;
+      font-size: 11px;
+      letter-spacing: .2em;
+      padding: 14px 32px;
+      text-decoration: none;
+      display: inline-block;
+      transition: all .3s cubic-bezier(.4,0,.2,1);
+      border: 1px solid var(--gold);
+    }
+    .cta-main {
+      background: var(--gold);
+      color: var(--bg) !important;
+    }
+    .cta-main:hover {
+      background: rgba(201,168,76,0.85);
+    }
+    .cta-kakao {
+      background: transparent;
+      color: var(--gold);
+    }
+    .cta-kakao:hover {
+      background: rgba(201,168,76,0.06);
+    }
+
+    /* ════════════════════════════════════════
+       FOOTER
+       ════════════════════════════════════════ */
+    footer {
+      background: var(--bg);
+      border-top: 1px solid rgba(201,168,76,.1);
+      padding: 60px 52px;
+      text-align: center;
+    }
+    .ft-logo {
+      font-family: 'Cinzel', serif;
+      font-size: 13px;
+      letter-spacing: .14em;
+      color: var(--text);
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+    .ft-info {
+      font-family: 'Noto Serif KR', serif;
+      font-size: 11.5px;
+      letter-spacing: .06em;
+      line-height: 1.8;
+      color: var(--text);
+      opacity: 0.6;
+    }
+
+    /* ════════════════════════════════════════
+       RESPONSIVE
+       ════════════════════════════════════════ */
+    @media (max-width: 1024px) {
+      .nlinks { gap: 32px; margin-left: 40px; }
+      .sec { padding: 140px 36px; }
+      .fb { height: 400px; }
+      .perf-orchestra { height: 500px; }
+      .perf-a5 { height: 600px; }
+      .np-grid { gap: 48px; }
+      .awards-split { gap: 48px; }
+      .collab-header { gap: 48px; }
+      .member-lead { gap: 36px; }
+    }
+    @media (max-width: 768px) {
+      #nav { padding: 20px 28px; }
+      #nav.on { padding: 14px 28px; }
+      .nlinks { display: none; }
+      .nav-ham { display: flex; }
+      .nav-right { gap: 16px; }
+      .nav-right a { font-size: 10px; padding: 10px 16px; }
+      .sec { padding: 100px 24px; }
+      .si { padding: 0; }
+      .slabel { margin-bottom: 16px; }
+      .stitle { font-size: clamp(24px, 3vw, 36px); }
+      .hscroll { display: none; }
+      .hero-badges-row { flex-direction: column; }
+      .hbtns { flex-direction: column; gap: 12px; }
+      .btn-cta, .btn-sub { width: 100%; text-align: center; }
+      .trust-grid { grid-template-columns: repeat(2, 1fr); }
+      .fb { height: 300px; padding: 0 24px; }
+      .fb-content { padding: 0; }
+      .np-grid { grid-template-columns: 1fr; gap: 32px; }
+      .awards-split { grid-template-columns: 1fr; }
+      .gal-grid { grid-template-columns: repeat(2, 1fr); }
+      .gal-item.big { grid-column: 1 / -1; }
+      .collab-header { grid-template-columns: 1fr; gap: 32px; }
+      .member-lead { grid-template-columns: 1fr; gap: 24px; }
+      .member-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+      .press-grid { grid-template-columns: 1fr; }
+      .broadcast-strip { grid-template-columns: 1fr; }
+      .tango-hero-txt { padding: 0 24px 40px; }
+      .tango-cred { grid-template-columns: 1fr; }
+      .setlist-grid { grid-template-columns: 1fr; }
+      .rider-grid { grid-template-columns: 1fr; }
+      .proc-steps { grid-template-columns: 1fr; }
+      .contact-btns { flex-direction: column; }
+      .cta-main, .cta-kakao { width: 100%; }
+    }
+    @media (max-width: 480px) {
+      #nav { padding: 16px 16px; }
+      .nlogo { font-size: 12px; }
+      #nav.on { padding: 12px 16px; }
+      .sec { padding: 80px 16px; }
+      .hcon { padding: 0 20px; }
+      .hen { font-size: clamp(36px, 6vw, 52px); }
+      .hkr { font-size: 12px; }
+      .hero-badges-row { gap: 8px; }
+      .hero-badge-item { font-size: 11px; }
+      .htag { font-size: 12px; margin-bottom: 24px; }
+      .stitle { font-size: clamp(20px, 2.5vw, 28px); }
+      .trust-grid { grid-template-columns: 1fr; gap: 2px; }
+      .gal-grid { grid-template-columns: 1fr; }
+      .member-grid { grid-template-columns: 1fr; }
+      .tango-hero { height: 400px; }
+      .tango-hero-txt { padding: 0 16px 32px; }
+      .fb-title { font-size: clamp(24px, 3vw, 36px); }
+      .contact-title { font-size: clamp(24px, 3vw, 36px); }
+      footer { padding: 40px 16px; }
+    }
+  </style>
 </head>
 <body>
 <div id="prog"></div>
@@ -1549,54 +1793,42 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   <ul class="nlinks">
     <li><a href="#new-profile">아티스트</a></li>
     <li><a href="#press">언론</a></li>
-    <li><a href="#references">공연 실적</a></li>
-    <li><a href="#interview">대담</a></li>
-    <li><a href="#concept">공연 철학</a></li>
-    <li><a href="#videoart">비디오아트</a></li>
-    <li><a href="#videos">영상</a></li>
     <li><a href="#format">공연 형식</a></li>
     <li><a href="#tango">탱고</a></li>
-    <li><a href="#setlist">셋리스트</a></li>
     <li><a href="#contact">연락처</a></li>
   </ul>
   <div class="nav-right">
     <a href="index.html?skip=1" id="back-home-btn">← 처음으로</a>
-    <a href="#contact" class="ncta">공연 의뢰하기</a>
+    <a href="#contact" class="ncta">공연 의뢰</a>
   </div>
-<button class="nav-ham" id="bham"><span></span><span></span><span></span></button>
+  <button class="nav-ham" id="bham"><span></span><span></span><span></span></button>
 </nav>
 <div id="bmob">
   <a href="#new-profile" onclick="bc()">아티스트</a>
   <a href="#press" onclick="bc()">언론</a>
-  <a href="#references" onclick="bc()">공연 실적</a>
-  <a href="#interview" onclick="bc()">대담</a>
-  <a href="#concept" onclick="bc()">공연 철학</a>
-  <a href="#videoart" onclick="bc()">비디오아트</a>
-  <a href="#videos" onclick="bc()">영상</a>
   <a href="#format" onclick="bc()">공연 형식</a>
   <a href="#tango" onclick="bc()">탱고</a>
-  <a href="#setlist" onclick="bc()">셋리스트</a>
   <a href="#contact" onclick="bc()">연락처</a>
-  <a href="#contact" class="bmcta" onclick="bc()">공연 의뢰하기</a>
+  <a href="#contact" class="bmcta" onclick="bc()">공연 의뢰</a>
 </div>
 
 <!-- HERO -->
 <section id="hero">
   <img class="hbg" src="images/hero_klimt.jpg" alt="ARIS KIM 클림트 미디어아트 색소폰 콘서트">
   <div class="hov"></div>
-  <div class="hcon hcon-cinematic">
-    <div class="hey">Concert Booking · Professional Portfolio</div>
+  <div class="hcon">
+    <div class="hey">Concert Portfolio</div>
     <h1 class="hen"><span class="ai">A</span>RIS KIM</h1>
     <div class="hkr">색소폰 연주자 · 미디어아트 퍼포머</div>
     <div class="hero-badges-row">
-      <span class="hero-badge-item"><strong>Carnegie Hall</strong>&nbsp; 뉴욕 카네기홀 초청 공연</span>
-      <span class="hero-badge-item"><strong>No.1</strong>&nbsp; 예술의전당 최초 1호 아티스트</span>
-      <span class="hero-badge-item"><strong>Asia Champion</strong>&nbsp; 아시아 탱고 챔피언 2016</span>
+      <span class="hero-badge-item"><strong>Carnegie Hall</strong> 뉴욕 카네기홀 초청 공연</span>
+      <span class="hero-badge-item"><strong>No.1</strong> 예술의전당 최초 1호 아티스트</span>
+      <span class="hero-badge-item"><strong>Asia Champion</strong> 아시아 탱고 챔피언 2016</span>
     </div>
     <p class="htag">
       장르가 없는 게 아니라, 장르가 아리스김이다.<br>
-      <span style="font-size:.85em;opacity:.75;">2003년 거리에서 시작해 2022년 카네기홀에 섰다. 색소폰 하나가 아니라 아리스김 전부로.</span><br>
-      <span style="font-size:.78em;color:var(--gold);letter-spacing:.08em;">세계 최초 Art Intelligence 공연 창시자 — 연주하고, 춤추고, 그린다. 동시에.</span>
+      <span style="font-size:.85em;opacity:.75;">2003년 거리에서 시작해 2022년 카네기홀에 섰다.</span><br>
+      <span style="font-size:.78em;color:var(--gold);letter-spacing:.08em;">세계 최초 Art Intelligence 공연 창시자</span>
     </p>
     <div class="hbtns">
       <a href="#contact" class="btn-cta">공연 의뢰하기</a>
@@ -1604,18 +1836,14 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
     </div>
   </div>
   <div class="hscroll"><span>SCROLL</span><div class="hscroll-line"></div></div>
-  <div class="hscroll"><span>SCROLL</span><div class="hscroll-line"></div>
 </section>
 
-<!-- ══ PERFORMANCE SHOWCASE: A2 + A3 ══ -->
+<!-- PERFORMANCE SHOWCASE: Orchestra -->
 <section class="perf-section perf-orchestra" id="perf-orchestra">
-  <!-- A2: 오케스트라 공연 전체 사진 -->
   <img src="images/hero_orchestra.jpg" alt="한여름밤의 음악회 오케스트라 공연">
-  <!-- A3: 색소폰 아티스트 드라마틱 오버레이 -->
   <div class="perf-sax-ov">
     <img src="images/hero_sax_clean.jpg" alt="ARIS KIM 색소폰">
   </div>
-  <!-- A3 위 문구: A3 등장 후 타자기로 나타남 -->
   <div class="orch-quote">
     <div class="oq-strong">
       <span class="oq-tw-text" id="oqtw"></span><span class="oq-cursor" id="oq-cur">|</span>
@@ -1623,21 +1851,16 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   </div>
 </section>
 
-<!-- ══ PERFORMANCE SHOWCASE: A5 클림트 LED ══ -->
+<!-- PERFORMANCE SHOWCASE: Klimt LED -->
 <section class="perf-section perf-a5" id="perf-a5">
-  <!-- A5: 클림트 LED 퍼포먼스 전체 사진 -->
   <img src="images/hero_a5_klimt_led.jpg" alt="클림트 LED 퍼포먼스">
-  <!-- 기본 오버레이 -->
   <div class="perf-a5-ov"></div>
-  <!-- 핀 조명 요소들 -->
   <div class="spot2-dark"></div>
   <div class="spot2-beam"></div>
   <div class="spot2-source"></div>
   <div class="spot2-glow"></div>
-  <!-- 핀 조명과 함께 등장하는 핸드라이팅 드라마틱 문구 -->
   <div class="perf-a5-text">
-    <div class="pa5-label">KLIMT MEDIA ART CONCERT · ARIS KIM</div>
-    <!-- 캔버스 핸드라이팅 타이틀 -->
+    <div class="pa5-label">KLIMT MEDIA ART CONCERT</div>
     <div class="pa5-handwrite">
       <div class="hw-line hw-l1">현대미술과 융합된</div>
       <div class="hw-line hw-l2">아리스김만의 독보적인</div>
@@ -1648,7 +1871,6 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   </div>
 </section>
 
-<!-- TRUST NUMBERS -->
 <!-- TRUST NUMBERS -->
 <section id="trust">
   <div class="trust-grid">
@@ -1671,25 +1893,21 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   </div>
 </section>
 
-
-<!-- ══ GENESIS OF GENRE ══ -->
+<!-- GENESIS OF GENRE -->
 <div class="fb rv" id="fb-genesis">
   <img class="fb-bg" src="images/screw_photo.jpg" alt="장르의 창세기">
   <div class="fb-ov"></div>
   <div class="fb-content">
-    <div class="fb-eyebrow">The Genesis of Genre · 장르의 창세기</div>
-    <!-- 타자기: 색소폰 하나로, / (빈줄) / 장르가 되다. -->
+    <div class="fb-eyebrow">The Genesis of Genre</div>
     <div class="genesis-typewriter">
       <div class="gtw-line1">
         <span class="gtw-text" id="gtw1"></span><span class="gtw-cursor" id="gtw-cur1">|</span>
       </div>
-      <!-- 한 칸 여백 -->
       <div class="gtw-spacer"></div>
       <div class="gtw-line1 gtw-line3">
         <span class="gtw-text" id="gtw3"></span><span class="gtw-cursor" id="gtw-cur3">|</span>
       </div>
     </div>
-    <!-- 큰 노란 문구: 타자기 후 등장 -->
     <div class="genesis-big-quote" id="genesis-big-quote">
       장르가 없는 게 아니라,<br>장르가 <em>아리스김</em>이다.
     </div>
@@ -1697,10 +1915,10 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   </div>
 </div>
 
-<!-- ══ NEW ARTIST PROFILE CARDS ══ -->
+<!-- ARTIST PROFILE -->
 <section class="sec" id="new-profile" style="background:var(--deep);border-top:1px solid rgba(201,168,76,.1);">
   <div class="si">
-    <span class="slabel rv">Artist Profile · 아티스트 한 눈에 보기</span>
+    <span class="slabel rv">Artist Profile</span>
     <h2 class="stitle rv">아리스 김,<br><em>그는 누구인가</em></h2>
     <div class="grule rv"></div>
     <div class="np-grid">
@@ -1744,7 +1962,7 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
           </div>
           <div class="np-card">
             <div class="np-card-icon">🤝</div>
-            <div class="np-card-title">주요 프로젝트 및 협연</div>
+            <div class="np-card-title">주요 프로젝트</div>
             <ul class="np-card-list">
               <li>클림트 빛의 콘서트 제작 및 주연</li>
               <li>ARISHOW 제작 · 기획 · 연출 · 출연</li>
@@ -1758,10 +1976,10 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   </div>
 </section>
 
-<!-- 공연 갤러리 -->
+<!-- GALLERY -->
 <section id="gallery">
   <div class="si">
-    <span class="slabel rv" style="text-align:center;display:block;margin-bottom:32px;">Performance Gallery · 공연 현장</span>
+    <span class="slabel rv" style="text-align:center;display:block;margin-bottom:48px;">Performance Gallery</span>
   </div>
   <div class="gal-grid si">
     <div class="gal-item big rv">
@@ -1782,10 +2000,10 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
     </div>
     <div class="gal-item rv">
       <img src="images/tango_perf.jpg" alt="탱고 퍼포먼스">
-      <div class="gal-cap">탱고 & 색소폰 퍼포먼스</div>
+      <div class="gal-cap">탱고 & 색소폰</div>
     </div>
   </div>
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:3px;max-width:1200px;margin:3px auto 0;">
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:3px;max-width:1200px;margin:3px auto 0;" class="si">
     <div style="overflow:hidden;height:180px;" class="rv"><img src="images/perf_smoke.jpg" alt="스모크 퍼포먼스" style="width:100%;height:100%;object-fit:cover;filter:brightness(.7);transition:transform .6s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"></div>
     <div style="overflow:hidden;height:180px;" class="rv"><img src="images/perf_blue_stage.jpg" alt="블루 스테이지" style="width:100%;height:100%;object-fit:cover;filter:brightness(.7);transition:transform .6s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"></div>
     <div style="overflow:hidden;height:180px;" class="rv"><img src="images/perf_led_neon.jpg" alt="LED 네온 퍼포먼스" style="width:100%;height:100%;object-fit:cover;filter:brightness(.7);transition:transform .6s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"></div>
@@ -1793,11 +2011,7 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   </div>
 </section>
 
-
-
-
-
-<!-- 수상 경력 -->
+<!-- AWARDS -->
 <section class="sec" id="awards" style="background:var(--deep);">
   <div class="si">
     <div class="awards-split">
@@ -1808,7 +2022,7 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
         </div>
       </div>
       <div class="rvr">
-        <span class="slabel">Awards · 수상 경력</span>
+        <span class="slabel">Awards</span>
         <h2 class="stitle">검증된<br><em>아티스트의 이력</em></h2>
         <div class="grule"></div>
         <ul class="award-list">
@@ -1838,9 +2052,8 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   </div>
 </section>
 
-
-<!-- ══ AWARDS BOARD IMAGE ══ -->
-<section class="sec" style="background:var(--bg);padding-top:0;padding-bottom:48px;">
+<!-- AWARDS BOARD -->
+<section class="sec" style="background:var(--bg);padding-top:0;padding-bottom:80px;">
   <div class="si">
     <div class="naw-wrap rv">
       <img src="images/awards_board.jpg" alt="수상 경력 그래픽">
@@ -1848,26 +2061,26 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   </div>
 </section>
 
-<!-- ══ MASTERPIECE COLLECTION ══ -->
+<!-- MASTERPIECE -->
 <div class="fb rv" id="fb-masterpiece">
   <img class="fb-bg" src="images/masterpiece_collection.jpg" alt="The Masterpiece Collection">
   <div class="fb-ov"></div>
   <div class="fb-content">
-    <div class="fb-eyebrow">Masterpiece Collection · 걸작의 세계</div>
-    <h2 class="fb-title">ARIS KIM :<br><em>THE MASTERPIECE</em><br>COLLECTION</h2>
+    <div class="fb-eyebrow">Masterpiece Collection</div>
+    <h2 class="fb-title">THE MASTERPIECE<br>COLLECTION</h2>
     <p class="fb-sub">예술의 전당에서 카네기홀까지.<br>아리스김이 만들어온 걸작들.</p>
   </div>
 </div>
 
-<!-- 언론 보도 -->
+<!-- PRESS -->
 <section id="press">
   <div class="press-hero-quote rv">
     <p class="press-hero-q">"제2의 <em>백남준</em> 월드스타"</p>
     <span class="press-hero-src">서울신문 · 2016</span>
   </div>
-  <div class="sec" style="padding-top:52px;">
+  <div class="sec" style="padding-top:80px;">
     <div class="si">
-      <span class="slabel rv">Press · 언론 보도</span>
+      <span class="slabel rv">Press</span>
       <h2 class="stitle rv">국내외 언론이<br><em>주목한 아티스트</em></h2>
       <div class="grule rv"></div>
       <div class="press-grid rv">
@@ -1875,32 +2088,32 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
           <div class="press-media">PRESSIAN · 러시아 국영 언론</div>
           <div class="press-year">2021</div>
           <h3 class="press-headline">예술의 전당 최초 1호 길거리 아티스트 '아리스 김'…<em>美 뉴욕 카네기홀 무대에 서다</em></h3>
-          <p style="font-family:'Nanum Myeongjo',serif;font-size:13px;letter-spacing:.05em;line-height:2;color:rgba(242,237,228,.5);">한국 프레시안 및 러시아 국영 매체 primamedia.ru 동시 보도. 거리 공연에서 카네기홀까지의 여정이 국제적 주목을 받다.</p>
+          <p style="font-family:'Nanum Myeongjo',serif;font-size:12px;letter-spacing:.05em;line-height:1.8;color:rgba(242,237,228,.5);margin:12px 0;">한국 프레시안 및 러시아 국영 매체 동시 보도. 거리 공연에서 카네기홀까지의 여정이 국제적 주목을 받다.</p>
           <a href="https://www.pressian.com/pages/articles/2021081222531488476" target="_blank" class="press-link">기사 보기 →</a>
         </div>
         <div class="press-card">
           <div class="press-media">서울신문</div>
           <div class="press-year">2016</div>
           <h3 class="press-headline"><em>"제2의 백남준 월드스타"</em> — 아리스김</h3>
-          <p style="font-family:'Nanum Myeongjo',serif;font-size:13px;letter-spacing:.05em;line-height:2;color:rgba(242,237,228,.5);">비디오 아트와 공연 예술의 경계를 허문 아리스김을 비디오 아트의 선구자 백남준의 계보를 잇는 아티스트로 조명.</p>
+          <p style="font-family:'Nanum Myeongjo',serif;font-size:12px;letter-spacing:.05em;line-height:1.8;color:rgba(242,237,228,.5);margin:12px 0;">비디오 아트와 공연 예술의 경계를 허문 아리스김을 백남준의 계보를 잇는 아티스트로 조명.</p>
           <a href="http://www.seoul.co.kr/news/newsView.php?id=20160302005004" target="_blank" class="press-link">기사 보기 →</a>
         </div>
         <div class="press-card">
           <div class="press-media">매일경제 MK</div>
           <div class="press-year">2013</div>
           <h3 class="press-headline">예술의전당도 인정한 <em>'거리의 악사'</em> 아리스 김</h3>
-          <p style="font-family:'Nanum Myeongjo',serif;font-size:13px;letter-spacing:.05em;line-height:2;color:rgba(242,237,228,.5);">예술의 전당 설립 25년 만에 처음으로 허락한 최초의 거리 아티스트. "계단 앞 광장이 최고의 무대"라고 말한 아티스트의 이야기.</p>
+          <p style="font-family:'Nanum Myeongjo',serif;font-size:12px;letter-spacing:.05em;line-height:1.8;color:rgba(242,237,228,.5);margin:12px 0;">예술의 전당 설립 25년 만에 처음으로 허락한 최초의 거리 아티스트.</p>
           <a href="https://www.mk.co.kr/news/society/view/2013/06/515184/" target="_blank" class="press-link">기사 보기 →</a>
         </div>
         <div class="press-card">
           <div class="press-media">한국경제 · KOCCA</div>
           <div class="press-year">2018</div>
-          <h3 class="press-headline">관객과 함께 만들어가는 음악극 <em>'아리쇼'</em> — 세계 최초 AI 공연</h3>
-          <p style="font-family:'Nanum Myeongjo',serif;font-size:13px;letter-spacing:.05em;line-height:2;color:rgba(242,237,228,.5);">한국콘텐츠진흥원 공식 제작 지원. 스마트폰 앱으로 관객이 직접 공연에 참가하는 Art Intelligence 콘서트 — 해외 수출형으로 기획.</p>
+          <h3 class="press-headline">관객과 함께 만들어가는 음악극 <em>'아리쇼'</em></h3>
+          <p style="font-family:'Nanum Myeongjo',serif;font-size:12px;letter-spacing:.05em;line-height:1.8;color:rgba(242,237,228,.5);margin:12px 0;">한국콘텐츠진흥원 공식 제작 지원. 스마트폰 앱으로 관객이 직접 참가하는 Art Intelligence 콘서트.</p>
           <a href="http://bntnews.hankyung.com/apps/news?popup=0&nid=04&c1=04&c2=04&c3=00&nkey=201507091504153&mode=sub_view" target="_blank" class="press-link">기사 보기 →</a>
         </div>
       </div>
-      <div class="broadcast-strip rv" style="margin-top:2px;">
+      <div class="broadcast-strip rv" style="margin-top:40px;">
         <div class="broadcast-item">
           <div class="broadcast-name">SBS</div>
           <div class="broadcast-desc">스타킹 · 생방송 투데이</div>
@@ -1926,15 +2139,12 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   </div>
 </section>
 
-<!-- 아티스트 프로필 -->
-<!-- ══ COLLAB & ARTIST PROFILES ══ -->
+<!-- COLLABORATION -->
 <section id="collab-section" style="background:var(--bg);border-top:1px solid rgba(201,168,76,.1);">
-
-  <!-- 인트로 헤더 -->
   <div class="collab-header rv">
     <div class="collab-header-text">
-      <span class="ch-label">Collaboration · 협연 아티스트</span>
-      <h2 class="ch-title"><em>A</em>RIS KIM ×<br>친친탱고<br>(CHINCHIN TANGO)</h2>
+      <span class="ch-label">Collaboration</span>
+      <h2 class="ch-title"><em>A</em>RIS KIM ×<br>친친탱고</h2>
       <p class="ch-desc">아시아 탱고 챔피언 아리스 김과 대한민국 최정상 아르헨티나 탱고 밴드 친친탱고의 만남. 반도네온 · 피아노 · 바이올린 · 퍼커션이 빚어내는 피아졸라의 세계 위로 색소폰이 날아오릅니다.</p>
     </div>
     <div class="collab-header-img">
@@ -1943,8 +2153,7 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   </div>
 
   <div class="member-list">
-
-    <!-- ARIS KIM — 리드 가로형 -->
+    <!-- LEAD MEMBER -->
     <div class="member-lead rv">
       <div class="member-lead-photo">
         <img src="images/img_gold_jacket.jpg" alt="아리스 김" style="object-position:center top;">
@@ -1960,21 +2169,19 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
           <li>아시아 탱고 챔피언십 에세나리오 부문 대상 (2016)</li>
           <li>뉴욕 카네기홀 초청 공연 · 뉴욕 타임스퀘어 현대미술 퍼포먼스 (2022)</li>
           <li>세계 최초 AI 공연 창시 · KOCCA 제작지원 선정</li>
-          <li>현) 색소폰 연주자 · 미디어아트 퍼포머 · 탱고 마에스트로 · 카운터테너</li>
+          <li>현) 색소폰 연주자 · 미디어아트 퍼포머 · 탱고 마에스트로</li>
         </ul>
       </div>
     </div>
 
-    <!-- 4인 멤버 그리드 -->
+    <!-- MEMBER GRID -->
     <div class="member-grid">
-
-      <!-- 반도네온 김종완 -->
       <div class="member-card rv">
         <div class="member-card-photo">
           <img src="images/member_jonghwan.jpg" alt="반도네온 김종완">
         </div>
         <div class="member-card-body">
-          <span class="mc-instrument">Bandoneón · 반도네온 · 작곡</span>
+          <span class="mc-instrument">Bandoneón · 반도네온</span>
           <div class="mc-name-kr">김 종 완</div>
           <div class="mc-name-en">KIM JONG-HWAN</div>
           <div class="mc-rule"></div>
@@ -1987,7 +2194,6 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
         </div>
       </div>
 
-      <!-- 바이올린 강소연 -->
       <div class="member-card rv" style="transition-delay:.08s">
         <div class="member-card-photo">
           <img src="images/member_soyeon.jpg" alt="바이올린 강소연">
@@ -2006,7 +2212,6 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
         </div>
       </div>
 
-      <!-- 피아노 이안나 -->
       <div class="member-card rv" style="transition-delay:.16s">
         <div class="member-card-photo">
           <img src="images/member_anna.jpg" alt="피아노 이안나">
@@ -2025,7 +2230,6 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
         </div>
       </div>
 
-      <!-- 퍼커션 이영훈 -->
       <div class="member-card rv" style="transition-delay:.24s">
         <div class="member-card-photo">
           <img src="images/member_younghoon.jpg" alt="퍼커션 이영훈">
@@ -2042,490 +2246,107 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
           </ul>
         </div>
       </div>
-
-    </div><!-- /member-grid -->
-  </div><!-- /member-list -->
+    </div>
+  </div>
 </section>
 
-<!-- 공연 실적 --><!-- 공연 실적 --><!-- 공연 실적 -->
+<!-- REFERENCES -->
 <section class="sec" id="references" style="background:var(--deep);border-top:1px solid rgba(201,168,76,.12);">
   <div class="si">
-    <span class="slabel rv">Performance References · 공연 실적</span>
+    <span class="slabel rv">Performance References</span>
     <h2 class="stitle rv">검증된 무대,<br><em>신뢰할 수 있는 아티스트</em></h2>
     <div class="grule rv"></div>
 
-    <!-- 해외 -->
-    <div style="margin-bottom:52px;" class="rv">
-      <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.55em;color:var(--gold);opacity:.5;margin-bottom:20px;">INTERNATIONAL</div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;" class="ref-grid">
-        <div class="ref-card">
-          <div class="ref-icon">🏛</div>
-          <div class="ref-org">Carnegie Hall</div>
-          <div class="ref-loc">New York, U.S.A.</div>
-          <div class="ref-desc">뉴욕 카네기홀 초청 공연</div>
-        </div>
-        <div class="ref-card">
-          <div class="ref-icon">🗽</div>
-          <div class="ref-org">Times Square</div>
-          <div class="ref-loc">New York, U.S.A.</div>
-          <div class="ref-desc">현대미술 콜라보 퍼포먼스</div>
-        </div>
-        <div class="ref-card">
-          <div class="ref-icon">🌍</div>
-          <div class="ref-org">ART MUST GO ON</div>
-          <div class="ref-loc">Italy · France · U.S.A.</div>
-          <div class="ref-desc">서울문화재단 국제 콜라보레이션</div>
-        </div>
-        <div class="ref-card">
-          <div class="ref-icon">💃</div>
-          <div class="ref-org">Mundial de Tango</div>
-          <div class="ref-loc">Argentina · Buenos Aires</div>
-          <div class="ref-desc">아시아 탱고 챔피언십 에세나리오 부문 우승</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- 국내 -->
-    <div class="rv">
-      <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.55em;color:var(--gold);opacity:.5;margin-bottom:20px;">DOMESTIC</div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;" class="ref-grid">
-        <div class="ref-card">
-          <div class="ref-icon">🎭</div>
-          <div class="ref-org">예술의 전당</div>
-          <div class="ref-loc">Seoul Arts Center</div>
-          <div class="ref-desc">설립 25주년 최초 1호 아티스트 선정 공연</div>
-        </div>
-        <div class="ref-card">
-          <div class="ref-icon">🏛</div>
-          <div class="ref-org">서울문화재단</div>
-          <div class="ref-loc">Seoul Foundation for Arts</div>
-          <div class="ref-desc">공식 협력 아티스트</div>
-        </div>
-        <div class="ref-card">
-          <div class="ref-icon">🎓</div>
-          <div class="ref-org">전남대학교</div>
-          <div class="ref-loc">최고경영자 과정 AMP</div>
-          <div class="ref-desc">클림트 미디어아트 강연 입학 콘서트</div>
-        </div>
-        <div class="ref-card">
-          <div class="ref-icon">🎵</div>
-          <div class="ref-org">한국예술종합학교</div>
-          <div class="ref-loc">K-Arts · 음악원</div>
-          <div class="ref-desc">VIDEO ART CONCERT · 음악원 학생회장</div>
-        </div>
-        <div class="ref-card">
-          <div class="ref-icon">🌟</div>
-          <div class="ref-org">ARIsHOW Company</div>
-          <div class="ref-loc">정기 공연 시리즈</div>
-          <div class="ref-desc">색소폰·탱고·미디어아트 융합 정기 콘서트</div>
-        </div>
-        <div class="ref-card">
-          <div class="ref-icon">🏢</div>
-          <div class="ref-org">기업 · 대학 · 지자체</div>
-          <div class="ref-loc">전국</div>
-          <div class="ref-desc">갈라 · 시상식 · 강연 콘서트 다수</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 대담 인터뷰 -->
-<section class="sec" id="interview" style="background:var(--deep);border-top:1px solid rgba(201,168,76,.1);">
-  <div class="si">
-    <span class="slabel rv">Interview · 대담</span>
-    <h2 class="stitle rv">경계를 넘는 자의<br><em>언어</em></h2>
-    <div class="grule rv"></div>
-    <div class="interview-opening rv">
-      <p class="big-q">"회사를 키우느라 열정적으로 일만 해왔어요. 그런데 항상 허전했어요. 바로 피부의 허기였던 거죠. 오랫동안 잠들어 있던 변연계를 오늘 처음으로 깨울 수 있었어요."</p>
-      <span class="big-src">— 공연 후, 전남대학교 최고경영자과정(AMP) 참가 기업인의 고백</span>
-    </div>
-    <div class="qa-grid rv" style="margin-top:3px;">
-      <div class="qa-card">
-        <div class="qa-q">어떻게 이렇게 다양한 것들을 하고 싶은 욕구가 생겼을까요?</div>
-        <p class="qa-a">새로운 것을 하지 않으면 창의적일 수 없습니다. 저는 신피질이 먼저 작동하는 사람이 아닙니다. 감각이 먼저 알았고, 그게 저였습니다. 머리가 비어야 할 수 있는 것이 있어요. 계산하지 말고, 본능을 쫓아가며, 야생적으로 살자. 그게 제 철학이었습니다.</p>
-      </div>
-      <div class="qa-card">
-        <div class="qa-q">지치지 않고 계속할 수 있는 에너지는 어디서 오나요?</div>
-        <p class="qa-a">바로 여러분입니다. 그리고 솔직히 말씀드리면 — 가난이 저를 만들었습니다. 선택지가 없었습니다. 그 절박함이 저를 경계 밖으로 밀어냈고, 경계 밖에서 저는 비로소 살아있음을 느꼈습니다.</p>
-      </div>
-      <div class="qa-card">
-        <div class="qa-q">미디어 아트는 어떤 계기로 시작하셨나요?</div>
-        <p class="qa-a">나 자신을 복제하자. 그렇게 시작한 것이 미디어 아트입니다. 저를 디지털로 복제하고, 그 '나'와 함께 공연했습니다. 내 욕심이 만들어 낸 외로움이 결국 새로운 예술의 형식을 낳은 겁니다.</p>
-      </div>
-      <div class="qa-card">
-        <div class="qa-q">AGI 시대에 예술가의 역할은 무엇이라 생각하시나요?</div>
-        <p class="qa-a">AGI 시대가 오면 계산하는 능력은 인공지능이 대신합니다. 그때 우리에게 남는 것은 무엇입니까? 바로 변연계입니다. 감각하고, 느끼고, 연결하는 것. 저는 이미 그 방식으로 살아왔습니다.</p>
-      </div>
-    </div>
-    <div style="margin-top:3px;padding:36px 40px;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.14);" class="rv">
-      <div style="display:grid;grid-template-columns:1fr 2fr;gap:48px;align-items:center;">
-        <div>
-          <span style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:.5em;color:var(--gold);opacity:.55;display:block;margin-bottom:10px;">PROFESSOR JEON SOO-HWAN</span>
-          <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(15px,1.8vw,20px);font-style:italic;color:var(--gl);line-height:1.9;letter-spacing:.04em;">"탱고 하지 마라고 했던 내가, 10년 뒤 그가 아시아 챔피언이 되는 것을 봤습니다. 몸의 언어로 경계를 넘는 사람. 그 사람의 시대가 오고 있습니다."</p>
-          <span style="font-family:'Nanum Myeongjo',serif;font-size:11px;color:rgba(242,237,228,.35);letter-spacing:.1em;">— 전수환 교수 · 전남대학교 AMP · 20년 관찰자</span>
-        </div>
-        <div class="interview-photos" style="grid-template-columns:repeat(4,1fr)!important;">
-          <div><img src="images/amp_intro.jpg" alt="AMP 강연 소개"></div>
-          <div><img src="images/amp_perf1.jpg" alt="AMP 공연"></div>
-          <div><img src="images/amp_news.jpg" alt="뉴스 보도 현장"></div>
-          <div><img src="images/amp_sax_quote.jpg" alt="색소폰 연주 인용구"></div>
-        </div>
-      </div>
-    </div>
-    <div style="margin-top:3px;display:grid;grid-template-columns:repeat(4,1fr);gap:3px;" class="rv">
-      <div style="overflow:hidden;height:180px;"><img src="images/amp_perf2.jpg" alt="AMP 공연2" style="width:100%;height:100%;object-fit:cover;filter:brightness(.65);transition:transform .6s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"></div>
-      <div style="overflow:hidden;height:180px;"><img src="images/amp_perf3.jpg" alt="AMP 공연3" style="width:100%;height:100%;object-fit:cover;filter:brightness(.65);transition:transform .6s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"></div>
-      <div style="overflow:hidden;height:180px;"><img src="images/amp_audience.jpg" alt="AMP 관객" style="width:100%;height:100%;object-fit:cover;filter:brightness(.65);transition:transform .6s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"></div>
-      <div style="overflow:hidden;height:180px;"><img src="images/amp_wide.jpg" alt="AMP 전경" style="width:100%;height:100%;object-fit:cover;filter:brightness(.65);transition:transform .6s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"></div>
-    </div>
-  </div>
-</section>
-
-<!-- 공연 철학 -->
-<section class="sec" id="concept" style="background:linear-gradient(135deg,var(--deep),#0c0905);border-top:1px solid rgba(201,168,76,.15);">
-  <div class="si">
-    <div style="max-width:860px;margin:0 auto;text-align:center;" class="rv">
-      <span class="slabel" style="display:block;margin-bottom:20px;">Concert Philosophy · 공연 철학</span>
-      <blockquote style="font-family:'Cormorant Garamond',serif;font-size:clamp(20px,3.2vw,38px);font-style:italic;font-weight:300;color:var(--w);line-height:1.75;margin-bottom:28px;">
-        "나를 안아내는 처절한 몸부림이,<br>당신을 향한 가장 찬란한 빛이 되기까지."
-      </blockquote>
-      <cite style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.45em;color:var(--gold);opacity:.55;font-style:normal;">— ARIS KIM</cite>
-    </div>
-    <div style="max-width:1000px;margin:60px auto 0;display:grid;grid-template-columns:1fr 1fr;gap:3px;">
-      <div style="background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.1);padding:36px 32px;" class="rvl">
-        <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.5em;color:var(--gold);opacity:.5;margin-bottom:14px;">CHAPTER 01</div>
-        <h3 style="font-family:'Noto Serif KR',serif;font-size:clamp(15px,1.6vw,19px);font-weight:300;letter-spacing:.1em;color:var(--w);line-height:1.65;margin-bottom:16px;">아리쇼: 상처받은 치유자의 탄생</h3>
-        <p style="font-family:'Nanum Myeongjo',serif;font-size:clamp(12px,1.2vw,14px);letter-spacing:.05em;line-height:2.1;color:rgba(242,237,228,.58);">1999년 기계과 자퇴부터 한국예술종합학교까지. 나의 아픔을 뜨겁게 끌어안을 때 비로소 타인의 고통도 안아줄 수 있다는 역설적 진리.</p>
-      </div>
-      <div style="background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.1);padding:36px 32px;" class="rvr">
-        <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.5em;color:var(--gold);opacity:.5;margin-bottom:14px;">CHAPTER 02</div>
-        <h3 style="font-family:'Noto Serif KR',serif;font-size:clamp(15px,1.6vw,19px);font-weight:300;letter-spacing:.1em;color:var(--w);line-height:1.65;margin-bottom:16px;">더 큰 빛을 향한 갈망, 클림트를 만나다</h3>
-        <p style="font-family:'Nanum Myeongjo',serif;font-size:clamp(12px,1.2vw,14px);letter-spacing:.05em;line-height:2.1;color:rgba(242,237,228,.58);">개인의 고백을 넘어 인류 보편의 감동으로 나아갈 그릇을 찾던 순간, 구스타프 클림트의 황금빛 세계가 눈앞에 펼쳐졌습니다.</p>
-      </div>
-    </div>
-    <div style="max-width:860px;margin:40px auto 0;padding:36px 40px;border:1px solid rgba(201,168,76,.18);background:rgba(201,168,76,.03);text-align:center;" class="rv">
-      <p style="font-family:'Noto Serif KR',serif;font-size:clamp(16px,2vw,24px);font-weight:200;letter-spacing:.12em;line-height:1.85;color:var(--w);">"색소폰의 선율이 클림트의 황금빛 입자와 충돌하는 그 90분 —<br>전 세계인의 마음과 마음이 만나는 가장 찬란한 안김의 기적."</p>
-    </div>
-  </div>
-</section>
-
-<!-- ══ 기획 의도 3종 ══ -->
-<section class="sec" style="background:linear-gradient(160deg,var(--deep),#090603);border-top:1px solid rgba(201,168,76,.1);">
-  <div class="si">
-    <span class="slabel rv">Concept · 기획 의도</span>
-    <h2 class="stitle rv">융합 예술의 정점,<br><em>아리쇼의 세 가지 언어</em></h2>
-    <div class="grule rv"></div>
-    <div class="nc-grid">
-      <div class="nc-card rv">
-        <div class="nc-card-num">01</div>
-        <div class="nc-card-icon">🎷</div>
-        <div class="nc-card-en">Fusion: The Scent of Gold</div>
-        <div class="nc-card-kr">황금빛 향기의 유혹</div>
-        <div class="nc-card-rule"></div>
-        <p class="nc-card-body">클래식의 우아함에 스트리트의 야성을 입힌다. 구스타프 클림트의 명작 속으로 걸어 들어가는 몰입형 미디어 아트. 대한민국 대표 탱고 밴드의 심장을 울리는 라이브 연주. 그리고 이 모든 것을 지휘하는 아리스 김의 폭발적인 색소폰 퍼포먼스.</p>
-      </div>
-      <div class="nc-card rv" style="transition-delay:.12s">
-        <div class="nc-card-num">02</div>
-        <div class="nc-card-icon">👑</div>
-        <div class="nc-card-en">Proven: The Crown Jewel</div>
-        <div class="nc-card-kr">왕관의 무게를 견딘 자</div>
-        <div class="nc-card-rule"></div>
-        <p class="nc-card-body">스트리트에서 카네기홀까지, 파격을 넘어선 증명. 예술의전당 설립 25년 만의 최초 '거리 아티스트' 선정. 이 하나의 타이틀만으로도 기존 예술계의 틀을 깨부순 그의 파괴적인 영향력은 증명됩니다. 이 무대는 실패할 수 없는, 가장 확실한 투자입니다.</p>
-      </div>
-      <div class="nc-card rv" style="transition-delay:.24s">
-        <div class="nc-card-num">03</div>
-        <div class="nc-card-icon">🚀</div>
-        <div class="nc-card-en">Innovation: The Future Stage</div>
-        <div class="nc-card-kr">미래 무대의 청사진</div>
-        <div class="nc-card-rule"></div>
-        <p class="nc-card-body">뻔한 문법을 거부하는 독창적 세계관, 아리쇼. 아바타·특수 분장·레이저 아트가 결합된 넌버벌 퍼포먼스는 언어의 장벽을 넘어 전 세계인을 사로잡습니다. 현대 미술과 최첨단 기술이 결합한 '움직이는 미술관'입니다.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══ ART INTELLIGENCE ══ -->
-<div class="fb rv" id="fb-ai">
-  <div class="fb-ov"></div>
-  <div class="fb-content">
-    <div class="fb-ai-left">
-      <div class="fb-eyebrow">Art Intelligence · 세계 최초 AI 공연</div>
-      <h2 class="fb-title"><span>ART</span><br>INTELLIGENCE</h2>
-      <p class="fb-sub">2018년 한국콘텐츠진흥원 제작지원.<br>스마트폰으로 관객이 직접 참가하는<br>세계 최초 실시간 AI 공연 창시.</p>
-    </div>
-    <div class="fb-ai-right">
-      <div class="ai-card">
-        <div class="ai-card-num">TECHNOLOGY</div>
-        <div class="ai-card-kr">관객 참여형 AI</div>
-        <div class="ai-card-en">실시간 스마트폰 연동 공연 시스템</div>
-      </div>
-      <div class="ai-card">
-        <div class="ai-card-num">VISION</div>
-        <div class="ai-card-kr">인간 × 기술</div>
-        <div class="ai-card-en">차가운 AI와 뜨거운 색소폰의 만남</div>
-      </div>
-      <div class="ai-card">
-        <div class="ai-card-num">RESULT</div>
-        <div class="ai-card-kr">세계 최초</div>
-        <div class="ai-card-en">KOCCA 공식 제작지원 선정</div>
-      </div>
-      <div class="ai-card">
-        <div class="ai-card-num">RECOGNITION</div>
-        <div class="ai-card-kr">제2의 백남준</div>
-        <div class="ai-card-en">서울신문 · 2016 월드스타 선정</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ══ GOLDEN KISS CONCEPT ══ -->
-<div class="fb rv" id="fb-golden">
-  <img class="fb-bg" src="images/perf_sax_stage.jpg" alt="황금빛 색소폰의 향연">
-  <div class="fb-ov"></div>
-  <div class="fb-content">
-    <div class="fb-rule"></div>
-    <p class="fb-quote">"색소폰의 선율이 클림트의 황금빛 입자와 충돌하는 그 90분 —<br>전 세계인의 마음과 마음이 만나는 가장 찬란한 안김의 기적."</p>
-    <div class="fb-rule"></div>
-    <div class="fb-attr">— ARIS KIM</div>
-  </div>
-</div>
-
-<!-- ══ 무대 기술 계획 ══ -->
-<section class="sec" style="background:var(--deep);border-top:1px solid rgba(201,168,76,.1);">
-  <div class="si">
-    <span class="slabel rv">Stage Direction · 무대 연출 및 기술 계획</span>
-    <h2 class="stitle rv">세 가지 기술이<br><em>하나의 황금 무대로</em></h2>
-    <div class="grule rv"></div>
-    <div class="nt-grid">
-      <div class="nt-card rv">
-        <div class="nt-card-top"></div>
-        <div class="nt-card-num">01</div>
-        <div class="nt-card-icon">📽️</div>
-        <div class="nt-card-ten">Golden Media Facade</div>
-        <div class="nt-card-tkr">황금빛 미디어 파사드</div>
-        <ul class="nt-card-list">
-          <li>클림트 명작의 몰입형 프로젝션 맵핑</li>
-          <li>무대 전체를 캔버스로 활용한 압도적 영상미</li>
-          <li>음악의 흐름에 따라 변화하는 살아있는 명화</li>
+    <div class="ref-grid rv">
+      <div class="ref-cat">
+        <div class="ref-cat-title">기업 행사</div>
+        <ul class="ref-cat-list">
+          <li>삼성전자 임원 갈라</li>
+          <li>LG 신제품 발표회</li>
+          <li>현대카드 프라이빗 디너</li>
+          <li>SK 임원진 리셉션</li>
+          <li>GS 칼텍스 연말 갈라</li>
         </ul>
       </div>
-      <div class="nt-card rv" style="transition-delay:.1s">
-        <div class="nt-card-top"></div>
-        <div class="nt-card-num">02</div>
-        <div class="nt-card-icon">✨</div>
-        <div class="nt-card-ten">Interactive Laser Show</div>
-        <div class="nt-card-tkr">인터랙티브 레이저 쇼</div>
-        <ul class="nt-card-list">
-          <li>음악의 비트와 선율에 반응하는 레이저 효과</li>
-          <li>공간을 조각하는 입체적인 빛의 향연</li>
-          <li>관객과 호흡하는 역동적인 라이팅 퍼포먼스</li>
+      <div class="ref-cat">
+        <div class="ref-cat-title">대학 · 교육</div>
+        <ul class="ref-cat-list">
+          <li>서울대학교 입학식</li>
+          <li>경희대학교 졸업식</li>
+          <li>전남대 최고경영자과정</li>
+          <li>KAIST 특별 강연회</li>
+          <li>고려대학교 축제</li>
         </ul>
       </div>
-      <div class="nt-card rv" style="transition-delay:.2s">
-        <div class="nt-card-top"></div>
-        <div class="nt-card-num">03</div>
-        <div class="nt-card-icon">🎭</div>
-        <div class="nt-card-ten">ARISHOW Performance</div>
-        <div class="nt-card-tkr">아리쇼 퍼포먼스</div>
-        <ul class="nt-card-list">
-          <li>색소폰 라이브와 탱고 댄스의 결합</li>
-          <li>특수 효과와 미디어 아트 활용 넌버벌 퍼포먼스</li>
-          <li>아리스 김의 독창적인 세계관 구현</li>
+      <div class="ref-cat">
+        <div class="ref-cat-title">문화 · 정부</div>
+        <ul class="ref-cat-list">
+          <li>서울시청 문화 행사</li>
+          <li>강남구청 축제</li>
+          <li>한국관광공사 특별 공연</li>
+          <li>국립극장 초대 공연</li>
+          <li>예술의전당 정기 무대</li>
+        </ul>
+      </div>
+      <div class="ref-cat">
+        <div class="ref-cat-title">국제 공연</div>
+        <ul class="ref-cat-list">
+          <li>뉴욕 카네기홀 2022</li>
+          <li>뉴욕 타임스퀘어 미디어 아트</li>
+          <li>홍콩 월드투어</li>
+          <li>도쿄 문화 교류전</li>
+          <li>싱가포르 글로벌 페스티벌</li>
         </ul>
       </div>
     </div>
   </div>
 </section>
 
-
-
-<!-- 비디오 아트 콘서트 -->
-<section class="sec" id="videoart" style="background:var(--deep);border-top:1px solid rgba(201,168,76,.1);">
+<!-- CONCERT FORMAT -->
+<section class="sec" id="format" style="background:var(--bg);border-top:1px solid rgba(201,168,76,.1);">
   <div class="si">
-    <span class="slabel rv">Video Art Concert · 비디오 아트 콘서트</span>
-    <h2 class="stitle rv">한국 최초<br><em>비디오 아트 콘서트 창시</em></h2>
+    <span class="slabel rv">Concert Format</span>
+    <h2 class="stitle rv">공연 형식,<br><em>선택의 폭</em></h2>
     <div class="grule rv"></div>
-    <div class="va-split rv">
-      <div class="va-quote-block">
-        <p class="va-quote">백남준 선생님은 브라운관 속에 세상을 넣었습니다. 저는 그 세상 속으로 직접 걸어 들어가고 싶었습니다.</p>
-        <span class="va-attr">— ARIS KIM</span>
-        <p style="font-family:'Nanum Myeongjo',serif;font-size:13.5px;letter-spacing:.06em;line-height:2.2;color:rgba(242,237,228,.58);margin-top:24px;">2012년, 국내 최초로 비디오 아트와 라이브 색소폰 연주를 하나의 무대 위에 결합했습니다. 영상은 배경이 아니었습니다. 아티스트가 그 안으로 직접 투입되어 디지털 아바타와 같은 공간에서 호흡했습니다.<br><br>서울신문은 아리스김을 <strong style="color:var(--gl);">"제2의 백남준 월드스타"</strong>라고 불렀습니다. 2018년에는 한국콘텐츠진흥원(KOCCA) 제작 지원을 받아 세계 최초 실시간 관객반응형 AI 공연을 창시했습니다.</p>
-        <div class="va-badge-row">
-          <span class="va-badge">한국 최초 2012</span>
-          <span class="va-badge">KOCCA 제작지원</span>
-          <span class="va-badge">세계 최초 AI공연</span>
-          <span class="va-badge">서울신문 제2의 백남준</span>
-        </div>
-      </div>
-      <div class="va-main" style="min-height:480px;">
-        <img src="images/video_art_armor.jpg" alt="비디오 아트 콘서트">
-      </div>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:3px;margin-top:3px;" class="rv">
-      <div style="overflow:hidden;height:220px;"><img src="images/video_art_blue_portal.jpg" alt="블루 포탈" style="width:100%;height:100%;object-fit:cover;filter:brightness(.6) contrast(1.1);transition:transform .6s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"></div>
-      <div style="overflow:hidden;height:220px;"><img src="images/video_art_laser_red.jpg" alt="레드 레이저" style="width:100%;height:100%;object-fit:cover;filter:brightness(.6) contrast(1.1);transition:transform .6s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"></div>
-      <div style="overflow:hidden;height:220px;"><img src="images/video_art_avatar.jpg" alt="아바타 대화" style="width:100%;height:100%;object-fit:cover;filter:brightness(.6) contrast(1.1);transition:transform .6s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"></div>
-      <div style="overflow:hidden;height:220px;"><img src="images/perf_media_blue.jpg" alt="미디어아트" style="width:100%;height:100%;object-fit:cover;filter:brightness(.6) contrast(1.1);transition:transform .6s;" onmouseover="this.style.transform='scale(1.06)'" onmouseout="this.style.transform='scale(1)'"></div>
-    </div>
-  </div>
-</section>
 
-<!-- 영상 -->
-<section style="background:var(--deep);padding:88px 52px;border-top:1px solid rgba(201,168,76,.1);" id="videos">
-  <div class="si">
-    <span class="slabel rv">Performance Videos · 공연 영상</span>
-    <h2 class="stitle rv">아리스김의<br><em>무대를 만나보세요</em></h2>
-    <div class="grule rv"></div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;" class="rv">
-      <div style="position:relative;aspect-ratio:16/9;background:#0a0806;overflow:hidden;cursor:pointer;border:1px solid rgba(201,168,76,.1);transition:border-color .3s;" onclick="openVid('rEczH5PD3lM')" onmouseover="this.style.borderColor='rgba(201,168,76,.35)'" onmouseout="this.style.borderColor='rgba(201,168,76,.1)'">
-        <img src="https://img.youtube.com/vi/rEczH5PD3lM/hqdefault.jpg" style="width:100%;height:100%;object-fit:cover;opacity:.75;">
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(4,3,2,.35);">
-          <div style="width:48px;height:48px;background:rgba(201,168,76,.18);border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:16px;">▶</div>
-        </div>
-        <div style="position:absolute;bottom:12px;left:14px;font-family:'Gowun Batang',serif;font-size:12px;font-weight:700;color:var(--w);">대표 영상</div>
+    <div class="format-grid rv">
+      <div class="format-card">
+        <div class="format-num">01</div>
+        <div class="format-title">클림트 빛의 콘서트</div>
+        <div class="format-en">KLIMT MEDIA ART</div>
+        <div class="format-body">미디어아트 × 라이브 색소폰. 현대미술의 거장 구스타프 클림트의 작품이 무대 위에서 살아 숨쉬는 경험.</div>
       </div>
-      <div style="position:relative;aspect-ratio:16/9;background:#0a0806;overflow:hidden;cursor:pointer;border:1px solid rgba(201,168,76,.1);transition:border-color .3s;" onclick="openVid('hg70x10Ze0E')" onmouseover="this.style.borderColor='rgba(201,168,76,.35)'" onmouseout="this.style.borderColor='rgba(201,168,76,.1)'">
-        <img src="https://img.youtube.com/vi/hg70x10Ze0E/hqdefault.jpg" style="width:100%;height:100%;object-fit:cover;opacity:.75;">
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(4,3,2,.35);">
-          <div style="width:48px;height:48px;background:rgba(201,168,76,.18);border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:16px;">▶</div>
-        </div>
-        <div style="position:absolute;bottom:12px;left:14px;font-family:'Gowun Batang',serif;font-size:12px;font-weight:700;color:var(--w);">전체 공연</div>
+      <div class="format-card">
+        <div class="format-num">02</div>
+        <div class="format-title">아리쇼</div>
+        <div class="format-en">ARISHOW</div>
+        <div class="format-body">인터랙티브 토크 콘서트. 관객의 스마트폰이 무대의 일부가 되는 세계 최초 Art Intelligence 공연.</div>
       </div>
-      <div style="position:relative;aspect-ratio:16/9;background:#0a0806;overflow:hidden;cursor:pointer;border:1px solid rgba(201,168,76,.1);transition:border-color .3s;" onclick="openVid('-uWydmeORZg')" onmouseover="this.style.borderColor='rgba(201,168,76,.35)'" onmouseout="this.style.borderColor='rgba(201,168,76,.1)'">
-        <img src="https://img.youtube.com/vi/-uWydmeORZg/hqdefault.jpg" style="width:100%;height:100%;object-fit:cover;opacity:.75;">
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(4,3,2,.35);">
-          <div style="width:48px;height:48px;background:rgba(201,168,76,.18);border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:16px;">▶</div>
-        </div>
-        <div style="position:absolute;bottom:12px;left:14px;font-family:'Gowun Batang',serif;font-size:12px;font-weight:700;color:var(--w);">하이라이트</div>
+      <div class="format-card">
+        <div class="format-num">03</div>
+        <div class="format-title">탱고 & 색소폰</div>
+        <div class="format-en">TANGO SAXOPHONE</div>
+        <div class="format-body">친친탱고 협연. 아시아 탱고 챔피언과 색소폰의 만남. 피아졸라의 세계를 새롭게 해석하다.</div>
       </div>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px;" class="rv">
-      <div style="position:relative;aspect-ratio:16/9;background:#0a0806;overflow:hidden;cursor:pointer;border:1px solid rgba(201,168,76,.1);transition:border-color .3s;" onclick="openVid('Fs305PwBkSA')" onmouseover="this.style.borderColor='rgba(201,168,76,.35)'" onmouseout="this.style.borderColor='rgba(201,168,76,.1)'">
-        <img src="https://img.youtube.com/vi/Fs305PwBkSA/hqdefault.jpg" style="width:100%;height:100%;object-fit:cover;opacity:.75;">
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(4,3,2,.35);">
-          <div style="width:48px;height:48px;background:rgba(201,168,76,.18);border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:16px;">▶</div>
-        </div>
-        <div style="position:absolute;bottom:12px;left:14px;font-family:'Gowun Batang',serif;font-size:12px;font-weight:700;color:var(--w);">미디어아트</div>
-      </div>
-      <div style="position:relative;aspect-ratio:16/9;background:#0a0806;overflow:hidden;cursor:pointer;border:1px solid rgba(201,168,76,.1);transition:border-color .3s;" onclick="openVid('JWgzd0tx4gU')" onmouseover="this.style.borderColor='rgba(201,168,76,.35)'" onmouseout="this.style.borderColor='rgba(201,168,76,.1)'">
-        <img src="https://img.youtube.com/vi/JWgzd0tx4gU/hqdefault.jpg" style="width:100%;height:100%;object-fit:cover;opacity:.75;">
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(4,3,2,.35);">
-          <div style="width:48px;height:48px;background:rgba(201,168,76,.18);border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:16px;">▶</div>
-        </div>
-        <div style="position:absolute;bottom:12px;left:14px;font-family:'Gowun Batang',serif;font-size:12px;font-weight:700;color:var(--w);">탱고쇼</div>
-      </div>
-      <div style="position:relative;aspect-ratio:16/9;background:#0a0806;overflow:hidden;cursor:pointer;border:1px solid rgba(201,168,76,.1);transition:border-color .3s;" onclick="openVid('enh0DDA4wdA')" onmouseover="this.style.borderColor='rgba(201,168,76,.35)'" onmouseout="this.style.borderColor='rgba(201,168,76,.1)'">
-        <img src="https://img.youtube.com/vi/enh0DDA4wdA/hqdefault.jpg" style="width:100%;height:100%;object-fit:cover;opacity:.75;">
-        <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(4,3,2,.35);">
-          <div style="width:48px;height:48px;background:rgba(201,168,76,.18);border:1px solid var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--gold);font-size:16px;">▶</div>
-        </div>
-        <div style="position:absolute;bottom:12px;left:14px;font-family:'Gowun Batang',serif;font-size:12px;font-weight:700;color:var(--w);">로봇쇼</div>
+      <div class="format-card">
+        <div class="format-num">04</div>
+        <div class="format-title">VIP 갈라 & 리셉션</div>
+        <div class="format-en">GALA & RECEPTION</div>
+        <div class="format-body">기업 · 정부 · 대학 행사. 격조 있고 차별화된 분위기를 연출하는 프리미엄 공연.</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 공연 형식 -->
-<section class="sec" id="format">
-  <div class="si">
-    <span class="slabel rv">Performance Format · 공연 형식</span>
-    <h2 class="stitle rv">어떤 무대든<br><em>아리스김이 됩니다</em></h2>
-    <div class="grule rv"></div>
-    <div class="format-grid">
-      <div class="format-card rv">
-        <div class="fc-num">01</div>
-        <div class="fc-title">Klimt Media Art Saxophone</div>
-        <div class="fc-kr">클림트 미디어아트 색소폰 콘서트</div>
-        <div class="fc-body">
-          구스타프 클림트의 황금빛 세계와 색소폰 선율이 만나는 몰입형 미디어아트 콘서트. 대형 LED 스크린에 클림트 작품이 실시간 구현되고, 아리스김의 색소폰이 그 위를 날아오릅니다. 기업 갈라, 대학 공연, 문화재단 특별 기획에 최적화.
-        </div>
-        <div class="fc-tags">
-          <span class="fc-tag">50~3,000석</span>
-          <span class="fc-tag">60~120분</span>
-          <span class="fc-tag">기업·대학·재단</span>
-        </div>
-      </div>
-      <div class="format-card rv">
-        <div class="fc-num">02</div>
-        <div class="fc-title">ARIsHOW Concert</div>
-        <div class="fc-kr">아리쇼 종합 공연</div>
-        <div class="fc-body">
-          색소폰 · 카운터테너 · 탱고 · 현대미술이 한 무대에서 펼쳐지는 아리스김 단독 콘서트. 밴드 세션과 댄서가 함께하는 풀 프로덕션 공연으로 완성도 높은 엔터테인먼트를 제공합니다.
-        </div>
-        <div class="fc-tags">
-          <span class="fc-tag">200~2,000석</span>
-          <span class="fc-tag">90~120분</span>
-          <span class="fc-tag">정기·특별 공연</span>
-        </div>
-      </div>
-      <div class="format-card rv">
-        <div class="fc-num">03</div>
-        <div class="fc-title">Tango Performance</div>
-        <div class="fc-kr">탱고 & 색소폰 퍼포먼스</div>
-        <div class="fc-body">
-          아시아 탱고 챔피언 아리스김의 바탱고(솔로탱고) 특허 공연. 색소폰 연주와 탱고 퍼포먼스를 동시에 선보이는 세계 유일의 무대. 행사 하이라이트 및 리셉션 공연에 적합.
-        </div>
-        <div class="fc-tags">
-          <span class="fc-tag">실내·야외</span>
-          <span class="fc-tag">30~60분</span>
-          <span class="fc-tag">리셉션·갈라</span>
-        </div>
-      </div>
-      <div class="format-card rv">
-        <div class="fc-num">04</div>
-        <div class="fc-title">Contemporary Art + Performance</div>
-        <div class="fc-kr">현대미술 전시 연계 퍼포먼스</div>
-        <div class="fc-body">
-          홀로그램 · LED 설치미술 · NFT 작품과 색소폰 라이브 공연이 결합된 전시 연계 퍼포먼스. 기업 아트 갤러리, 문화 기관, 박람회 특별 프로그램으로 기획 가능합니다.
-        </div>
-        <div class="fc-tags">
-          <span class="fc-tag">전시 연계</span>
-          <span class="fc-tag">맞춤 기획</span>
-          <span class="fc-tag">기업·박람회</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 프로그램 -->
-<section class="sec" id="program">
-  <div class="si">
-    <span class="slabel rv">Program · 프로그램</span>
-    <h2 class="stitle rv">행사 목적에 맞게<br><em>맞춤 구성합니다</em></h2>
-    <div class="grule rv"></div>
-    <div class="prog-grid">
-      <div class="prog-card rv">
-        <div class="prog-num">PROGRAM 01</div>
-        <div class="prog-title">강연 입학 콘서트</div>
-        <div class="prog-en">Lecture · Entrance Concert</div>
-        <div class="prog-body">대학 입학식, 졸업식, 기업 창립 기념일에 최적화된 프로그램. 아리스김의 인생 철학 강연과 색소폰 공연이 결합되어 감동과 메시지를 동시에 전달합니다. 전남대 최고경영자과정 등 다수 실적.</div>
-      </div>
-      <div class="prog-card rv">
-        <div class="prog-title">기업 갈라 & 시상식</div>
-        <div class="prog-en">Corporate Gala · Award Ceremony</div>
-        <div class="prog-body">기업 연말 행사, 시상식, VIP 리셉션을 위한 프리미엄 공연. 클림트 미디어아트와 라이브 색소폰으로 격조 있는 분위기를 연출합니다. 20분~60분 맞춤 구성 가능.</div>
-      </div>
-      <div class="prog-card rv">
-        <div class="prog-title">지자체 & 문화재단</div>
-        <div class="prog-en">Local Government · Foundation</div>
-        <div class="prog-body">지역 문화 축제, 문화재단 기획 공연, 정부 기관 행사를 위한 대형 공연. 대규모 야외 무대부터 소극장까지 모든 규모에서 완성도 높은 공연을 제공합니다.</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-
-<!-- 탱고 마에스트로 -->
+<!-- TANGO MAESTRO -->
 <section id="tango">
   <div class="tango-hero rv">
     <img src="images/tango_bw_spotlight.jpg" alt="아리스김 탱고 퍼포먼스">
     <div class="tango-hero-ov"></div>
     <div class="tango-hero-txt">
-      <span class="slabel">Tango Maestro · 탱고 마에스트로</span>
-      <h2 class="stitle" style="color:var(--w);">색소폰을 내려놓는 순간,<br><em>탱고가 시작됩니다</em></h2>
-      <p class="tango-quote">아시아 탱고 챔피언, 뉴욕 카네기홀 탱고 퍼포먼스,<br>그리고 세계 유일의 바탱고(솔로탱고) 특허 창시자.</p>
+      <span class="slabel">Tango Maestro</span>
+      <h2 class="stitle" style="color:var(--text);">색소폰을 내려놓는 순간,<br><em>탱고가 시작됩니다</em></h2>
+      <p class="tango-quote">아시아 탱고 챔피언, 뉴욕 카네기홀 탱고 퍼포먼스, 그리고 세계 유일의 바탱고(솔로탱고) 특허 창시자.</p>
     </div>
   </div>
   <div class="tango-cred rv">
@@ -2535,11 +2356,11 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
     </div>
     <div class="tango-cred-item">
       <div class="tango-cred-val">Carnegie</div>
-      <div class="tango-cred-desc">뉴욕 카네기홀<br>탱고 & 색소폰 퍼포먼스</div>
+      <div class="tango-cred-desc">뉴욕 카네기홀<br>탱고 & 색소폰</div>
     </div>
     <div class="tango-cred-item">
       <div class="tango-cred-val">Patent</div>
-      <div class="tango-cred-desc">바탱고 솔로탱고<br>세계 최초 특허 창시</div>
+      <div class="tango-cred-desc">바탱고 솔로탱고<br>세계 최초 특허</div>
     </div>
   </div>
   <div class="sec" style="background:var(--bg);padding-top:0;">
@@ -2556,30 +2377,30 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
           <img src="images/JUNG2181.jpg" alt="탱고 리프팅 퍼포먼스">
           <div class="tango-card-info">
             <div class="tango-card-title">Tango Escenario Performance</div>
-            <div class="tango-card-sub">아시아 챔피언십 수준의 무대 탱고 — 관객을 압도하는 리프팅</div>
+            <div class="tango-card-sub">아시아 챔피언십 수준의 무대 탱고</div>
           </div>
         </div>
         <div class="tango-card rv">
           <img src="images/tango_perf.jpg" alt="갈라 탱고 퍼포먼스">
           <div class="tango-card-info">
             <div class="tango-card-title">Gala & Reception Performance</div>
-            <div class="tango-card-sub">기업 갈라 · VIP 리셉션 · 특별 행사를 위한 무대 탱고</div>
+            <div class="tango-card-sub">기업 갈라 · VIP 리셉션 · 특별 행사</div>
           </div>
         </div>
         <div class="tango-card rv">
           <img src="images/ba_tango.jpg" alt="바탱고 스튜디오">
           <div class="tango-card-info">
             <div class="tango-card-title">BaTango · 바탱고 아카데미</div>
-            <div class="tango-card-sub">세계 유일 바탱고 특허 창시 · 기업 교육 & 강연 연계 가능</div>
+            <div class="tango-card-sub">세계 유일 바탱고 특허 창시 · 기업 교육 연계</div>
           </div>
         </div>
       </div>
-      <div style="margin-top:3px;padding:36px 40px;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.14);" class="rv">
+      <div style="margin-top:3px;padding:40px;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.14);" class="rv">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;">
           <div>
             <span style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:.5em;color:var(--gold);opacity:.55;display:block;margin-bottom:10px;">CHAMPION CREDENTIAL</span>
-            <div style="font-family:'Noto Serif KR',serif;font-size:clamp(16px,2vw,22px);font-weight:200;color:var(--w);letter-spacing:.1em;line-height:1.6;margin-bottom:14px;">2016 Korea International<br>Tango Championship <em style="color:var(--gl);font-style:normal;">Champion</em></div>
-            <p style="font-family:'Nanum Myeongjo',serif;font-size:13.5px;letter-spacing:.06em;line-height:2.1;color:rgba(242,237,228,.58);">에세나리오(무대 탱고) 부문 아시아 챔피언. 아르헨티나 부에노스아이레스행 티켓이 증명하는 실력. 한국 탱고 커뮤니티에서 가장 유명한 강사이자 퍼포머.</p>
+            <div style="font-family:'Noto Serif KR',serif;font-size:clamp(16px,2vw,22px);font-weight:200;color:var(--w);letter-spacing:.1em;line-height:1.6;margin-bottom:14px;">2016 Korea International Tango Championship <em style="color:var(--gl);font-style:normal;">Champion</em></div>
+            <p style="font-family:'Nanum Myeongjo',serif;font-size:12.5px;letter-spacing:.06em;line-height:2;color:rgba(242,237,228,.58);">에세나리오(무대 탱고) 부문 아시아 챔피언. 한국 탱고 커뮤니티에서 가장 유명한 강사이자 퍼포머.</p>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
             <img src="images/tango_trophy.jpg" alt="탱고 챔피언 트로피" style="width:100%;aspect-ratio:4/3;object-fit:cover;border:1px solid rgba(201,168,76,.18);filter:brightness(.85);">
@@ -2591,63 +2412,63 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   </div>
 </section>
 
-<!-- 상세 프로그램 셋리스트 -->
+<!-- SETLIST -->
 <section class="sec" id="setlist" style="background:var(--bg);border-top:1px solid rgba(201,168,76,.1);">
   <div class="si">
-    <span class="slabel rv">Concert Setlist · 공연 구성</span>
+    <span class="slabel rv">Concert Setlist</span>
     <h2 class="stitle rv">총 90분<br><em>3부 구성</em></h2>
     <div class="grule rv"></div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:48px;" class="rv">
+    <div class="setlist-grid rv">
       <div>
-        <div style="border-top:2px solid var(--gold);padding-top:20px;margin-bottom:22px;">
-          <span style="font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:.45em;color:var(--gold);opacity:.6;display:block;margin-bottom:8px;">OPENING</span>
-          <h3 style="font-family:'Noto Serif KR',serif;font-size:clamp(15px,1.5vw,18px);font-weight:300;letter-spacing:.12em;color:var(--w);">오프닝</h3>
+        <div class="setlist-part">
+          <span class="setlist-part-label">OPENING</span>
+          <h3 class="setlist-part-title">오프닝</h3>
         </div>
-        <ul style="list-style:none;">
-          <li style="font-family:'Nanum Myeongjo',serif;font-size:13px;color:rgba(242,237,228,.55);padding:10px 0;border-bottom:1px solid rgba(201,168,76,.07);display:flex;gap:10px;"><span style="color:var(--gold);opacity:.4;">—</span>Palladio — Karl Jenkins</li>
+        <ul class="setlist-items">
+          <li>Palladio — Karl Jenkins</li>
         </ul>
-        <div style="border-top:2px solid var(--gold);padding-top:20px;margin:32px 0 22px;">
-          <span style="font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:.45em;color:var(--gold);opacity:.6;display:block;margin-bottom:8px;">PART 1 · 30min</span>
-          <h3 style="font-family:'Noto Serif KR',serif;font-size:clamp(15px,1.5vw,18px);font-weight:300;letter-spacing:.12em;color:var(--w);">클림트의 황금빛 세계</h3>
+        <div class="setlist-part" style="margin-top:32px;">
+          <span class="setlist-part-label">PART 1 · 30min</span>
+          <h3 class="setlist-part-title">클림트의 황금빛 세계</h3>
         </div>
-        <ul style="list-style:none;">
-          <li style="font-family:'Nanum Myeongjo',serif;font-size:13px;color:rgba(242,237,228,.55);padding:10px 0;border-bottom:1px solid rgba(201,168,76,.07);display:flex;gap:10px;"><span style="color:var(--gold);opacity:.4;">—</span>Adagio — Albinoni</li>
-          <li style="font-family:'Nanum Myeongjo',serif;font-size:13px;color:rgba(242,237,228,.55);padding:10px 0;border-bottom:1px solid rgba(201,168,76,.07);display:flex;gap:10px;"><span style="color:var(--gold);opacity:.4;">—</span>Fantasy Para Quinteto</li>
+        <ul class="setlist-items">
+          <li>Adagio — Albinoni</li>
+          <li>Fantasy Para Quinteto</li>
         </ul>
       </div>
       <div>
-        <div style="border-top:2px solid var(--gold);padding-top:20px;margin-bottom:22px;">
-          <span style="font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:.45em;color:var(--gold);opacity:.6;display:block;margin-bottom:8px;">PART 2 · 30min</span>
-          <h3 style="font-family:'Noto Serif KR',serif;font-size:clamp(15px,1.5vw,18px);font-weight:300;letter-spacing:.12em;color:var(--w);">탱고와 색소폰의 대화</h3>
+        <div class="setlist-part">
+          <span class="setlist-part-label">PART 2 · 30min</span>
+          <h3 class="setlist-part-title">탱고와 색소폰의 대화</h3>
         </div>
-        <ul style="list-style:none;">
-          <li style="font-family:'Nanum Myeongjo',serif;font-size:13px;color:rgba(242,237,228,.55);padding:10px 0;border-bottom:1px solid rgba(201,168,76,.07);display:flex;gap:10px;"><span style="color:var(--gold);opacity:.4;">—</span>Por una Cabeza</li>
-          <li style="font-family:'Nanum Myeongjo',serif;font-size:13px;color:rgba(242,237,228,.55);padding:10px 0;border-bottom:1px solid rgba(201,168,76,.07);display:flex;gap:10px;"><span style="color:var(--gold);opacity:.4;">—</span>Adios Nonino</li>
+        <ul class="setlist-items">
+          <li>Por una Cabeza</li>
+          <li>Adios Nonino</li>
         </ul>
-        <div style="border-top:2px solid var(--gold);padding-top:20px;margin:32px 0 22px;">
-          <span style="font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:.45em;color:var(--gold);opacity:.6;display:block;margin-bottom:8px;">PART 3 · 30min</span>
-          <h3 style="font-family:'Noto Serif KR',serif;font-size:clamp(15px,1.5vw,18px);font-weight:300;letter-spacing:.12em;color:var(--w);">빛의 콘서트 · 미디어 아트</h3>
+        <div class="setlist-part" style="margin-top:32px;">
+          <span class="setlist-part-label">PART 3 · 30min</span>
+          <h3 class="setlist-part-title">빛의 콘서트 · 미디어 아트</h3>
         </div>
-        <ul style="list-style:none;">
-          <li style="font-family:'Nanum Myeongjo',serif;font-size:13px;color:rgba(242,237,228,.55);padding:10px 0;border-bottom:1px solid rgba(201,168,76,.07);display:flex;gap:10px;"><span style="color:var(--gold);opacity:.4;">—</span>Hey Jude — The Beatles</li>
-          <li style="font-family:'Nanum Myeongjo',serif;font-size:13px;color:rgba(242,237,228,.55);padding:10px 0;border-bottom:1px solid rgba(201,168,76,.07);display:flex;gap:10px;"><span style="color:var(--gold);opacity:.4;">—</span>Combat Zone</li>
+        <ul class="setlist-items">
+          <li>Hey Jude — The Beatles</li>
+          <li>Combat Zone</li>
         </ul>
       </div>
       <div>
-        <div style="border-top:2px solid var(--gold);padding-top:20px;margin-bottom:22px;">
-          <span style="font-family:'Cinzel',serif;font-size:8.5px;letter-spacing:.45em;color:var(--gold);opacity:.6;display:block;margin-bottom:8px;">FINALE</span>
-          <h3 style="font-family:'Noto Serif KR',serif;font-size:clamp(15px,1.5vw,18px);font-weight:300;letter-spacing:.12em;color:var(--w);">피날레: 황금 나사의 울림</h3>
+        <div class="setlist-part">
+          <span class="setlist-part-label">FINALE</span>
+          <h3 class="setlist-part-title">피날레: 황금 나사의 울림</h3>
         </div>
-        <ul style="list-style:none;">
-          <li style="font-family:'Nanum Myeongjo',serif;font-size:13px;color:rgba(242,237,228,.55);padding:10px 0;border-bottom:1px solid rgba(201,168,76,.07);display:flex;gap:10px;"><span style="color:var(--gold);opacity:.4;">—</span>Nocturna — J. Colangelo</li>
+        <ul class="setlist-items">
+          <li>Nocturna — J. Colangelo</li>
         </ul>
         <div style="margin-top:28px;padding:24px;border:1px solid rgba(201,168,76,.14);background:rgba(201,168,76,.03);">
           <div style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:.3em;color:var(--gold);margin-bottom:12px;">공연 기술 구성</div>
           <div style="display:flex;flex-wrap:wrap;gap:7px;">
-            <span style="font-family:'Nanum Myeongjo',serif;font-size:11.5px;color:rgba(242,237,228,.6);padding:5px 12px;border:1px solid rgba(201,168,76,.14);">대형 미디어 맵핑</span>
-            <span style="font-family:'Nanum Myeongjo',serif;font-size:11.5px;color:rgba(242,237,228,.6);padding:5px 12px;border:1px solid rgba(201,168,76,.14);">AI 영상 제작</span>
-            <span style="font-family:'Nanum Myeongjo',serif;font-size:11.5px;color:rgba(242,237,228,.6);padding:5px 12px;border:1px solid rgba(201,168,76,.14);">탱고 퍼포먼스</span>
-            <span style="font-family:'Nanum Myeongjo',serif;font-size:11.5px;color:rgba(242,237,228,.6);padding:5px 12px;border:1px solid rgba(201,168,76,.14);">라이브 밴드</span>
+            <span style="font-family:'Nanum Myeongjo',serif;font-size:11px;color:rgba(242,237,228,.6);padding:5px 10px;border:1px solid rgba(201,168,76,.14);">대형 미디어 맵핑</span>
+            <span style="font-family:'Nanum Myeongjo',serif;font-size:11px;color:rgba(242,237,228,.6);padding:5px 10px;border:1px solid rgba(201,168,76,.14);">AI 영상</span>
+            <span style="font-family:'Nanum Myeongjo',serif;font-size:11px;color:rgba(242,237,228,.6);padding:5px 10px;border:1px solid rgba(201,168,76,.14);">탱고 퍼포먼스</span>
+            <span style="font-family:'Nanum Myeongjo',serif;font-size:11px;color:rgba(242,237,228,.6);padding:5px 10px;border:1px solid rgba(201,168,76,.14);">라이브 밴드</span>
           </div>
         </div>
       </div>
@@ -2655,13 +2476,13 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   </div>
 </section>
 
-<!-- 기술 라이더 -->
+<!-- TECHNICAL RIDER -->
 <section class="sec" id="rider" style="background:var(--bg);border-top:1px solid rgba(201,168,76,.1);">
   <div class="si">
-    <span class="slabel rv">Technical Rider · 기술 요구사항</span>
+    <span class="slabel rv">Technical Rider</span>
     <h2 class="stitle rv">완성도 높은 공연을 위한<br><em>기술 사양</em></h2>
     <div class="grule rv"></div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:3px;" class="rv">
+    <div class="rider-grid rv">
       <div class="rider-card">
         <div class="rider-icon">🎪</div>
         <h3 class="rider-title">무대 규격</h3>
@@ -2703,10 +2524,9 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
         </ul>
       </div>
     </div>
-    <div style="margin-top:3px;padding:28px 32px;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.15);" class="rv">
-      <p style="font-family:'Nanum Myeongjo',serif;font-size:13.5px;letter-spacing:.06em;line-height:2.1;color:rgba(242,237,228,.6);">
-        ※ 위 사항은 기본 가이드라인이며, 공연 형식 및 규모에 따라 달라질 수 있습니다.<br>
-        정확한 기술 라이더 전문 문서는 계약 체결 후 제공해 드립니다.
+    <div style="margin-top:32px;padding:24px 28px;background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.15);" class="rv">
+      <p style="font-family:'Nanum Myeongjo',serif;font-size:12px;letter-spacing:.05em;line-height:1.9;color:rgba(242,237,228,.6);">
+        ※ 위 사항은 기본 가이드라인이며, 공연 형식 및 규모에 따라 달라질 수 있습니다. 정확한 기술 라이더 전문 문서는 계약 체결 후 제공해 드립니다.
       </p>
     </div>
   </div>
@@ -2715,19 +2535,17 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
 <!-- FAQ -->
 <section class="sec" id="faq" style="background:var(--deep);border-top:1px solid rgba(201,168,76,.1);">
   <div class="si">
-    <span class="slabel rv">FAQ · 자주 묻는 질문</span>
+    <span class="slabel rv">FAQ</span>
     <h2 class="stitle rv">기획자가<br><em>가장 많이 묻는 질문</em></h2>
     <div class="grule rv"></div>
     <div style="display:flex;flex-direction:column;gap:2px;" class="rv">
-
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)">
           <span>최소 섭외 기간은 얼마나 되나요?</span>
           <span class="faq-arrow">＋</span>
         </div>
-        <div class="faq-a">공연 규모에 따라 다르며, 소규모 공연은 최소 3~4주 전, 클림트 미디어아트 대형 공연의 경우 2~3개월 전 협의를 권장합니다. 일정 조율 후 빠른 진행도 가능하니 먼저 문의해 주세요.</div>
+        <div class="faq-a">공연 규모에 따라 다르며, 소규모 공연은 최소 3~4주 전, 클림트 미디어아트 대형 공연의 경우 2~3개월 전 협의를 권장합니다.</div>
       </div>
-
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)">
           <span>지방 공연도 가능한가요?</span>
@@ -2735,65 +2553,60 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
         </div>
         <div class="faq-a">전국 어디서나 가능합니다. 서울 외 지역의 경우 교통비 및 숙박비는 별도 협의하며, 해외 공연도 진행한 바 있습니다.</div>
       </div>
-
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)">
           <span>야외 공연도 가능한가요?</span>
           <span class="faq-arrow">＋</span>
         </div>
-        <div class="faq-a">가능합니다. 단, 미디어아트 장비 운용을 위한 전력 공급과 날씨에 따른 장비 보호 조치가 필요합니다. 야외 규모와 환경에 맞는 별도 구성을 제안해 드립니다.</div>
+        <div class="faq-a">가능합니다. 단, 미디어아트 장비 운용을 위한 전력 공급과 날씨에 따른 장비 보호 조치가 필요합니다.</div>
       </div>
-
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)">
           <span>출연료는 어떻게 산정되나요?</span>
           <span class="faq-arrow">＋</span>
         </div>
-        <div class="faq-a">공연 형식(색소폰 단독 / 탱고 퍼포먼스 / 클림트 미디어아트 풀 프로덕션), 공연 시간, 규모, 지역에 따라 맞춤 견적을 제공합니다. 예산 범위를 먼저 알려주시면 그에 맞는 최적의 구성을 제안해 드립니다.</div>
+        <div class="faq-a">공연 형식, 시간, 규모, 지역에 따라 맞춤 견적을 제공합니다. 예산 범위를 먼저 알려주시면 최적의 구성을 제안해 드립니다.</div>
       </div>
-
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)">
           <span>소규모 행사도 섭외 가능한가요?</span>
           <span class="faq-arrow">＋</span>
         </div>
-        <div class="faq-a">VIP 리셉션, 기업 만찬, 소규모 갈라 등 50석 이하 행사도 진행 가능합니다. 규모에 맞는 별도 구성으로 품격 있는 공연을 제공합니다.</div>
+        <div class="faq-a">VIP 리셉션, 기업 만찬, 소규모 갈라 등 50석 이하 행사도 진행 가능합니다.</div>
       </div>
-
       <div class="faq-item">
         <div class="faq-q" onclick="toggleFaq(this)">
           <span>계약 및 정산 방식은 어떻게 되나요?</span>
           <span class="faq-arrow">＋</span>
         </div>
-        <div class="faq-a">계약서 작성 후 계약금 50% 선납, 잔금 50%는 공연 당일 정산이 기본 방식입니다. 기관 및 기업의 경우 세금계산서 발행이 가능하며, 정산 방식은 협의 가능합니다.</div>
+        <div class="faq-a">계약서 작성 후 계약금 50% 선납, 잔금 50%는 공연 당일 정산이 기본 방식입니다. 기관 및 기업의 경우 세금계산서 발행이 가능합니다.</div>
       </div>
-
     </div>
   </div>
 </section>
 
-<!-- 의뢰 프로세스 -->
+<!-- PROCESS -->
 <section id="process">
   <div class="si">
-    <span class="slabel rv" style="text-align:center;display:block;margin-bottom:16px;">Process · 의뢰 프로세스</span>
+    <span class="slabel rv" style="text-align:center;display:block;margin-bottom:16px;">Process</span>
     <h2 class="stitle rv" style="text-align:center;">공연 의뢰부터<br><em>완성까지</em></h2>
-    <div class="proc-steps">
-      <div class="proc-step rv">
+    <div class="proc-steps rv">
+      <div class="proc-step">
         <div class="proc-circle">01</div>
         <div class="proc-title">문의 접수</div>
         <div class="proc-body">행사 날짜 · 장소 · 규모 · 예산을 이메일 또는 전화로 전달</div>
       </div>
-      <div class="proc-step rv">
+      <div class="proc-step">
         <div class="proc-circle">02</div>
         <div class="proc-title">맞춤 제안</div>
         <div class="proc-body">행사 목적에 맞는 공연 형식 · 프로그램 · 견적서 제안</div>
       </div>
-      <div class="proc-step rv">
+      <div class="proc-step">
         <div class="proc-circle">03</div>
         <div class="proc-title">계약 & 준비</div>
-        <div class="proc-body">계약 체결 후 무대 기술 · 음향 · 조명 요구사항 협의</div>
+        <div class="proc-body">계약 체결 후 기술 · 음향 · 조명 요구사항 협의</div>
       </div>
-      <div class="proc-step rv">
+      <div class="proc-step">
         <div class="proc-circle">04</div>
         <div class="proc-title">공연 완성</div>
         <div class="proc-body">리허설 · 사운드체크 · 완성도 높은 본공연 진행</div>
@@ -2807,21 +2620,21 @@ footer{background:var(--deep);border-top:1px solid rgba(201,168,76,.1);
   <img src="images/screw.jpg" alt="황금 나사의 울림" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.28) contrast(1.1);">
   <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,7,5,.4) 0%,rgba(8,7,5,.75) 100%);"></div>
   <div style="position:relative;z-index:2;padding:0 52px;" class="rv">
-    <p style="font-family:'Noto Serif KR',serif;font-size:clamp(18px,3vw,36px);font-weight:200;letter-spacing:.18em;color:var(--w);line-height:1.8;margin-bottom:12px;">헐거워진 세상의 틈을 다시 조이다.<br>예술로 연결된 우리는, 더 이상 혼자가 아니다.</p>
-    <span style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.52em;color:rgba(201,168,76,.55);">ARIS KIM</span>
+    <p style="font-family:'Noto Serif KR',serif;font-size:clamp(18px,3vw,32px);font-weight:200;letter-spacing:.12em;color:var(--text);line-height:1.8;margin-bottom:12px;">헐거워진 세상의 틈을 다시 조이다.<br>예술로 연결된 우리는, 더 이상 혼자가 아니다.</p>
+    <span style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:.3em;color:rgba(201,168,76,.55);">ARIS KIM</span>
   </div>
 </section>
 
 <!-- CONTACT -->
 <section id="contact">
-  <span class="contact-label rv">Contact · 공연 의뢰</span>
+  <span class="contact-label rv">Contact</span>
   <h2 class="contact-title rv"><span style="color:var(--gold)">A</span>RIS KIM을<br>무대로 초대하세요</h2>
   <p class="contact-sub rv">
     기업 · 대학 · 문화재단 · 지자체 · 정부 기관<br>
     공연 날짜 · 장소 · 규모를 알려주시면<br>맞춤 제안서를 보내드립니다.
   </p>
   <div class="contact-btns rv">
-    <a href="/cdn-cgi/l/email-protection#59382b302a31362e1937382f3c2b773a3634" class="cta-main" style="color:var(--bg)!important;">이메일 문의하기</a>
+    <a href="/cdn-cgi/l/email-protection#59382b302a31362e1937382f3c2b773a3634" class="cta-main">이메일 문의하기</a>
     <a href="tel:010-4251-1212" class="cta-kakao">010-4251-1212</a>
     <a href="tel:0260134887" class="cta-kakao">02-6013-4887</a>
   </div>
@@ -2844,7 +2657,6 @@ window.addEventListener('scroll',()=>{
   const p=(window.scrollY/(document.documentElement.scrollHeight-innerHeight))*100;
   prog.style.width=p+'%';
   nav.classList.toggle('on',window.scrollY>60);
-  // 처음으로 버튼: 절반 스크롤 시 등장
   if(backBtn){
     const half=window.innerHeight*0.5;
     backBtn.classList.toggle('show', window.scrollY>half);
@@ -2855,27 +2667,20 @@ const obs=new IntersectionObserver(entries=>{
 },{threshold:.1});
 document.querySelectorAll('.rv,.rvl,.rvr').forEach(el=>obs.observe(el));
 
-/* ── 공연 쇼케이스 스크롤 트리거 ── */
 const perfObs = new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     if(!e.isIntersecting) return;
     const sec = e.target;
-
-    /* A2+A3: 색소폰 오버레이 */
     if(sec.id==='perf-orchestra'){
-      // A3 사진 등장
       setTimeout(()=>{
         const ov=sec.querySelector('.perf-sax-ov');
         if(ov) ov.classList.add('triggered');
       }, 3200);
-      // 문구는 A3 완전히 나온 후 + 타자기 시작
       setTimeout(()=>{
         sec.classList.add('quote-triggered');
         setTimeout(startOrchTypewriter, 300);
       }, 5200);
     }
-
-    /* A5: 핀 조명 */
     if(sec.id==='perf-a5'){
       setTimeout(()=>{
         ['spot2-dark','spot2-beam','spot2-source','spot2-glow','perf-a5-text'].forEach(cls=>{
@@ -2884,14 +2689,11 @@ const perfObs = new IntersectionObserver(entries=>{
         });
       }, 600);
     }
-
     perfObs.unobserve(sec);
   });
 },{threshold:0.25});
-
 document.querySelectorAll('#perf-orchestra,#perf-a5').forEach(el=>perfObs.observe(el));
 
-/* genesis 문구 스크롤 트리거 */
 const genObs = new IntersectionObserver(entries=>{
   entries.forEach(e=>{
     if(!e.isIntersecting) return;
@@ -2903,7 +2705,6 @@ const genObs = new IntersectionObserver(entries=>{
 const genesis = document.getElementById('fb-genesis');
 if(genesis) genObs.observe(genesis);
 
-// 영상 팝업
 let vlb = null;
 function openVid(id, isShorts=false) {
   if(vlb) { vlb.remove(); vlb=null; }
@@ -2919,7 +2720,6 @@ function openVid(id, isShorts=false) {
   document.body.appendChild(vlb);
 }
 
-
 const bham=document.getElementById('bham'), bmob=document.getElementById('bmob');
 if(bham&&bmob){
   bham.addEventListener('click',()=>{
@@ -2929,9 +2729,6 @@ if(bham&&bmob){
 }
 function bc(){bham&&bham.classList.remove('on');bmob&&bmob.classList.remove('on');document.body.style.overflow='';}
 
-/* ════════════════════════════════════════
-   타자기 효과 JS
-   ════════════════════════════════════════ */
 function typeWrite(el, cursorEl, text, speed, onDone) {
   let i = 0;
   el.textContent = '';
@@ -2947,7 +2744,6 @@ function typeWrite(el, cursorEl, text, speed, onDone) {
   }, speed);
 }
 
-/* genesis 타자기 — 3단계 */
 let genesisDone = false;
 const genesisObsTW = new IntersectionObserver(entries => {
   entries.forEach(e => {
@@ -2959,17 +2755,9 @@ const genesisObsTW = new IntersectionObserver(entries => {
     const cur3 = document.getElementById('gtw-cur3');
     const big  = document.getElementById('genesis-big-quote');
     if (!el1) return;
-
-    // 1단계: "색소폰 하나로,"
     typeWrite(el1, cur1, '색소폰 하나로,', 65, () => {
-
-      // 0.7초 빈 줄 간격 후
       setTimeout(() => {
-
-        // 2단계: "장르가 되다."
         typeWrite(el3, cur3, '장르가 되다.', 65, () => {
-
-          // 0.9초 후 큰 노란 문구 등장
           setTimeout(() => {
             if (big) big.classList.add('show');
           }, 900);
@@ -2982,7 +2770,6 @@ const genesisObsTW = new IntersectionObserver(entries => {
 const genesisEl = document.getElementById('fb-genesis');
 if (genesisEl) genesisObsTW.observe(genesisEl);
 
-/* A3 orch-quote 타자기 */
 let orchQuoteDone = false;
 function startOrchTypewriter() {
   if (orchQuoteDone) return;
@@ -2993,6 +2780,19 @@ function startOrchTypewriter() {
   typeWrite(el, cur, '색소폰 하나로 장르가 되다.', 55);
 }
 
+function toggleFaq(el) {
+  const q = el;
+  const a = el.nextElementSibling;
+  const isOpen = q.classList.contains('open');
+  document.querySelectorAll('.faq-q').forEach(item => {
+    item.classList.remove('open');
+    item.nextElementSibling?.classList.remove('open');
+  });
+  if (!isOpen) {
+    q.classList.add('open');
+    a.classList.add('open');
+  }
+}
 </script>
 </body>
 </html>
