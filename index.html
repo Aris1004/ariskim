@@ -862,9 +862,46 @@
         font-size: clamp(9px, 1.8vw, 11px);
       }
     }
+
+    /* GOLDEN SPARK FULL-SCREEN INTRO */
+    .golden-spark-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 99999;
+      background: #0A0908;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: auto;
+      animation: sparkFadeOut 0.8s ease 1.6s forwards;
+    }
+    .golden-spark-overlay.done { display: none; }
+    .golden-spark-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #C9A84C, rgba(201,168,76,0.4));
+      box-shadow: 0 0 20px #C9A84C, 0 0 60px rgba(201,168,76,0.4);
+      animation: sparkBurst 1.2s cubic-bezier(0.34,1.56,0.64,1) 0.2s forwards;
+      opacity: 0;
+    }
+    @keyframes sparkBurst {
+      0% { opacity: 0; transform: scale(0.3); box-shadow: 0 0 8px #C9A84C; }
+      40% { opacity: 1; transform: scale(1.5); box-shadow: 0 0 60px #C9A84C, 0 0 120px rgba(201,168,76,0.3); }
+      100% { opacity: 0.6; transform: scale(1); box-shadow: 0 0 30px #C9A84C; }
+    }
+    @keyframes sparkFadeOut {
+      0% { opacity: 1; }
+      100% { opacity: 0; pointer-events: none; }
+    }
   </style>
 </head>
 <body>
+
+<!-- GOLDEN SPARK INTRO -->
+<div class="golden-spark-overlay" id="sparkOverlay">
+  <div class="golden-spark-dot"></div>
+</div>
 
 <!-- PHASE 1: THE VOID -->
 <div id="phase1">
@@ -934,8 +971,15 @@
   const params = new URLSearchParams(window.location.search);
   const skipToEnd = params.get('skip') === '1';
 
+  // Golden spark overlay removal
+  const spark = document.getElementById('sparkOverlay');
+  if (spark) {
+    setTimeout(() => { spark.classList.add('done'); }, 2500);
+  }
+
   if (skipToEnd) {
     // Skip to Phase 3 immediately
+    if (spark) spark.classList.add('done');
     document.getElementById('phase1').style.display = 'none';
     document.getElementById('phase2').style.display = 'none';
     document.getElementById('phase3').classList.add('show');
