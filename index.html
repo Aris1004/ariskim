@@ -24,84 +24,134 @@ a:hover,a:active{color:var(--text);}
   display:flex;align-items:center;justify-content:center;
   pointer-events:auto;overflow:hidden;
 }
-.golden-spark-overlay.fade{
-  animation:sparkOverlayFade 1.2s ease forwards;
-}
+.golden-spark-overlay.fade{animation:sparkOverlayFade 1.4s ease forwards;}
 .golden-spark-overlay.done{display:none;}
 
-/* Central golden orb */
-.spark-core{
-  position:absolute;width:4px;height:4px;border-radius:50%;
-  background:radial-gradient(circle,#fff,#E8CC7A,#C9A84C);
+/* ── Seed: tiny golden point ── */
+.spark-seed{
+  position:absolute;width:3px;height:3px;border-radius:50%;
+  background:#fff;
+  box-shadow:0 0 6px #C9A84C,0 0 15px rgba(201,168,76,0.6);
   opacity:0;
-  animation:coreGrow 2s cubic-bezier(0.16,1,0.3,1) 0.3s forwards;
+  animation:seedPulse 0.6s ease 0.2s forwards;
 }
-@keyframes coreGrow{
-  0%{opacity:0;transform:scale(0);box-shadow:0 0 4px #C9A84C;}
-  15%{opacity:1;transform:scale(1);box-shadow:0 0 15px #C9A84C,0 0 30px rgba(201,168,76,0.5);}
-  40%{opacity:1;transform:scale(2.5);box-shadow:0 0 60px #C9A84C,0 0 120px rgba(201,168,76,0.4),0 0 200px rgba(201,168,76,0.15);}
-  60%{opacity:1;transform:scale(80);box-shadow:0 0 80px #C9A84C;}
-  100%{opacity:0;transform:scale(150);box-shadow:none;}
-}
-
-/* Golden ring burst */
-.spark-ring{
-  position:absolute;width:20px;height:20px;border-radius:50%;
-  border:1.5px solid rgba(201,168,76,0.8);
-  opacity:0;
-  animation:ringExpand 1.8s ease-out 0.6s forwards;
-}
-@keyframes ringExpand{
+@keyframes seedPulse{
   0%{opacity:0;transform:scale(0);}
-  20%{opacity:0.9;transform:scale(1);}
-  80%{opacity:0.3;transform:scale(30);}
-  100%{opacity:0;transform:scale(50);}
+  60%{opacity:1;transform:scale(1.2);}
+  100%{opacity:1;transform:scale(0.8);}
 }
-.spark-ring:nth-child(3){animation-delay:0.8s;border-color:rgba(232,204,122,0.5);}
-.spark-ring:nth-child(4){animation-delay:1.0s;width:10px;height:10px;border-color:rgba(201,168,76,0.3);}
 
-/* Radial light rays */
-.spark-rays{
-  position:absolute;width:100%;height:100%;
-  opacity:0;
-  animation:raysFlash 1.6s ease-out 0.5s forwards;
-}
-@keyframes raysFlash{
-  0%{opacity:0;}
-  20%{opacity:0.8;}
-  100%{opacity:0;}
-}
-.spark-rays::before,.spark-rays::after{
-  content:'';position:absolute;top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  background:radial-gradient(ellipse at center,rgba(201,168,76,0.3) 0%,transparent 70%);
-}
-.spark-rays::before{width:300vw;height:2px;}
-.spark-rays::after{width:2px;height:300vh;}
-
-/* Floating golden particles */
-.spark-particle{
+/* ── Smoke clouds: soft blurred blobs that expand like fog ── */
+.smoke{
   position:absolute;border-radius:50%;
-  background:radial-gradient(circle,#E8CC7A,rgba(201,168,76,0.6));
+  background:radial-gradient(circle,rgba(201,168,76,0.45) 0%,rgba(201,168,76,0.15) 40%,transparent 70%);
+  filter:blur(30px);opacity:0;
+}
+.smoke-1{width:80px;height:80px;animation:smokeA 2.4s ease-out 0.5s forwards;}
+.smoke-2{width:120px;height:100px;animation:smokeB 2.8s ease-out 0.6s forwards;}
+.smoke-3{width:100px;height:120px;animation:smokeC 2.6s ease-out 0.55s forwards;}
+.smoke-4{width:90px;height:90px;animation:smokeD 3s ease-out 0.65s forwards;}
+.smoke-5{width:140px;height:80px;animation:smokeE 2.5s ease-out 0.45s forwards;}
+.smoke-6{width:70px;height:110px;animation:smokeF 2.7s ease-out 0.7s forwards;}
+.smoke-7{width:100px;height:70px;animation:smokeG 2.9s ease-out 0.5s forwards;}
+.smoke-8{width:60px;height:90px;animation:smokeH 2.3s ease-out 0.6s forwards;}
+
+@keyframes smokeA{
+  0%{opacity:0;transform:translate(0,0) scale(0.3);}
+  15%{opacity:0.7;}
+  50%{opacity:0.5;transform:translate(-25vw,-18vh) scale(3);filter:blur(50px);}
+  100%{opacity:0;transform:translate(-40vw,-30vh) scale(5);filter:blur(80px);}
+}
+@keyframes smokeB{
+  0%{opacity:0;transform:translate(0,0) scale(0.3);}
+  15%{opacity:0.6;}
+  50%{opacity:0.4;transform:translate(20vw,-22vh) scale(3.5);filter:blur(55px);}
+  100%{opacity:0;transform:translate(38vw,-35vh) scale(6);filter:blur(90px);}
+}
+@keyframes smokeC{
+  0%{opacity:0;transform:translate(0,0) scale(0.3);}
+  15%{opacity:0.65;}
+  50%{opacity:0.4;transform:translate(-15vw,25vh) scale(3);filter:blur(50px);}
+  100%{opacity:0;transform:translate(-30vw,42vh) scale(5.5);filter:blur(85px);}
+}
+@keyframes smokeD{
+  0%{opacity:0;transform:translate(0,0) scale(0.3);}
+  15%{opacity:0.55;}
+  50%{opacity:0.35;transform:translate(28vw,20vh) scale(3.2);filter:blur(55px);}
+  100%{opacity:0;transform:translate(42vw,35vh) scale(5);filter:blur(80px);}
+}
+@keyframes smokeE{
+  0%{opacity:0;transform:translate(0,0) scale(0.3);}
+  15%{opacity:0.5;}
+  50%{opacity:0.3;transform:translate(-35vw,5vh) scale(4);filter:blur(60px);}
+  100%{opacity:0;transform:translate(-48vw,8vh) scale(6);filter:blur(90px);}
+}
+@keyframes smokeF{
+  0%{opacity:0;transform:translate(0,0) scale(0.3);}
+  15%{opacity:0.6;}
+  50%{opacity:0.35;transform:translate(10vw,-35vh) scale(3);filter:blur(50px);}
+  100%{opacity:0;transform:translate(15vw,-48vh) scale(5);filter:blur(85px);}
+}
+@keyframes smokeG{
+  0%{opacity:0;transform:translate(0,0) scale(0.3);}
+  15%{opacity:0.5;}
+  50%{opacity:0.3;transform:translate(32vw,-8vh) scale(3.5);filter:blur(55px);}
+  100%{opacity:0;transform:translate(45vw,-12vh) scale(5.5);filter:blur(80px);}
+}
+@keyframes smokeH{
+  0%{opacity:0;transform:translate(0,0) scale(0.3);}
+  15%{opacity:0.55;}
+  50%{opacity:0.3;transform:translate(-8vw,35vh) scale(3);filter:blur(50px);}
+  100%{opacity:0;transform:translate(-12vw,46vh) scale(5);filter:blur(85px);}
+}
+
+/* ── Golden glow flash at center ── */
+.spark-glow{
+  position:absolute;width:10px;height:10px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,240,180,0.9) 0%,rgba(201,168,76,0.5) 30%,transparent 70%);
+  filter:blur(8px);opacity:0;
+  animation:glowBurst 2s ease-out 0.4s forwards;
+}
+@keyframes glowBurst{
+  0%{opacity:0;transform:scale(0);}
+  10%{opacity:1;transform:scale(2);filter:blur(10px);}
+  30%{opacity:0.8;transform:scale(12);filter:blur(25px);}
+  60%{opacity:0.3;transform:scale(30);filter:blur(50px);}
+  100%{opacity:0;transform:scale(50);filter:blur(80px);}
+}
+
+/* ── Ember sparks: tiny bright dots flying outward ── */
+.ember{
+  position:absolute;border-radius:50%;
+  background:#E8CC7A;
+  box-shadow:0 0 4px #C9A84C,0 0 8px rgba(201,168,76,0.5);
   opacity:0;
 }
-.sp1{width:3px;height:3px;animation:particleFly 2s ease-out 0.5s forwards;}
-.sp2{width:2px;height:2px;animation:particleFly2 2.2s ease-out 0.6s forwards;}
-.sp3{width:4px;height:4px;animation:particleFly3 1.8s ease-out 0.55s forwards;}
-.sp4{width:2px;height:2px;animation:particleFly4 2.4s ease-out 0.65s forwards;}
-.sp5{width:3px;height:3px;animation:particleFly5 2s ease-out 0.7s forwards;}
-.sp6{width:2px;height:2px;animation:particleFly6 2.1s ease-out 0.5s forwards;}
-.sp7{width:3px;height:3px;animation:particleFly7 1.9s ease-out 0.6s forwards;}
-.sp8{width:2px;height:2px;animation:particleFly8 2.3s ease-out 0.55s forwards;}
+.em1{width:2px;height:2px;animation:emA 1.8s cubic-bezier(0.2,0.8,0.3,1) 0.45s forwards;}
+.em2{width:3px;height:3px;animation:emB 2s cubic-bezier(0.2,0.8,0.3,1) 0.5s forwards;}
+.em3{width:2px;height:2px;animation:emC 1.6s cubic-bezier(0.2,0.8,0.3,1) 0.55s forwards;}
+.em4{width:2px;height:2px;animation:emD 2.2s cubic-bezier(0.2,0.8,0.3,1) 0.48s forwards;}
+.em5{width:3px;height:3px;animation:emE 1.9s cubic-bezier(0.2,0.8,0.3,1) 0.52s forwards;}
+.em6{width:2px;height:2px;animation:emF 2.1s cubic-bezier(0.2,0.8,0.3,1) 0.58s forwards;}
+.em7{width:2px;height:2px;animation:emG 1.7s cubic-bezier(0.2,0.8,0.3,1) 0.42s forwards;}
+.em8{width:3px;height:3px;animation:emH 2.3s cubic-bezier(0.2,0.8,0.3,1) 0.6s forwards;}
+.em9{width:2px;height:2px;animation:emI 1.8s cubic-bezier(0.2,0.8,0.3,1) 0.47s forwards;}
+.em10{width:2px;height:2px;animation:emJ 2s cubic-bezier(0.2,0.8,0.3,1) 0.53s forwards;}
+.em11{width:3px;height:3px;animation:emK 1.6s cubic-bezier(0.2,0.8,0.3,1) 0.56s forwards;}
+.em12{width:2px;height:2px;animation:emL 2.4s cubic-bezier(0.2,0.8,0.3,1) 0.44s forwards;}
 
-@keyframes particleFly{0%{opacity:0;transform:translate(0,0);}20%{opacity:1;}100%{opacity:0;transform:translate(-40vw,-30vh);}}
-@keyframes particleFly2{0%{opacity:0;transform:translate(0,0);}20%{opacity:1;}100%{opacity:0;transform:translate(35vw,-35vh);}}
-@keyframes particleFly3{0%{opacity:0;transform:translate(0,0);}20%{opacity:1;}100%{opacity:0;transform:translate(-30vw,40vh);}}
-@keyframes particleFly4{0%{opacity:0;transform:translate(0,0);}20%{opacity:1;}100%{opacity:0;transform:translate(45vw,25vh);}}
-@keyframes particleFly5{0%{opacity:0;transform:translate(0,0);}20%{opacity:1;}100%{opacity:0;transform:translate(-20vw,-45vh);}}
-@keyframes particleFly6{0%{opacity:0;transform:translate(0,0);}20%{opacity:1;}100%{opacity:0;transform:translate(25vw,40vh);}}
-@keyframes particleFly7{0%{opacity:0;transform:translate(0,0);}20%{opacity:1;}100%{opacity:0;transform:translate(-45vw,15vh);}}
-@keyframes particleFly8{0%{opacity:0;transform:translate(0,0);}20%{opacity:1;}100%{opacity:0;transform:translate(15vw,-40vh);}}
+@keyframes emA{0%{opacity:0;transform:translate(0,0);}15%{opacity:1;}100%{opacity:0;transform:translate(-38vw,-28vh);}}
+@keyframes emB{0%{opacity:0;transform:translate(0,0);}15%{opacity:1;}100%{opacity:0;transform:translate(32vw,-35vh);}}
+@keyframes emC{0%{opacity:0;transform:translate(0,0);}15%{opacity:1;}100%{opacity:0;transform:translate(-28vw,32vh);}}
+@keyframes emD{0%{opacity:0;transform:translate(0,0);}15%{opacity:1;}100%{opacity:0;transform:translate(40vw,22vh);}}
+@keyframes emE{0%{opacity:0;transform:translate(0,0);}15%{opacity:1;}100%{opacity:0;transform:translate(-18vw,-42vh);}}
+@keyframes emF{0%{opacity:0;transform:translate(0,0);}15%{opacity:1;}100%{opacity:0;transform:translate(22vw,38vh);}}
+@keyframes emG{0%{opacity:0;transform:translate(0,0);}15%{opacity:1;}100%{opacity:0;transform:translate(-45vw,8vh);}}
+@keyframes emH{0%{opacity:0;transform:translate(0,0);}15%{opacity:1;}100%{opacity:0;transform:translate(12vw,-45vh);}}
+@keyframes emI{0%{opacity:0;transform:translate(0,0);}15%{opacity:1;}100%{opacity:0;transform:translate(-10vw,45vh);}}
+@keyframes emJ{0%{opacity:0;transform:translate(0,0);}15%{opacity:1;}100%{opacity:0;transform:translate(45vw,-10vh);}}
+@keyframes emK{0%{opacity:0;transform:translate(0,0);}15%{opacity:1;}100%{opacity:0;transform:translate(-35vw,-15vh);}}
+@keyframes emL{0%{opacity:0;transform:translate(0,0);}15%{opacity:1;}100%{opacity:0;transform:translate(8vw,42vh);}}
 
 @keyframes sparkOverlayFade{
   0%{opacity:1;}
@@ -416,21 +466,30 @@ a:hover,a:active{color:var(--text);}
 </head>
 <body>
 
-<!-- GOLDEN SPARK INTRO -->
+<!-- GOLDEN SPARK INTRO — Smoke & Firework -->
 <div class="golden-spark-overlay" id="sparkOverlay">
-  <div class="spark-core"></div>
-  <div class="spark-ring"></div>
-  <div class="spark-ring"></div>
-  <div class="spark-ring"></div>
-  <div class="spark-rays"></div>
-  <div class="spark-particle sp1"></div>
-  <div class="spark-particle sp2"></div>
-  <div class="spark-particle sp3"></div>
-  <div class="spark-particle sp4"></div>
-  <div class="spark-particle sp5"></div>
-  <div class="spark-particle sp6"></div>
-  <div class="spark-particle sp7"></div>
-  <div class="spark-particle sp8"></div>
+  <div class="spark-seed"></div>
+  <div class="spark-glow"></div>
+  <div class="smoke smoke-1"></div>
+  <div class="smoke smoke-2"></div>
+  <div class="smoke smoke-3"></div>
+  <div class="smoke smoke-4"></div>
+  <div class="smoke smoke-5"></div>
+  <div class="smoke smoke-6"></div>
+  <div class="smoke smoke-7"></div>
+  <div class="smoke smoke-8"></div>
+  <div class="ember em1"></div>
+  <div class="ember em2"></div>
+  <div class="ember em3"></div>
+  <div class="ember em4"></div>
+  <div class="ember em5"></div>
+  <div class="ember em6"></div>
+  <div class="ember em7"></div>
+  <div class="ember em8"></div>
+  <div class="ember em9"></div>
+  <div class="ember em10"></div>
+  <div class="ember em11"></div>
+  <div class="ember em12"></div>
 </div>
 
 <!-- PHASE 1: THE VOID -->
@@ -495,11 +554,11 @@ a:hover,a:active{color:var(--text);}
    ARIS KIM — THE PORTAL — INDEX
    ═══════════════════════════════════════ */
 
-// Golden spark overlay removal
+// Golden spark overlay removal — wait for smoke to dissipate
 var sparkEl = document.getElementById('sparkOverlay');
 if(sparkEl){
-  setTimeout(function(){ sparkEl.classList.add('fade'); }, 2000);
-  setTimeout(function(){ sparkEl.classList.add('done'); }, 3200);
+  setTimeout(function(){ sparkEl.classList.add('fade'); }, 2600);
+  setTimeout(function(){ sparkEl.classList.add('done'); }, 4000);
 }
 
 // Check for skip parameter
@@ -515,25 +574,25 @@ if(skipToEnd){
 } else {
   // Full theatrical sequence
 
-  // Phase 1 fade-out at 2.5s
+  // Phase 1 fade-out at 6.5s (after spark overlay clears)
   setTimeout(function(){
     document.getElementById('phase1').classList.add('fade-out');
-  }, 2500);
+  }, 6500);
 
-  // Phase 2 show at 2.7s
+  // Phase 2 show at 6.8s
   setTimeout(function(){
     document.getElementById('phase2').classList.add('show');
-  }, 2700);
+  }, 6800);
 
-  // Phase 2 fade-out at 5.5s
+  // Phase 2 fade-out at 9.5s
   setTimeout(function(){
     document.getElementById('phase2').classList.add('fade-out');
-  }, 5500);
+  }, 9500);
 
-  // Phase 3 show at 5.8s
+  // Phase 3 show at 9.8s
   setTimeout(function(){
     document.getElementById('phase3').classList.add('show');
-  }, 5800);
+  }, 9800);
 }
 
 // Keyboard navigation
