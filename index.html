@@ -584,25 +584,25 @@ if(skipToEnd){
 } else {
   // Full theatrical sequence
 
-  // Phase 1 fade-out at 6.5s (after spark overlay clears)
+  // Phase 1 fade-out at 9s (문구 충분히 보여준 후)
   setTimeout(function(){
     document.getElementById('phase1').classList.add('fade-out');
-  }, 6500);
+  }, 9000);
 
-  // Phase 2 show at 6.8s
+  // Phase 2 show at 9.5s (사진 등장)
   setTimeout(function(){
     document.getElementById('phase2').classList.add('show');
-  }, 6800);
-
-  // Phase 2 fade-out at 9.5s
-  setTimeout(function(){
-    document.getElementById('phase2').classList.add('fade-out');
   }, 9500);
 
-  // Phase 3 show at 9.8s
+  // Phase 2 fade-out at 14s (사진 4.5초간 유지)
+  setTimeout(function(){
+    document.getElementById('phase2').classList.add('fade-out');
+  }, 14000);
+
+  // Phase 3 show at 14.5s
   setTimeout(function(){
     document.getElementById('phase3').classList.add('show');
-  }, 9800);
+  }, 14500);
 }
 
 // Keyboard navigation
