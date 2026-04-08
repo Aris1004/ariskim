@@ -8,845 +8,538 @@
 <meta property="og:title" content="ARIS KIM | 아리스김">
 <meta property="og:description" content="뉴욕 카네기홀 · 예술의전당 최초 1호 아티스트 · 아시아 탱고 챔피언">
 <meta property="og:image" content="https://ariskim.netlify.app/og_sign.png">
-<link href="https://fonts.googleapis.com/css2?family=Herr+Von+Muellerhoff&family=Cinzel:wght@400;700;900&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Serif+KR:wght@200;300;400&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
-a,a:link,a:visited{color:rgba(242,237,228,.75);text-decoration:none;-webkit-tap-highlight-color:transparent;}
-a:hover,a:active{color:rgba(242,237,228,.75);text-decoration:none;}
-:root{--gold:#C9A84C;--gl:#E8CC7A;--bg:#040302;--w:#F2EDE4;}
-html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);}
+:root{--gold:#C9A84C;--bg:#0A0908;--text:#F2EDE4;--gold-subtle:rgba(201,168,76,0.3);}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:'Noto Serif KR',serif;}
+a,a:link,a:visited{color:var(--text);text-decoration:none;-webkit-tap-highlight-color:transparent;}
+a:hover,a:active{color:var(--text);}
 
-/* Enter screen 제거 — 자동 시작 */
-
-/* ── PHASE 1 ── */
-#s1{position:fixed;inset:0;z-index:300;background:var(--bg);transition:opacity 1.4s ease;}
-#s1.out{opacity:0;pointer-events:none;}
-#cvs{position:absolute;inset:0;width:100%;height:100%;}
-#crack-cvs{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;}
-
-/* 섬광 레이어 */
-#flash{position:fixed;inset:0;z-index:400;opacity:0;pointer-events:none;}
-
-/* ── PHASE 2 ── */
-#s2{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 1.4s ease;}
-#s2.show{opacity:1;}
-#s2.out{opacity:0;transition:opacity 1s ease;}
-#photo-wrap{position:relative;width:clamp(280px,32vw,500px);height:80vh;overflow:hidden;border:1px solid rgba(201,168,76,.2);box-shadow:0 0 80px rgba(201,168,76,.15),0 0 200px rgba(201,168,76,.06);}
-#photo-wrap img{width:100%;height:100%;object-fit:cover;object-position:center top;filter:brightness(.88);}
-#photo-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 50%,rgba(4,3,2,.7) 100%);}
-#photo-name{position:absolute;bottom:28px;left:0;right:0;text-align:center;z-index:2;opacity:0;transition:opacity 1s ease .4s;}
-#s2.show #photo-name{opacity:1;}
-#photo-name .en{font-family:'Cinzel',serif;font-size:clamp(16px,2.2vw,28px);font-weight:900;letter-spacing:.22em;color:var(--w);text-shadow:0 0 30px rgba(201,168,76,.5);}
-#photo-name .en .ai{color:var(--gold);}
-#photo-name .kr{font-family:'Gowun Batang',serif;font-size:clamp(9px,1vw,12px);letter-spacing:.5em;color:rgba(232,204,122,.45);margin-top:8px;}
-
-/* ── PHASE 3 ── */
-#s3{position:fixed;inset:0;z-index:100;display:flex;}
-.panel{flex:1;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none;overflow:hidden;cursor:pointer;transition:flex .85s cubic-bezier(.23,1,.32,1),transform 1.6s cubic-bezier(.77,0,.18,1);}
-#pa{transform:translateX(-100%);}
-#pb{transform:translateX(100%);}
-#pa.open,#pb.open{transform:translateX(0);}
-.panel:hover{flex:1.55;}
-.pbg{position:absolute;inset:0;background-size:cover;background-position:center;filter:brightness(.22);transition:filter .7s,transform .7s;}
-.panel:hover .pbg{filter:brightness(.4);transform:scale(1.04);}
-#pa .pbg{background-image:url('images/img_black_jacket.jpg');background-position:center top;}
-#pb .pbg{background-image:url('images/img_gold_jacket.jpg');background-position:center top;}
-.pov{position:absolute;inset:0;}
-#pa .pov{background:linear-gradient(145deg,rgba(4,3,2,.72) 0%,rgba(10,6,18,.32) 100%);}
-#pb .pov{background:linear-gradient(145deg,rgba(16,9,2,.32) 0%,rgba(4,3,2,.78) 100%);}
-.cor{position:absolute;width:14px;height:14px;opacity:.18;transition:opacity .45s;}
-.panel:hover .cor{opacity:.55;}
-.tl{top:20px;left:20px;border-top:1px solid var(--gold);border-left:1px solid var(--gold);}
-.tr{top:20px;right:20px;border-top:1px solid var(--gold);border-right:1px solid var(--gold);}
-.bl{bottom:20px;left:20px;border-bottom:1px solid var(--gold);border-left:1px solid var(--gold);}
-.br{bottom:20px;right:20px;border-bottom:1px solid var(--gold);border-right:1px solid var(--gold);}
-.pc{position:relative;z-index:2;text-align:center;padding:48px 32px;transform:translateY(16px);opacity:.58;transition:transform .65s,opacity .65s;}
-.panel:hover .pc{transform:translateY(0);opacity:1;}
-.ptag{font-family:'Cinzel',serif;font-size:clamp(6px,.82vw,8px);letter-spacing:.52em;color:var(--gold);opacity:.45;display:block;margin-bottom:20px;}
-.ptitle{font-family:'Cinzel',serif;font-size:clamp(16px,2.8vw,44px);font-weight:900;letter-spacing:.07em;line-height:1.18;margin-bottom:14px;}
-#pa .ptitle{color:#ece4d8;}
-#pb .ptitle{color:var(--gl);}
-.pkr{font-family:'Gowun Batang',serif;font-size:clamp(10px,1.15vw,15px);letter-spacing:.22em;margin-bottom:22px;}
-#pa .pkr{color:rgba(236,228,216,.35);}
-#pb .pkr{color:rgba(232,204,122,.35);}
-.pdesc{font-family:'Nanum Myeongjo',serif;font-size:clamp(10px,.9vw,13px);letter-spacing:.04em;line-height:2.1;max-width:285px;margin:0 auto 28px;opacity:0;transition:opacity .5s .15s;}
-.panel:hover .pdesc{opacity:.56;}
-#pa .pdesc{color:rgba(236,228,216,.85);}
-#pb .pdesc{color:rgba(232,204,122,.85);}
-.pcta{display:inline-block;font-family:'Gowun Batang',serif;font-size:clamp(9px,.92vw,12px);letter-spacing:.25em;padding:12px 32px;transition:all .35s;}
-#pa .pcta{border:1px solid rgba(236,228,216,.24);color:rgba(236,228,216,.72);}
-#pa .pcta:hover{background:rgba(236,228,216,.1);color:#fff;}
-#pb .pcta{border:1px solid rgba(201,168,76,.36);color:var(--gold);}
-#pb .pcta:hover{background:var(--gold);color:var(--bg);}
-#dl{position:absolute;left:50%;top:0;width:1px;height:100%;background:linear-gradient(180deg,transparent 0%,rgba(201,168,76,.46) 15%,rgba(201,168,76,.46) 85%,transparent 100%);z-index:10;pointer-events:none;transition:left .75s cubic-bezier(.23,1,.32,1),opacity .9s ease;opacity:0;}
-#dl.show{opacity:1;}
-#dl::before{content:'';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:36px;height:36px;border:1px solid rgba(201,168,76,.36);border-radius:50%;background:var(--bg);}
-#dl::after{content:'✦';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);color:var(--gold);font-size:12px;z-index:1;}
-.home-btn{display:inline-block;font-family:'Cinzel',serif;font-size:9.5px;font-weight:700;letter-spacing:.3em;color:var(--gl);text-decoration:none;padding:10px 22px;background:rgba(8,6,3,.85);box-shadow:0 2px 10px rgba(0,0,0,.4);border:1px solid rgba(201,168,76,.38);transition:all .3s;}
-.home-btn:hover{border-color:var(--gold);color:#fff;transform:translateY(-1px);}
-#sig{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:999;font-family:'Cinzel',serif;font-size:7px;letter-spacing:.5em;color:rgba(201,168,76,.14);white-space:nowrap;pointer-events:none;}
-
-@media(min-width:769px) and (max-width:1024px){.ptitle{font-size:clamp(18px,3vw,34px);}.pkr{font-size:clamp(10px,1.3vw,14px);}.pc{padding:36px 24px;}#photo-wrap{width:28vw;}}
-@media(min-width:481px) and (max-width:768px){#s3{flex-direction:row;}.panel{flex:1;}.panel:hover{flex:1.4;}#dl{left:50%;top:0;width:1px;height:100%;}.pc{transform:none!important;opacity:1!important;padding:24px 16px;}.ptitle{font-size:clamp(14px,2.8vw,22px);letter-spacing:.04em;}.pkr{font-size:10px;}.pdesc,.ptag{display:none;}.pcta{padding:9px 18px;font-size:9px;}#photo-wrap{width:40vw;height:72vh;}.cor{width:10px;height:10px;}.enter-ring{width:80px;height:80px;}}
-@media(max-width:480px){#s3{flex-direction:column;}.panel{flex:1!important;min-height:50vh;transition:flex 0s!important;}.panel:hover{flex:1!important;}#dl{left:0!important;top:50%!important;width:100%!important;height:1px!important;}#dl::before{width:30px;height:30px;}.pc{transform:none!important;opacity:1!important;padding:24px 16px;}.ptag,.pdesc,.cor{display:none;}.ptitle{font-size:clamp(18px,5.5vw,26px);letter-spacing:.05em;}.pkr{font-size:11px;}.pcta{padding:10px 22px;font-size:10px;}#photo-wrap{width:68vw;height:62vh;}#sig{display:none;}.enter-ring{width:80px;height:80px;}.enter-txt{font-size:9px;letter-spacing:.4em;}}
-
-/* Galaxy Z Fold5 unfolded & similar square-ish tablet screens */
-@media(min-width:481px) and (max-width:900px) and (min-aspect-ratio:3/4) and (max-aspect-ratio:5/4){
-html,body{overflow-y:auto!important;overflow-x:hidden!important;}
-#s3{position:relative!important;flex-direction:column!important;min-height:100vh;}
-.panel{flex:none!important;min-height:50vh;transition:flex 0s!important;}
-.panel:hover{flex:none!important;}
-#dl{left:0!important;top:50%!important;width:100%!important;height:1px!important;}
-#dl::before{width:30px;height:30px;}
-.pc{transform:none!important;opacity:1!important;padding:32px 24px;}
-.ptag{display:none;}
-.ptitle{font-size:clamp(20px,4vw,36px);}
-.pkr{font-size:12px;}
-.pdesc{display:none;}
-.pcta{padding:10px 24px;font-size:10px;}
+/* ═══════════════════════════════════════
+   GOLDEN SPARK FULL-SCREEN INTRO
+   ═══════════════════════════════════════ */
+.golden-spark-overlay{
+  position:fixed;inset:0;z-index:99999;background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+  pointer-events:auto;
+  animation:sparkFadeOut 0.8s ease 1.6s forwards;
+}
+.golden-spark-overlay.done{display:none;}
+.golden-spark-dot{
+  width:6px;height:6px;border-radius:50%;
+  background:radial-gradient(circle,#C9A84C,rgba(201,168,76,0.4));
+  box-shadow:0 0 20px #C9A84C,0 0 60px rgba(201,168,76,0.4);
+  animation:sparkBurst 1.2s cubic-bezier(0.34,1.56,0.64,1) 0.2s forwards;
+  opacity:0;
+}
+@keyframes sparkBurst{
+  0%{opacity:0;transform:scale(0.3);box-shadow:0 0 8px #C9A84C;}
+  40%{opacity:1;transform:scale(1.5);box-shadow:0 0 60px #C9A84C,0 0 120px rgba(201,168,76,0.3);}
+  100%{opacity:0.6;transform:scale(1);box-shadow:0 0 30px #C9A84C;}
+}
+@keyframes sparkFadeOut{
+  0%{opacity:1;}
+  100%{opacity:0;pointer-events:none;}
 }
 
-/* GOLDEN SPARK FULL-SCREEN INTRO */
-.golden-spark-overlay{position:fixed;inset:0;z-index:99999;background:#040302;display:flex;align-items:center;justify-content:center;pointer-events:auto;animation:sparkFadeOut 0.8s ease 1.6s forwards;}
-.golden-spark-overlay.done{display:none;}
-.golden-spark-dot{width:6px;height:6px;border-radius:50%;background:radial-gradient(circle,#C9A84C,rgba(201,168,76,0.4));box-shadow:0 0 20px #C9A84C,0 0 60px rgba(201,168,76,0.4);animation:sparkBurst 1.2s cubic-bezier(0.34,1.56,0.64,1) 0.2s forwards;opacity:0;}
-@keyframes sparkBurst{0%{opacity:0;transform:scale(0.3);box-shadow:0 0 8px #C9A84C;}40%{opacity:1;transform:scale(1.5);box-shadow:0 0 60px #C9A84C,0 0 120px rgba(201,168,76,0.3);}100%{opacity:0.6;transform:scale(1);box-shadow:0 0 30px #C9A84C;}}
-@keyframes sparkFadeOut{0%{opacity:1;}100%{opacity:0;pointer-events:none;}}
+/* ═══════════════════════════════════════
+   PHASE 1: THE VOID
+   ═══════════════════════════════════════ */
+#phase1{
+  position:fixed;inset:0;z-index:300;
+  background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+  transition:opacity 1.2s ease;
+}
+#phase1.fade-out{opacity:0;pointer-events:none;}
+
+#phase1-container{
+  position:relative;
+  width:90vw;max-width:900px;height:300px;
+  text-align:center;
+}
+
+#sig-kr-top{
+  position:absolute;top:calc(50% - 60px);left:50%;
+  transform:translateX(-50%);white-space:nowrap;
+  font-family:'Noto Serif KR',serif;font-size:clamp(11px,1.4vw,15px);
+  font-weight:200;letter-spacing:0.35em;
+  color:rgba(201,168,76,0.7);
+  opacity:0;
+  animation:revealName 1.2s ease 0.8s forwards;
+}
+#sig-line{
+  position:absolute;top:calc(50% - 10px);left:50%;
+  transform:translateX(-50%);
+  width:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  animation:expandLine 1.5s ease 1.2s forwards;
+}
+#sig-en{
+  position:absolute;top:calc(50% + 20px);left:50%;
+  transform:translateX(-50%) scale(0.92);white-space:nowrap;
+  font-family:'Cinzel',serif;font-size:clamp(28px,5vw,72px);
+  font-weight:900;letter-spacing:0.12em;
+  color:var(--text);
+  text-shadow:0 0 40px rgba(201,168,76,0.3);
+  opacity:0;
+  animation:revealName 1.4s ease 1.6s forwards;
+}
+#sig-kr-bottom{
+  position:absolute;top:calc(50% + 100px);left:50%;
+  transform:translateX(-50%);white-space:nowrap;
+  font-family:'Noto Serif KR',serif;font-size:clamp(10px,1.2vw,14px);
+  font-weight:200;letter-spacing:0.6em;
+  color:rgba(201,168,76,0.4);
+  opacity:0;
+  animation:revealName 1s ease 2.2s forwards;
+}
+#spark{
+  position:absolute;width:4px;height:4px;border-radius:50%;
+  background:radial-gradient(circle,var(--gold),rgba(201,168,76,0.4));
+  top:50%;left:50%;transform:translate(-50%,-50%);
+  opacity:0;
+  animation:sparkPulse 0.8s cubic-bezier(0.34,1.56,0.64,1) 0.2s forwards;
+  box-shadow:0 0 12px var(--gold),inset 0 0 4px rgba(242,237,228,0.5);
+}
+
+@keyframes revealName{
+  0%{opacity:0;transform:translateX(-50%) translateY(8px);}
+  100%{opacity:1;transform:translateX(-50%) translateY(0);}
+}
+@keyframes expandLine{
+  0%{width:0;}
+  100%{width:min(300px,60vw);}
+}
+@keyframes sparkPulse{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(0.3);}
+  50%{opacity:1;}
+  100%{opacity:0.8;transform:translate(-50%,-50%) scale(1);}
+}
+
+/* ═══════════════════════════════════════
+   PHASE 2: THE REVELATION
+   ═══════════════════════════════════════ */
+#phase2{
+  position:fixed;inset:0;z-index:200;
+  overflow:hidden;
+  opacity:0;pointer-events:none;
+  transition:opacity 1.2s ease;
+}
+#phase2.show{opacity:1;}
+#phase2.fade-out{opacity:0;transition:opacity 1s ease;}
+
+#void-left,#void-right{
+  position:absolute;top:0;width:50%;height:100%;
+  background:var(--bg);z-index:2;
+  transition:transform 1.8s cubic-bezier(0.77,0,0.18,1);
+}
+#void-left{left:0;}
+#void-right{right:0;}
+#phase2.show #void-left{transform:translateX(-100%);}
+#phase2.show #void-right{transform:translateX(100%);}
+
+#hero-image{
+  position:absolute;inset:0;
+  background:url('images/screw_photo.jpg') center/cover no-repeat;
+  filter:brightness(0.6);
+  animation:kenBurns 12s ease-in-out infinite alternate;
+}
+@keyframes kenBurns{
+  0%{transform:scale(1);}
+  100%{transform:scale(1.08);}
+}
+
+#hero-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom,rgba(10,9,8,0.4) 0%,rgba(10,9,8,0.1) 40%,rgba(10,9,8,0.6) 100%);
+  z-index:1;
+}
+
+#phase2-content{
+  position:absolute;bottom:12%;left:0;right:0;
+  text-align:center;z-index:3;
+  opacity:0;
+  animation:fadeUp 1.2s ease 2s forwards;
+}
+#p2-tag{
+  font-family:'Cinzel',serif;font-size:clamp(7px,0.9vw,10px);
+  letter-spacing:0.5em;color:var(--gold);opacity:0.6;
+  margin-bottom:16px;
+}
+#p2-kr-top{
+  font-family:'Noto Serif KR',serif;font-size:clamp(10px,1.2vw,14px);
+  font-weight:200;letter-spacing:0.25em;
+  color:rgba(242,237,228,0.7);
+}
+
+@keyframes fadeUp{
+  0%{opacity:0;transform:translateY(20px);}
+  100%{opacity:1;transform:translateY(0);}
+}
+
+/* ═══════════════════════════════════════
+   PHASE 3: THE PORTAL
+   ═══════════════════════════════════════ */
+#phase3{
+  position:fixed;inset:0;z-index:100;
+  display:flex;
+  opacity:0;pointer-events:none;
+  transition:opacity 1.2s ease;
+}
+#phase3.show{opacity:1;pointer-events:auto;}
+
+/* Golden floating particles */
+.golden-dust{
+  position:fixed;border-radius:50%;pointer-events:none;z-index:101;
+  background:radial-gradient(circle,rgba(201,168,76,0.6),transparent);
+  opacity:0;
+}
+#phase3.show ~ .golden-dust{opacity:1;}
+.dust-1{width:3px;height:3px;top:18%;left:12%;animation:floatDust 8s ease-in-out infinite;}
+.dust-2{width:2px;height:2px;top:72%;left:8%;animation:floatDust 11s ease-in-out 1s infinite;}
+.dust-3{width:4px;height:4px;top:35%;right:15%;animation:floatDust 9s ease-in-out 2s infinite;}
+.dust-4{width:2px;height:2px;top:60%;right:10%;animation:floatDust 10s ease-in-out 0.5s infinite;}
+.dust-5{width:3px;height:3px;top:85%;left:45%;animation:floatDust 12s ease-in-out 3s infinite;}
+.dust-6{width:2px;height:2px;top:15%;right:40%;animation:floatDust 7s ease-in-out 1.5s infinite;}
+
+@keyframes floatDust{
+  0%,100%{transform:translateY(0) translateX(0);opacity:0.3;}
+  25%{transform:translateY(-20px) translateX(10px);opacity:0.7;}
+  50%{transform:translateY(-8px) translateX(-8px);opacity:0.5;}
+  75%{transform:translateY(-25px) translateX(5px);opacity:0.8;}
+}
+
+/* Panel layout */
+.panel{
+  flex:1;position:relative;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-decoration:none;overflow:hidden;cursor:pointer;
+  transition:flex 0.85s cubic-bezier(0.23,1,0.32,1);
+}
+.panel:hover{flex:1.55;}
+
+.panel-bg{
+  position:absolute;inset:0;
+  background-size:cover;background-position:center top;
+  filter:brightness(0.18);
+  transition:filter 0.7s,transform 0.7s;
+}
+.panel:hover .panel-bg{filter:brightness(0.35);transform:scale(1.04);}
+#panel-story .panel-bg{background-image:url('images/perf_sax_stage.jpg');}
+#panel-booking .panel-bg{background-image:url('images/hero_a5_klimt_led.jpg');}
+
+.panel-overlay{position:absolute;inset:0;}
+#panel-story .panel-overlay{background:linear-gradient(145deg,rgba(4,3,2,0.72) 0%,rgba(10,6,18,0.32) 100%);}
+#panel-booking .panel-overlay{background:linear-gradient(145deg,rgba(16,9,2,0.32) 0%,rgba(4,3,2,0.78) 100%);}
+
+/* Golden corner frames */
+.corner{position:absolute;width:18px;height:18px;opacity:0.15;transition:opacity 0.45s;}
+.panel:hover .corner{opacity:0.6;}
+.c-tl{top:24px;left:24px;border-top:1px solid var(--gold);border-left:1px solid var(--gold);}
+.c-tr{top:24px;right:24px;border-top:1px solid var(--gold);border-right:1px solid var(--gold);}
+.c-bl{bottom:24px;left:24px;border-bottom:1px solid var(--gold);border-left:1px solid var(--gold);}
+.c-br{bottom:24px;right:24px;border-bottom:1px solid var(--gold);border-right:1px solid var(--gold);}
+
+/* Panel content */
+.panel-content{
+  position:relative;z-index:2;text-align:center;
+  padding:48px 32px;
+  transform:translateY(16px);opacity:0.58;
+  transition:transform 0.65s,opacity 0.65s;
+}
+.panel:hover .panel-content{transform:translateY(0);opacity:1;}
+
+.panel-tag{
+  font-family:'Cinzel',serif;font-size:clamp(6px,0.82vw,8px);
+  letter-spacing:0.52em;color:var(--gold);opacity:0.45;
+  display:block;margin-bottom:20px;
+}
+.panel-title{
+  font-family:'Cinzel',serif;font-size:clamp(18px,3vw,48px);
+  font-weight:900;letter-spacing:0.07em;line-height:1.18;
+  margin-bottom:14px;
+}
+#panel-story .panel-title{color:#ece4d8;}
+#panel-booking .panel-title{color:#E8CC7A;}
+
+.panel-kr{
+  font-family:'Noto Serif KR',serif;font-size:clamp(10px,1.15vw,15px);
+  font-weight:200;letter-spacing:0.22em;margin-bottom:22px;
+}
+#panel-story .panel-kr{color:rgba(236,228,216,0.35);}
+#panel-booking .panel-kr{color:rgba(232,204,122,0.35);}
+
+.panel-desc{
+  font-family:'Noto Serif KR',serif;font-size:clamp(10px,0.9vw,13px);
+  font-weight:200;letter-spacing:0.04em;line-height:2.1;
+  max-width:285px;margin:0 auto 28px;
+  opacity:0;transition:opacity 0.5s 0.15s;
+}
+.panel:hover .panel-desc{opacity:0.56;}
+#panel-story .panel-desc{color:rgba(236,228,216,0.85);}
+#panel-booking .panel-desc{color:rgba(232,204,122,0.85);}
+
+.panel-cta{
+  display:inline-block;font-family:'Noto Serif KR',serif;
+  font-size:clamp(9px,0.92vw,12px);font-weight:300;
+  letter-spacing:0.25em;padding:12px 32px;
+  transition:all 0.35s;
+}
+#panel-story .panel-cta{border:1px solid rgba(236,228,216,0.24);color:rgba(236,228,216,0.72);}
+#panel-story .panel-cta:hover{background:rgba(236,228,216,0.1);color:#fff;}
+#panel-booking .panel-cta{border:1px solid rgba(201,168,76,0.36);color:var(--gold);}
+#panel-booking .panel-cta:hover{background:var(--gold);color:var(--bg);}
+
+/* Center divider */
+#divider{
+  position:absolute;left:50%;top:0;width:1px;height:100%;
+  background:linear-gradient(180deg,transparent 0%,rgba(201,168,76,0.46) 15%,rgba(201,168,76,0.46) 85%,transparent 100%);
+  z-index:10;pointer-events:none;
+  transition:left 0.75s cubic-bezier(0.23,1,0.32,1),opacity 0.9s ease;
+  opacity:0;
+}
+#divider.show{opacity:1;}
+#divider::before{
+  content:'';position:absolute;left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  width:36px;height:36px;
+  border:1px solid rgba(201,168,76,0.36);
+  border-radius:50%;background:var(--bg);
+}
+#divider::after{
+  content:'✦';position:absolute;left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  color:var(--gold);font-size:12px;z-index:1;
+}
+
+/* Philosophy text */
+#philosophy{
+  position:fixed;bottom:18px;left:0;right:0;
+  text-align:center;z-index:102;
+  font-family:'Noto Serif KR',serif;font-size:clamp(8px,0.9vw,11px);
+  font-weight:200;letter-spacing:0.15em;
+  color:rgba(201,168,76,0.2);
+  opacity:0;transition:opacity 1s ease;
+  pointer-events:none;
+}
+
+/* Frame divider decoration */
+#frame-divider{
+  position:fixed;top:0;left:50%;width:1px;height:8px;
+  background:var(--gold);z-index:102;
+  transform:translateX(-50%);
+  opacity:0;transition:opacity 1s ease;
+}
+
+/* Signature */
+#sig{
+  position:fixed;bottom:6px;left:50%;transform:translateX(-50%);
+  z-index:999;font-family:'Cinzel',serif;font-size:7px;
+  letter-spacing:0.5em;color:rgba(201,168,76,0.12);
+  white-space:nowrap;pointer-events:none;
+}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════ */
+@media(min-width:769px) and (max-width:1024px){
+  .panel-title{font-size:clamp(18px,3vw,34px);}
+  .panel-kr{font-size:clamp(10px,1.3vw,14px);}
+  .panel-content{padding:36px 24px;}
+}
+
+@media(min-width:481px) and (max-width:768px){
+  #phase3{flex-direction:row;}
+  .panel{flex:1;}.panel:hover{flex:1.4;}
+  .panel-content{transform:none!important;opacity:1!important;padding:24px 16px;}
+  .panel-title{font-size:clamp(14px,2.8vw,22px);letter-spacing:0.04em;}
+  .panel-kr{font-size:10px;}
+  .panel-desc,.panel-tag{display:none;}
+  .panel-cta{padding:9px 18px;font-size:9px;}
+  .corner{width:10px;height:10px;}
+}
+
+@media(max-width:480px){
+  #phase3{flex-direction:column;}
+  .panel{flex:1!important;min-height:50vh;transition:flex 0s!important;}
+  .panel:hover{flex:1!important;}
+  #divider{left:0!important;top:50%!important;width:100%!important;height:1px!important;}
+  #divider::before{width:30px;height:30px;}
+  .panel-content{transform:none!important;opacity:1!important;padding:24px 16px;}
+  .panel-tag,.panel-desc,.corner{display:none;}
+  .panel-title{font-size:clamp(18px,5.5vw,26px);letter-spacing:0.05em;}
+  .panel-kr{font-size:11px;}
+  .panel-cta{padding:10px 22px;font-size:10px;}
+  #sig{display:none;}
+  #sig-en{font-size:clamp(24px,8vw,48px);}
+}
+
+/* Galaxy Z Fold5 unfolded & square-ish tablet screens */
+@media(min-width:481px) and (max-width:900px) and (min-aspect-ratio:3/4) and (max-aspect-ratio:5/4){
+  html,body{overflow-y:auto!important;overflow-x:hidden!important;}
+  #phase3{position:relative!important;flex-direction:column!important;min-height:100vh;}
+  #phase3.show{pointer-events:auto;}
+  .panel{flex:none!important;min-height:50vh;}
+  .panel:hover{flex:none!important;}
+  #divider{left:0!important;top:50%!important;width:100%!important;height:1px!important;}
+  #divider::before{width:30px;height:30px;}
+  .panel-content{transform:none!important;opacity:1!important;padding:32px 24px;}
+  .panel-tag{display:none;}
+  .panel-title{font-size:clamp(22px,4.5vw,38px);}
+  .panel-kr{font-size:12px;}
+  .panel-desc{display:none;}
+  .panel-cta{padding:12px 28px;font-size:11px;}
+}
 </style>
 </head>
 <body>
 
 <!-- GOLDEN SPARK INTRO -->
-<div class="golden-spark-overlay" id="sparkOverlay"><div class="golden-spark-dot"></div></div>
-
-<div id="flash"></div>
-<canvas id="pcvs" style="position:fixed;inset:0;z-index:390;pointer-events:none;display:none;"></canvas>
-
-<!-- PHASE 1 -->
-<div id="s1">
-  <canvas id="cvs"></canvas>
-  <canvas id="crack-cvs"></canvas>
+<div class="golden-spark-overlay" id="sparkOverlay">
+  <div class="golden-spark-dot"></div>
 </div>
 
-<!-- PHASE 2 -->
-<div id="s2">
-  <div id="photo-wrap">
-    <img src="images/img_01_227kb.png" alt="Aris Kim">
-    <div id="photo-name">
-      <div class="en"><span class="ai">A</span>RIS KIM</div>
-      <div class="kr">아 리 스 김</div>
-    </div>
+<!-- PHASE 1: THE VOID -->
+<div id="phase1">
+  <div id="phase1-container">
+    <div id="spark"></div>
+    <div id="sig-kr-top">머리가 비어야 할 수 있었던 것</div>
+    <div id="sig-line"></div>
+    <div id="sig-en">ARIS KIM</div>
+    <div id="sig-kr-bottom">아 리 스 김</div>
   </div>
 </div>
 
-<!-- PHASE 3 -->
-<div id="s3">
-  <a class="panel" id="pa" href="story.html">
-    <div class="pbg"></div><div class="pov"></div>
-    <div class="cor tl"></div><div class="cor tr"></div>
-    <div class="cor bl"></div><div class="cor br"></div>
-    <div class="pc">
-      <span class="ptag">Artist Story · World View · Philosophy</span>
-      <h1 class="ptitle">ARIS KIM<br>처음 만나다</h1>
-      <p class="pkr">아리스 김의 세계</p>
-      <p class="pdesc">예술의 전당 최초 1호부터<br>뉴욕 카네기홀까지.<br>아리스 김이 걸어온 길.</p>
-      <div class="pcta">세계로 들어가기 →</div>
+<!-- PHASE 2: THE REVELATION -->
+<div id="phase2">
+  <div id="void-left"></div>
+  <div id="void-right"></div>
+  <div id="hero-image"></div>
+  <div id="hero-overlay"></div>
+  <div id="phase2-content">
+    <div id="p2-tag">SAXOPHONE · MEDIA ART · TANGO</div>
+    <div id="p2-kr-top">뉴욕 카네기홀 · 예술의전당 최초 1호 · 아시아 탱고 챔피언</div>
+  </div>
+</div>
+
+<!-- PHASE 3: THE PORTAL -->
+<div id="phase3">
+  <a class="panel" id="panel-story" href="story.html">
+    <div class="panel-bg"></div>
+    <div class="panel-overlay"></div>
+    <div class="corner c-tl"></div><div class="corner c-tr"></div>
+    <div class="corner c-bl"></div><div class="corner c-br"></div>
+    <div class="panel-content">
+      <span class="panel-tag">Artist Story · World View · Philosophy</span>
+      <h1 class="panel-title">ARIS KIM<br>처음 만나다</h1>
+      <p class="panel-kr">아리스 김의 세계</p>
+      <p class="panel-desc">예술의 전당 최초 1호부터<br>뉴욕 카네기홀까지.<br>아리스 김이 걸어온 길.</p>
+      <div class="panel-cta">세계로 들어가기 →</div>
     </div>
   </a>
-  <div id="dl"></div>
-  <a class="panel" id="pb" href="booking.html">
-    <div class="pbg"></div><div class="pov"></div>
-    <div class="cor tl"></div><div class="cor tr"></div>
-    <div class="cor bl"></div><div class="cor br"></div>
-    <div class="pc">
-      <span class="ptag">Concert Booking · Professional Portfolio</span>
-      <h1 class="ptitle">공연 기획<br>및 섭외</h1>
-      <p class="pkr">공식 포트폴리오</p>
-      <p class="pdesc">뉴욕 카네기홀 · 예술의전당 1호<br>클림트 미디어아트 색소폰<br>기업 · 대학 · 문화재단 환영</p>
-      <div class="pcta">포트폴리오 보기 →</div>
+  <div id="divider"></div>
+  <a class="panel" id="panel-booking" href="booking.html">
+    <div class="panel-bg"></div>
+    <div class="panel-overlay"></div>
+    <div class="corner c-tl"></div><div class="corner c-tr"></div>
+    <div class="corner c-bl"></div><div class="corner c-br"></div>
+    <div class="panel-content">
+      <span class="panel-tag">Concert Booking · Professional Portfolio</span>
+      <h1 class="panel-title">공연 기획<br>및 섭외</h1>
+      <p class="panel-kr">공식 포트폴리오</p>
+      <p class="panel-desc">뉴욕 카네기홀 · 예술의전당 1호<br>클림트 미디어아트 색소폰<br>기업 · 대학 · 문화재단 환영</p>
+      <div class="panel-cta">포트폴리오 보기 →</div>
     </div>
   </a>
 </div>
 
+<!-- Golden floating particles -->
+<div class="golden-dust dust-1"></div>
+<div class="golden-dust dust-2"></div>
+<div class="golden-dust dust-3"></div>
+<div class="golden-dust dust-4"></div>
+<div class="golden-dust dust-5"></div>
+<div class="golden-dust dust-6"></div>
+
+<div id="philosophy">THE PORTAL</div>
+<div id="frame-divider"></div>
 <div id="sig">ARISHOW COMPANY · ARIS KIM</div>
 
 <script>
-/* ═══════════════════════════════════════════════════
-   ARIS KIM — INDEX PAGE SCRIPT (CLEAN BUILD)
-═══════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════
+   ARIS KIM — THE PORTAL — INDEX
+   ═══════════════════════════════════════ */
 
-/* ─── AUDIO ENGINE ─── */
-let AC = null;
-let introScheduled = false;
-let animStartTime = null;
-let audioResumed = false;
+// Golden spark overlay removal
+var sparkEl = document.getElementById('sparkOverlay');
+if(sparkEl){ setTimeout(function(){ sparkEl.classList.add('done'); }, 2500); }
 
-function initAudio(){
-  if(AC) return;
-  AC = new (window.AudioContext || window.webkitAudioContext)();
-  AC.onstatechange = function(){ if(AC.state==='running') scheduleIntroAudio(); };
-}
+// Check for skip parameter
+var params = new URLSearchParams(window.location.search);
+var skipToEnd = params.get('skip') === '1';
 
-function makeReverb(dur, decay){
-  dur = dur||3; decay = decay||2;
-  var len = AC.sampleRate*dur;
-  var buf = AC.createBuffer(2,len,AC.sampleRate);
-  for(var ch=0;ch<2;ch++){
-    var d=buf.getChannelData(ch);
-    for(var i=0;i<len;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/len,decay);
-  }
-  var rv=AC.createConvolver(); rv.buffer=buf; return rv;
-}
-
-/* 밴드패스 노이즈 — 음정 없는 물리적 질감 */
-function noiseBurst(freq, Q, vol, atk, dcy, delay){
-  if(!AC) return;
-  delay = delay||0;
-  var t = AC.currentTime+delay;
-  var dur = atk+dcy+0.05;
-  var buf = AC.createBuffer(1, Math.ceil(AC.sampleRate*dur), AC.sampleRate);
-  var d = buf.getChannelData(0);
-  for(var i=0;i<d.length;i++) d[i]=(Math.random()*2-1);
-  var src = AC.createBufferSource(); src.buffer=buf;
-  var bp = AC.createBiquadFilter(); bp.type='bandpass';
-  bp.frequency.value=freq; bp.Q.value=Q;
-  var g = AC.createGain();
-  g.gain.setValueAtTime(0,t);
-  g.gain.linearRampToValueAtTime(vol, t+atk);
-  g.gain.exponentialRampToValueAtTime(0.001, t+atk+dcy);
-  src.connect(bp); bp.connect(g); g.connect(AC.destination);
-  src.start(t); src.stop(t+dur+0.01);
-}
-
-/* A. 대기압 상승 — 빔 전 공기가 압축되는 느낌 */
-function playPressureBuild(delay, dur){
-  if(!AC) return;
-  delay=delay||0; dur=dur||2.8;
-  var t=AC.currentTime+delay;
-  var buf=AC.createBuffer(1,AC.sampleRate*dur,AC.sampleRate);
-  var d=buf.getChannelData(0);
-  for(var i=0;i<d.length;i++) d[i]=(Math.random()*2-1);
-  var src=AC.createBufferSource(); src.buffer=buf;
-  var lp=AC.createBiquadFilter(); lp.type='lowpass';
-  lp.frequency.setValueAtTime(35,t);
-  lp.frequency.linearRampToValueAtTime(90,t+dur);
-  lp.Q.value=1.5;
-  var g=AC.createGain();
-  g.gain.setValueAtTime(0,t);
-  g.gain.linearRampToValueAtTime(0.9,t+dur*0.5);
-  g.gain.linearRampToValueAtTime(1.4,t+dur);
-  g.gain.linearRampToValueAtTime(0,t+dur+0.4);
-  var rv=makeReverb(3,2.2);
-  var rvG=AC.createGain(); rvG.gain.value=0.35;
-  rv.connect(rvG); connectDest(rvG);
-  src.connect(lp); lp.connect(g);
-  connectDest(g); g.connect(rv);
-  src.start(t);
-}
-
-/* B. 빔 스윕 — 고주파→저주파 whoosh */
-function playBeamSwoosh(delay){
-  if(!AC) return;
-  delay=delay||0;
-  var t=AC.currentTime+delay;
-  var buf=AC.createBuffer(1,AC.sampleRate*0.9,AC.sampleRate);
-  var d=buf.getChannelData(0);
-  for(var i=0;i<d.length;i++) d[i]=(Math.random()*2-1);
-  var src=AC.createBufferSource(); src.buffer=buf;
-  var hp=AC.createBiquadFilter(); hp.type='highpass';
-  hp.frequency.setValueAtTime(4000,t);
-  hp.frequency.exponentialRampToValueAtTime(200,t+0.5);
-  var g=AC.createGain();
-  g.gain.setValueAtTime(0,t);
-  g.gain.linearRampToValueAtTime(0.7,t+0.05);
-  g.gain.exponentialRampToValueAtTime(0.001,t+0.85);
-  var rv=makeReverb(3.5,1.5);
-  var rvG=AC.createGain(); rvG.gain.value=0.5;
-  rv.connect(rvG); connectDest(rvG);
-  src.connect(hp); hp.connect(g);
-  connectDest(g); g.connect(rv);
-  src.start(t);
-}
-
-/* C. 서명 현현 — 금박이 빛에 반응하는 질감 */
-function playRevealShimmer(delay){
-  if(!AC) return;
-  delay=delay||0;
-  noiseBurst(2800, 8, 0.6, 0.008, 1.8, delay);
-  noiseBurst(1400, 5, 0.35, 0.015, 2.4, delay+0.05);
-  noiseBurst(600, 3, 0.2, 0.02, 3.0, delay+0.12);
-  var t=AC.currentTime+delay;
-  var buf=AC.createBuffer(1,Math.ceil(AC.sampleRate*0.15),AC.sampleRate);
-  var d=buf.getChannelData(0);
-  for(var i=0;i<d.length;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,1.2);
-  var src=AC.createBufferSource(); src.buffer=buf;
-  var bp=AC.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=2200; bp.Q.value=4;
-  var rv=makeReverb(6,1.0);
-  var rvG=AC.createGain(); rvG.gain.value=1.2;
-  rv.connect(rvG); connectDest(rvG);
-  var g=AC.createGain();
-  g.gain.setValueAtTime(1.5,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.15);
-  src.connect(bp); bp.connect(g); g.connect(rv); src.start(t);
-}
-
-/* D. 지진 서브베이스 붐 — 28Hz 이하, 음정 불가 */
-function playSeismicBoom(delay){
-  if(!AC) return;
-  delay=delay||0;
-  var t=AC.currentTime+delay;
-  var sub=AC.createOscillator(); sub.type='sine';
-  sub.frequency.setValueAtTime(28,t);
-  sub.frequency.exponentialRampToValueAtTime(12,t+2.5);
-  var sg=AC.createGain();
-  sg.gain.setValueAtTime(0,t); sg.gain.linearRampToValueAtTime(4.0,t+0.006);
-  sg.gain.exponentialRampToValueAtTime(0.001,t+3.0);
-  sub.connect(sg); connectDest(sg);
-  sub.start(t); sub.stop(t+3.2);
-  noiseBurst(40, 1.5, 2.5, 0.01, 2.0, delay);
-  noiseBurst(75, 2, 1.2, 0.02, 1.5, delay+0.05);
-}
-
-/* E. 지진 럼블 */
-function playSeismicRumble(delay, dur){
-  if(!AC) return;
-  delay=delay||0; dur=dur||3.0;
-  var t=AC.currentTime+delay;
-  var buf=AC.createBuffer(1,AC.sampleRate*dur,AC.sampleRate);
-  var d=buf.getChannelData(0);
-  for(var i=0;i<d.length;i++) d[i]=(Math.random()*2-1);
-  var src=AC.createBufferSource(); src.buffer=buf;
-  var lp=AC.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=45; lp.Q.value=2;
-  var g=AC.createGain();
-  g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(2.2,t+0.3);
-  g.gain.setValueAtTime(2.5,t+0.8); g.gain.linearRampToValueAtTime(0,t+dur);
-  src.connect(lp); lp.connect(g); connectDest(g); src.start(t);
-}
-
-/* destination 헬퍼 — masterBus 있으면 경유 */
-function connectDest(node){
-  var bus = getMasterBus();
-  node.connect(bus || AC.destination);
-}
-/* ── 마스터 버스: 씬 전환 시 서서히 fade out ── */
-var masterBus = null;   // GainNode — 모든 사운드가 거침
-var masterFading = false;
-
-function getMasterBus(){
-  if(!AC) return null;
-  if(!masterBus){
-    masterBus = AC.createGain();
-    masterBus.gain.value = 1.0;
-    masterBus.connect(AC.destination);
-  }
-  return masterBus;
-}
-
-/* 마스터 볼륨을 targetVol까지 dur초에 걸쳐 fade */
-function masterFadeTo(targetVol, dur, onEnd){
-  var bus = getMasterBus(); if(!bus) return;
-  var t = AC.currentTime;
-  bus.gain.cancelScheduledValues(t);
-  bus.gain.setValueAtTime(bus.gain.value, t);
-  if(targetVol < 0.001){
-    bus.gain.linearRampToValueAtTime(0.001, t + dur);
-    if(onEnd) setTimeout(onEnd, dur * 1000 + 50);
-  } else {
-    bus.gain.linearRampToValueAtTime(targetVol, t + dur);
-    if(onEnd) setTimeout(onEnd, dur * 1000 + 50);
-  }
-}
-
-/* noiseBurst — 마스터 버스 경유 버전 */
-function noiseBurstM(freq, Q, vol, atk, dcy, delay){
-  if(!AC) return;
-  var bus = getMasterBus();
-  delay = delay||0;
-  var t = AC.currentTime + delay;
-  var dur = atk + dcy + 0.05;
-  var buf = AC.createBuffer(1, Math.ceil(AC.sampleRate*dur), AC.sampleRate);
-  var d = buf.getChannelData(0);
-  for(var i=0;i<d.length;i++) d[i]=(Math.random()*2-1);
-  var src = AC.createBufferSource(); src.buffer=buf;
-  var bp = AC.createBiquadFilter(); bp.type='bandpass';
-  bp.frequency.value=freq; bp.Q.value=Q;
-  var g = AC.createGain();
-  g.gain.setValueAtTime(0,t);
-  g.gain.linearRampToValueAtTime(vol, t+atk);
-  g.gain.exponentialRampToValueAtTime(0.001, t+atk+dcy);
-  src.connect(bp); bp.connect(g); g.connect(bus||AC.destination);
-  src.start(t); src.stop(t+dur+0.01);
-}
-
-/* F. 금가루 씬 — 크리스털 공기감 (shimmer + airy reverb) */
-function playGoldDustAmbience(){
-  if(!AC) return;
-  var bus = getMasterBus();
-  var t = AC.currentTime;
-
-  /* 높은 대역 에어 shimmer — 금가루가 공기 중에 떠도는 느낌 */
-  function airShimmer(freq, vol, delay, dur){
-    var tt = t + delay;
-    var buf = AC.createBuffer(1, Math.ceil(AC.sampleRate*dur), AC.sampleRate);
-    var d = buf.getChannelData(0);
-    for(var i=0;i<d.length;i++) d[i]=(Math.random()*2-1);
-    var src = AC.createBufferSource(); src.buffer=buf;
-    var bp = AC.createBiquadFilter(); bp.type='bandpass';
-    bp.frequency.value=freq; bp.Q.value=12;
-    var rv = makeReverb(5, 0.8);
-    var rvG = AC.createGain(); rvG.gain.value = 1.8;
-    var g = AC.createGain();
-    g.gain.setValueAtTime(0, tt);
-    g.gain.linearRampToValueAtTime(vol, tt + 0.8);
-    g.gain.linearRampToValueAtTime(vol * 0.7, tt + dur - 1.0);
-    g.gain.linearRampToValueAtTime(0, tt + dur);
-    rv.connect(rvG); rvG.connect(bus||AC.destination);
-    src.connect(bp); bp.connect(g); g.connect(rv);
-    src.start(tt);
-  }
-
-  /* 3개 레이어 — 서로 다른 주파수로 겹쳐 공기 질감 */
-  airShimmer(3800, 0.18, 0.0, 7.0);   // 고주파 크리스털
-  airShimmer(2200, 0.14, 0.3, 7.5);   // 중고주파 유리알
-  airShimmer(1100, 0.10, 0.7, 8.0);   // 중주파 따뜻한 여운
-
-  /* 아주 낮은 드론 — 공간감 */
-  var osc = AC.createOscillator(); osc.type='sine';
-  osc.frequency.setValueAtTime(55, t);
-  osc.frequency.linearRampToValueAtTime(48, t + 6);
-  var og = AC.createGain();
-  og.gain.setValueAtTime(0, t);
-  og.gain.linearRampToValueAtTime(0.12, t + 1.5);
-  og.gain.linearRampToValueAtTime(0, t + 8);
-  var rv2 = makeReverb(6, 1.5);
-  var rv2G = AC.createGain(); rv2G.gain.value = 0.6;
-  rv2.connect(rv2G); rv2G.connect(bus||AC.destination);
-  osc.connect(og); og.connect(rv2);
-  osc.start(t); osc.stop(t + 9);
-}
-
-/* 인트로 오디오 스케줄러 */
-function scheduleIntroAudio(){
-  if(introScheduled || !AC || AC.state!=='running') return;
-  introScheduled = true;
-  var e = animStartTime ? (performance.now()-animStartTime)/1000 : 0;
-  function s(target){ return Math.max(0, target-e); }
-  if(e<0.3)  playPressureBuild(s(0.0), 2.8);
-  if(e<0.8)  playBeamSwoosh(s(0.5));
-  if(e<2.8)  playRevealShimmer(s(2.4));
-  if(e<4.2)  playSeismicBoom(s(3.6));
-  if(e<4.5)  playSeismicRumble(s(3.7), 3.0);
-  /* 지진 여운이 가라앉은 후 금가루 앰비언스 시작 */
-  if(e<6.5)  setTimeout(function(){
-    if(AC && AC.state==='running') playGoldDustAmbience();
-  }, Math.max(0, (6.2 - e)) * 1000);
-}
-
-/* 첫 인터랙션 시 AudioContext resume */
-function tryResumeAudio(){
-  if(audioResumed || !AC) return;
-  audioResumed = true;
-  AC.resume();
-  ['mousemove','touchstart','scroll','keydown','click'].forEach(function(ev){
-    document.removeEventListener(ev, tryResumeAudio);
-  });
-}
-
-/* 럭셔리 클릭 사운드 — 순수 노이즈 버스트, 음정 없음 */
-function playClickSound(){
-  if(!AC || AC.state!=='running') return;
-  noiseBurst(4000, 12, 0.55, 0.001, 0.012, 0);
-  noiseBurst(900, 6, 0.25, 0.002, 0.020, 0);
-  var t=AC.currentTime;
-  var sub=AC.createOscillator(); sub.type='sine'; sub.frequency.value=55;
-  var sg=AC.createGain();
-  sg.gain.setValueAtTime(0,t); sg.gain.linearRampToValueAtTime(0.45,t+0.002);
-  sg.gain.exponentialRampToValueAtTime(0.001,t+0.010);
-  sub.connect(sg); sg.connect(AC.destination);
-  sub.start(t); sub.stop(t+0.012);
-}
-
-document.addEventListener('click', function(e){
-  if(e.target.closest('a,button,.panel,.pcta')) playClickSound();
-}, true);
-
-/* ─── CANVAS SETUP ─── */
-var C=document.getElementById('cvs'), X=C.getContext('2d');
-var CC=document.getElementById('crack-cvs'), CX=CC.getContext('2d');
-function resize(){ C.width=innerWidth; C.height=innerHeight; CC.width=innerWidth; CC.height=innerHeight; }
-resize(); addEventListener('resize',resize);
-
-/* ─── CRACK & DEBRIS ─── */
-var cracks=[], debris=[];
-function addCrack(x,y,ang,len,depth){
-  if(depth<=0||len<10) return;
-  var ex=x+Math.cos(ang)*len, ey=y+Math.sin(ang)*len;
-  cracks.push({x1:x,y1:y,x2:ex,y2:ey,a:0,maxA:0.5+Math.random()*0.35});
-  var br=depth>1?(Math.random()<0.65?2:1):1;
-  for(var i=0;i<br;i++) addCrack(ex,ey,ang+(Math.random()-.5)*1.3,len*(0.45+Math.random()*0.35),depth-1);
-}
-function spawnDebris(cx,cy,n){
-  for(var i=0;i<n;i++){
-    var ang=Math.random()*Math.PI*2, spd=2+Math.random()*5;
-    debris.push({x:cx+(Math.random()-.5)*80,y:cy+(Math.random()-.5)*80,
-      vx:Math.cos(ang)*spd, vy:Math.sin(ang)*spd-2,
-      sz:1.5+Math.random()*3.5, a:0.9, rot:Math.random()*Math.PI*2,
-      rv:(Math.random()-.5)*0.3, life:1, decay:0.014+Math.random()*0.016});
-  }
-}
-function buildCracks(){
-  cracks.length=0; debris.length=0;
-  var cx=CC.width*0.5, cy=CC.height*0.51;
-  for(var i=0;i<9;i++){
-    var ang=(i/9)*Math.PI*2+(Math.random()-.5)*0.4;
-    addCrack(cx,cy,ang,CC.width*(0.20+Math.random()*0.28),4);
-  }
-  spawnDebris(cx,cy,80);
-}
-var crackOn=false;
-function drawCracks(){
-  if(!crackOn) return;
-  CX.clearRect(0,0,CC.width,CC.height);
-  cracks.forEach(function(cr){
-    cr.a=Math.min(cr.a+0.055,cr.maxA);
-    CX.beginPath(); CX.moveTo(cr.x1,cr.y1); CX.lineTo(cr.x2,cr.y2);
-    CX.strokeStyle='rgba(255,210,100,'+cr.a+')';
-    CX.lineWidth=0.7+cr.a*1.2;
-    CX.shadowColor='rgba(255,190,60,'+(cr.a*0.7)+')'; CX.shadowBlur=5;
-    CX.stroke(); CX.shadowBlur=0;
-  });
-  debris.forEach(function(d){
-    if(d.life<=0) return;
-    d.x+=d.vx; d.y+=d.vy; d.vy+=0.14; d.vx*=0.97; d.rot+=d.rv;
-    d.life-=d.decay; d.a=Math.max(0,d.life*0.9);
-    CX.save(); CX.translate(d.x,d.y); CX.rotate(d.rot);
-    CX.fillStyle='rgba(210,170,70,'+d.a+')';
-    CX.fillRect(-d.sz/2,-d.sz/2,d.sz,d.sz); CX.restore();
-  });
-  requestAnimationFrame(drawCracks);
-}
-
-/* ─── SCREEN SHAKE ─── */
-function shake(dur,amp){
-  var el=document.getElementById('s1');
-  var t0=performance.now();
-  (function loop(){
-    var p=Math.max(0,1-(performance.now()-t0)/dur);
-    if(p<=0){el.style.transform='translate(0,0)';return;}
-    el.style.transform='translate('+(( Math.random()-.5)*amp*p*2)+'px,'+(( Math.random()-.5)*amp*p*2)+'px)';
-    requestAnimationFrame(loop);
-  })();
-}
-
-/* ─── FLASH ─── */
-function doFlash(col,a,dur){
-  var f=document.getElementById('flash');
-  f.style.background=col; f.style.opacity=a; f.style.transition='none';
-  setTimeout(function(){ f.style.transition='opacity '+dur+'ms ease'; f.style.opacity=0; },25);
-}
-
-/* ─── PHASE 1: 스포트라이트 + 지진 ─── */
-function phase1(done){
-  document.fonts.load('140px "Herr Von Muellerhoff"').then(function(){
-    var txt='Aris Kim';
-    var fs=Math.min(innerWidth*.13,152);
-    X.font=fs+'px "Herr Von Muellerhoff"';
-    var tw=X.measureText(txt).width;
-    var tx=(C.width-tw)/2, ty=C.height*.50;
-
-    /* 지진은 서명 등장 이후(3.5s)에 시작 */
-    setTimeout(function(){
-      buildCracks(); crackOn=true; drawCracks();
-      shake(2000,13);
-      setTimeout(function(){shake(600,6);},900);
-      setTimeout(function(){shake(300,3);},1600);
-      doFlash('#fff',0.75,55);
-      setTimeout(function(){doFlash('#ffaa00',0.3,150);},400);
-      setTimeout(function(){doFlash('#fff',0.18,120);},900);
-    },3500);
-
-    var t0=null, dur=3200;
-    function frame(ts){
-      if(!t0) t0=ts;
-      var p=Math.min((ts-t0)/dur,1);
-      var e=p<.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2;
-
-      X.fillStyle='#040302'; X.fillRect(0,0,C.width,C.height);
-
-      /* 스포트라이트 빔 */
-      if(e>0.04){
-        var ba=Math.min(e*1.6,0.9);
-        var cx=C.width*.5, sp=C.width*0.28*Math.min(e*1.4,1);
-        X.save(); X.beginPath(); X.moveTo(cx,0);
-        X.lineTo(cx-sp,C.height); X.lineTo(cx+sp,C.height); X.closePath();
-        var bg=X.createLinearGradient(cx,0,cx,C.height);
-        bg.addColorStop(0,'rgba(255,230,150,'+(ba*.26)+')');
-        bg.addColorStop(.25,'rgba(232,204,122,'+(ba*.13)+')');
-        bg.addColorStop(.55,'rgba(201,168,76,'+(ba*.07)+')');
-        bg.addColorStop(1,'rgba(201,168,76,0)');
-        X.fillStyle=bg; X.fill(); X.restore();
-        var sg=X.createRadialGradient(cx,0,0,cx,0,85);
-        sg.addColorStop(0,'rgba(255,240,170,'+(ba*.55)+')');
-        sg.addColorStop(.4,'rgba(232,204,122,'+(ba*.2)+')');
-        sg.addColorStop(1,'rgba(201,168,76,0)');
-        X.beginPath(); X.arc(cx,0,85,0,Math.PI*2); X.fillStyle=sg; X.fill();
-      }
-
-      /* 서명 */
-      if(e>0.35){
-        var sa=Math.min((e-.35)/.45,1);
-        X.save(); X.globalAlpha=sa;
-        X.font=fs+'px "Herr Von Muellerhoff"';
-        X.fillStyle='#EDE4D6';
-        X.shadowColor='rgba(232,204,122,.65)'; X.shadowBlur=20*sa;
-        X.fillText(txt,tx,ty); X.restore();
-      }
-
-      /* 한글 */
-      if(e>0.65){
-        var ka=Math.min((e-.65)/.28,1)*0.85;
-        X.save(); X.globalAlpha=ka;
-        X.font=(fs*.22)+'px "Cinzel"';
-        X.fillStyle='#C9A84C'; X.textAlign='center';
-        X.shadowColor='rgba(201,168,76,.55)'; X.shadowBlur=12*ka;
-        X.fillText('아  리  스  김',C.width/2,ty+fs*.37);
-        X.restore();
-      }
-
-      if(p<1){ requestAnimationFrame(frame); }
-      else { setTimeout(function(){ crackOn=false; CX.clearRect(0,0,CC.width,CC.height); done(); },2500); }
-    }
-    requestAnimationFrame(frame);
-  });
-}
-
-/* ─── PHASE 2 & 3 ─── */
-function phase2(done){
-  /* 핀 조명 사라질 때 골드 파티클 점화 */
-  spawnGoldBurst();
-
-  /* 씬 전환: 오디오를 끊지 않고 3.5초에 걸쳐 서서히 fade out */
-  masterFadeTo(0, 3.5);
-
-  document.getElementById('s1').classList.add('out');
-  setTimeout(function(){
-    document.getElementById('s1').style.display='none';
-    document.getElementById('s2').classList.add('show');
-    setTimeout(done,1900);
-  },1400);
-}
-function phase3(){
-  var s2=document.getElementById('s2');
-  s2.classList.add('out');
-  setTimeout(function(){ s2.style.display='none'; document.getElementById('dl').classList.add('show'); },1000);
-  setTimeout(function(){ document.getElementById('pa').classList.add('open'); document.getElementById('pb').classList.add('open'); },1200);
-}
-
-/* ─── GOLDEN SPARK REMOVAL ─── */
-var sparkEl=document.getElementById('sparkOverlay');
-if(sparkEl){setTimeout(function(){sparkEl.classList.add('done');},2500);}
-
-/* ─── START ─── */
-var skip=new URLSearchParams(location.search).get('skip');
-if(skip==='1'){
+if(skipToEnd){
+  // Skip to Phase 3 immediately
   if(sparkEl) sparkEl.classList.add('done');
-  document.getElementById('s1').style.display='none';
-  document.getElementById('s2').style.display='none';
-  document.getElementById('dl').classList.add('show');
-  document.getElementById('pa').classList.add('open');
-  document.getElementById('pb').classList.add('open');
+  document.getElementById('phase1').style.display = 'none';
+  document.getElementById('phase2').style.display = 'none';
+  document.getElementById('phase3').classList.add('show');
+  document.getElementById('philosophy').style.opacity = '1';
+  document.getElementById('frame-divider').style.opacity = '1';
+  document.getElementById('divider').classList.add('show');
 } else {
-  initAudio();
-  ['mousemove','touchstart','scroll','keydown','click'].forEach(function(ev){
-    document.addEventListener(ev, tryResumeAudio, {passive:true});
-  });
-  document.fonts.ready.then(function(){
-    setTimeout(function(){
-      animStartTime = performance.now();
-      phase1(function(){ phase2(function(){ phase3(); }); });
-    },400);
-  });
+  // Full theatrical sequence
+
+  // Phase 1 fade-out at 2.5s
+  setTimeout(function(){
+    document.getElementById('phase1').classList.add('fade-out');
+  }, 2500);
+
+  // Phase 2 show at 2.7s
+  setTimeout(function(){
+    document.getElementById('phase2').classList.add('show');
+  }, 2700);
+
+  // Phase 2 fade-out at 5.5s
+  setTimeout(function(){
+    document.getElementById('phase2').classList.add('fade-out');
+  }, 5500);
+
+  // Phase 3 show at 5.8s
+  setTimeout(function(){
+    document.getElementById('phase3').classList.add('show');
+    document.getElementById('philosophy').style.opacity = '1';
+    document.getElementById('frame-divider').style.opacity = '1';
+  }, 5800);
+
+  // Divider show at 6.2s
+  setTimeout(function(){
+    document.getElementById('divider').classList.add('show');
+  }, 6200);
 }
 
-/* ─── 패널 분리선 hover ─── */
-var dl=document.getElementById('dl'),pa=document.getElementById('pa'),pb=document.getElementById('pb');
-dl.style.transition='left .75s cubic-bezier(.23,1,.32,1),opacity .9s ease';
-pa.addEventListener('mouseenter',function(){ dl.style.left='58%'; });
-pa.addEventListener('mouseleave',function(){ dl.style.left='50%'; });
-pb.addEventListener('mouseenter',function(){ dl.style.left='42%'; });
-pb.addEventListener('mouseleave',function(){ dl.style.left='50%'; });
-document.addEventListener('keydown',function(e){
-  if(e.key==='ArrowLeft') location.href='story.html';
-  if(e.key==='ArrowRight') location.href='booking.html';
+// Divider hover effect
+var dl = document.getElementById('divider');
+var ps = document.getElementById('panel-story');
+var pb = document.getElementById('panel-booking');
+
+if(ps && dl){
+  ps.addEventListener('mouseenter', function(){ dl.style.left = '58%'; });
+  ps.addEventListener('mouseleave', function(){ dl.style.left = '50%'; });
+}
+if(pb && dl){
+  pb.addEventListener('mouseenter', function(){ dl.style.left = '42%'; });
+  pb.addEventListener('mouseleave', function(){ dl.style.left = '50%'; });
+}
+
+// Keyboard navigation
+document.addEventListener('keydown', function(e){
+  if(e.key === 'ArrowLeft') window.location.href = 'story.html';
+  if(e.key === 'ArrowRight') window.location.href = 'booking.html';
 });
-
-/* ════════════════════════════════════
-   골드 금가루 — 안개처럼 우아하게 흩날림
-   ════════════════════════════════════ */
-var PCVS = document.getElementById('pcvs');
-var PCX  = PCVS ? PCVS.getContext('2d') : null;
-var particles = [];
-var pAnimId   = null;
-var pLastTime = 0;
-
-function resizePCVS(){
-  if(!PCVS) return;
-  PCVS.width  = innerWidth;
-  PCVS.height = innerHeight;
-}
-resizePCVS();
-window.addEventListener('resize', resizePCVS);
-
-/* ── 금가루 1개 ── */
-function makeGoldDust(ox, oy){
-  var colors = [
-    'rgba(255,240,160,',   // 밝은 샴페인 골드
-    'rgba(232,204,122,',   // 메인 골드
-    'rgba(255,248,200,',   // 아이보리 골드
-    'rgba(201,168,76,',    // 딥 골드
-    'rgba(255,255,220,',   // 크림 화이트
-  ];
-  var c = colors[Math.floor(Math.random() * colors.length)];
-  var size = 0.6 + Math.random() * 2.2;   // 아주 작고 섬세함
-
-  return {
-    x:     ox,
-    y:     oy,
-    /* 드리프트: 매우 느리고 수평에 가까운 흐름 */
-    vx:    (Math.random() - 0.5) * 0.55,
-    vy:    -0.08 - Math.random() * 0.32,  // 아주 천천히 올라가다 떨어짐
-    ax:    (Math.random() - 0.5) * 0.006, // 수평 가속 (흔들림)
-    size:  size,
-    color: c,
-    alpha: 0.0,                           // fade-in 시작
-    peak:  0.18 + Math.random() * 0.55,  // 최대 투명도
-    life:  3.5 + Math.random() * 4.5,    // 긴 수명 — 천천히 사라짐
-    maxLife: 0,                           // 후에 채움
-    phase: Math.random() * Math.PI * 2,  // sin 흔들림 위상
-    freq:  0.004 + Math.random() * 0.008, // 흔들림 주기
-    twinkle: Math.random() > 0.45,        // 반짝임 여부
-    twinkleSpeed: 0.03 + Math.random() * 0.06,
-    twinklePhase: Math.random() * Math.PI * 2,
-  };
-}
-
-/* ── 스폰: phase2 시작 시 조용히 퍼뜨림 ── */
-var dustSpawnId = null;
-var dustTotal   = 0;
-
-function spawnGoldBurst(){
-  if(!PCVS) return;
-  resizePCVS();
-  PCVS.style.display = 'block';
-  dustTotal = 0;
-
-  /* 화면 전체에 걸쳐 수백 개를 시간차로 등장 — 안개가 피어오르는 느낌 */
-  function spawnWave(count, delay){
-    setTimeout(function(){
-      for(var i = 0; i < count; i++){
-        setTimeout(function(){
-          if(dustTotal > 600) return;
-          /* 조명 빔이 있던 중앙에서 더 밀도 높게, 양 옆으로 갈수록 적게 */
-          var cx = innerWidth * 0.5;
-          var spread = innerWidth * 0.55;
-          /* 정규분포 근사: 3개 uniform 합산 */
-          var rx = (Math.random()+Math.random()+Math.random()-1.5) / 1.5;
-          var x  = cx + rx * spread * 0.8;
-          /* Y: 화면 하단 30%~90% 사이에서 올라오기 시작 */
-          var y  = innerHeight * (0.35 + Math.random() * 0.55);
-          var p  = makeGoldDust(x, y);
-          p.maxLife = p.life;
-          particles.push(p);
-          dustTotal++;
-        }, i * (4 + Math.random() * 10));  // 각 파티클 미세 시간차
-      }
-    }, delay);
-  }
-
-  /* 3번에 나눠서 파도처럼 등장 */
-  spawnWave(120, 0);
-  spawnWave(160, 600);
-  spawnWave(180, 1400);
-  spawnWave(120, 2600);
-  spawnWave( 80, 4000);
-
-  if(!pAnimId){
-    pLastTime = performance.now();
-    pAnimId = requestAnimationFrame(animParticles);
-  }
-}
-
-/* ── 렌더 루프 ── */
-function animParticles(ts){
-  var dt = Math.min((ts - pLastTime) / 1000, 0.05);
-  pLastTime = ts;
-
-  PCX.clearRect(0, 0, PCVS.width, PCVS.height);
-  var alive = false;
-
-  for(var i = particles.length - 1; i >= 0; i--){
-    var p = particles[i];
-    p.life -= dt;
-    if(p.life <= 0){ particles.splice(i, 1); continue; }
-    alive = true;
-
-    /* 위치 업데이트 */
-    p.vx += p.ax;
-    p.vx *= 0.998;                           // 아주 천천히 감속
-    p.vy += 0.0035;                          // 매우 약한 중력 (천천히 낙하)
-    p.x  += p.vx + Math.sin(ts * p.freq + p.phase) * 0.22; // 사인 흔들림
-    p.y  += p.vy;
-    p.phase += 0.012;
-
-    /* 투명도: 앞 15% fade-in, 뒤 30% fade-out, 중간 유지 */
-    var ratio = p.life / p.maxLife;
-    var baseA;
-    if(ratio > 0.85){
-      baseA = p.peak * ((1 - ratio) / 0.15);  // fade-in
-    } else if(ratio < 0.30){
-      baseA = p.peak * (ratio / 0.30);          // fade-out
-    } else {
-      baseA = p.peak;
-    }
-
-    /* 반짝임 */
-    var twinkA = baseA;
-    if(p.twinkle){
-      p.twinklePhase += p.twinkleSpeed;
-      twinkA = baseA * (0.5 + 0.5 * Math.sin(p.twinklePhase));
-    }
-    twinkA = Math.max(0, Math.min(twinkA, 1));
-
-    /* 그리기 */
-    PCX.save();
-    /* 작은 글로우 */
-    if(p.size > 1.4){
-      PCX.shadowColor = p.color + '0.6)';
-      PCX.shadowBlur  = p.size * 2.5;
-    }
-    /* 타원형 금가루 (납작하게) */
-    PCX.globalAlpha = twinkA;
-    PCX.fillStyle   = p.color + twinkA + ')';
-    PCX.beginPath();
-    PCX.ellipse(
-      p.x, p.y,
-      p.size,                    // rx
-      p.size * (0.3 + Math.random() * 0.4), // ry — 납작한 티끌 모양
-      p.phase * 0.5,             // rotation
-      0, Math.PI * 2
-    );
-    PCX.fill();
-    PCX.restore();
-  }
-
-  if(alive || dustTotal < 600){
-    pAnimId = requestAnimationFrame(animParticles);
-  } else {
-    pAnimId = null;
-    PCX.clearRect(0, 0, PCVS.width, PCVS.height);
-    PCVS.style.display = 'none';
-  }
-}
-
 </script>
 </body>
 </html>
