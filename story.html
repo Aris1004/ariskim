@@ -1,1425 +1,1575 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ARIS KIM | 아리스 김 — 장르의 뮤즈</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Serif+KR:wght@200;300;400;700&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box;}
-:root{
-  --gold:#C9A84C;
-  --bg:#0A0908;
-  --deep:#0E0C09;
-  --text:#F2EDE4;
-}
-html{scroll-behavior:smooth;}
-body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:"Noto Serif KR",serif;
-  overflow-x:hidden;
-  line-height:1.6;
-}
-a,a:link,a:visited{color:inherit;text-decoration:none;-webkit-tap-highlight-color:transparent;}
-a:hover,a:active{color:var(--gold);}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Wild Soul - ARIS KIM Story</title>
 
-/* ════════════════════════════════════════════════
-   PROGRESS BAR (Top)
-════════════════════════════════════════════════ */
-#prog{
-  position:fixed;top:0;left:0;height:2px;
-  background:linear-gradient(90deg,var(--gold),#E8CC7A);
-  z-index:9999;width:0%;
-  transition:width .15s ease;
-}
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Serif+KR:wght@200;300;400;700&display=swap" rel="stylesheet">
 
-/* ════════════════════════════════════════════════
-   NAVIGATION — Luxury Fixed Header
-════════════════════════════════════════════════ */
-#nav{
-  position:fixed;top:0;left:0;right:0;height:72px;
-  z-index:8500;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 80px;
-  background:transparent;
-  transition:all .6s cubic-bezier(.4,0,.2,1);
-}
-#nav.on{
-  background:rgba(10,9,8,.95);
-  backdrop-filter:blur(24px);
-  border-bottom:1px solid rgba(201,168,76,.08);
-  padding:0 80px;
-}
-.nlogo{
-  font-family:"Cinzel",serif;
-  font-size:14px;
-  font-weight:700;
-  letter-spacing:.25em;
-  color:var(--gold);
-  text-decoration:none;
-  transition:color .4s cubic-bezier(.4,0,.2,1);
-}
-.nlogo:hover{color:#E8CC7A;}
-.nlinks{
-  display:flex;
-  list-style:none;
-  gap:48px;
-}
-.nlinks a{
-  font-family:"Noto Serif KR",serif;
-  font-size:11px;
-  font-weight:300;
-  letter-spacing:.15em;
-  color:rgba(242,237,228,.6);
-  text-decoration:none;
-  transition:color .5s cubic-bezier(.4,0,.2,1),text-shadow .5s cubic-bezier(.4,0,.2,1);
-  position:relative;
-}
-.nlinks a:hover{
-  color:var(--gold);
-  text-shadow:0 0 12px rgba(201,168,76,.4);
-}
-.nav-right{
-  display:flex;
-  align-items:center;
-  gap:28px;
-}
-#back-home-btn{
-  font-family:"Cinzel",serif;
-  font-size:9px;
-  font-weight:700;
-  letter-spacing:.3em;
-  color:#0A0908;
-  padding:10px 24px;
-  background:linear-gradient(135deg,#B8922E,#E8CC7A,#C9A84C,#F5E090);
-  border:1px solid rgba(180,140,30,.6);
-  box-shadow:0 4px 16px rgba(201,168,76,.35);
-  opacity:0;
-  pointer-events:none;
-  transform:translateY(-8px);
-  transition:all .5s cubic-bezier(.4,0,.2,1);
-  white-space:nowrap;
-  cursor:pointer;
-}
-#back-home-btn.show{
-  opacity:1;
-  pointer-events:auto;
-  transform:translateY(0);
-}
-#back-home-btn:hover{
-  filter:brightness(1.15);
-  box-shadow:0 6px 24px rgba(201,168,76,.5);
-  transform:translateY(-2px);
-}
-.ncta{
-  font-family:"Noto Serif KR",serif;
-  font-size:10px;
-  font-weight:400;
-  letter-spacing:.15em;
-  color:var(--gold);
-  border:1px solid rgba(201,168,76,.4);
-  padding:11px 28px;
-  transition:all .5s cubic-bezier(.4,0,.2,1);
-  cursor:pointer;
-}
-.ncta:hover{
-  background:var(--gold);
-  color:var(--bg);
-  box-shadow:0 4px 16px rgba(201,168,76,.3);
-}
-/* Hamburger */
-.nav-ham{
-  display:none;
-  flex-direction:column;
-  gap:6px;
-  cursor:pointer;
-  background:none;
-  border:none;
-  padding:6px;
-}
-.nav-ham span{
-  display:block;
-  width:24px;
-  height:1.5px;
-  background:var(--gold);
-  transition:all .4s cubic-bezier(.4,0,.2,1);
-}
-.nav-ham.on span:nth-child(1){transform:translateY(8px) rotate(45deg);}
-.nav-ham.on span:nth-child(2){opacity:0;}
-.nav-ham.on span:nth-child(3){transform:translateY(-8px) rotate(-45deg);}
-/* Mobile menu */
-#bmob{
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(10,9,8,.98);
-  z-index:8499;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:36px;
-}
-#bmob.on{display:flex;}
-#bmob a{
-  font-family:"Noto Serif KR",serif;
-  font-size:14px;
-  font-weight:300;
-  letter-spacing:.15em;
-  color:rgba(242,237,228,.7);
-  text-decoration:none;
-  transition:color .4s cubic-bezier(.4,0,.2,1);
-}
-#bmob a:hover{color:var(--gold);}
-#bmob .bmcta{
-  border:1px solid rgba(201,168,76,.4);
-  padding:12px 36px;
-  color:var(--gold);
-  margin-top:12px;
-}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-/* ════════════════════════════════════════════════
-   REVEAL ANIMATIONS
-════════════════════════════════════════════════ */
-.rv{
-  opacity:0;
-  transform:translateY(28px);
-  transition:opacity 1.2s cubic-bezier(.4,0,.2,1),transform 1.2s cubic-bezier(.4,0,.2,1);
-}
-.rv.on{opacity:1;transform:translateY(0);}
-.rv-l{
-  opacity:0;
-  transform:translateX(-32px);
-  transition:opacity 1.2s cubic-bezier(.4,0,.2,1),transform 1.2s cubic-bezier(.4,0,.2,1);
-}
-.rv-l.on{opacity:1;transform:translateX(0);}
-.rv-r{
-  opacity:0;
-  transform:translateX(32px);
-  transition:opacity 1.2s cubic-bezier(.4,0,.2,1),transform 1.2s cubic-bezier(.4,0,.2,1);
-}
-.rv-r.on{opacity:1;transform:translateX(0);}
+        html {
+            scroll-behavior: smooth;
+        }
 
-/* ════════════════════════════════════════════════
-   SECTION STYLING
-════════════════════════════════════════════════ */
-.sec{
-  padding:180px 80px;
-  background:var(--bg);
-}
-.sec-inner{
-  max-width:1000px;
-  margin:0 auto;
-}
-.sec-label{
-  font-family:"Cinzel",serif;
-  font-size:8px;
-  font-weight:700;
-  letter-spacing:.8em;
-  color:var(--gold);
-  opacity:.5;
-  margin-bottom:16px;
-  display:block;
-}
-.sec-title{
-  font-family:"Noto Serif KR",serif;
-  font-size:clamp(28px,4vw,56px);
-  font-weight:200;
-  letter-spacing:.08em;
-  color:var(--text);
-  line-height:1.35;
-  margin-bottom:8px;
-}
-.sec-title em{
-  color:var(--gold);
-  font-style:normal;
-  font-weight:300;
-}
-.gold-rule{
-  width:80px;
-  height:1px;
-  background:var(--gold);
-  opacity:.5;
-  margin:32px 0 52px;
-}
-.body-txt{
-  font-family:"Noto Serif KR",serif;
-  font-size:clamp(13px,1.3vw,15px);
-  font-weight:300;
-  letter-spacing:.04em;
-  line-height:2.4;
-  color:rgba(242,237,228,.58);
-}
+        body {
+            background-color: #0A0908;
+            color: #F2EDE4;
+            font-family: 'Noto Serif KR', serif;
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
 
-/* ════════════════════════════════════════════════
-   SECTION 1: CINEMATIC OPENING
-════════════════════════════════════════════════ */
-#fb-genesis{
-  position:relative;
-  width:100%;
-  height:100vh;
-  min-height:640px;
-  overflow:hidden;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-.fb-bg{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  object-position:center 35%;
-  filter:brightness(.35) contrast(1.15);
-}
-.fb-ov{
-  position:absolute;
-  inset:0;
-  background:linear-gradient(180deg,rgba(10,9,8,.4) 0%,rgba(10,9,8,.2) 40%,rgba(10,9,8,.3) 60%,rgba(10,9,8,.95) 100%);
-}
-.fb-content{
-  position:relative;
-  z-index:2;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  padding:0 60px;
-}
-.genesis-typewriter{
-  text-align:center;
-  margin-bottom:28px;
-}
-.gtw-line1{
-  font-family:"Noto Serif KR",serif;
-  font-size:clamp(28px,5vw,64px);
-  font-weight:700;
-  letter-spacing:.06em;
-  color:var(--text);
-  line-height:1.2;
-  text-shadow:0 0 40px rgba(255,255,255,.12),0 4px 24px rgba(0,0,0,.95);
-  min-height:1.2em;
-  display:block;
-}
-.gtw-spacer{display:block;height:clamp(18px,2.5vw,32px);}
-.genesis-big-quote{
-  font-family:"Noto Serif KR",serif;
-  font-size:clamp(16px,2.5vw,32px);
-  font-weight:300;
-  letter-spacing:.05em;
-  color:var(--gold);
-  line-height:1.4;
-  text-shadow:0 0 32px rgba(201,168,76,.5),0 0 64px rgba(201,168,76,.2),0 3px 16px rgba(0,0,0,.98);
-  margin-top:24px;
-  opacity:0;
-  transform:translateY(12px);
-  transition:opacity 1.2s cubic-bezier(.4,0,.2,1),transform 1.2s cubic-bezier(.4,0,.2,1);
-}
-.genesis-big-quote.show{
-  opacity:1;
-  transform:translateY(0);
-}
-.genesis-big-quote em{
-  font-style:italic;
-  color:#E8CC7A;
-}
-.gtw-cursor{
-  display:inline-block;
-  font-weight:300;
-  color:var(--gold);
-  animation:cursorBlink .7s step-end infinite;
-}
-.gtw-cursor.done{animation:none;opacity:0;}
-@keyframes cursorBlink{0%,100%{opacity:1;}50%{opacity:0;}}
+        /* NAVIGATION */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 2rem 3rem;
+            background: transparent;
+            transition: background-color 0.3s ease;
+        }
 
-/* ════════════════════════════════════════════════
-   SECTION 2: HERO
-════════════════════════════════════════════════ */
-#hero{
-  position:relative;
-  width:100%;
-  height:100vh;
-  min-height:640px;
-  overflow:hidden;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-.hbg{position:absolute;inset:0;}
-.hbg img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  object-position:center;
-  filter:brightness(.45) contrast(1.08);
-}
-.hov{
-  position:absolute;
-  inset:0;
-  background:linear-gradient(180deg,rgba(10,9,8,.08) 0%,rgba(10,9,8,.0) 25%,rgba(10,9,8,.4) 70%,rgba(10,9,8,1) 100%);
-}
-.hcont{
-  position:relative;
-  z-index:2;
-  text-align:left;
-  padding:0 80px;
-  max-width:900px;
-}
-.htag{
-  font-family:"Cinzel",serif;
-  font-size:clamp(8px,1vw,10px);
-  font-weight:700;
-  letter-spacing:.8em;
-  color:var(--gold);
-  opacity:.6;
-  margin-bottom:32px;
-  animation:heroFade 1.2s .3s both;
-}
-.htitle{
-  font-family:"Cinzel",serif;
-  font-size:clamp(48px,9vw,120px);
-  font-weight:900;
-  line-height:.95;
-  color:var(--text);
-  letter-spacing:.03em;
-  animation:heroFade 1.2s .5s both;
-}
-.htitle .ai{color:var(--gold);}
-.hkr{
-  font-family:"Noto Serif KR",serif;
-  font-size:clamp(14px,2.8vw,32px);
-  font-weight:200;
-  letter-spacing:.4em;
-  color:var(--gold);
-  margin-top:12px;
-  animation:heroFade 1.2s .7s both;
-}
-.hline{
-  width:1px;
-  height:80px;
-  background:linear-gradient(180deg,var(--gold),transparent);
-  margin:32px 0;
-  animation:heroFade 1.2s .9s both;
-}
-.hsub{
-  font-family:"Noto Serif KR",serif;
-  font-size:clamp(13px,1.7vw,18px);
-  font-weight:300;
-  color:rgba(242,237,228,.55);
-  letter-spacing:.04em;
-  line-height:2;
-  animation:heroFade 1.2s 1.1s both;
-  max-width:700px;
-}
-.hscroll{
-  position:absolute;
-  bottom:48px;
-  left:80px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:10px;
-  animation:heroFade 1.4s 1.6s both;
-}
-.hscroll span{
-  font-family:"Cinzel",serif;
-  font-size:7px;
-  letter-spacing:.6em;
-  color:rgba(201,168,76,.3);
-}
-.hscroll-line{
-  width:1px;
-  height:48px;
-  background:linear-gradient(180deg,var(--gold),transparent);
-  animation:scrollPulse 2.2s ease-in-out infinite;
-}
-@keyframes heroFade{from{opacity:0;transform:translateY(24px);}to{opacity:1;transform:translateY(0);}}
-@keyframes scrollPulse{0%,100%{opacity:.25;transform:scaleY(.55);}50%{opacity:1;transform:scaleY(1);}}
+        nav.scrolled {
+            background-color: rgba(10, 9, 8, 0.95);
+            border-bottom: 1px solid rgba(201, 168, 76, 0.15);
+        }
 
-/* ════════════════════════════════════════════════
-   SECTION 3: GENESIS
-════════════════════════════════════════════════ */
-#genesis{
-  background:linear-gradient(180deg,var(--bg) 0%,var(--deep) 100%);
-  padding:200px 80px;
-}
-.gen-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:100px;
-  align-items:start;
-}
-.gen-img-wrap{
-  position:relative;
-  height:600px;
-}
-.gen-img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  object-position:center;
-  border:1px solid rgba(201,168,76,.15);
-  filter:brightness(.92);
-  transition:filter .8s cubic-bezier(.4,0,.2,1);
-}
-.gen-img-wrap:hover .gen-img{
-  filter:brightness(1);
-}
-.gen-badge{
-  position:absolute;
-  bottom:-28px;
-  right:-28px;
-  background:var(--bg);
-  border:1px solid rgba(201,168,76,.25);
-  padding:24px 32px;
-  backdrop-filter:blur(20px);
-}
-.gen-badge-n{
-  font-family:"Cinzel",serif;
-  font-size:32px;
-  font-weight:900;
-  color:var(--gold);
-}
-.gen-badge-l{
-  font-family:"Noto Serif KR",serif;
-  font-size:10px;
-  font-weight:300;
-  letter-spacing:.12em;
-  color:rgba(242,237,228,.4);
-  margin-top:6px;
-}
-.gen-words{
-  display:flex;
-  flex-wrap:wrap;
-  gap:12px;
-  margin-top:48px;
-}
-.gen-word{
-  font-family:"Cinzel",serif;
-  font-size:9px;
-  font-weight:700;
-  letter-spacing:.25em;
-  border:1px solid rgba(201,168,76,.3);
-  color:var(--gold);
-  padding:8px 18px;
-  transition:all .4s cubic-bezier(.4,0,.2,1);
-  cursor:default;
-}
-.gen-word:hover{
-  background:rgba(201,168,76,.08);
-  border-color:rgba(201,168,76,.6);
-}
+        nav a {
+            font-family: 'Cinzel', serif;
+            font-size: 11px;
+            letter-spacing: 0.15em;
+            color: #C9A84C;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
 
-/* ════════════════════════════════════════════════
-   SECTION 4: QUOTE
-════════════════════════════════════════════════ */
-#quote-sec{
-  padding:160px 80px;
-  background:var(--deep);
-  text-align:center;
-}
-.quote-box{
-  max-width:900px;
-  margin:0 auto;
-}
-.quote-box blockquote{
-  font-family:"Noto Serif KR",serif;
-  font-size:clamp(18px,3vw,30px);
-  font-weight:200;
-  color:var(--text);
-  line-height:1.6;
-  margin-bottom:28px;
-  font-style:italic;
-}
-.quote-box cite{
-  font-family:"Cinzel",serif;
-  font-size:9px;
-  font-weight:700;
-  letter-spacing:.5em;
-  color:var(--gold);
-  opacity:.6;
-  font-style:normal;
-}
+        nav a:hover {
+            opacity: 0.7;
+        }
 
-/* ════════════════════════════════════════════════
-   SECTION 5: HISTORY
-════════════════════════════════════════════════ */
-#history{background:var(--deep);}
-.hist-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:0 80px;
-  margin-top:12px;
-  position:relative;
-}
-.hist-grid::before{
-  content:"";
-  position:absolute;
-  left:50%;
-  top:0;
-  bottom:0;
-  width:1px;
-  background:rgba(201,168,76,.12);
-  transform:translateX(-50%);
-}
-.hist-item{
-  padding:28px 0;
-  border-bottom:1px solid rgba(201,168,76,.08);
-}
-.hist-year{
-  font-family:"Cinzel",serif;
-  font-size:clamp(18px,2vw,26px);
-  font-weight:700;
-  color:var(--gold);
-  line-height:1;
-  margin-bottom:8px;
-}
-.hist-txt{
-  font-family:"Noto Serif KR",serif;
-  font-size:12px;
-  font-weight:300;
-  letter-spacing:.04em;
-  color:rgba(242,237,228,.6);
-  line-height:2;
-}
+        /* TYPOGRAPHY */
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(48px, 8vw, 96px);
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            line-height: 1.1;
+        }
 
-/* ════════════════════════════════════════════════
-   SECTION 6: ART COLLECTION
-════════════════════════════════════════════════ */
-#art{background:var(--bg);}
-.art-tabs{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-bottom:44px;
-}
-.art-tabs button{
-  background:none;
-  border:1px solid rgba(201,168,76,.25);
-  font-family:"Noto Serif KR",serif;
-  font-size:11px;
-  font-weight:300;
-  letter-spacing:.1em;
-  color:rgba(242,237,228,.5);
-  padding:10px 22px;
-  cursor:pointer;
-  transition:all .5s cubic-bezier(.4,0,.2,1);
-}
-.art-tabs button.active{
-  border-color:var(--gold);
-  color:var(--gold);
-  background:rgba(201,168,76,.08);
-}
-.art-tabs button:hover{
-  border-color:rgba(201,168,76,.6);
-  color:var(--gold);
-}
-.art-grid{
-  display:flex;
-  flex-direction:column;
-  gap:0;
-}
-.ac{
-  display:flex;
-  align-items:stretch;
-  background:var(--deep);
-  border:1px solid rgba(201,168,76,.08);
-  border-top:none;
-  overflow:hidden;
-  transition:all .5s cubic-bezier(.4,0,.2,1);
-}
-.ac:first-child{border-top:1px solid rgba(201,168,76,.08);}
-.ac:hover{
-  border-color:rgba(201,168,76,.25);
-}
-.ac.hide{display:none;}
-.ac-img{
-  position:relative;
-  overflow:hidden;
-  width:300px;
-  flex-shrink:0;
-  background:#0a0806;
-}
-.ac-img img{
-  width:100%;
-  height:100%;
-  object-fit:contain;
-  object-position:center;
-  filter:brightness(.92);
-  transition:filter .6s cubic-bezier(.4,0,.2,1),transform .6s cubic-bezier(.4,0,.2,1);
-  display:block;
-  min-height:200px;
-}
-.ac:hover .ac-img img{
-  filter:brightness(1.05);
-  transform:scale(1.03);
-}
-.ac-info{
-  padding:32px 40px;
-  display:flex;
-  flex-direction:column;
-  justify-content:center;
-  border-left:1px solid rgba(201,168,76,.08);
-}
-.ac-title{
-  font-family:"Noto Serif KR",serif;
-  font-size:clamp(14px,1.5vw,18px);
-  font-weight:400;
-  color:var(--text);
-  margin-bottom:10px;
-}
-.ac-sub{
-  font-family:"Noto Serif KR",serif;
-  font-size:12px;
-  font-weight:300;
-  color:rgba(242,237,228,.55);
-  line-height:1.9;
-  margin-bottom:12px;
-}
-.ac-size{
-  font-family:"Cinzel",serif;
-  font-size:8px;
-  font-weight:700;
-  letter-spacing:.15em;
-  color:var(--gold);
-  opacity:.5;
-}
+        h2 {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(32px, 5vw, 64px);
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            margin-bottom: 2rem;
+        }
 
-/* ════════════════════════════════════════════════
-   SECTION 7: TANGO
-════════════════════════════════════════════════ */
-#tango{background:var(--deep);padding:200px 80px;}
-.tango-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:100px;
-  align-items:start;
-}
-.tango-text{order:-1;}
-.tango-img{
-  width:100%;
-  aspect-ratio:3/4;
-  object-fit:cover;
-  object-position:center;
-  filter:brightness(.92);
-  border:1px solid rgba(201,168,76,.15);
-  transition:filter .8s cubic-bezier(.4,0,.2,1);
-}
-.tango-img:hover{filter:brightness(1);}
-.tango-tags{
-  display:flex;
-  flex-wrap:wrap;
-  gap:12px;
-  margin-top:44px;
-}
-.tango-tag{
-  font-family:"Cinzel",serif;
-  font-size:8px;
-  font-weight:700;
-  letter-spacing:.25em;
-  border:1px solid rgba(201,168,76,.3);
-  color:var(--gold);
-  padding:8px 18px;
-  transition:all .4s cubic-bezier(.4,0,.2,1);
-  cursor:default;
-}
-.tango-tag:hover{
-  background:rgba(201,168,76,.08);
-  border-color:rgba(201,168,76,.6);
-}
+        h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 18px;
+            font-weight: 400;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
 
-/* ════════════════════════════════════════════════
-   SECTION 8: YEMISA
-════════════════════════════════════════════════ */
-#yemisa{
-  background:var(--bg);
-  padding:180px 80px;
-  border-top:1px solid rgba(201,168,76,.08);
-}
-.yemisa-inner{
-  max-width:1000px;
-  margin:0 auto;
-  text-align:center;
-}
-.yemisa-label{
-  font-family:"Cinzel",serif;
-  font-size:8px;
-  font-weight:700;
-  letter-spacing:.8em;
-  color:var(--gold);
-  opacity:.5;
-  margin-bottom:16px;
-  display:block;
-}
-.yemisa-title{
-  font-family:"Noto Serif KR",serif;
-  font-size:clamp(28px,4vw,56px);
-  font-weight:200;
-  letter-spacing:.08em;
-  color:var(--text);
-  margin-bottom:8px;
-}
-.yemisa-sub{
-  font-family:"Noto Serif KR",serif;
-  font-size:12px;
-  font-weight:300;
-  letter-spacing:.08em;
-  color:rgba(242,237,228,.4);
-  margin-bottom:52px;
-}
-.yemisa-grid{
-  display:flex;
-  justify-content:center;
-  gap:24px;
-  flex-wrap:wrap;
-}
-.yemisa-card{
-  width:190px;
-  cursor:pointer;
-  position:relative;
-  transition:all .5s cubic-bezier(.4,0,.2,1);
-}
-.yemisa-card:hover{transform:translateY(-4px);}
-.yemisa-card img{
-  width:100%;
-  aspect-ratio:16/9;
-  object-fit:cover;
-  display:block;
-  filter:brightness(.75);
-  transition:filter .6s cubic-bezier(.4,0,.2,1);
-}
-.yemisa-card:hover img{filter:brightness(.95);}
-.yemisa-play{
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  font-size:28px;
-  color:var(--gold);
-  opacity:.85;
-  transition:all .5s cubic-bezier(.4,0,.2,1);
-}
-.yemisa-card:hover .yemisa-play{
-  opacity:1;
-  transform:translate(-50%,-50%) scale(1.2);
-}
-.yemisa-label-card{
-  font-family:"Noto Serif KR",serif;
-  font-size:11px;
-  font-weight:300;
-  letter-spacing:.06em;
-  color:rgba(242,237,228,.5);
-  margin-top:12px;
-  text-align:center;
-}
+        p {
+            font-size: 16px;
+            font-weight: 300;
+            line-height: 1.9;
+            margin-bottom: 1.5rem;
+        }
 
-/* ════════════════════════════════════════════════
-   SECTION 9: BACKSTAGE
-════════════════════════════════════════════════ */
-#backstage-sec{
-  position:relative;
-  width:100%;
-  height:480px;
-  overflow:hidden;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-#backstage-sec img{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  filter:brightness(.3);
-}
-.backstage-ov{
-  position:absolute;
-  inset:0;
-  background:rgba(10,9,8,.55);
-}
-.backstage-content{
-  position:relative;
-  z-index:2;
-  text-align:center;
-  padding:0 80px;
-  max-width:900px;
-}
-.backstage-title{
-  font-family:"Cinzel",serif;
-  font-size:clamp(28px,4vw,56px);
-  font-weight:900;
-  letter-spacing:.08em;
-  color:var(--gold);
-  text-shadow:0 0 40px rgba(201,168,76,.4);
-  margin-bottom:20px;
-}
-.backstage-txt{
-  font-family:"Noto Serif KR",serif;
-  font-size:clamp(12px,1.4vw,15px);
-  font-weight:300;
-  color:rgba(242,237,228,.6);
-  line-height:2.2;
-}
+        .korean-title {
+            font-family: 'Noto Serif KR', serif;
+            font-weight: 700;
+            font-size: clamp(48px, 8vw, 96px);
+            letter-spacing: 0.08em;
+        }
 
-/* ════════════════════════════════════════════════
-   SECTION 10: CTA
-════════════════════════════════════════════════ */
-#cta{
-  background:var(--deep);
-  padding:200px 80px;
-  text-align:center;
-}
-.cta-label{
-  font-family:"Cinzel",serif;
-  font-size:8px;
-  font-weight:700;
-  letter-spacing:.8em;
-  color:var(--gold);
-  opacity:.5;
-  margin-bottom:20px;
-  display:block;
-}
-.cta-title{
-  font-family:"Cinzel",serif;
-  font-size:clamp(28px,4vw,56px);
-  font-weight:900;
-  letter-spacing:.08em;
-  color:var(--text);
-  margin-bottom:16px;
-}
-.cta-title .ai{color:var(--gold);}
-.cta-sub{
-  font-family:"Noto Serif KR",serif;
-  font-size:clamp(12px,1.3vw,15px);
-  font-weight:300;
-  color:rgba(242,237,228,.55);
-  line-height:2.2;
-  margin-bottom:56px;
-  max-width:800px;
-  margin-left:auto;
-  margin-right:auto;
-}
-.cta-btns{
-  display:flex;
-  gap:20px;
-  justify-content:center;
-  flex-wrap:wrap;
-}
-.btn-gold{
-  font-family:"Noto Serif KR",serif;
-  font-size:11px;
-  font-weight:400;
-  letter-spacing:.15em;
-  background:var(--gold);
-  color:var(--bg);
-  padding:14px 44px;
-  text-decoration:none;
-  transition:all .5s cubic-bezier(.4,0,.2,1);
-  cursor:pointer;
-  border:none;
-}
-.btn-gold:hover{
-  background:#E8CC7A;
-  transform:translateY(-2px);
-  box-shadow:0 6px 24px rgba(201,168,76,.3);
-}
-.btn-out{
-  font-family:"Noto Serif KR",serif;
-  font-size:11px;
-  font-weight:400;
-  letter-spacing:.15em;
-  border:1px solid rgba(201,168,76,.4);
-  color:var(--gold);
-  padding:14px 44px;
-  text-decoration:none;
-  background:none;
-  transition:all .5s cubic-bezier(.4,0,.2,1);
-  cursor:pointer;
-}
-.btn-out:hover{
-  background:rgba(201,168,76,.08);
-  border-color:var(--gold);
-  transform:translateY(-2px);
-}
+        /* SCROLL ANIMATIONS */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
 
-/* ════════════════════════════════════════════════
-   FOOTER
-════════════════════════════════════════════════ */
-footer{
-  background:var(--bg);
-  border-top:1px solid rgba(201,168,76,.1);
-  padding:44px 80px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:20px;
-}
-.ft-logo{
-  font-family:"Cinzel",serif;
-  font-size:13px;
-  font-weight:700;
-  letter-spacing:.2em;
-  color:var(--gold);
-}
-.ft-logo .ai{color:#E8CC7A;}
-.ft-copy{
-  font-family:"Noto Serif KR",serif;
-  font-size:9px;
-  font-weight:300;
-  letter-spacing:.08em;
-  color:rgba(242,237,228,.25);
-}
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-/* ════════════════════════════════════════════════
-   RESPONSIVE
-════════════════════════════════════════════════ */
-@media(min-width:769px) and (max-width:1024px){
-  #nav{padding:0 56px;}
-  .nlinks{gap:32px;}
-  .nlinks a{font-size:10px;}
-  .sec{padding:140px 56px;}
-  .sec-inner{max-width:900px;}
-  .gen-grid,.tango-grid{grid-template-columns:1fr;gap:60px;}
-  .gen-img-wrap{height:500px;}
-  .hist-grid{grid-template-columns:1fr;gap:0;}
-  .hist-grid::before{display:none;}
-  .ac-img{width:240px;}
-  footer{padding:36px 56px;}
-}
-@media(min-width:481px) and (max-width:768px){
-  #nav{padding:0 36px;height:60px;}
-  .nlinks{display:none;}
-  .nav-right .ncta{display:none;}
-  .nav-ham{display:flex;}
-  #fb-genesis{height:85vh;}
-  #hero{height:85vh;}
-  .hcont{padding:0 40px;}
-  .hsub{font-size:12px;}
-  .hscroll{display:none;}
-  .sec{padding:100px 40px;}
-  .sec-inner{max-width:100%;}
-  .gen-grid,.tango-grid{grid-template-columns:1fr;gap:48px;}
-  .gen-img-wrap{height:450px;order:-1;}
-  .hist-grid{grid-template-columns:1fr;gap:0;}
-  .hist-grid::before{display:none;}
-  .ac-img{width:200px;}
-  .ac-info{padding:20px 24px;}
-  .yemisa-grid{gap:16px;}
-  .yemisa-card{width:150px;}
-  #backstage-sec{height:360px;}
-  .backstage-content{padding:0 40px;}
-  footer{padding:32px 40px;flex-direction:column;text-align:center;}
-  .cta-btns{flex-direction:column;align-items:center;}
-  .btn-gold,.btn-out{width:100%;max-width:260px;}
-}
-@media(max-width:480px){
-  #nav{padding:0 24px;height:56px;}
-  .nlinks{display:none;}
-  .nav-right .ncta{display:none;}
-  #back-home-btn{font-size:8px;padding:8px 16px;}
-  .nav-ham{display:flex;}
-  #fb-genesis{height:100vh;}
-  .gtw-line1{font-size:clamp(22px,7vw,40px);}
-  .genesis-big-quote{font-size:clamp(13px,4vw,22px);}
-  #hero{height:95vh;}
-  .hcont{padding:0 24px;}
-  .hsub{font-size:11px;line-height:1.8;}
-  .hline{height:48px;margin:20px 0;}
-  .hscroll{display:none;}
-  .sec{padding:80px 24px;}
-  .sec-title{font-size:clamp(22px,5vw,36px);}
-  .gen-grid,.tango-grid{grid-template-columns:1fr;gap:40px;}
-  .gen-img-wrap{height:400px;order:-1;}
-  .hist-grid{grid-template-columns:1fr;gap:0;}
-  .hist-grid::before{display:none;}
-  .art-tabs button{font-size:10px;padding:8px 14px;}
-  .ac{flex-direction:column;}
-  .ac-img{width:100%;min-height:200px;max-height:280px;}
-  .ac-img img{min-height:200px;max-height:280px;}
-  .ac-info{padding:16px 20px;border-left:none;border-top:1px solid rgba(201,168,76,.1);}
-  .yemisa-grid{gap:12px;}
-  .yemisa-card{width:130px;}
-  #backstage-sec{height:280px;}
-  .backstage-content{padding:0 24px;}
-  footer{padding:28px 24px;flex-direction:column;text-align:center;gap:12px;}
-  .cta-btns{flex-direction:column;align-items:center;}
-  .btn-gold,.btn-out{width:100%;max-width:240px;font-size:10px;}
-}
-</style>
+        /* HERO SECTION */
+        .hero {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('images/perf_smoke.jpg');
+            background-size: cover;
+            background-position: center;
+            animation: heroZoom 20s ease-out infinite;
+        }
+
+        @keyframes heroZoom {
+            from {
+                transform: scale(1);
+            }
+            to {
+                transform: scale(1.08);
+            }
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom,
+                rgba(10, 9, 8, 0.3) 0%,
+                rgba(10, 9, 8, 0.7) 50%,
+                rgba(10, 9, 8, 0.95) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 900px;
+            padding: 2rem;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-subtitle {
+            font-family: 'Cinzel', serif;
+            font-size: 9px;
+            letter-spacing: 0.5em;
+            color: #C9A84C;
+            text-transform: uppercase;
+            margin-bottom: 3rem;
+        }
+
+        .hero-title {
+            margin-bottom: 4rem;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 4rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 40px;
+            background: linear-gradient(to bottom,
+                rgba(201, 168, 76, 0.3),
+                rgba(201, 168, 76, 1));
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        /* THESIS SECTION */
+        .thesis {
+            width: 100%;
+            background-color: #0A0908;
+            padding: 200px 3rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .thesis-quote {
+            font-family: 'Noto Serif KR', serif;
+            font-size: clamp(28px, 4vw, 48px);
+            font-weight: 200;
+            letter-spacing: 0.08em;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            animation: fadeInQuote 1s ease-out 0.3s both;
+        }
+
+        .thesis-divider {
+            width: 80px;
+            height: 1px;
+            background-color: #C9A84C;
+            margin: 0 auto 2rem;
+            opacity: 0.5;
+        }
+
+        .thesis-author {
+            font-family: 'Cinzel', serif;
+            font-size: 12px;
+            letter-spacing: 0.2em;
+            color: #C9A84C;
+            opacity: 0.5;
+            text-transform: uppercase;
+        }
+
+        @keyframes fadeInQuote {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* GENESIS SECTION */
+        .genesis {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            align-items: stretch;
+            min-height: 100vh;
+        }
+
+        .genesis-image {
+            background-image: url('images/screw_photo.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .genesis-content {
+            padding: 180px 5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background-color: #0A0908;
+        }
+
+        .genesis-title {
+            display: flex;
+            gap: 2rem;
+            align-items: baseline;
+            margin-bottom: 3rem;
+        }
+
+        .genesis-title h2 {
+            margin: 0;
+        }
+
+        .genesis-title .korean {
+            font-family: 'Noto Serif KR', serif;
+            font-size: clamp(24px, 3vw, 42px);
+            font-weight: 700;
+            letter-spacing: 0.08em;
+        }
+
+        .genesis-text p {
+            margin-bottom: 1.5rem;
+        }
+
+        .genesis-highlight {
+            font-style: italic;
+            color: #C9A84C;
+            margin: 2rem 0;
+            padding: 1.5rem 2rem;
+            border-left: 2px solid #C9A84C;
+            opacity: 0.9;
+        }
+
+        /* TIMELINE SECTION */
+        .timeline {
+            padding: 150px 3rem;
+            background-color: #0A0908;
+            position: relative;
+        }
+
+        .timeline-title {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .timeline-title h2 {
+            margin-bottom: 1rem;
+        }
+
+        .timeline-title .korean {
+            font-family: 'Noto Serif KR', serif;
+            font-size: clamp(24px, 3vw, 42px);
+            font-weight: 700;
+        }
+
+        .timeline-container {
+            position: relative;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background-color: #C9A84C;
+            opacity: 0.3;
+            transform: translateX(-50%);
+        }
+
+        .timeline-entry {
+            margin-bottom: 4rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .timeline-entry.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .timeline-entry:nth-child(odd) {
+            text-align: right;
+            padding-right: 52%;
+        }
+
+        .timeline-entry:nth-child(even) {
+            text-align: left;
+            padding-left: 52%;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            background-color: #C9A84C;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            opacity: 0.6;
+        }
+
+        .timeline-year {
+            font-family: 'Cinzel', serif;
+            font-size: 14px;
+            letter-spacing: 0.1em;
+            color: #C9A84C;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-text {
+            font-size: 15px;
+            font-weight: 300;
+            line-height: 1.7;
+        }
+
+        .timeline-img {
+            margin-top: 1rem;
+            width: 100%;
+            max-width: 280px;
+            height: auto;
+            border: 1px solid #C9A84C;
+            opacity: 0.7;
+        }
+
+        .timeline-entry:nth-child(odd) .timeline-img {
+            margin-left: 0;
+        }
+
+        .timeline-entry:nth-child(even) .timeline-img {
+            margin-left: auto;
+        }
+
+        /* HORIZONTAL SCROLL GALLERY */
+        .gallery-section {
+            padding: 150px 3rem 100px;
+            background-color: #0A0908;
+        }
+
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .gallery-header h2 {
+            margin-bottom: 1rem;
+        }
+
+        .gallery-header .korean {
+            font-family: 'Noto Serif KR', serif;
+            font-size: clamp(24px, 3vw, 42px);
+            font-weight: 700;
+        }
+
+        .gallery-filters {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            font-family: 'Cinzel', serif;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            padding: 0.8rem 1.5rem;
+            background: transparent;
+            border: 1px solid #C9A84C;
+            color: #C9A84C;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+        }
+
+        .filter-btn.active {
+            background-color: #C9A84C;
+            color: #0A0908;
+        }
+
+        .filter-btn:hover {
+            background-color: #C9A84C;
+            color: #0A0908;
+        }
+
+        .gallery-scroll {
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 2rem 0;
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: #C9A84C rgba(201, 168, 76, 0.1);
+        }
+
+        .gallery-scroll::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .gallery-scroll::-webkit-scrollbar-track {
+            background: rgba(201, 168, 76, 0.05);
+        }
+
+        .gallery-scroll::-webkit-scrollbar-thumb {
+            background: #C9A84C;
+            border-radius: 3px;
+        }
+
+        .gallery-container {
+            display: flex;
+            gap: 2rem;
+            padding-bottom: 1rem;
+            min-width: 100%;
+        }
+
+        .gallery-card {
+            flex: 0 0 300px;
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 3/4;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-card:hover {
+            border-color: #C9A84C;
+            opacity: 0.9;
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-card-title {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(10, 9, 8, 0.95), transparent);
+            padding: 2rem 1.5rem 1.5rem;
+            font-size: 13px;
+            letter-spacing: 0.05em;
+            text-align: center;
+        }
+
+        /* VIDEO ART SECTION */
+        .videoart {
+            padding: 150px 3rem;
+            background-color: #0A0908;
+        }
+
+        .videoart-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .videoart-title h2 {
+            margin-bottom: 1rem;
+        }
+
+        .videoart-title .korean {
+            font-family: 'Noto Serif KR', serif;
+            font-size: clamp(24px, 3vw, 42px);
+            font-weight: 700;
+        }
+
+        .videoart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .videoart-card {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 4/3;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .videoart-card:hover {
+            border-color: #C9A84C;
+        }
+
+        .videoart-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: brightness 0.3s ease;
+        }
+
+        .videoart-card:hover img {
+            brightness: 1.15;
+        }
+
+        /* TANGO SECTION */
+        .tango {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-top: 5rem;
+        }
+
+        .tango-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('images/tango_bw_spotlight.jpg');
+            background-size: cover;
+            background-position: center;
+            animation: tangoZoom 18s ease-out infinite;
+        }
+
+        @keyframes tangoZoom {
+            from {
+                transform: scale(1);
+            }
+            to {
+                transform: scale(1.08);
+            }
+        }
+
+        .tango-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg,
+                rgba(10, 9, 8, 0.6),
+                rgba(139, 37, 0, 0.15),
+                rgba(10, 9, 8, 0.7));
+        }
+
+        .tango-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 900px;
+            padding: 3rem;
+        }
+
+        .tango-title-large {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(80px, 15vw, 200px);
+            font-weight: 900;
+            color: rgba(242, 237, 228, 0.2);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            white-space: nowrap;
+            z-index: 5;
+        }
+
+        .tango-title {
+            font-family: 'Noto Serif KR', serif;
+            font-size: clamp(32px, 5vw, 64px);
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            margin-bottom: 2rem;
+            position: relative;
+            z-index: 15;
+        }
+
+        .tango-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .tango-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border: 1px solid #C9A84C;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+
+        .tango-img:hover {
+            opacity: 1;
+            border-color: #8B2500;
+        }
+
+        /* CONCEPT SECTION */
+        .concept {
+            padding: 150px 3rem;
+            background-color: #0A0908;
+        }
+
+        .concept-title {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .concept-title h2 {
+            margin-bottom: 1rem;
+        }
+
+        .concept-title .korean {
+            font-family: 'Noto Serif KR', serif;
+            font-size: clamp(24px, 3vw, 42px);
+            font-weight: 700;
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .concept-card {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 1;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .concept-card:hover {
+            border-color: #C9A84C;
+        }
+
+        .concept-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .concept-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .concept-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(10, 9, 8, 0.95), transparent);
+            padding: 2rem 1.5rem 1.5rem;
+            font-size: 13px;
+            letter-spacing: 0.05em;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .concept-card:hover .concept-overlay {
+            opacity: 1;
+        }
+
+        /* BACKSTAGE SECTION */
+        .backstage {
+            padding: 150px 3rem;
+            background-color: #0A0908;
+        }
+
+        .backstage-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .backstage-img {
+            width: 100%;
+            height: auto;
+            border: 1px solid #C9A84C;
+            opacity: 0.85;
+        }
+
+        .backstage-text h3 {
+            margin-bottom: 2rem;
+        }
+
+        .backstage-text p {
+            font-size: 17px;
+            font-weight: 300;
+            line-height: 2;
+        }
+
+        /* CTA SECTION */
+        .cta {
+            padding: 120px 3rem;
+            background-color: #0A0908;
+            text-align: center;
+            border-top: 1px solid rgba(201, 168, 76, 0.1);
+        }
+
+        .cta-title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(32px, 5vw, 56px);
+            font-weight: 700;
+            margin-bottom: 3rem;
+            letter-spacing: 0.03em;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .cta-btn {
+            font-family: 'Cinzel', serif;
+            font-size: 13px;
+            letter-spacing: 0.15em;
+            padding: 1.2rem 3rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: 1px solid #C9A84C;
+        }
+
+        .cta-btn.primary {
+            background-color: #C9A84C;
+            color: #0A0908;
+        }
+
+        .cta-btn.primary:hover {
+            background-color: transparent;
+            color: #C9A84C;
+        }
+
+        .cta-btn.secondary {
+            background-color: transparent;
+            color: #C9A84C;
+        }
+
+        .cta-btn.secondary:hover {
+            background-color: #C9A84C;
+            color: #0A0908;
+        }
+
+        /* FOOTER */
+        footer {
+            padding: 4rem 3rem;
+            background-color: #0A0908;
+            border-top: 1px solid rgba(201, 168, 76, 0.1);
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 12px;
+            letter-spacing: 0.1em;
+        }
+
+        .footer-content p {
+            margin-bottom: 1rem;
+            font-size: 12px;
+        }
+
+        .back-to-top {
+            display: inline-block;
+            margin-top: 2rem;
+            font-family: 'Cinzel', serif;
+            color: #C9A84C;
+            text-decoration: none;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            transition: opacity 0.3s ease;
+        }
+
+        .back-to-top:hover {
+            opacity: 0.7;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1200px) {
+            .genesis {
+                grid-template-columns: 1fr;
+            }
+
+            .genesis-image {
+                min-height: 400px;
+            }
+
+            .genesis-content {
+                padding: 100px 3rem;
+            }
+
+            .timeline-line {
+                display: none;
+            }
+
+            .timeline-entry:nth-child(odd),
+            .timeline-entry:nth-child(even) {
+                text-align: center;
+                padding: 0;
+            }
+
+            .timeline-dot {
+                left: 0;
+                top: -20px;
+            }
+
+            .backstage-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                padding: 1.5rem 1.5rem;
+            }
+
+            nav a {
+                font-size: 10px;
+            }
+
+            .hero-content {
+                padding: 1rem;
+            }
+
+            .thesis {
+                padding: 100px 2rem;
+            }
+
+            .genesis-content {
+                padding: 80px 2rem;
+            }
+
+            .timeline {
+                padding: 80px 1.5rem;
+            }
+
+            .gallery-section {
+                padding: 100px 1.5rem 80px;
+            }
+
+            .videoart {
+                padding: 100px 1.5rem;
+            }
+
+            .videoart-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tango {
+                padding: 100px 1.5rem;
+            }
+
+            .concept {
+                padding: 100px 1.5rem;
+            }
+
+            .concept-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .backstage {
+                padding: 100px 1.5rem;
+            }
+
+            .cta {
+                padding: 80px 1.5rem;
+            }
+
+            .cta-buttons {
+                gap: 1rem;
+            }
+
+            .cta-btn {
+                padding: 1rem 2rem;
+                font-size: 11px;
+            }
+
+            .gallery-card {
+                flex: 0 0 250px;
+            }
+
+            .tango-title-large {
+                font-size: clamp(40px, 12vw, 120px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1, .korean-title {
+                font-size: clamp(32px, 6vw, 48px);
+            }
+
+            h2 {
+                font-size: clamp(20px, 4vw, 32px);
+            }
+
+            nav {
+                padding: 1rem;
+            }
+
+            nav a {
+                font-size: 9px;
+            }
+
+            .hero-subtitle {
+                font-size: 8px;
+            }
+
+            .thesis {
+                padding: 80px 1rem;
+            }
+
+            .thesis-quote {
+                font-size: clamp(18px, 3.5vw, 28px);
+            }
+
+            .gallery-card {
+                flex: 0 0 200px;
+            }
+
+            .gallery-filters {
+                gap: 0.8rem;
+            }
+
+            .filter-btn {
+                font-size: 9px;
+                padding: 0.6rem 1rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .cta-btn {
+                width: 100%;
+            }
+
+            .tango-title-large {
+                font-size: clamp(30px, 10vw, 80px);
+            }
+        }
+
+        /* LIGHTBOX */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(10, 9, 8, 0.95);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .lightbox.open {
+            display: flex;
+        }
+
+        .lightbox-content {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            aspect-ratio: 16/9;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -60px;
+            right: 0;
+            font-family: 'Cinzel', serif;
+            font-size: 32px;
+            color: #C9A84C;
+            cursor: pointer;
+            border: none;
+            background: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox-close:hover {
+            opacity: 0.7;
+        }
+
+        .lightbox iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
 </head>
 <body>
+    <!-- NAVIGATION -->
+    <nav id="navbar">
+        <a href="index.html">← ARIS KIM</a>
+        <a href="booking.html">BOOKING →</a>
+    </nav>
 
-<!-- PROGRESS BAR -->
-<div id="prog"></div>
-
-<!-- NAVIGATION -->
-<nav id="nav">
-  <a href="index.html" class="nlogo"><span class="ai">A</span>RIS KIM</a>
-  <ul class="nlinks">
-    <li><a href="#genesis">탄생</a></li>
-    <li><a href="#history">연보</a></li>
-    <li><a href="#art">현대미술</a></li>
-    <li><a href="#tango">탱고</a></li>
-    <li><a href="#yemisa">예미사</a></li>
-  </ul>
-  <div class="nav-right">
-    <a href="index.html?skip=1" id="back-home-btn">← 처음으로</a>
-    <a href="booking.html#contact" class="ncta">공연 의뢰</a>
-  </div>
-  <button class="nav-ham" id="sham"><span></span><span></span><span></span></button>
-</nav>
-<div id="bmob">
-  <a href="#genesis" onclick="closeMobMenu()">탄생</a>
-  <a href="#history" onclick="closeMobMenu()">연보</a>
-  <a href="#art" onclick="closeMobMenu()">현대미술</a>
-  <a href="#tango" onclick="closeMobMenu()">탱고</a>
-  <a href="#yemisa" onclick="closeMobMenu()">예미사</a>
-  <a href="booking.html#contact" class="bmcta" onclick="closeMobMenu()">공연 의뢰</a>
-</div>
-
-<!-- SECTION 1: CINEMATIC OPENING -->
-<div id="fb-genesis">
-  <img class="fb-bg" src="images/screw_photo.jpg" alt="장르의 창세기">
-  <div class="fb-ov"></div>
-  <div class="fb-content">
-    <div class="genesis-typewriter">
-      <div class="gtw-line1">
-        <span class="gtw-text" id="gtw1"></span><span class="gtw-cursor" id="gtw-cur1">|</span>
-      </div>
-      <div class="gtw-spacer"></div>
-      <div class="gtw-line1">
-        <span class="gtw-text" id="gtw3"></span><span class="gtw-cursor" id="gtw-cur3">|</span>
-      </div>
-    </div>
-    <div class="genesis-big-quote" id="genesis-big-quote">
-      장르가 없는 게 아니라,<br>장르가 <em>아리스김</em>이다.
-    </div>
-  </div>
-</div>
-
-<!-- SECTION 2: HERO -->
-<section id="hero">
-  <div class="hbg"><img src="images/img_01_242kb.jpg" alt="Aris Kim"></div>
-  <div class="hov"></div>
-  <div class="hcont">
-    <div class="htag">ARIS KIM · 아리스 김</div>
-    <h1 class="htitle"><span class="ai">A</span>RIS KIM</h1>
-    <div class="hkr">아 리 스 김</div>
-    <div class="hline"></div>
-    <div class="hsub">
-      하고 싶으면 그냥 했다.<br>
-      계속 미치다 보니까 뭔가 이뤄진다.
-    </div>
-  </div>
-  <div class="hscroll">
-    <span>SCROLL</span>
-    <div class="hscroll-line"></div>
-  </div>
-</section>
-
-<!-- SECTION 3: GENESIS -->
-<section class="sec" id="genesis">
-  <div class="sec-inner">
-    <div class="gen-grid">
-      <div class="gen-img-wrap rv-l">
-        <img class="gen-img" src="images/img_02_69kb.jpg" alt="Aris Kim Profile">
-        <div class="gen-badge">
-          <div class="gen-badge-n">2003</div>
-          <div class="gen-badge-l">거리 공연 시작</div>
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <p class="hero-subtitle">THE WILD SOUL</p>
+            <h1 class="hero-title korean-title">야생의 영혼</h1>
         </div>
-      </div>
-      <div class="rv-r">
-        <span class="sec-label">Genesis · 탄생</span>
-        <h2 class="sec-title">복제 불가능한,<br><em>독보적인 Aura</em></h2>
-        <div class="gold-rule"></div>
-        <p class="body-txt">
-          예술의 전당 최초 1호에서 뉴욕 카네기홀 초청 무대까지. 예술에 경계를 두지 않는 아리스김은 날카롭게 날아오는 돌들도 마다않고, 숱한 밤을 새가며, 시대적 새로운 인상을 선보이는 융합 아티스트다.<br><br>
-          07학번 한국예술종합학교 음악원 학생회장 시절 타원들의 소통을 통해 다원적 사고 방식을 배웠고, 자신의 철학 아브라소 테크놀라지(안기의 기술)를 기반으로 "아리가 타리"다. 나를 위함은 타인을 위한 것이다.라는 "나와 너"에 대한 무공덕을 통해 인간의 양면적 모티브로 창작에 임하고 있다.<br><br>
-          복제 불가능, 독보적인 "Aura"를 가진 융합 예술가 아리스김은 오늘도 아리쇼를 하고 있다.
-        </p>
-        <div class="gen-words">
-          <span class="gen-word">색소폰</span>
-          <span class="gen-word">카운터테너</span>
-          <span class="gen-word">탱고 챔피언</span>
-          <span class="gen-word">현대미술</span>
-          <span class="gen-word">홀로그램</span>
-          <span class="gen-word">미디어 아트</span>
-          <span class="gen-word">LED 설치</span>
-          <span class="gen-word">AI</span>
+        <div class="scroll-indicator"></div>
+    </section>
+
+    <!-- THESIS SECTION -->
+    <section class="thesis fade-in">
+        <p class="thesis-quote">머리가 비어야 할 수 있었던 것이었습니다</p>
+        <div class="thesis-divider"></div>
+        <p class="thesis-author">— ARIS KIM</p>
+    </section>
+
+    <!-- GENESIS SECTION -->
+    <section class="genesis fade-in">
+        <div class="genesis-image"></div>
+        <div class="genesis-content">
+            <div class="genesis-title">
+                <h2>Genesis</h2>
+                <div class="korean">탄생</div>
+            </div>
+            <p>2003년. 한국예술종합학교에서의 퇴학. 많은 사람들에게 이것은 끝처럼 보였다. 하지만 아리스 김에게 그것은 시작이었다.</p>
+            <p>거리 공연자로서의 삶. 지하철역 플랫폼, 공원, 광장. 생존을 위한 공연이었지만, 모든 제약이 풀렸을 때 진정한 창의성이 피어났다.</p>
+            <p>"내 창의성은 가난에서 시작이 됐습니다."</p>
+            <p>한 스님이 그에게 말했다. "참 재능은 많은데 머리가 빌렸어." 비어있는 머리. 생각하지 않는 마음. 오직 본능만이 있었다.</p>
+            <div class="genesis-highlight">
+                "한예종 자퇴. 그것은 포기가 아닌, 나만의 무대를 위한 가장 위대한 선택이었다"
+            </div>
+            <p>그 선택이 몸을 움직이게 했고, 그 움직임이 세상을 놀라게 했다.</p>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
+    </section>
 
-<!-- SECTION 4: QUOTE -->
-<section id="quote-sec">
-  <div class="quote-box rv">
-    <blockquote>
-      나의 무대는 색소폰이 아니라<br>그냥 아리스 김이었던 거 같아.
-    </blockquote>
-    <cite>— ARIS KIM</cite>
-  </div>
-</section>
-
-<!-- SECTION 5: HISTORY -->
-<section class="sec" id="history">
-  <div class="sec-inner">
-    <span class="sec-label rv">History · 연보</span>
-    <h2 class="sec-title rv">아리스김이<br><em>걸어온 길</em></h2>
-    <div class="gold-rule rv"></div>
-    <div class="hist-grid">
-      <div class="hist-item rv"><div class="hist-year">2003</div><div class="hist-txt">전주 전북대 앞 거리 공연 시작 · 색소폰 연주자로 출발</div></div>
-      <div class="hist-item rv"><div class="hist-year">2008</div><div class="hist-txt">한국예술종합학교 음악원 학생회장 2년 역임</div></div>
-      <div class="hist-item rv"><div class="hist-year">2009</div><div class="hist-txt">유인촌 문화부 장관상 수상</div></div>
-      <div class="hist-item rv"><div class="hist-year">2012</div><div class="hist-txt">아리스김 VIDEO ART CONCERT 예술의 전당 주최</div></div>
-      <div class="hist-item rv"><div class="hist-year">2013</div><div class="hist-txt">예술의 전당 설립 25주년 최초 1호 거리 아티스트 선정<br>자랑스런 한국인 대상 · 국위선양공로대상 수상</div></div>
-      <div class="hist-item rv"><div class="hist-year">2014</div><div class="hist-txt">한국을 빛낸 사람들 공연예술발전공로대상 수상</div></div>
-      <div class="hist-item rv"><div class="hist-year">2016</div><div class="hist-txt">아시아 탱고 챔피언 에세나리오 부문 대상<br>바탱고(솔로탱고) 아카데미 설립 및 특허 창시</div></div>
-      <div class="hist-item rv"><div class="hist-year">2017~19</div><div class="hist-txt">아리스김 아리쇼 정기 콘서트 주최</div></div>
-      <div class="hist-item rv"><div class="hist-year">2018</div><div class="hist-txt">한국콘텐츠진흥원 문화체험기술창조 2년 수료<br>세계 최초 AI 공연 예술 접목 Art Intelligence 시도</div></div>
-      <div class="hist-item rv"><div class="hist-year">2021</div><div class="hist-txt">서울문화재단 주최 "ART MUST GO ON" 콜라보 · 이탈리아, 프랑스, 미국</div></div>
-      <div class="hist-item rv"><div class="hist-year">2022</div><div class="hist-txt">뉴욕 카네기홀 초청 무대<br>뉴욕 타임스퀘어 현대미술 콜라보 퍼포먼스</div></div>
-      <div class="hist-item rv"><div class="hist-year">현재</div><div class="hist-txt">현대미술 · 색소폰 · 탱고챔피언 · 미디어 아트 맵핑 · 홀로그램 · LED 모듈 설치미술 · 탱고 고등학교</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- SECTION 6: ART COLLECTION -->
-<section class="sec" id="art">
-  <div class="sec-inner">
-    <span class="sec-label rv">Contemporary Art · 현대미술</span>
-    <h2 class="sec-title rv">아리스김<br><em>현대미술 컬렉션</em></h2>
-    <div class="gold-rule rv"></div>
-    <p class="body-txt rv" style="margin-bottom:44px;">
-      아시아 탱고 챔피언으로서 탱고의 Abrazo Technology(안기의 기술) 철학을 기반으로 모든 예술을 안은 채 자신의 파괴된 배설물로 현대 미술을 재배열하고 재창조시켜 현대 예술의 방향성에 대해 고민하는 실존 인물.
-    </p>
-    <div class="art-tabs rv">
-      <button data-cat="all" class="active">전체</button>
-      <button data-cat="painting">회화</button>
-      <button data-cat="hologram">홀로그램 & NFT</button>
-      <button data-cat="led">LED Art</button>
-      <button data-cat="creativity">창의성</button>
-      <button data-cat="critique">사회 비판</button>
-      <button data-cat="smoke">연기 시리즈</button>
-    </div>
-    <div class="art-grid">
-      <div class="ac" data-cat="painting"><div class="ac-img"><img src="images/img_08_65kb.jpg" alt="범이 내려온다" loading="lazy"></div><div class="ac-info"><div class="ac-title">범이 내려온다</div><div class="ac-sub">도시에 나타난 호랑이</div><div class="ac-size">147×107cm</div></div></div>
-      <div class="ac" data-cat="hologram"><div class="ac-img"><img src="images/img_09_60kb.jpg" alt="이기적인 신" loading="lazy"></div><div class="ac-info"><div class="ac-title">이기적인 신</div><div class="ac-sub">인터랙티브 홀로그램 팬 작품 +NFT</div><div class="ac-size">260×110cm</div></div></div>
-      <div class="ac" data-cat="hologram"><div class="ac-img"><img src="images/img_10_72kb.jpg" alt="아리스맨" loading="lazy"></div><div class="ac-info"><div class="ac-title">아리스맨</div><div class="ac-sub">홀로그램 작품 +NFT</div><div class="ac-size">200×130cm</div></div></div>
-      <div class="ac" data-cat="hologram"><div class="ac-img"><img src="images/img_11_69kb.jpg" alt="눈치!" loading="lazy"></div><div class="ac-info"><div class="ac-title">눈치!</div><div class="ac-sub">홀로그램 작품 · 죽으면 썩을 몸! 눈치보지마라!</div><div class="ac-size">200×130cm</div></div></div>
-      <div class="ac" data-cat="creativity"><div class="ac-img"><img src="images/img_12_77kb.jpg" alt="창의성 나사" loading="lazy"></div><div class="ac-info"><div class="ac-title">창의성 '나사'</div><div class="ac-sub">난 '똘아이'라는 말을 많이 들었다</div><div class="ac-size">210×115cm</div></div></div>
-      <div class="ac" data-cat="led"><div class="ac-img"><img src="images/img_13_49kb.jpg" alt="신의 선물 나사" loading="lazy"></div><div class="ac-info"><div class="ac-title">신의 선물 '나사'</div><div class="ac-sub">LED Art · 머리에 박힌 나사는 창의성</div><div class="ac-size">110×110cm</div></div></div>
-      <div class="ac" data-cat="hologram"><div class="ac-img"><img src="images/img_14_44kb.jpg" alt="인간나사 다비드" loading="lazy"></div><div class="ac-info"><div class="ac-title">인간나사 다비드</div><div class="ac-sub">인터랙티브 LED +NFT · 획일적 사회에 풍자</div><div class="ac-size">200×130cm</div></div></div>
-      <div class="ac" data-cat="led"><div class="ac-img"><img src="images/img_15_36kb.jpg" alt="인류" loading="lazy"></div><div class="ac-info"><div class="ac-title">인류</div><div class="ac-sub">신은 나사를 줬고, 예수는 빵을 줬다. 그러나 인간은?</div><div class="ac-size">300×100cm</div></div></div>
-      <div class="ac" data-cat="creativity"><div class="ac-img"><img src="images/img_16_51kb.jpg" alt="인간나사 로봇" loading="lazy"></div><div class="ac-info"><div class="ac-title">인간나사 (로봇)</div><div class="ac-sub">순환 예술 · 타의적인 현대인을 묘사한 로봇</div><div class="ac-size">220×100cm</div></div></div>
-      <div class="ac" data-cat="led"><div class="ac-img"><img src="images/img_17_54kb.jpg" alt="창작의 고통" loading="lazy"></div><div class="ac-info"><div class="ac-title">창작의 고통</div><div class="ac-sub">LED +NFT · 사회적 억압 벗어나기 위한 고통의 몸부림</div><div class="ac-size">200×130cm</div></div></div>
-      <div class="ac" data-cat="hologram"><div class="ac-img"><img src="images/img_18_77kb.jpg" alt="홀로그램 행위 퍼포먼스" loading="lazy"></div><div class="ac-info"><div class="ac-title">홀로그램 행위 퍼포먼스</div><div class="ac-sub">기술+예술 융합의 좋은 사례</div><div class="ac-size">키 175cm</div></div></div>
-      <div class="ac" data-cat="painting"><div class="ac-img"><img src="images/img_19_71kb.jpg" alt="내가 새라면" loading="lazy"></div><div class="ac-info"><div class="ac-title">내가 새라면</div><div class="ac-sub">자유와 죽음의 경계</div><div class="ac-size">180×80cm</div></div></div>
-      <div class="ac" data-cat="painting"><div class="ac-img"><img src="images/img_20_80kb.jpg" alt="황소" loading="lazy"></div><div class="ac-info"><div class="ac-title">황소</div><div class="ac-sub">암컷 황소 · 이중섭 모티브 · 음과 양의 양면성</div><div class="ac-size">190×180cm</div></div></div>
-      <div class="ac" data-cat="painting"><div class="ac-img"><img src="images/img_21_63kb.jpg" alt="하늘 땅 바다" loading="lazy"></div><div class="ac-info"><div class="ac-title">하늘, 땅, 바다</div><div class="ac-sub">색의 삼원색처럼 삼위일체</div><div class="ac-size">200×110cm</div></div></div>
-      <div class="ac" data-cat="painting"><div class="ac-img"><img src="images/img_22_45kb.jpg" alt="옹고집" loading="lazy"></div><div class="ac-info"><div class="ac-title">옹고집</div><div class="ac-sub">고집이 있어야 뭔 좀! 해볼 수 있지 않겠나!</div><div class="ac-size">170×40cm</div></div></div>
-      <div class="ac" data-cat="hologram"><div class="ac-img"><img src="images/img_23_46kb.jpg" alt="Amy" loading="lazy"></div><div class="ac-info"><div class="ac-title">Amy</div><div class="ac-sub">인터랙티브 센서 모듈 +NFT · 가까이 다가갈수록 하트 완성</div><div class="ac-size">100×100cm</div></div></div>
-      <div class="ac" data-cat="hologram"><div class="ac-img"><img src="images/img_24_40kb.jpg" alt="무공덕 달마" loading="lazy"></div><div class="ac-info"><div class="ac-title">무공덕 달마</div><div class="ac-sub">인터랙티브 스위치 +NFT · 코로나 시대의 달마</div><div class="ac-size">100×100cm</div></div></div>
-      <div class="ac" data-cat="led"><div class="ac-img"><img src="images/img_25_56kb.jpg" alt="추꽃" loading="lazy"></div><div class="ac-info"><div class="ac-title">추꽃</div><div class="ac-sub">LED Art · 양면 작품 · 순환적 경계를 재현</div><div class="ac-size">590×520cm</div></div></div>
-      <div class="ac" data-cat="led"><div class="ac-img"><img src="images/img_26_52kb.jpg" alt="어둠 속의 용" loading="lazy"></div><div class="ac-info"><div class="ac-title">어둠 속의 용</div><div class="ac-sub">LED Art · 양면 · 순환적 경계를 재현</div><div class="ac-size">200×100cm</div></div></div>
-      <div class="ac" data-cat="led"><div class="ac-img"><img src="images/img_27_76kb.jpg" alt="욕망 손금" loading="lazy"></div><div class="ac-info"><div class="ac-title">욕망 '손금'</div><div class="ac-sub">성공은 누구나 욕망하지만 아무나 가질 수 없다</div><div class="ac-size">70×40cm</div></div></div>
-      <div class="ac" data-cat="critique"><div class="ac-img"><img src="images/img_28_83kb.jpg" alt="War 시리즈" loading="lazy"></div><div class="ac-info"><div class="ac-title">War 시리즈</div><div class="ac-sub">죽까! / 푸틴 멈춰! / 탱크맨</div><div class="ac-size">다양</div></div></div>
-      <div class="ac" data-cat="critique"><div class="ac-img"><img src="images/img_29_74kb.jpg" alt="War 시리즈 II" loading="lazy"></div><div class="ac-info"><div class="ac-title">War 시리즈 II</div><div class="ac-sub">Z:푸틴의 전쟁 / 국가대표 / 성 재블린</div><div class="ac-size">다양</div></div></div>
-      <div class="ac" data-cat="critique"><div class="ac-img"><img src="images/img_30_74kb.jpg" alt="우그그 나와 너" loading="lazy"></div><div class="ac-info"><div class="ac-title">우그그 / 나와 너</div><div class="ac-sub">마음먹기 달렸다 / 中 나와 너</div><div class="ac-size">다양</div></div></div>
-      <div class="ac" data-cat="smoke"><div class="ac-img"><img src="images/img_31_29kb.jpg" alt="무제 1" loading="lazy"></div><div class="ac-info"><div class="ac-title">무제 1</div><div class="ac-sub">불로 그을려 연기를 담은 작품</div><div class="ac-size">980×580mm</div></div></div>
-      <div class="ac" data-cat="smoke"><div class="ac-img"><img src="images/img_32_16kb.jpg" alt="무제 2" loading="lazy"></div><div class="ac-info"><div class="ac-title">무제 2</div><div class="ac-sub">불로 그을려 연기를 담은 작품</div><div class="ac-size">1750×780mm</div></div></div>
-      <div class="ac" data-cat="smoke"><div class="ac-img"><img src="images/img_33_15kb.jpg" alt="무제 3" loading="lazy"></div><div class="ac-info"><div class="ac-title">무제 3</div><div class="ac-sub">불로 그을려 연기를 담은 작품</div><div class="ac-size">1400×930mm</div></div></div>
-      <div class="ac" data-cat="smoke"><div class="ac-img"><img src="images/img_34_72kb.jpg" alt="무제 4" loading="lazy"></div><div class="ac-info"><div class="ac-title">무제 4</div><div class="ac-sub">불로 그을려 연기를 담은 작품</div><div class="ac-size">1400×430mm</div></div></div>
-    </div>
-  </div>
-</section>
-
-<!-- SECTION 7: TANGO -->
-<section class="sec" id="tango">
-  <div class="sec-inner">
-    <div class="tango-grid">
-      <div class="tango-text rv-l">
-        <span class="sec-label">Tango · 탱고</span>
-        <h2 class="sec-title">AI 시대,<br><em>탱고가 답이었다</em></h2>
-        <div class="gold-rule"></div>
-        <p class="body-txt">
-          아리스김이 개발한 뉴럴탱고(Neural Tango)는 인간의 신체 접촉을 통해 옥시토신을 분비하고 AI 시대에 인간만이 가질 수 있는 '스킨 데이터'를 연결하는 교육 철학이다.<br><br>
-          2016 아시아 탱고 챔피언십 에세나리오 부문 우승. 바탱고(솔로탱고) 특허 창시. 마린 탱고 고등학교 설립. ARIS Method / Neural Tango — AI가 결코 대체할 수 없는 야생의 감각.
-        </p>
-        <div class="tango-tags">
-          <span class="tango-tag">아시아 탱고 챔피언</span>
-          <span class="tango-tag">바탱고 특허</span>
-          <span class="tango-tag">뉴럴탱고</span>
-          <span class="tango-tag">ANSC-14</span>
-          <span class="tango-tag">마린 탱고 고등학교</span>
+    <!-- TIMELINE SECTION -->
+    <section class="timeline fade-in">
+        <div class="timeline-title">
+            <h2>Timeline</h2>
+            <div class="korean">연보</div>
         </div>
-      </div>
-      <div class="rv-r">
-        <img class="tango-img" src="images/img_35_141kb.jpg" alt="아리스김 탱고">
-      </div>
+        <div class="timeline-container">
+            <div class="timeline-line"></div>
+
+            <div class="timeline-entry fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2003</div>
+                <div class="timeline-text">한예종 퇴학<br>The beginning of freedom</div>
+                <img src="images/img_06_142kb.jpg" alt="empty theater" class="timeline-img">
+            </div>
+
+            <div class="timeline-entry fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2010S</div>
+                <div class="timeline-text">거리 공연의 시대<br>Busking the streets of Seoul</div>
+                <img src="images/street__2_.jpg" alt="street performance" class="timeline-img">
+            </div>
+
+            <div class="timeline-entry fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2016</div>
+                <div class="timeline-text">탱고 챔피언<br>Korea's Tango Champion</div>
+                <img src="images/img_35_141kb.jpg" alt="tango dance" class="timeline-img">
+            </div>
+
+            <div class="timeline-entry fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2018</div>
+                <div class="timeline-text">예술의전당 공연<br>Korea's largest performing arts venue</div>
+                <img src="images/concert_gallery.jpg" alt="concert" class="timeline-img">
+            </div>
+
+            <div class="timeline-entry fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2019</div>
+                <div class="timeline-text">카네기홀<br>Carnegie Hall, New York</div>
+                <img src="images/carnegie.jpg" alt="carnegie hall" class="timeline-img">
+            </div>
+
+            <div class="timeline-entry fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">현재</div>
+                <div class="timeline-text">Media Artist & Innovator<br>The Wild Soul continues</div>
+                <img src="images/hero_artist_black.jpg" alt="present day" class="timeline-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- GALLERY SECTION -->
+    <section class="gallery-section fade-in">
+        <div class="gallery-header">
+            <h2>Art Collection</h2>
+            <div class="korean">예술 컬렉션</div>
+        </div>
+
+        <div class="gallery-filters">
+            <button class="filter-btn active" data-filter="all">전체</button>
+            <button class="filter-btn" data-filter="led">LED Art</button>
+            <button class="filter-btn" data-filter="interactive">인터랙티브</button>
+            <button class="filter-btn" data-filter="painting">회화</button>
+            <button class="filter-btn" data-filter="hologram">홀로그램</button>
+            <button class="filter-btn" data-filter="nft">NFT</button>
+            <button class="filter-btn" data-filter="installation">설치</button>
+        </div>
+
+        <div class="gallery-scroll">
+            <div class="gallery-container" id="galleryContainer">
+                <!-- Generated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- VIDEO ART SECTION -->
+    <section class="videoart fade-in">
+        <div class="videoart-title">
+            <h2>Video Art</h2>
+            <div class="korean">영상 예술</div>
+        </div>
+        <div class="videoart-grid">
+            <div class="videoart-card">
+                <img src="images/video_art__1_.jpg" alt="video art 1">
+            </div>
+            <div class="videoart-card">
+                <img src="images/video_art__2_.jpg" alt="video art 2">
+            </div>
+            <div class="videoart-card">
+                <img src="images/video_art__3_.jpg" alt="video art 3">
+            </div>
+            <div class="videoart-card">
+                <img src="images/video_art__4_.jpg" alt="video art 4">
+            </div>
+            <div class="videoart-card">
+                <img src="images/video_art__5_.jpg" alt="video art 5">
+            </div>
+            <div class="videoart-card">
+                <img src="images/video_art__6_.jpg" alt="video art 6">
+            </div>
+            <div class="videoart-card">
+                <img src="images/video_art_armor.jpg" alt="video art armor">
+            </div>
+            <div class="videoart-card">
+                <img src="images/video_art_avatar.jpg" alt="video art avatar">
+            </div>
+            <div class="videoart-card">
+                <img src="images/video_art_blue_portal.jpg" alt="video art blue portal">
+            </div>
+            <div class="videoart-card">
+                <img src="images/video_art_laser_red.jpg" alt="video art laser">
+            </div>
+        </div>
+    </section>
+
+    <!-- TANGO SECTION -->
+    <section class="tango fade-in">
+        <div class="tango-bg"></div>
+        <div class="tango-overlay"></div>
+        <div class="tango-title-large">TANGO</div>
+        <div class="tango-content">
+            <h2 class="tango-title">한국대표 탱고 챔피언</h2>
+            <div class="tango-gallery">
+                <img src="images/tango_perf.jpg" alt="tango performance" class="tango-img">
+                <img src="images/tango_trophy.jpg" alt="tango trophy" class="tango-img">
+                <img src="images/tango_cert.jpg" alt="tango certificate" class="tango-img">
+                <img src="images/ba_tango.jpg" alt="tango" class="tango-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- YOUTUBE VIDEO SECTION -->
+    <section class="videoart fade-in" style="padding: 150px 3rem; background-color: #0A0908;">
+        <div class="videoart-title">
+            <h2>예미사</h2>
+            <div class="korean" style="font-size: 16px; font-weight: 300; margin-top: 1rem;">아리스 김의 영상 작업과 공연</div>
+        </div>
+        <div class="videoart-grid" style="max-width: 1200px;">
+            <div class="videoart-card" style="cursor: pointer;" onclick="openLightbox('zc8haHlZlGs')">
+                <img src="https://img.youtube.com/vi/zc8haHlZlGs/maxresdefault.jpg" alt="예미사 영상 1">
+            </div>
+            <div class="videoart-card" style="cursor: pointer;" onclick="openLightbox('QYxPOhUZ5mI')">
+                <img src="https://img.youtube.com/vi/QYxPOhUZ5mI/maxresdefault.jpg" alt="예미사 영상 2">
+            </div>
+            <div class="videoart-card" style="cursor: pointer;" onclick="openLightbox('Qb8z-U-Cu74')">
+                <img src="https://img.youtube.com/vi/Qb8z-U-Cu74/maxresdefault.jpg" alt="예미사 영상 3">
+            </div>
+            <div class="videoart-card" style="cursor: pointer;" onclick="openLightbox('GFhdTlGDMZU')">
+                <img src="https://img.youtube.com/vi/GFhdTlGDMZU/maxresdefault.jpg" alt="예미사 영상 4">
+            </div>
+            <div class="videoart-card" style="cursor: pointer;" onclick="openLightbox('wjQfXyIyFcw')">
+                <img src="https://img.youtube.com/vi/wjQfXyIyFcw/maxresdefault.jpg" alt="예미사 영상 5">
+            </div>
+        </div>
+    </section>
+
+    <!-- CONCEPT SECTION -->
+    <section class="concept fade-in">
+        <div class="concept-title">
+            <h2>Concept & Vision</h2>
+            <div class="korean">콘셉트와 비전</div>
+        </div>
+        <div class="concept-grid">
+            <div class="concept-card">
+                <img src="images/genesis_of_genre.jpg" alt="Genesis of Genre">
+                <div class="concept-overlay">Genesis of Genre</div>
+            </div>
+            <div class="concept-card">
+                <img src="images/golden_kiss_concept.jpg" alt="Golden Kiss">
+                <div class="concept-overlay">Golden Kiss</div>
+            </div>
+            <div class="concept-card">
+                <img src="images/masterpiece_collection.jpg" alt="Masterpiece Collection">
+                <div class="concept-overlay">Masterpiece Collection</div>
+            </div>
+            <div class="concept-card">
+                <img src="images/art_intelligence.jpg" alt="Art & Intelligence">
+                <div class="concept-overlay">Art & Intelligence</div>
+            </div>
+            <div class="concept-card">
+                <img src="images/two_rebels.jpg" alt="Two Rebels">
+                <div class="concept-overlay">Two Rebels</div>
+            </div>
+            <div class="concept-card">
+                <img src="images/img_01_242kb.jpg" alt="Concept Image">
+                <div class="concept-overlay">Transcendence</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BACKSTAGE SECTION -->
+    <section class="backstage fade-in">
+        <div class="backstage-content">
+            <img src="images/img_06_142kb.jpg" alt="backstage" class="backstage-img">
+            <div class="backstage-text">
+                <h3>무대 뒤에서</h3>
+                <p>빈 무대에 홀로 서 있는 순간. 환호성도 박수도 없는 그 적막함 속에서 그는 자신을 마주한다.</p>
+                <p>외로움이 그의 가장 큰 스승이었다. 파트너를 잃었을 때, 그는 디지털 아바타를 창조했다. 외로움이 혁신을 낳았다.</p>
+                <p>"변연계에만 산다. 대뇌피질은 필요 없다."</p>
+                <p>감정만 있다. 본능만 있다. 그리고 그것이 모든 것을 만들었다.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA SECTION -->
+    <section class="cta fade-in">
+        <h2 class="cta-title">Experience ARIS KIM Live</h2>
+        <div class="cta-buttons">
+            <a href="booking.html" class="cta-btn primary">BOOKING</a>
+            <a href="index.html" class="cta-btn secondary">HOME</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="fade-in">
+        <div class="footer-content">
+            <p>ARIS KIM</p>
+            <p>ARISHOW COMPANY</p>
+            <p>© 2024 All Rights Reserved</p>
+            <a href="#" class="back-to-top" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;">↑ Back to Top</a>
+        </div>
+    </footer>
+
+    <!-- LIGHTBOX -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" onclick="closeLightbox()">×</button>
+            <iframe id="lightboxFrame" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
     </div>
-  </div>
-</section>
 
-<!-- SECTION 8: YEMISA -->
-<section id="yemisa">
-  <div class="yemisa-inner">
-    <span class="yemisa-label rv">Artist Stories · 예미사</span>
-    <h2 class="yemisa-title rv">예술에 미친 사연</h2>
-    <p class="yemisa-sub rv">(예미사 — 예술에 미친사연)</p>
-    <div class="yemisa-grid rv">
-      <div class="yemisa-card" onclick="openVid('zc8haHlZlGs',true)"><img src="https://img.youtube.com/vi/zc8haHlZlGs/hqdefault.jpg" alt="예미사1"><div class="yemisa-play">▶</div><div class="yemisa-label-card">예미사 #1</div></div>
-      <div class="yemisa-card" onclick="openVid('QYxPOhUZ5mI',true)"><img src="https://img.youtube.com/vi/QYxPOhUZ5mI/hqdefault.jpg" alt="예미사2"><div class="yemisa-play">▶</div><div class="yemisa-label-card">예미사 #2</div></div>
-      <div class="yemisa-card" onclick="openVid('Qb8z-U-Cu74',true)"><img src="https://img.youtube.com/vi/Qb8z-U-Cu74/hqdefault.jpg" alt="예미사3"><div class="yemisa-play">▶</div><div class="yemisa-label-card">예미사 #3</div></div>
-      <div class="yemisa-card" onclick="openVid('GFhdTlGDMZU',true)"><img src="https://img.youtube.com/vi/GFhdTlGDMZU/hqdefault.jpg" alt="예미사4"><div class="yemisa-play">▶</div><div class="yemisa-label-card">예미사 #4</div></div>
-      <div class="yemisa-card" onclick="openVid('wjQfXyIyFcw',true)"><img src="https://img.youtube.com/vi/wjQfXyIyFcw/hqdefault.jpg" alt="예미사5"><div class="yemisa-play">▶</div><div class="yemisa-label-card">예미사 #5</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- SECTION 9: BACKSTAGE -->
-<section id="backstage-sec">
-  <img src="images/img_06_142kb.jpg" alt="Backstage">
-  <div class="backstage-ov"></div>
-  <div class="backstage-content rv">
-    <h2 class="backstage-title">모든 것을 다 쏟아냈다</h2>
-    <p class="backstage-txt">
-      공연 준비할 때도 재밌었고, 모든 힘이 다 빠진 상태로<br>관객들과 인사하고. 정말로 모든 것을 어떻게 말로 표현하냐.
-    </p>
-  </div>
-</section>
-
-<!-- SECTION 10: CTA -->
-<section id="cta">
-  <span class="cta-label rv">Booking · 공연 의뢰</span>
-  <h2 class="cta-title rv"><span class="ai">A</span>RIS KIM을<br>무대로 초대하세요</h2>
-  <p class="cta-sub rv">기업 · 대학 · 문화재단 · 지자체 · 정부 행사<br>클림트 미디어아트 색소폰 콘서트 · 탱고 퍼포먼스 · 현대미술 전시 연계</p>
-  <div class="cta-btns rv">
-    <a href="booking.html#contact" class="btn-gold">공연 의뢰하기</a>
-    <a href="index.html" class="btn-out">← 메인으로</a>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="ft-logo"><span class="ai">A</span>RIS KIM</div>
-  <div class="ft-copy">© 2025 ARISHOW COMPANY. All rights reserved.</div>
-</footer>
-
-<script>
-// Progress bar
-const prog = document.getElementById('prog');
-const nav = document.getElementById('nav');
-const backBtn = document.getElementById('back-home-btn');
-window.addEventListener('scroll', () => {
-  const p = (window.scrollY / (document.documentElement.scrollHeight - innerHeight)) * 100;
-  prog.style.width = p + '%';
-  nav.classList.toggle('on', window.scrollY > 60);
-  if(backBtn) {
-    const half = (document.documentElement.scrollHeight - innerHeight) * 0.10;
-    backBtn.classList.toggle('show', window.scrollY > half);
-  }
-});
-
-// Reveal animations
-const obs = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if(e.isIntersecting) e.target.classList.add('on');
-  });
-}, {threshold: .15});
-document.querySelectorAll('.rv,.rv-l,.rv-r').forEach(el => obs.observe(el));
-
-// Art collection filtering
-document.querySelectorAll('.art-tabs button').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.art-tabs button').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const cat = btn.dataset.cat;
-    document.querySelectorAll('.ac').forEach(card => {
-      card.classList.toggle('hide', cat !== 'all' && card.dataset.cat !== cat);
-    });
-  });
-});
-
-// Mobile menu
-const sham = document.getElementById('sham');
-const bmob = document.getElementById('bmob');
-if(sham && bmob) {
-  sham.addEventListener('click', () => {
-    sham.classList.toggle('on');
-    bmob.classList.toggle('on');
-    document.body.style.overflow = bmob.classList.contains('on') ? 'hidden' : '';
-  });
-}
-function closeMobMenu() {
-  if(sham) sham.classList.remove('on');
-  if(bmob) bmob.classList.remove('on');
-  document.body.style.overflow = '';
-}
-
-// YouTube lightbox
-let vlb = null;
-function openVid(id, isShorts=false) {
-  if(vlb) { vlb.remove(); vlb=null; }
-  vlb = document.createElement('div');
-  vlb.style.cssText = 'position:fixed;inset:0;background:rgba(4,3,2,.97);z-index:9999;display:flex;align-items:center;justify-content:center;cursor:pointer;';
-  const w = isShorts ? 'min(52vh,340px)' : 'min(90vw,960px)';
-  const h2 = isShorts ? 'min(90vh,604px)' : 'min(56.25vw,540px)';
-  vlb.innerHTML = `<div style="position:relative;width:${w};height:${h2};">
-    <iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0" frameborder="0" allow="autoplay;encrypted-media" allowfullscreen style="width:100%;height:100%;"></iframe>
-    <button onclick="event.stopPropagation();document.querySelector('[style*=z-index\:9999]')?.remove();" style="position:absolute;top:-36px;right:0;background:none;border:none;font-family:'Cinzel',serif;font-size:11px;letter-spacing:.3em;color:rgba(201,168,76,.7);cursor:pointer;">CLOSE ✕</button>
-  </div>`;
-  vlb.onclick = () => { vlb.remove(); vlb=null; };
-  document.body.appendChild(vlb);
-}
-
-// Typewriter animation
-function typeWrite(el, cursorEl, text, speed, onDone) {
-  let i = 0;
-  el.textContent = '';
-  if(cursorEl) cursorEl.classList.remove('done');
-  const iv = setInterval(() => {
-    if(i < text.length) {
-      el.textContent += text[i++];
-    } else {
-      clearInterval(iv);
-      if(cursorEl) cursorEl.classList.add('done');
-      if(onDone) onDone();
-    }
-  }, speed);
-}
-
-let genesisDone = false;
-const genesisObsTW = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if(!e.isIntersecting || genesisDone) return;
-    genesisDone = true;
-    const el1 = document.getElementById('gtw1');
-    const cur1 = document.getElementById('gtw-cur1');
-    const el3 = document.getElementById('gtw3');
-    const cur3 = document.getElementById('gtw-cur3');
-    const big = document.getElementById('genesis-big-quote');
-    if(!el1) return;
-    typeWrite(el1, cur1, '색소폰 하나로,', 70, () => {
-      setTimeout(() => {
-        typeWrite(el3, cur3, '장르가 되다.', 70, () => {
-          setTimeout(() => {
-            if(big) big.classList.add('show');
-          }, 900);
+    <script>
+        // Navigation scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
         });
-      }, 700);
-    });
-    genesisObsTW.unobserve(e.target);
-  });
-}, { threshold: 0.3 });
 
-const genesisEl = document.getElementById('fb-genesis');
-if(genesisEl) genesisObsTW.observe(genesisEl);
-</script>
+        // Fade-in animations
+        const observerOptions = {
+            threshold: 0.15,
+            rootMargin: '0px 0px -100px 0px'
+        };
 
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Timeline animations
+        const timelineObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    timelineObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.timeline-entry').forEach(el => {
+            timelineObserver.observe(el);
+        });
+
+        // Gallery data
+        const artworks = [
+            { id: '001', category: 'led' },
+            { id: '002', category: 'interactive' },
+            { id: '003', category: 'painting' },
+            { id: '004', category: 'hologram' },
+            { id: '005', category: 'nft' },
+            { id: '006', category: 'installation' },
+            { id: '007', category: 'led' },
+            { id: '008', category: 'interactive' },
+            { id: '009', category: 'painting' },
+            { id: '010', category: 'hologram' },
+            { id: '011', category: 'led' },
+            { id: '012', category: 'nft' },
+            { id: '013', category: 'installation' },
+            { id: '014', category: 'interactive' },
+            { id: '015', category: 'painting' },
+            { id: '016', category: 'led' },
+            { id: '017', category: 'hologram' },
+            { id: '018', category: 'nft' },
+            { id: '019', category: 'installation' },
+            { id: '020', category: 'led' },
+            { id: '021', category: 'interactive' },
+            { id: '022', category: 'painting' },
+            { id: '023', category: 'hologram' },
+            { id: '024', category: 'led' },
+            { id: '025', category: 'nft' },
+            { id: '026', category: 'installation' },
+            { id: '027', category: 'interactive' },
+            { id: '028', category: 'painting' },
+            { id: '029', category: 'led' },
+            { id: '030', category: 'hologram' },
+            { id: '031', category: 'nft' },
+            { id: '032', category: 'led' },
+            { id: '033', category: 'interactive' },
+            { id: '034', category: 'painting' },
+            { id: '035', category: 'installation' }
+        ];
+
+        // Additional images
+        const additionalImages = [
+            { id: 'img_01_227kb', filename: 'img_01_227kb.png', category: 'led' },
+            { id: 'img_02_69kb', filename: 'img_02_69kb.jpg', category: 'interactive' },
+            { id: 'img_03_210kb', filename: 'img_03_210kb.jpg', category: 'painting' },
+            { id: 'img_04_148kb', filename: 'img_04_148kb.jpg', category: 'hologram' },
+            { id: 'img_05_92kb', filename: 'img_05_92kb.jpg', category: 'nft' },
+            { id: 'img_07_248kb', filename: 'img_07_248kb.jpg', category: 'installation' },
+            { id: 'img_08_65kb', filename: 'img_08_65kb.jpg', category: 'led' },
+            { id: 'img_09_60kb', filename: 'img_09_60kb.jpg', category: 'interactive' },
+            { id: 'img_10_72kb', filename: 'img_10_72kb.jpg', category: 'painting' },
+            { id: 'img_11_69kb', filename: 'img_11_69kb.jpg', category: 'hologram' },
+            { id: 'img_12_77kb', filename: 'img_12_77kb.jpg', category: 'nft' },
+            { id: 'img_13_49kb', filename: 'img_13_49kb.jpg', category: 'installation' },
+            { id: 'img_14_44kb', filename: 'img_14_44kb.jpg', category: 'led' },
+            { id: 'img_15_36kb', filename: 'img_15_36kb.jpg', category: 'interactive' },
+            { id: 'img_16_51kb', filename: 'img_16_51kb.jpg', category: 'painting' },
+            { id: 'img_17_54kb', filename: 'img_17_54kb.jpg', category: 'hologram' },
+            { id: 'img_18_77kb', filename: 'img_18_77kb.jpg', category: 'nft' },
+            { id: 'img_19_71kb', filename: 'img_19_71kb.jpg', category: 'led' },
+            { id: 'img_20_80kb', filename: 'img_20_80kb.jpg', category: 'installation' },
+            { id: 'img_21_63kb', filename: 'img_21_63kb.jpg', category: 'interactive' },
+            { id: 'img_22_45kb', filename: 'img_22_45kb.jpg', category: 'painting' },
+            { id: 'img_23_46kb', filename: 'img_23_46kb.jpg', category: 'hologram' },
+            { id: 'img_24_40kb', filename: 'img_24_40kb.jpg', category: 'led' },
+            { id: 'img_25_56kb', filename: 'img_25_56kb.jpg', category: 'nft' },
+            { id: 'img_26_52kb', filename: 'img_26_52kb.jpg', category: 'installation' },
+            { id: 'img_27_76kb', filename: 'img_27_76kb.jpg', category: 'interactive' },
+            { id: 'img_28_83kb', filename: 'img_28_83kb.jpg', category: 'painting' },
+            { id: 'img_29_74kb', filename: 'img_29_74kb.jpg', category: 'hologram' },
+            { id: 'img_30_74kb', filename: 'img_30_74kb.jpg', category: 'led' },
+            { id: 'img_31_29kb', filename: 'img_31_29kb.jpg', category: 'nft' },
+            { id: 'img_32_16kb', filename: 'img_32_16kb.jpg', category: 'interactive' },
+            { id: 'img_33_15kb', filename: 'img_33_15kb.jpg', category: 'painting' },
+            { id: 'img_34_72kb', filename: 'img_34_72kb.jpg', category: 'hologram' },
+            { id: 'img_36_272kb', filename: 'img_36_272kb.jpg', category: 'led' },
+            { id: 'img_37_312kb', filename: 'img_37_312kb.jpg', category: 'installation' },
+            { id: 'img_38_153kb', filename: 'img_38_153kb.jpg', category: 'interactive' },
+            { id: 'img_39_124kb', filename: 'img_39_124kb.jpg', category: 'painting' },
+            { id: 'img_40_197kb', filename: 'img_40_197kb.jpg', category: 'hologram' },
+            { id: 'img_41_189kb', filename: 'img_41_189kb.jpg', category: 'nft' }
+        ];
+
+        function renderGallery(filter = 'all') {
+            const container = document.getElementById('galleryContainer');
+            container.innerHTML = '';
+
+            const allArtworks = [...artworks, ...additionalImages];
+            const filtered = filter === 'all' ? allArtworks : allArtworks.filter(art => art.category === filter);
+
+            filtered.forEach(art => {
+                let imagePath;
+                if (art.filename) {
+                    // Use explicit filename if provided
+                    imagePath = `images/${art.filename}`;
+                } else if (art.id.includes('img')) {
+                    // Handle img_XX variants - look for files with size suffixes
+                    const num = art.id.split('_')[1];
+                    // Try to find the right file - they're named like img_01_227kb.jpg
+                    imagePath = `images/${art.id}_${num}kb.jpg`;
+                } else {
+                    // Handle numbered files like 001.jpg, 002.jpg, etc
+                    imagePath = `images/${art.id.padStart(3, '0')}.jpg`;
+                }
+
+                const card = document.createElement('div');
+                card.className = 'gallery-card';
+                card.dataset.category = art.category;
+                card.innerHTML = `
+                    <img src="${imagePath}" alt="Artwork ${art.id}" loading="lazy">
+                    <div class="gallery-card-title">${art.category.toUpperCase()}</div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Filter functionality
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderGallery(btn.dataset.filter);
+            });
+        });
+
+        // Initial render
+        renderGallery();
+
+        // Lightbox functions
+        function openLightbox(videoId) {
+            const lightbox = document.getElementById('lightbox');
+            const iframe = document.getElementById('lightboxFrame');
+            iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+            lightbox.classList.add('open');
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            const iframe = document.getElementById('lightboxFrame');
+            iframe.src = '';
+            lightbox.classList.remove('open');
+        }
+
+        // Close lightbox on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+
+        // Close lightbox on background click
+        document.getElementById('lightbox').addEventListener('click', (e) => {
+            if (e.target.id === 'lightbox') {
+                closeLightbox();
+            }
+        });
+    </script>
 </body>
 </html>
