@@ -20,9 +20,15 @@ a:hover,a:active{color:var(--text);}
    GOLDEN SPARK FULL-SCREEN INTRO
    ═══════════════════════════════════════ */
 .golden-spark-overlay{
-  position:fixed;inset:0;z-index:99999;background:var(--bg);
+  position:fixed;inset:0;z-index:99999;
+  background:url('images/screw_photo.jpg') center/cover no-repeat;
   display:flex;align-items:center;justify-content:center;
   pointer-events:auto;overflow:hidden;
+}
+.golden-spark-overlay::before{
+  content:'';position:absolute;inset:0;
+  background:rgba(10,9,8,0.85);
+  z-index:0;
 }
 .golden-spark-overlay.fade{animation:sparkOverlayFade 1.4s ease forwards;}
 .golden-spark-overlay.done{display:none;}
@@ -439,7 +445,6 @@ a:hover,a:active{color:var(--text);}
 <!-- PHASE 1: THE VOID -->
 <div id="phase1">
   <div id="phase1-container">
-    <div id="spark"></div>
     <div id="sig-kr-top">머리가 비어야 할 수 있었던 것</div>
     <div id="sig-line"></div>
     <div id="sig-en">ARIS KIM</div>
