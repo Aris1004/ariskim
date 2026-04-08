@@ -180,11 +180,14 @@ a:hover,a:active{color:var(--text);}
 }
 
 /* ═══════════════════════════════════════
-   PHASE 3: THE PORTAL
+   PHASE 3: THE PORTAL — Gold Frame Cards
    ═══════════════════════════════════════ */
 #phase3{
   position:fixed;inset:0;z-index:100;
-  display:flex;
+  display:flex;align-items:center;justify-content:center;
+  gap:clamp(20px,3vw,60px);
+  padding:clamp(20px,4vh,60px) clamp(20px,4vw,80px);
+  background:var(--bg);
   opacity:0;pointer-events:none;
   transition:opacity 1.2s ease;
 }
@@ -211,128 +214,80 @@ a:hover,a:active{color:var(--text);}
   75%{transform:translateY(-25px) translateX(5px);opacity:0.8;}
 }
 
-/* Panel layout */
-.panel{
-  flex:1;position:relative;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  text-decoration:none;overflow:hidden;cursor:pointer;
-  transition:flex 0.85s cubic-bezier(0.23,1,0.32,1);
+/* Card — gold framed photo card */
+.card{
+  position:relative;flex:1;max-width:520px;
+  height:clamp(400px,75vh,800px);
+  border:1.5px solid rgba(201,168,76,0.55);
+  overflow:hidden;cursor:pointer;
+  text-decoration:none;display:block;
+  transition:transform 0.6s ease,box-shadow 0.6s ease;
 }
-.panel:hover{flex:1.55;}
+.card:hover{
+  transform:translateY(-4px);
+  box-shadow:0 0 40px rgba(201,168,76,0.15),0 0 80px rgba(201,168,76,0.08);
+}
 
-.panel-bg{
+.card-img{
   position:absolute;inset:0;
-  background-size:cover;background-position:center top;
-  filter:brightness(0.18);
+  background-size:cover;background-position:center;
+  filter:brightness(0.65);
   transition:filter 0.7s,transform 0.7s;
 }
-.panel:hover .panel-bg{filter:brightness(0.35);transform:scale(1.04);}
-#panel-story .panel-bg{background-image:url('images/perf_sax_stage.jpg');}
-#panel-booking .panel-bg{background-image:url('images/hero_a5_klimt_led.jpg');}
+.card:hover .card-img{filter:brightness(0.8);transform:scale(1.03);}
+#card-story .card-img{background-image:url('images/perf_sax_stage.jpg');}
+#card-booking .card-img{background-image:url('images/hero_a5_klimt_led.jpg');}
 
-.panel-overlay{position:absolute;inset:0;}
-#panel-story .panel-overlay{background:linear-gradient(145deg,rgba(4,3,2,0.72) 0%,rgba(10,6,18,0.32) 100%);}
-#panel-booking .panel-overlay{background:linear-gradient(145deg,rgba(16,9,2,0.32) 0%,rgba(4,3,2,0.78) 100%);}
-
-/* Golden corner frames */
-.corner{position:absolute;width:18px;height:18px;opacity:0.15;transition:opacity 0.45s;}
-.panel:hover .corner{opacity:0.6;}
-.c-tl{top:24px;left:24px;border-top:1px solid var(--gold);border-left:1px solid var(--gold);}
-.c-tr{top:24px;right:24px;border-top:1px solid var(--gold);border-right:1px solid var(--gold);}
-.c-bl{bottom:24px;left:24px;border-bottom:1px solid var(--gold);border-left:1px solid var(--gold);}
-.c-br{bottom:24px;right:24px;border-bottom:1px solid var(--gold);border-right:1px solid var(--gold);}
-
-/* Panel content */
-.panel-content{
-  position:relative;z-index:2;text-align:center;
-  padding:48px 32px;
-  transform:translateY(16px);opacity:0.58;
-  transition:transform 0.65s,opacity 0.65s;
+.card-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to bottom,rgba(10,9,8,0.2) 0%,rgba(10,9,8,0.05) 30%,rgba(10,9,8,0.55) 100%);
+  z-index:1;
 }
-.panel:hover .panel-content{transform:translateY(0);opacity:1;}
 
-.panel-tag{
-  font-family:'Cinzel',serif;font-size:clamp(6px,0.82vw,8px);
-  letter-spacing:0.52em;color:var(--gold);opacity:0.45;
-  display:block;margin-bottom:20px;
+.card-content{
+  position:absolute;inset:0;z-index:2;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;padding:40px 24px;
 }
-.panel-title{
-  font-family:'Cinzel',serif;font-size:clamp(18px,3vw,48px);
-  font-weight:900;letter-spacing:0.07em;line-height:1.18;
-  margin-bottom:14px;
-}
-#panel-story .panel-title{color:#ece4d8;}
-#panel-booking .panel-title{color:#E8CC7A;}
 
-.panel-kr{
-  font-family:'Noto Serif KR',serif;font-size:clamp(10px,1.15vw,15px);
-  font-weight:200;letter-spacing:0.22em;margin-bottom:22px;
+.card-discover{
+  font-family:'Cinzel',serif;font-size:clamp(8px,1vw,11px);
+  letter-spacing:0.5em;color:var(--gold);opacity:0.6;
+  margin-bottom:16px;
 }
-#panel-story .panel-kr{color:rgba(236,228,216,0.35);}
-#panel-booking .panel-kr{color:rgba(232,204,122,0.35);}
-
-.panel-desc{
-  font-family:'Noto Serif KR',serif;font-size:clamp(10px,0.9vw,13px);
-  font-weight:200;letter-spacing:0.04em;line-height:2.1;
-  max-width:285px;margin:0 auto 28px;
-  opacity:0;transition:opacity 0.5s 0.15s;
+.card-title{
+  font-family:'Cinzel',serif;font-size:clamp(28px,4vw,56px);
+  font-weight:900;letter-spacing:0.1em;
+  color:var(--text);margin-bottom:12px;
+  text-shadow:0 2px 20px rgba(0,0,0,0.5);
 }
-.panel:hover .panel-desc{opacity:0.56;}
-#panel-story .panel-desc{color:rgba(236,228,216,0.85);}
-#panel-booking .panel-desc{color:rgba(232,204,122,0.85);}
-
-.panel-cta{
-  display:inline-block;font-family:'Noto Serif KR',serif;
-  font-size:clamp(9px,0.92vw,12px);font-weight:300;
-  letter-spacing:0.25em;padding:12px 32px;
+.card-kr{
+  font-family:'Noto Serif KR',serif;font-size:clamp(11px,1.2vw,15px);
+  font-weight:200;letter-spacing:0.3em;
+  color:rgba(242,237,228,0.5);margin-bottom:28px;
+}
+.card-cta{
+  display:inline-block;font-family:'Cinzel',serif;
+  font-size:clamp(10px,1vw,13px);font-weight:400;
+  letter-spacing:0.3em;padding:14px 36px;
+  border:1px solid rgba(242,237,228,0.3);
+  color:rgba(242,237,228,0.8);
   transition:all 0.35s;
 }
-#panel-story .panel-cta{border:1px solid rgba(236,228,216,0.24);color:rgba(236,228,216,0.72);}
-#panel-story .panel-cta:hover{background:rgba(236,228,216,0.1);color:#fff;}
-#panel-booking .panel-cta{border:1px solid rgba(201,168,76,0.36);color:var(--gold);}
-#panel-booking .panel-cta:hover{background:var(--gold);color:var(--bg);}
-
-/* Center divider */
-#divider{
-  position:absolute;left:50%;top:0;width:1px;height:100%;
-  background:linear-gradient(180deg,transparent 0%,rgba(201,168,76,0.46) 15%,rgba(201,168,76,0.46) 85%,transparent 100%);
-  z-index:10;pointer-events:none;
-  transition:left 0.75s cubic-bezier(0.23,1,0.32,1),opacity 0.9s ease;
-  opacity:0;
-}
-#divider.show{opacity:1;}
-#divider::before{
-  content:'';position:absolute;left:50%;top:50%;
-  transform:translate(-50%,-50%);
-  width:36px;height:36px;
-  border:1px solid rgba(201,168,76,0.36);
-  border-radius:50%;background:var(--bg);
-}
-#divider::after{
-  content:'✦';position:absolute;left:50%;top:50%;
-  transform:translate(-50%,-50%);
-  color:var(--gold);font-size:12px;z-index:1;
+.card-cta:hover{
+  background:rgba(201,168,76,0.15);
+  border-color:var(--gold);color:var(--text);
 }
 
-/* Philosophy text */
-#philosophy{
-  position:fixed;bottom:18px;left:0;right:0;
-  text-align:center;z-index:102;
-  font-family:'Noto Serif KR',serif;font-size:clamp(8px,0.9vw,11px);
-  font-weight:200;letter-spacing:0.15em;
-  color:rgba(201,168,76,0.2);
-  opacity:0;transition:opacity 1s ease;
-  pointer-events:none;
+/* Golden corner accents inside card */
+.card::before,.card::after{
+  content:'';position:absolute;width:20px;height:20px;
+  z-index:3;opacity:0.4;transition:opacity 0.4s;
 }
-
-/* Frame divider decoration */
-#frame-divider{
-  position:fixed;top:0;left:50%;width:1px;height:8px;
-  background:var(--gold);z-index:102;
-  transform:translateX(-50%);
-  opacity:0;transition:opacity 1s ease;
-}
+.card:hover::before,.card:hover::after{opacity:0.8;}
+.card::before{bottom:16px;left:16px;border-bottom:1px solid var(--gold);border-left:1px solid var(--gold);}
+.card::after{bottom:16px;right:16px;border-bottom:1px solid var(--gold);border-right:1px solid var(--gold);}
 
 /* Signature */
 #sig{
@@ -345,53 +300,52 @@ a:hover,a:active{color:var(--text);}
 /* ═══════════════════════════════════════
    RESPONSIVE
    ═══════════════════════════════════════ */
+
+/* Tablet */
 @media(min-width:769px) and (max-width:1024px){
-  .panel-title{font-size:clamp(18px,3vw,34px);}
-  .panel-kr{font-size:clamp(10px,1.3vw,14px);}
-  .panel-content{padding:36px 24px;}
+  .card{max-width:420px;}
+  .card-title{font-size:clamp(24px,3.5vw,40px);}
 }
 
+/* Small tablet / large phone landscape */
 @media(min-width:481px) and (max-width:768px){
-  #phase3{flex-direction:row;}
-  .panel{flex:1;}.panel:hover{flex:1.4;}
-  .panel-content{transform:none!important;opacity:1!important;padding:24px 16px;}
-  .panel-title{font-size:clamp(14px,2.8vw,22px);letter-spacing:0.04em;}
-  .panel-kr{font-size:10px;}
-  .panel-desc,.panel-tag{display:none;}
-  .panel-cta{padding:9px 18px;font-size:9px;}
-  .corner{width:10px;height:10px;}
+  #phase3{flex-direction:row;gap:16px;padding:20px;}
+  .card{max-width:none;height:clamp(350px,70vh,600px);}
+  .card-title{font-size:clamp(20px,3vw,32px);}
+  .card-kr{font-size:10px;}
+  .card-discover{font-size:8px;}
+  .card-cta{padding:10px 24px;font-size:9px;}
 }
 
+/* Phone */
 @media(max-width:480px){
-  #phase3{flex-direction:column;}
-  .panel{flex:1!important;min-height:50vh;transition:flex 0s!important;}
-  .panel:hover{flex:1!important;}
-  #divider{left:0!important;top:50%!important;width:100%!important;height:1px!important;}
-  #divider::before{width:30px;height:30px;}
-  .panel-content{transform:none!important;opacity:1!important;padding:24px 16px;}
-  .panel-tag,.panel-desc,.corner{display:none;}
-  .panel-title{font-size:clamp(18px,5.5vw,26px);letter-spacing:0.05em;}
-  .panel-kr{font-size:11px;}
-  .panel-cta{padding:10px 22px;font-size:10px;}
+  html,body{overflow-y:auto!important;overflow-x:hidden!important;}
+  #phase3{
+    position:relative!important;
+    flex-direction:column;gap:16px;
+    padding:16px;min-height:100vh;
+    align-items:stretch;
+  }
+  .card{flex:none;max-width:none;height:clamp(300px,45vh,500px);}
+  .card-title{font-size:clamp(24px,7vw,36px);}
+  .card-kr{font-size:11px;}
+  .card-cta{padding:12px 28px;font-size:10px;}
   #sig{display:none;}
-  #sig-en{font-size:clamp(24px,8vw,48px);}
 }
 
-/* Galaxy Z Fold5 unfolded & square-ish tablet screens */
+/* Galaxy Z Fold5 unfolded & square-ish tablet */
 @media(min-width:481px) and (max-width:900px) and (min-aspect-ratio:3/4) and (max-aspect-ratio:5/4){
   html,body{overflow-y:auto!important;overflow-x:hidden!important;}
-  #phase3{position:relative!important;flex-direction:column!important;min-height:100vh;}
-  #phase3.show{pointer-events:auto;}
-  .panel{flex:none!important;min-height:50vh;}
-  .panel:hover{flex:none!important;}
-  #divider{left:0!important;top:50%!important;width:100%!important;height:1px!important;}
-  #divider::before{width:30px;height:30px;}
-  .panel-content{transform:none!important;opacity:1!important;padding:32px 24px;}
-  .panel-tag{display:none;}
-  .panel-title{font-size:clamp(22px,4.5vw,38px);}
-  .panel-kr{font-size:12px;}
-  .panel-desc{display:none;}
-  .panel-cta{padding:12px 28px;font-size:11px;}
+  #phase3{
+    position:relative!important;
+    flex-direction:column!important;gap:20px;
+    padding:24px;min-height:100vh;
+    align-items:stretch;
+  }
+  .card{flex:none;max-width:none;height:clamp(320px,42vh,480px);}
+  .card-title{font-size:clamp(26px,5vw,42px);}
+  .card-kr{font-size:12px;}
+  .card-cta{padding:14px 32px;font-size:11px;}
 }
 </style>
 </head>
@@ -425,33 +379,26 @@ a:hover,a:active{color:var(--text);}
   </div>
 </div>
 
-<!-- PHASE 3: THE PORTAL -->
+<!-- PHASE 3: THE PORTAL — Gold Frame Cards -->
 <div id="phase3">
-  <a class="panel" id="panel-story" href="story.html">
-    <div class="panel-bg"></div>
-    <div class="panel-overlay"></div>
-    <div class="corner c-tl"></div><div class="corner c-tr"></div>
-    <div class="corner c-bl"></div><div class="corner c-br"></div>
-    <div class="panel-content">
-      <span class="panel-tag">Artist Story · World View · Philosophy</span>
-      <h1 class="panel-title">ARIS KIM<br>처음 만나다</h1>
-      <p class="panel-kr">아리스 김의 세계</p>
-      <p class="panel-desc">예술의 전당 최초 1호부터<br>뉴욕 카네기홀까지.<br>아리스 김이 걸어온 길.</p>
-      <div class="panel-cta">세계로 들어가기 →</div>
+  <a class="card" id="card-story" href="story.html">
+    <div class="card-img"></div>
+    <div class="card-overlay"></div>
+    <div class="card-content">
+      <span class="card-discover">D I S C O V E R</span>
+      <h1 class="card-title">STORY</h1>
+      <p class="card-kr">삶의 음악</p>
+      <div class="card-cta">EXPLORE</div>
     </div>
   </a>
-  <div id="divider"></div>
-  <a class="panel" id="panel-booking" href="booking.html">
-    <div class="panel-bg"></div>
-    <div class="panel-overlay"></div>
-    <div class="corner c-tl"></div><div class="corner c-tr"></div>
-    <div class="corner c-bl"></div><div class="corner c-br"></div>
-    <div class="panel-content">
-      <span class="panel-tag">Concert Booking · Professional Portfolio</span>
-      <h1 class="panel-title">공연 기획<br>및 섭외</h1>
-      <p class="panel-kr">공식 포트폴리오</p>
-      <p class="panel-desc">뉴욕 카네기홀 · 예술의전당 1호<br>클림트 미디어아트 색소폰<br>기업 · 대학 · 문화재단 환영</p>
-      <div class="panel-cta">포트폴리오 보기 →</div>
+  <a class="card" id="card-booking" href="booking.html">
+    <div class="card-img"></div>
+    <div class="card-overlay"></div>
+    <div class="card-content">
+      <span class="card-discover">D I S C O V E R</span>
+      <h1 class="card-title">BOOKING</h1>
+      <p class="card-kr">황금빛 무대</p>
+      <div class="card-cta">EXPLORE</div>
     </div>
   </a>
 </div>
@@ -464,8 +411,6 @@ a:hover,a:active{color:var(--text);}
 <div class="golden-dust dust-5"></div>
 <div class="golden-dust dust-6"></div>
 
-<div id="philosophy">THE PORTAL</div>
-<div id="frame-divider"></div>
 <div id="sig">ARISHOW COMPANY · ARIS KIM</div>
 
 <script>
@@ -487,9 +432,6 @@ if(skipToEnd){
   document.getElementById('phase1').style.display = 'none';
   document.getElementById('phase2').style.display = 'none';
   document.getElementById('phase3').classList.add('show');
-  document.getElementById('philosophy').style.opacity = '1';
-  document.getElementById('frame-divider').style.opacity = '1';
-  document.getElementById('divider').classList.add('show');
 } else {
   // Full theatrical sequence
 
@@ -511,28 +453,7 @@ if(skipToEnd){
   // Phase 3 show at 5.8s
   setTimeout(function(){
     document.getElementById('phase3').classList.add('show');
-    document.getElementById('philosophy').style.opacity = '1';
-    document.getElementById('frame-divider').style.opacity = '1';
   }, 5800);
-
-  // Divider show at 6.2s
-  setTimeout(function(){
-    document.getElementById('divider').classList.add('show');
-  }, 6200);
-}
-
-// Divider hover effect
-var dl = document.getElementById('divider');
-var ps = document.getElementById('panel-story');
-var pb = document.getElementById('panel-booking');
-
-if(ps && dl){
-  ps.addEventListener('mouseenter', function(){ dl.style.left = '58%'; });
-  ps.addEventListener('mouseleave', function(){ dl.style.left = '50%'; });
-}
-if(pb && dl){
-  pb.addEventListener('mouseenter', function(){ dl.style.left = '42%'; });
-  pb.addEventListener('mouseleave', function(){ dl.style.left = '50%'; });
 }
 
 // Keyboard navigation
