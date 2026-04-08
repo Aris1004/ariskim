@@ -22,23 +22,88 @@ a:hover,a:active{color:var(--text);}
 .golden-spark-overlay{
   position:fixed;inset:0;z-index:99999;background:var(--bg);
   display:flex;align-items:center;justify-content:center;
-  pointer-events:auto;
-  animation:sparkFadeOut 0.8s ease 1.6s forwards;
+  pointer-events:auto;overflow:hidden;
+}
+.golden-spark-overlay.fade{
+  animation:sparkOverlayFade 1.2s ease forwards;
 }
 .golden-spark-overlay.done{display:none;}
-.golden-spark-dot{
-  width:6px;height:6px;border-radius:50%;
-  background:radial-gradient(circle,#C9A84C,rgba(201,168,76,0.4));
-  box-shadow:0 0 20px #C9A84C,0 0 60px rgba(201,168,76,0.4);
-  animation:sparkBurst 1.2s cubic-bezier(0.34,1.56,0.64,1) 0.2s forwards;
+
+/* Central golden orb */
+.spark-core{
+  position:absolute;width:4px;height:4px;border-radius:50%;
+  background:radial-gradient(circle,#fff,#E8CC7A,#C9A84C);
+  opacity:0;
+  animation:coreGrow 2s cubic-bezier(0.16,1,0.3,1) 0.3s forwards;
+}
+@keyframes coreGrow{
+  0%{opacity:0;transform:scale(0);box-shadow:0 0 4px #C9A84C;}
+  15%{opacity:1;transform:scale(1);box-shadow:0 0 15px #C9A84C,0 0 30px rgba(201,168,76,0.5);}
+  40%{opacity:1;transform:scale(2.5);box-shadow:0 0 60px #C9A84C,0 0 120px rgba(201,168,76,0.4),0 0 200px rgba(201,168,76,0.15);}
+  60%{opacity:1;transform:scale(80);box-shadow:0 0 80px #C9A84C;}
+  100%{opacity:0;transform:scale(150);box-shadow:none;}
+}
+
+/* Golden ring burst */
+.spark-ring{
+  position:absolute;width:20px;height:20px;border-radius:50%;
+  border:1.5px solid rgba(201,168,76,0.8);
+  opacity:0;
+  animation:ringExpand 1.8s ease-out 0.6s forwards;
+}
+@keyframes ringExpand{
+  0%{opacity:0;transform:scale(0);}
+  20%{opacity:0.9;transform:scale(1);}
+  80%{opacity:0.3;transform:scale(30);}
+  100%{opacity:0;transform:scale(50);}
+}
+.spark-ring:nth-child(3){animation-delay:0.8s;border-color:rgba(232,204,122,0.5);}
+.spark-ring:nth-child(4){animation-delay:1.0s;width:10px;height:10px;border-color:rgba(201,168,76,0.3);}
+
+/* Radial light rays */
+.spark-rays{
+  position:absolute;width:100%;height:100%;
+  opacity:0;
+  animation:raysFlash 1.6s ease-out 0.5s forwards;
+}
+@keyframes raysFlash{
+  0%{opacity:0;}
+  20%{opacity:0.8;}
+  100%{opacity:0;}
+}
+.spark-rays::before,.spark-rays::after{
+  content:'';position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  background:radial-gradient(ellipse at center,rgba(201,168,76,0.3) 0%,transparent 70%);
+}
+.spark-rays::before{width:300vw;height:2px;}
+.spark-rays::after{width:2px;height:300vh;}
+
+/* Floating golden particles */
+.spark-particle{
+  position:absolute;border-radius:50%;
+  background:radial-gradient(circle,#E8CC7A,rgba(201,168,76,0.6));
   opacity:0;
 }
-@keyframes sparkBurst{
-  0%{opacity:0;transform:scale(0.3);box-shadow:0 0 8px #C9A84C;}
-  40%{opacity:1;transform:scale(1.5);box-shadow:0 0 60px #C9A84C,0 0 120px rgba(201,168,76,0.3);}
-  100%{opacity:0.6;transform:scale(1);box-shadow:0 0 30px #C9A84C;}
-}
-@keyframes sparkFadeOut{
+.sp1{width:3px;height:3px;animation:particleFly 2s ease-out 0.5s forwards;}
+.sp2{width:2px;height:2px;animation:particleFly2 2.2s ease-out 0.6s forwards;}
+.sp3{width:4px;height:4px;animation:particleFly3 1.8s ease-out 0.55s forwards;}
+.sp4{width:2px;height:2px;animation:particleFly4 2.4s ease-out 0.65s forwards;}
+.sp5{width:3px;height:3px;animation:particleFly5 2s ease-out 0.7s forwards;}
+.sp6{width:2px;height:2px;animation:particleFly6 2.1s ease-out 0.5s forwards;}
+.sp7{width:3px;height:3px;animation:particleFly7 1.9s ease-out 0.6s forwards;}
+.sp8{width:2px;height:2px;animation:particleFly8 2.3s ease-out 0.55s forwards;}
+
+@keyframes particleFly{0%{opacity:0;transform:translate(0,0);}20%{opacity:1;}100%{opacity:0;transform:translate(-40vw,-30vh);}}
+@keyframes particleFly2{0%{opacity:0;transform:translate(0,0);}20%{opacity:1;}100%{opacity:0;transform:translate(35vw,-35vh);}}
+@keyframes particleFly3{0%{opacity:0;transform:translate(0,0);}20%{opacity:1;}100%{opacity:0;transform:translate(-30vw,40vh);}}
+@keyframes particleFly4{0%{opacity:0;transform:translate(0,0);}20%{opacity:1;}100%{opacity:0;transform:translate(45vw,25vh);}}
+@keyframes particleFly5{0%{opacity:0;transform:translate(0,0);}20%{opacity:1;}100%{opacity:0;transform:translate(-20vw,-45vh);}}
+@keyframes particleFly6{0%{opacity:0;transform:translate(0,0);}20%{opacity:1;}100%{opacity:0;transform:translate(25vw,40vh);}}
+@keyframes particleFly7{0%{opacity:0;transform:translate(0,0);}20%{opacity:1;}100%{opacity:0;transform:translate(-45vw,15vh);}}
+@keyframes particleFly8{0%{opacity:0;transform:translate(0,0);}20%{opacity:1;}100%{opacity:0;transform:translate(15vw,-40vh);}}
+
+@keyframes sparkOverlayFade{
   0%{opacity:1;}
   100%{opacity:0;pointer-events:none;}
 }
@@ -353,7 +418,19 @@ a:hover,a:active{color:var(--text);}
 
 <!-- GOLDEN SPARK INTRO -->
 <div class="golden-spark-overlay" id="sparkOverlay">
-  <div class="golden-spark-dot"></div>
+  <div class="spark-core"></div>
+  <div class="spark-ring"></div>
+  <div class="spark-ring"></div>
+  <div class="spark-ring"></div>
+  <div class="spark-rays"></div>
+  <div class="spark-particle sp1"></div>
+  <div class="spark-particle sp2"></div>
+  <div class="spark-particle sp3"></div>
+  <div class="spark-particle sp4"></div>
+  <div class="spark-particle sp5"></div>
+  <div class="spark-particle sp6"></div>
+  <div class="spark-particle sp7"></div>
+  <div class="spark-particle sp8"></div>
 </div>
 
 <!-- PHASE 1: THE VOID -->
@@ -420,7 +497,10 @@ a:hover,a:active{color:var(--text);}
 
 // Golden spark overlay removal
 var sparkEl = document.getElementById('sparkOverlay');
-if(sparkEl){ setTimeout(function(){ sparkEl.classList.add('done'); }, 2500); }
+if(sparkEl){
+  setTimeout(function(){ sparkEl.classList.add('fade'); }, 2000);
+  setTimeout(function(){ sparkEl.classList.add('done'); }, 3200);
+}
 
 // Check for skip parameter
 var params = new URLSearchParams(window.location.search);
