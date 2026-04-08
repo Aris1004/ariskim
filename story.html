@@ -102,9 +102,9 @@
         /* SCROLL ANIMATIONS */
         .fade-in {
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                        transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transform: translateY(20px);
+            transition: opacity 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                        transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
 
         .fade-in.visible {
@@ -500,29 +500,31 @@
         }
 
         .gallery-card {
-            flex: 0 0 300px;
+            flex: 0 0 auto;
+            width: 320px;
             position: relative;
             overflow: hidden;
-            aspect-ratio: 3/4;
             cursor: pointer;
             border: 1px solid transparent;
             transition: all 0.3s ease;
+            background: #0A0908;
         }
 
         .gallery-card:hover {
             border-color: #C9A84C;
-            opacity: 0.9;
         }
 
         .gallery-card img {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
+            height: auto;
+            max-height: 480px;
+            object-fit: contain;
+            display: block;
             transition: transform 0.3s ease;
         }
 
         .gallery-card:hover img {
-            transform: scale(1.05);
+            transform: scale(1.02);
         }
 
         .gallery-card-title {
@@ -581,7 +583,7 @@
         .videoart-card img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
             transition: brightness 0.3s ease;
         }
 
@@ -732,7 +734,7 @@
         .concept-card img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
             transition: transform 0.3s ease;
         }
 
@@ -1092,9 +1094,45 @@
             height: 100%;
             border: none;
         }
+        /* GOLDEN SPARK INTRO */
+        .golden-spark-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: #0A0908;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: auto;
+            animation: sparkFadeOut 0.8s ease 1.6s forwards;
+        }
+        .golden-spark-overlay.done { display: none; }
+        .golden-spark-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #C9A84C, rgba(201,168,76,0.4));
+            box-shadow: 0 0 20px #C9A84C, 0 0 60px rgba(201,168,76,0.4);
+            animation: sparkBurst 1.2s cubic-bezier(0.34,1.56,0.64,1) 0.2s forwards;
+            opacity: 0;
+        }
+        @keyframes sparkBurst {
+            0% { opacity: 0; transform: scale(0.3); box-shadow: 0 0 8px #C9A84C; }
+            40% { opacity: 1; transform: scale(1.5); box-shadow: 0 0 60px #C9A84C, 0 0 120px rgba(201,168,76,0.3); }
+            100% { opacity: 0.6; transform: scale(1); box-shadow: 0 0 30px #C9A84C; }
+        }
+        @keyframes sparkFadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; pointer-events: none; }
+        }
     </style>
 </head>
 <body>
+    <!-- GOLDEN SPARK INTRO -->
+    <div class="golden-spark-overlay" id="sparkOverlay">
+        <div class="golden-spark-dot"></div>
+    </div>
+
     <!-- NAVIGATION -->
     <nav id="navbar">
         <a href="index.html">← ARIS KIM</a>
@@ -1149,44 +1187,72 @@
 
             <div class="timeline-entry fade-in">
                 <div class="timeline-dot"></div>
-                <div class="timeline-year">2003</div>
-                <div class="timeline-text">한예종 퇴학<br>The beginning of freedom</div>
-                <img src="images/img_06_142kb.jpg" alt="empty theater" class="timeline-img">
+                <div class="timeline-year">1997</div>
+                <div class="timeline-text">전북대학교 거리공연 시작<br>Busking begins at Jeonbuk University</div>
+                <img src="images/tl_1997_street.jpg" alt="1997 street performance" class="timeline-img">
             </div>
 
             <div class="timeline-entry fade-in">
                 <div class="timeline-dot"></div>
-                <div class="timeline-year">2010S</div>
-                <div class="timeline-text">거리 공연의 시대<br>Busking the streets of Seoul</div>
-                <img src="images/street__2_.jpg" alt="street performance" class="timeline-img">
+                <div class="timeline-year">1999</div>
+                <div class="timeline-text">호원대학교 기계과 입학<br>Engineering before art</div>
+                <img src="images/tl_1999_dropout.jpg" alt="1999 engineering" class="timeline-img">
+            </div>
+
+            <div class="timeline-entry fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2002</div>
+                <div class="timeline-text">자퇴 후 해병대 입대<br>From dropout to Marine Corps</div>
+                <img src="images/tl_2002_marine.jpg" alt="2002 marine corps" class="timeline-img">
+            </div>
+
+            <div class="timeline-entry fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2007</div>
+                <div class="timeline-text">한국예술종합학교<br>Korea National University of Arts (K-ARTS)</div>
+                <img src="images/tl_2007_karts.jpg" alt="2007 K-ARTS" class="timeline-img">
+            </div>
+
+            <div class="timeline-entry fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2008</div>
+                <div class="timeline-text">비디오 아트 콘서트<br>Video Art Concert — 아바타와의 듀엣</div>
+                <img src="images/tl_2008_videoart.jpg" alt="2008 video art" class="timeline-img">
+            </div>
+
+            <div class="timeline-entry fade-in">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2012</div>
+                <div class="timeline-text">한국예술종합학교 자퇴<br>Dropout — The wild soul breaks free</div>
+                <img src="images/tl_2012_dropout.jpg" alt="2012 dropout" class="timeline-img">
             </div>
 
             <div class="timeline-entry fade-in">
                 <div class="timeline-dot"></div>
                 <div class="timeline-year">2016</div>
-                <div class="timeline-text">탱고 챔피언<br>Korea's Tango Champion</div>
-                <img src="images/img_35_141kb.jpg" alt="tango dance" class="timeline-img">
+                <div class="timeline-text">아시아 인터내셔널 문디알 탱고 챔피언<br>Korea International Tango Champion — Escenario</div>
+                <img src="images/tl_2016_tango.jpg" alt="2016 tango champion" class="timeline-img">
             </div>
 
             <div class="timeline-entry fade-in">
                 <div class="timeline-dot"></div>
-                <div class="timeline-year">2018</div>
-                <div class="timeline-text">예술의전당 공연<br>Korea's largest performing arts venue</div>
-                <img src="images/concert_gallery.jpg" alt="concert" class="timeline-img">
+                <div class="timeline-year">2016–2017</div>
+                <div class="timeline-text">한국콘텐츠진흥원 크리에이터 연구원 수료<br>KOCCA Cultural Technology Academy</div>
+                <img src="images/tl_2016_kocca.jpg" alt="2016-2017 KOCCA" class="timeline-img">
             </div>
 
             <div class="timeline-entry fade-in">
                 <div class="timeline-dot"></div>
-                <div class="timeline-year">2019</div>
-                <div class="timeline-text">카네기홀<br>Carnegie Hall, New York</div>
-                <img src="images/carnegie.jpg" alt="carnegie hall" class="timeline-img">
+                <div class="timeline-year">2020</div>
+                <div class="timeline-text">문화체육관광부 문화 기술 전문가 수료<br>(과학기술×미디어아트) 다빈치프로젝트</div>
+                <img src="images/tl_2020_davinci.jpg" alt="2020 davinci project" class="timeline-img">
             </div>
 
             <div class="timeline-entry fade-in">
                 <div class="timeline-dot"></div>
-                <div class="timeline-year">현재</div>
-                <div class="timeline-text">Media Artist & Innovator<br>The Wild Soul continues</div>
-                <img src="images/hero_artist_black.jpg" alt="present day" class="timeline-img">
+                <div class="timeline-year">2024</div>
+                <div class="timeline-text">리얼타임엔진기반 AI Media Craft 과정<br>증강현실(AR) 콘텐츠제작 · MBC플러스</div>
+                <img src="images/tl_2024_ar.jpg" alt="2024 AR media craft" class="timeline-img">
             </div>
         </div>
     </section>
@@ -1296,6 +1362,69 @@
         </div>
     </section>
 
+    <!-- ARISHOW SECTION -->
+    <section class="arishow-section fade-in" style="padding: 150px 3rem; background: linear-gradient(180deg, #0A0908 0%, #12080a 30%, #0f0d0a 50%, #12080a 70%, #0A0908 100%); text-align: center; position: relative; overflow: hidden;">
+        <!-- Golden spark entrance -->
+        <div style="position: absolute; top: 50%; left: 50%; width: 6px; height: 6px; border-radius: 50%; background: radial-gradient(circle, #C9A84C, rgba(201,168,76,0.3)); box-shadow: 0 0 40px #C9A84C, 0 0 80px rgba(201,168,76,0.3); transform: translate(-50%, -50%); opacity: 0.15; pointer-events: none;"></div>
+
+        <div style="max-width: 900px; margin: 0 auto; position: relative; z-index: 2;">
+            <h3 style="font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.5em; color: #C9A84C; text-transform: uppercase; margin-bottom: 2rem;">Variety Performance Content</h3>
+            <h2 style="font-family: 'Cinzel', serif; font-size: clamp(48px, 8vw, 80px); font-weight: 700; letter-spacing: 0.05em; color: #F2EDE4; margin-bottom: 0.5rem;">ARIsHOW</h2>
+            <div style="font-family: 'Noto Serif KR', serif; font-size: clamp(16px, 2vw, 22px); font-weight: 200; color: rgba(201,168,76,0.8); margin-bottom: 1.5rem; letter-spacing: 0.08em;">나(我)를 이롭게(利) 하는 무대</div>
+            <div style="font-family: 'Noto Serif KR', serif; font-size: 13px; font-weight: 300; color: rgba(201,168,76,0.5); margin-bottom: 3rem; letter-spacing: 0.05em;">"내 안의 분열이 시작되었다"</div>
+            <div style="width: 60px; height: 1px; background: #C9A84C; margin: 0 auto 3rem;"></div>
+            <p style="font-size: 16px; font-weight: 300; line-height: 2; color: rgba(242,237,228,0.8); max-width: 700px; margin: 0 auto 1.5rem;">
+                아리쇼는 실제 뮤지션을 특수분장하여 아리스김을 복제한 버라이어티 공연 콘텐츠다.
+                코믹하면서도 AI 시대의 인간 복제를 묘사한 디지털 퍼포먼스.
+            </p>
+            <p style="font-size: 15px; font-weight: 200; line-height: 1.9; color: rgba(242,237,228,0.6); max-width: 650px; margin: 0 auto 2rem;">
+                "아리는 나를 위함이 즉 너를 위함이다" 라는 테제를 갖고 있다.
+                이는 본디 나를 사랑하지 않고, 어떻게 타인을 사랑할 수 있나? 라는 본연적 날카로운 질문을 던진다.
+            </p>
+            <p style="font-size: 14px; font-weight: 200; line-height: 1.8; color: rgba(242,237,228,0.45); max-width: 600px; margin: 0 auto 4rem;">
+                "이번 공연은 타인에게 좌우되지 않는 지극히 주체적인 나 자신의 삶을 찾기 위한 몸부림"
+                <span style="display: block; margin-top: 0.5rem; font-size: 11px; color: rgba(201,168,76,0.4);">— 아시아경제</span>
+            </p>
+        </div>
+
+        <!-- ARISHOW Gallery - Horizontal Scroll -->
+        <div style="display: flex; gap: 16px; overflow-x: auto; padding: 0 2rem 20px; scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: #C9A84C #0A0908; position: relative; z-index: 2;">
+            <div style="flex: 0 0 auto; width: 420px; border: 1px solid rgba(201,168,76,0.15);">
+                <img src="images/as_led_screen.jpg" alt="ARIsHOW LED 스크린" style="width: 100%; height: auto; display: block;">
+            </div>
+            <div style="flex: 0 0 auto; width: 520px; border: 1px solid rgba(201,168,76,0.15);">
+                <img src="images/as_ensemble.jpg" alt="ARIsHOW 앙상블" style="width: 100%; height: auto; display: block;">
+            </div>
+            <div style="flex: 0 0 auto; width: 520px; border: 1px solid rgba(201,168,76,0.15);">
+                <img src="images/arishow_curtain.jpg" alt="ARIsHOW 커튼콜" style="width: 100%; height: auto; display: block;">
+            </div>
+            <div style="flex: 0 0 auto; width: 480px; border: 1px solid rgba(201,168,76,0.15);">
+                <img src="images/perf_arishow.jpg" alt="ARIsHOW 밴드 공연" style="width: 100%; height: auto; display: block;">
+            </div>
+            <div style="flex: 0 0 auto; width: 480px; border: 1px solid rgba(201,168,76,0.15);">
+                <img src="images/as_avatar_duet.jpg" alt="아바타 듀엣" style="width: 100%; height: auto; display: block;">
+            </div>
+            <div style="flex: 0 0 auto; width: 480px; border: 1px solid rgba(201,168,76,0.15);">
+                <img src="images/as_avatar_sax.jpg" alt="아바타 색소폰" style="width: 100%; height: auto; display: block;">
+            </div>
+            <div style="flex: 0 0 auto; width: 420px; border: 1px solid rgba(201,168,76,0.15);">
+                <img src="images/as_led_duet.jpg" alt="LED 듀엣" style="width: 100%; height: auto; display: block;">
+            </div>
+            <div style="flex: 0 0 auto; width: 520px; border: 1px solid rgba(201,168,76,0.15);">
+                <img src="images/as_band_graphic.jpg" alt="밴드 그래픽" style="width: 100%; height: auto; display: block;">
+            </div>
+            <div style="flex: 0 0 auto; width: 480px; border: 1px solid rgba(201,168,76,0.15);">
+                <img src="images/as_fire_concert.jpg" alt="비디오 아트 콘서트" style="width: 100%; height: auto; display: block;">
+            </div>
+            <div style="flex: 0 0 auto; width: 420px; border: 1px solid rgba(201,168,76,0.15);">
+                <img src="images/as_members.jpg" alt="5인조 멤버" style="width: 100%; height: auto; display: block;">
+            </div>
+            <div style="flex: 0 0 auto; width: 380px; border: 1px solid rgba(201,168,76,0.15);">
+                <img src="images/as_blue_butterfly.jpg" alt="파란나비 포스터" style="width: 100%; height: auto; display: block;">
+            </div>
+        </div>
+    </section>
+
     <!-- CONCEPT SECTION -->
     <section class="concept fade-in">
         <div class="concept-title">
@@ -1304,27 +1433,27 @@
         </div>
         <div class="concept-grid">
             <div class="concept-card">
-                <img src="images/genesis_of_genre.jpg" alt="Genesis of Genre">
-                <div class="concept-overlay">Genesis of Genre</div>
-            </div>
-            <div class="concept-card">
-                <img src="images/golden_kiss_concept.jpg" alt="Golden Kiss">
+                <img src="images/perf_klimt_stage.jpg" alt="Golden Kiss">
                 <div class="concept-overlay">Golden Kiss</div>
             </div>
             <div class="concept-card">
-                <img src="images/masterpiece_collection.jpg" alt="Masterpiece Collection">
-                <div class="concept-overlay">Masterpiece Collection</div>
+                <img src="images/perf_armor.jpg" alt="Genesis of Genre">
+                <div class="concept-overlay">Genesis of Genre</div>
             </div>
             <div class="concept-card">
-                <img src="images/art_intelligence.jpg" alt="Art & Intelligence">
-                <div class="concept-overlay">Art & Intelligence</div>
+                <img src="images/perf_media_blue.jpg" alt="Media Art">
+                <div class="concept-overlay">Media Art</div>
             </div>
             <div class="concept-card">
-                <img src="images/two_rebels.jpg" alt="Two Rebels">
+                <img src="images/perf_led_neon.jpg" alt="Art Intelligence">
+                <div class="concept-overlay">Art Intelligence</div>
+            </div>
+            <div class="concept-card">
+                <img src="images/carnegie_tango.jpg" alt="Two Rebels">
                 <div class="concept-overlay">Two Rebels</div>
             </div>
             <div class="concept-card">
-                <img src="images/img_01_242kb.jpg" alt="Concept Image">
+                <img src="images/img_01_242kb.jpg" alt="Transcendence">
                 <div class="concept-overlay">Transcendence</div>
             </div>
         </div>
@@ -1382,10 +1511,16 @@
             }
         });
 
+        // Remove spark overlay after animation
+        setTimeout(() => {
+            const spark = document.getElementById('sparkOverlay');
+            if (spark) spark.classList.add('done');
+        }, 2500);
+
         // Fade-in animations
         const observerOptions = {
-            threshold: 0.15,
-            rootMargin: '0px 0px -100px 0px'
+            threshold: 0.05,
+            rootMargin: '0px 0px 0px 0px'
         };
 
         const observer = new IntersectionObserver((entries) => {
@@ -1409,7 +1544,7 @@
                     timelineObserver.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.2 });
+        }, { threshold: 0.05 });
 
         document.querySelectorAll('.timeline-entry').forEach(el => {
             timelineObserver.observe(el);

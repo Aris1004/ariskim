@@ -289,8 +289,8 @@
     /* Scroll reveal */
     .reveal {
       opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.9s cubic-bezier(0.2, 0.3, 0.25, 0.9);
+      transform: translateY(20px);
+      transition: all 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
     .reveal.visible {
       opacity: 1;
@@ -745,16 +745,25 @@
     }
 
     .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
+      display: flex;
+      overflow-x: auto;
+      gap: 16px;
       margin-top: 60px;
+      padding-bottom: 20px;
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: var(--gold) var(--bg);
     }
+    .gallery-grid::-webkit-scrollbar { height: 4px; }
+    .gallery-grid::-webkit-scrollbar-track { background: rgba(201,168,76,0.05); }
+    .gallery-grid::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
 
     .gallery-item {
       position: relative;
       overflow: hidden;
-      aspect-ratio: 1;
+      flex: 0 0 auto;
+      width: 320px;
+      height: 420px;
       cursor: pointer;
       transition: all 0.5s ease;
       border: 1px solid rgba(201,168,76,0.08);
@@ -762,17 +771,17 @@
     }
 
     .gallery-item.featured {
-      grid-column: 2 / 4;
-      aspect-ratio: 2/1;
+      width: 520px;
     }
 
     .gallery-image {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: contain;
       display: block;
-      filter: brightness(0.6);
+      filter: brightness(0.7);
       transition: all 0.6s cubic-bezier(0.2, 0.3, 0.25, 0.9);
+      background: var(--bg);
     }
 
     .gallery-item:hover {
@@ -781,8 +790,7 @@
     }
 
     .gallery-item:hover .gallery-image {
-      filter: brightness(0.85);
-      transform: scale(1.05);
+      filter: brightness(0.9);
     }
 
     .gallery-caption {
@@ -1312,8 +1320,8 @@
       .section-title { font-size: clamp(24px, 4vw, 36px); }
       .hero-scroll { display: none; }
       #gallery { padding: 100px 24px; }
-      .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 4px; }
-      .gallery-item.featured { grid-column: 1 / -1; }
+      .gallery-item { width: 260px; height: 340px; }
+      .gallery-item.featured { width: 420px; }
       .profile-grid { grid-template-columns: 1fr; gap: 40px; }
       .achievements-split { grid-template-columns: 1fr; gap: 40px; }
       .members-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
@@ -1334,7 +1342,8 @@
       .hero-title { font-size: clamp(36px, 7vw, 56px); }
       .section { padding: 80px 16px; }
       .section-title { font-size: clamp(20px, 3vw, 28px); }
-      .gallery-grid { grid-template-columns: 1fr; }
+      .gallery-item { width: 220px; height: 300px; }
+      .gallery-item.featured { width: 340px; }
       .members-grid { grid-template-columns: 1fr; }
       .contact-title { font-size: clamp(24px, 3vw, 36px); }
       .press-hero { padding: 80px 16px; }
@@ -1344,9 +1353,46 @@
       .profile-grid { gap: 24px; }
       .member-photo-frame { width: 160px; height: 160px; }
     }
+
+    /* GOLDEN SPARK INTRO */
+    .golden-spark-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: #0A0908;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: auto;
+      animation: sparkFadeOut 0.8s ease 1.6s forwards;
+    }
+    .golden-spark-overlay.done { display: none; }
+    .golden-spark-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #C9A84C, rgba(201,168,76,0.4));
+      box-shadow: 0 0 20px #C9A84C, 0 0 60px rgba(201,168,76,0.4);
+      animation: sparkBurst 1.2s cubic-bezier(0.34,1.56,0.64,1) 0.2s forwards;
+      opacity: 0;
+    }
+    @keyframes sparkBurst {
+      0% { opacity: 0; transform: scale(0.3); box-shadow: 0 0 8px #C9A84C; }
+      40% { opacity: 1; transform: scale(1.5); box-shadow: 0 0 60px #C9A84C, 0 0 120px rgba(201,168,76,0.3); }
+      100% { opacity: 0.6; transform: scale(1); box-shadow: 0 0 30px #C9A84C; }
+    }
+    @keyframes sparkFadeOut {
+      0% { opacity: 1; }
+      100% { opacity: 0; pointer-events: none; }
+    }
   </style>
 </head>
 <body>
+
+<!-- GOLDEN SPARK INTRO -->
+<div class="golden-spark-overlay" id="sparkOverlay">
+  <div class="golden-spark-dot"></div>
+</div>
 
 <!-- GOLDEN FLOATING PARTICLES -->
 <div class="golden-dust dust-1"></div>
@@ -1421,7 +1467,7 @@
         <img src="images/perf_media_blue.jpg" alt="미디어아트 공연">
       </div>
       <div class="klimt-img-frame reveal">
-        <img src="images/two_rebels.jpg" alt="퍼포먼스">
+        <img src="images/perf_led_neon.jpg" alt="LED 아트 퍼포먼스">
       </div>
     </div>
   </div>
@@ -1567,12 +1613,7 @@
   </div>
 
   <div class="gallery-grid" style="max-width:1200px;margin:60px auto 0;padding:0 60px;">
-    <div class="gallery-item featured reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/audience_laugh_close.jpg" alt="관객과 함께하는 순간">
-      <div class="gallery-caption">관객 속으로의 인터랙티브 퍼포먼스</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
+<div class="gallery-item reveal" onclick="openLightbox(this)">
       <img class="gallery-image" src="images/perf_klimt_stage.jpg" alt="클림트 LED 무대">
       <div class="gallery-caption">클림트 미디어아트 콘서트</div>
     </div>
@@ -1581,13 +1622,7 @@
       <img class="gallery-image" src="images/carnegie.jpg" alt="카네기홀">
       <div class="gallery-caption">뉴욕 카네기홀 2022</div>
     </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/audience_wide.jpg" alt="만석 무대">
-      <div class="gallery-caption">만석 공연장</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
+<div class="gallery-item reveal" onclick="openLightbox(this)">
       <img class="gallery-image" src="images/perf_media_blue.jpg" alt="블루 스테이지 미디어">
       <div class="gallery-caption">미디어아트 퍼포먼스</div>
     </div>
@@ -1616,13 +1651,7 @@
       <img class="gallery-image" src="images/perf_hall.jpg" alt="콘서트홀">
       <div class="gallery-caption">홀 공연</div>
     </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/perf_stage_sit.jpg" alt="무대에 앉아 연주">
-      <div class="gallery-caption">무대에서의 순간</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
+<div class="gallery-item reveal" onclick="openLightbox(this)">
       <img class="gallery-image" src="images/perf_arishow.jpg" alt="아리쇼">
       <div class="gallery-caption">ARISHOW</div>
     </div>
@@ -1656,128 +1685,20 @@
       <img class="gallery-image" src="images/amp_wide.jpg" alt="AMP 무대">
       <div class="gallery-caption">AMP 무대</div>
     </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/amp_audience.jpg" alt="AMP 관객">
-      <div class="gallery-caption">AMP 관객</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/amp_news.jpg" alt="AMP 미디어">
-      <div class="gallery-caption">AMP 미디어</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/amp_intro.jpg" alt="AMP 소개">
-      <div class="gallery-caption">AMP 소개</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/perf_sax_stage.jpg" alt="무대 위의 색소폰">
-      <div class="gallery-caption">무대 위의 색소폰</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/street__2_.jpg" alt="거리 공연 2">
-      <div class="gallery-caption">거리 공연 2</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/street__3_.jpg" alt="거리 공연 3">
-      <div class="gallery-caption">거리 공연 3</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/street__4_.jpg" alt="거리 공연 4">
-      <div class="gallery-caption">거리 공연 4</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
+<!-- amp_news, amp_intro removed (text slides) -->
+<div class="gallery-item reveal" onclick="openLightbox(this)">
       <img class="gallery-image" src="images/try__1_.jpg" alt="창의적 실험">
       <div class="gallery-caption">창의적 실험</div>
     </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/try__2_.jpg" alt="창의적 실험 2">
-      <div class="gallery-caption">창의적 실험 2</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/try__3_.jpg" alt="창의적 실험 3">
-      <div class="gallery-caption">창의적 실험 3</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/try__4_.jpg" alt="창의적 실험 4">
-      <div class="gallery-caption">창의적 실험 4</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/try__5_.jpg" alt="창의적 실험 5">
-      <div class="gallery-caption">창의적 실험 5</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/try__6_.jpg" alt="창의적 실험 6">
-      <div class="gallery-caption">창의적 실험 6</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/try__7_.jpg" alt="창의적 실험 7">
-      <div class="gallery-caption">창의적 실험 7</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/try__8_.jpg" alt="창의적 실험 8">
-      <div class="gallery-caption">창의적 실험 8</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/try__9_.jpg" alt="창의적 실험 9">
-      <div class="gallery-caption">창의적 실험 9</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
+<div class="gallery-item reveal" onclick="openLightbox(this)">
       <img class="gallery-image" src="images/birth__1_.jpg" alt="탄생 1">
       <div class="gallery-caption">탄생 1</div>
     </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/birth__4_.jpg" alt="탄생 4">
-      <div class="gallery-caption">탄생 4</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/birth__6_.jpg" alt="탄생 6">
-      <div class="gallery-caption">탄생 6</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/birth__7_.jpg" alt="탄생 7">
-      <div class="gallery-caption">탄생 7</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/birth__8_.jpg" alt="탄생 8">
-      <div class="gallery-caption">탄생 8</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
+<div class="gallery-item reveal" onclick="openLightbox(this)">
       <img class="gallery-image" src="images/JUNG2169.jpg" alt="JUNG 사진 2169">
       <div class="gallery-caption">JUNG 사진 2169</div>
     </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/JUNG2181.jpg" alt="JUNG 사진 2181">
-      <div class="gallery-caption">JUNG 사진 2181</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/hero_klimt.jpg" alt="클림트 콘서트 포스터">
-      <div class="gallery-caption">클림트 콘서트 포스터</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
+<div class="gallery-item reveal" onclick="openLightbox(this)">
       <img class="gallery-image" src="images/hero_led_stage.jpg" alt="LED 무대">
       <div class="gallery-caption">LED 무대</div>
     </div>
@@ -1787,10 +1708,7 @@
       <div class="gallery-caption">색소폰 초상</div>
     </div>
 
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/hero_poster.jpg" alt="이벤트 포스터">
-      <div class="gallery-caption">이벤트 포스터</div>
-    </div>
+    <!-- hero_poster removed (text poster) -->
 
     <div class="gallery-item reveal" onclick="openLightbox(this)">
       <img class="gallery-image" src="images/stage_smoke_vertical.jpg" alt="무대 연기">
@@ -1816,41 +1734,12 @@
       <img class="gallery-image" src="images/video_art__3_.jpg" alt="비디오 아트 3">
       <div class="gallery-caption">비디오 아트 3</div>
     </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/video_art__4_.jpg" alt="비디오 아트 4">
-      <div class="gallery-caption">비디오 아트 4</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/video_art__5_.jpg" alt="비디오 아트 5">
-      <div class="gallery-caption">비디오 아트 5</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/video_art__6_.jpg" alt="비디오 아트 6">
-      <div class="gallery-caption">비디오 아트 6</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
+<div class="gallery-item reveal" onclick="openLightbox(this)">
       <img class="gallery-image" src="images/video_art_avatar.jpg" alt="비디오 아트 아바타">
       <div class="gallery-caption">비디오 아트 아바타</div>
     </div>
 
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/golden_kiss_concept.jpg" alt="황금빛 키스 콘셉트">
-      <div class="gallery-caption">황금빛 키스 콘셉트</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/masterpiece_collection.jpg" alt="마스터피스 컬렉션">
-      <div class="gallery-caption">마스터피스 컬렉션</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/art_intelligence.jpg" alt="Art Intelligence">
-      <div class="gallery-caption">Art Intelligence</div>
-    </div>
+    <!-- golden_kiss_concept, masterpiece_collection, art_intelligence removed (text slides) -->
 
     <div class="gallery-item reveal" onclick="openLightbox(this)">
       <img class="gallery-image" src="images/concert_gallery.jpg" alt="콘서트 갤러리">
@@ -1871,53 +1760,15 @@
       <img class="gallery-image" src="images/tango_perf.jpg" alt="탱고 공연">
       <div class="gallery-caption">탱고 공연</div>
     </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/tango_cert.jpg" alt="탱고 인증">
-      <div class="gallery-caption">탱고 인증</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
+<div class="gallery-item reveal" onclick="openLightbox(this)">
       <img class="gallery-image" src="images/tango_trophy.jpg" alt="탱고 트로피">
       <div class="gallery-caption">탱고 트로피</div>
     </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/chinchin_m1.jpg" alt="친친 탱고 멤버 1">
-      <div class="gallery-caption">친친 탱고 멤버 1</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/chinchin_m2.jpg" alt="친친 탱고 멤버 2">
-      <div class="gallery-caption">친친 탱고 멤버 2</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/chinchin_m3.jpg" alt="친친 탱고 멤버 3">
-      <div class="gallery-caption">친친 탱고 멤버 3</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/chinchin_m4.jpg" alt="친친 탱고 멤버 4">
-      <div class="gallery-caption">친친 탱고 멤버 4</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/chinchin_members.jpg" alt="친친 탱고 멤버들">
-      <div class="gallery-caption">친친 탱고 멤버들</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
+<div class="gallery-item reveal" onclick="openLightbox(this)">
       <img class="gallery-image" src="images/hero_sax_clean.jpg" alt="색소폰 클린 샷">
       <div class="gallery-caption">색소폰 클린 샷</div>
     </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/img_black_jacket.jpg" alt="검은 자켓">
-      <div class="gallery-caption">검은 자켓</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
+<div class="gallery-item reveal" onclick="openLightbox(this)">
       <img class="gallery-image" src="images/img_gold_jacket.jpg" alt="황금 자켓">
       <div class="gallery-caption">황금 자켓</div>
     </div>
@@ -1926,32 +1777,7 @@
       <img class="gallery-image" src="images/perf_audience_laugh.jpg" alt="관객 웃음 순간">
       <div class="gallery-caption">관객 웃음 순간</div>
     </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/perf_audience_walk.jpg" alt="관객과 함께 걷기">
-      <div class="gallery-caption">관객과 함께 걷기</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/audience_walk_bw.jpg" alt="관객과 함께 걷기 (흑백)">
-      <div class="gallery-caption">관객과 함께 걷기 (흑백)</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/amp_sax_quote.jpg" alt="AMP 색소폰 명언">
-      <div class="gallery-caption">AMP 색소폰 명언</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/screw.jpg" alt="스크류 개념">
-      <div class="gallery-caption">스크류 개념</div>
-    </div>
-
-    <div class="gallery-item reveal" onclick="openLightbox(this)">
-      <img class="gallery-image" src="images/sax_preview.png" alt="색소폰 미리보기">
-      <div class="gallery-caption">색소폰 미리보기</div>
-    </div>
-  </div>
+</div>
 </section>
 
 <!-- ACHIEVEMENTS SECTION -->
@@ -2211,6 +2037,12 @@
 </div>
 
 <script>
+// Remove spark overlay after animation
+setTimeout(() => {
+  const spark = document.getElementById('sparkOverlay');
+  if (spark) spark.classList.add('done');
+}, 2500);
+
 // Progress bar
 window.addEventListener('scroll', () => {
   const scrollTop = window.scrollY;
@@ -2249,15 +2081,14 @@ navMobile.querySelectorAll('a').forEach(link => {
 // Scroll reveal animation
 const revealElements = document.querySelectorAll('.reveal');
 const revealOptions = {
-  threshold: 0.12,
-  rootMargin: '0px 0px -80px 0px'
+  threshold: 0.05,
+  rootMargin: '0px 0px 0px 0px'
 };
 
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      const delay = Array.from(revealElements).indexOf(entry.target) * 0.08;
-      entry.target.style.transitionDelay = delay + 's';
+      entry.target.style.transitionDelay = '0s';
       entry.target.classList.add('visible');
       observer.unobserve(entry.target);
     }
