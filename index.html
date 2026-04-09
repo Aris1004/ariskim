@@ -927,14 +927,15 @@ if(skipToEnd){
       }, 60);
     }, 1200);
 
-    // When video ends → fade out and immediately start spotlight
-    introVideo.onended = function(){
-      videoIntro.classList.add('fade');
-      setTimeout(function(){
-        videoIntro.classList.add('done');
-      }, 1500);
-      // Start spotlight beam immediately when video ends
-      runSpotlightBeam(function(){
+    // Start spotlight 0.5s before video ends (overlap transition)
+    var spotlightStarted = false;
+    introVideo.ontimeupdate = function(){
+      if(spotlightStarted) return;
+      if(introVideo.duration - introVideo.currentTime <= 0.5){
+        spotlightStarted = true;
+        videoIntro.classList.add('fade');
+        setTimeout(function(){ videoIntro.classList.add('done'); }, 1500);
+        runSpotlightBeam(function(){
         // Spotlight beam done → fade out Phase 1
         document.getElementById('phase1').classList.add('fade-out');
 
@@ -953,6 +954,7 @@ if(skipToEnd){
           document.getElementById('phase3').classList.add('show');
         }, 3500);
       });
+      }
     };
   });
 }
