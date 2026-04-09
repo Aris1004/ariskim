@@ -8,7 +8,7 @@
 <meta property="og:title" content="ARIS KIM | 아리스김">
 <meta property="og:description" content="뉴욕 카네기홀 · 예술의전당 최초 1호 아티스트 · 아시아 탱고 챔피언">
 <meta property="og:image" content="https://ariskim.netlify.app/og_sign.png">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Serif+KR:wght@200;300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Serif+KR:wght@200;300;400&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;}
 :root{--gold:#C9A84C;--bg:#0A0908;--text:#F2EDE4;--gold-subtle:rgba(201,168,76,0.3);}
@@ -32,10 +32,7 @@ a:hover,a:active{color:var(--text);}
   position:absolute;inset:0;
   width:100%;height:100%;
   object-fit:cover;
-  opacity:0;
-  transition:opacity 0.8s ease;
 }
-#introVideo.visible{opacity:1;}
 
 /* Spotlight cone from top */
 .spotlight{
@@ -110,6 +107,32 @@ a:hover,a:active{color:var(--text);}
   background:radial-gradient(ellipse 50% 50% at center,transparent 0%,rgba(0,0,0,0.7) 100%);
   z-index:1;
   pointer-events:none;
+}
+
+/* Typewriter subtitle */
+#introSubtitle{
+  position:absolute;
+  bottom:18%;left:50%;
+  transform:translateX(-50%);
+  z-index:10;
+  font-family:'Gowun Batang','Batang','궁서',serif;
+  font-size:clamp(16px,2.5vw,28px);
+  font-weight:700;
+  letter-spacing:0.08em;
+  color:rgba(255,255,255,0.92);
+  text-shadow:0 0 20px rgba(0,0,0,0.8),0 0 40px rgba(0,0,0,0.5);
+  white-space:nowrap;
+  overflow:hidden;
+  border-right:2px solid rgba(255,255,255,0.7);
+  animation:blink-cursor 0.6s step-end infinite;
+}
+#introSubtitle.done-typing{
+  border-right-color:transparent;
+  animation:none;
+}
+@keyframes blink-cursor{
+  0%,100%{border-right-color:rgba(255,255,255,0.7);}
+  50%{border-right-color:transparent;}
 }
 
 @keyframes introFade{
@@ -421,6 +444,7 @@ a:hover,a:active{color:var(--text);}
   <div class="spotlight" id="spotlight"></div>
   <div class="spotlight-source" id="spotlightSrc"></div>
   <div class="spotlight-pool" id="spotlightPool"></div>
+  <div id="introSubtitle"></div>
 </div>
 
 <!-- PHASE 1: THE VOID -->
@@ -503,11 +527,9 @@ if(skipToEnd){
 } else {
 
   // Start video autoplay
-  introVideo.play().then(function(){
-    introVideo.classList.add('visible');
-  }).catch(function(){
-    // Autoplay blocked — show video anyway
-    introVideo.classList.add('visible');
+  introVideo.play().catch(function(){
+    // Autoplay blocked — skip to phase 1
+    videoIntro.classList.add('done');
   });
 
   // Spotlight turns on at 1s
@@ -516,6 +538,22 @@ if(skipToEnd){
     spotlightSrc.classList.add('on');
     spotlightPool.classList.add('on');
   }, 1000);
+
+  // Typewriter subtitle at 1.2s
+  var subtitleEl = document.getElementById('introSubtitle');
+  var subtitleText = '"재능은 많은데 머리가 텅 비었어"';
+  var charIndex = 0;
+  setTimeout(function(){
+    var typeInterval = setInterval(function(){
+      if(charIndex < subtitleText.length){
+        subtitleEl.textContent = subtitleText.substring(0, charIndex + 1);
+        charIndex++;
+      } else {
+        clearInterval(typeInterval);
+        setTimeout(function(){ subtitleEl.classList.add('done-typing'); }, 800);
+      }
+    }, 60);
+  }, 1200);
 
   // Video intro fades out at 4s
   setTimeout(function(){
