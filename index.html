@@ -189,7 +189,7 @@ a:hover,a:active{color:var(--text);}
 #phase1{
   position:fixed;inset:0;z-index:300;
   background:var(--bg);
-  transition:opacity 1.4s ease;
+  transition:opacity 0.8s ease;
 }
 #phase1.fade-out{opacity:0;pointer-events:none;}
 #spotCvs{position:absolute;inset:0;width:100%;height:100%;}
@@ -956,12 +956,12 @@ function runSpotlightBeam(done){
         spotX.shadowColor = 'rgba(201,168,76,0.6)';
         spotX.shadowBlur = 16;
         var displayTxt = krMsg.substring(0, krLen);
-        spotX.fillText(displayTxt, spotCvs.width / 2, ty - fs * 0.65);
+        spotX.fillText(displayTxt, spotCvs.width / 2, ty - fs * 0.5);
         /* Blinking cursor */
         if(!krDone && Math.floor(elapsed / 400) % 2 === 0){
           var cursorX = spotCvs.width / 2 + spotX.measureText(displayTxt).width / 2 + 4;
           spotX.fillStyle = 'rgba(242,237,228,0.8)';
-          spotX.fillRect(cursorX, ty - fs * 0.65 - krFs * 0.75, 2, krFs);
+          spotX.fillRect(cursorX, ty - fs * 0.5 - krFs * 0.75, 2, krFs);
         }
         spotX.restore();
       }
@@ -972,7 +972,9 @@ function runSpotlightBeam(done){
         var tSince = elapsed - riShowTime;
 
         lineAlpha = Math.min(lineAlpha + 0.03, 0.5);
-        var lineW = fs * 2.2 * Math.min(lineAlpha / 0.3, 1);
+        /* Line width: between typewriter width and ARISHOW width */
+        var lineW = fs * 1.6 * Math.min(lineAlpha / 0.3, 1);
+        var lineY = ty + fs * 0.05;
         spotX.save();
         spotX.globalAlpha = lineAlpha;
         spotX.strokeStyle = '#C9A84C';
@@ -980,14 +982,14 @@ function runSpotlightBeam(done){
         spotX.shadowColor = 'rgba(201,168,76,0.4)';
         spotX.shadowBlur = 6;
         spotX.beginPath();
-        spotX.moveTo(spotCvs.width / 2 - lineW / 2, ty - fs * 0.22);
-        spotX.lineTo(spotCvs.width / 2 + lineW / 2, ty - fs * 0.22);
+        spotX.moveTo(spotCvs.width / 2 - lineW / 2, lineY);
+        spotX.lineTo(spotCvs.width / 2 + lineW / 2, lineY);
         spotX.stroke();
         spotX.restore();
 
         /* ARISHOW — Phase 1: " RI HOW" (no A, no I) */
         var fs2 = fs * 0.7;
-        var titleY = ty + fs * 0.2;
+        var titleY = ty + fs * 0.6;
         spotX.save();
         spotX.font = '900 ' + fs2 + 'px "Cinzel"';
 
@@ -1092,7 +1094,7 @@ function runSpotlightBeam(done){
           spotX.textAlign = 'center';
           spotX.shadowColor = 'rgba(201,168,76,0.55)';
           spotX.shadowBlur = 12 * subAlpha;
-          spotX.fillText('아  리  스  김', spotCvs.width / 2, ty + fs * 0.52);
+          spotX.fillText('아  리  스  김', spotCvs.width / 2, ty + fs * 0.95);
           spotX.restore();
         }
       }
@@ -1101,11 +1103,10 @@ function runSpotlightBeam(done){
         requestAnimationFrame(frame);
       } else {
         if(krInterval) clearInterval(krInterval);
-        setTimeout(function(){
-          crackOn=false;
-          crackX.clearRect(0,0,crackCvs.width,crackCvs.height);
-          done();
-        }, 2000);
+        /* Quick cleanup — no delay, go straight to next phase */
+        crackOn=false;
+        crackX.clearRect(0,0,crackCvs.width,crackCvs.height);
+        done();
       }
     }
     requestAnimationFrame(frame);
@@ -1114,23 +1115,12 @@ function runSpotlightBeam(done){
 
 /* ═══ SCREW DESCENT ANIMATION ═══ */
 function runScrewAnimation(){
-  var sCvs = document.getElementById('screwCrackCvs');
   var sFlash = document.getElementById('screwFlash');
   var sMask = document.getElementById('screw-mask');
   var sBeam = document.getElementById('screw-beam');
   var sShimmer = document.getElementById('screw-shimmer');
 
-  sCvs.width = sCvs.offsetWidth * (window.devicePixelRatio || 1);
-  sCvs.height = sCvs.offsetHeight * (window.devicePixelRatio || 1);
-  var sX = sCvs.getContext('2d');
-  sX.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
-  var sW = sCvs.offsetWidth, sH = sCvs.offsetHeight;
-
-  /* Impact point: center-top where screw meets head (~30% from top) */
-  var impactX = sW * 0.5;
-  var impactY = sH * 0.30;
-
-  /* Phase 1: Golden beam descends (0 → 1800ms) */
+  /* Golden beam descends (0 → 1800ms) */
   sBeam.style.opacity = '1';
   var beamStart = performance.now();
   var beamDur = 1800;
@@ -1139,29 +1129,28 @@ function runScrewAnimation(){
     var p = Math.min((ts - beamStart) / beamDur, 1);
     /* Accelerating descent — slow at first, fast at impact */
     var eased = p * p * p;
-    var topPos = -40 + (70 * eased); /* from -40% to 30% */
+    var topPos = -40 + (70 * eased);
     sBeam.style.top = topPos + '%';
-    /* Intensify glow as it approaches */
     sBeam.style.opacity = String(0.4 + p * 0.6);
     sBeam.style.width = (50 + p * 30) + 'px';
-    /* Subtle rotation (it's a screw!) */
+    /* Screw rotation */
     sBeam.style.transform = 'translateX(-50%) rotate(' + (p * 720) + 'deg)';
 
     if(p < 1){
       requestAnimationFrame(animateBeam);
     } else {
-      /* ═══ IMPACT ═══ */
+      /* ═══ IMPACT — flash + reveal only, no cracks/sound ═══ */
       sBeam.style.opacity = '0';
 
       /* Flash */
       sFlash.style.background = '#fff';
-      sFlash.style.opacity = '0.85';
-      setTimeout(function(){ sFlash.style.transition='opacity 0.12s'; sFlash.style.opacity='0'; },50);
+      sFlash.style.opacity = '0.7';
+      setTimeout(function(){ sFlash.style.transition='opacity 0.15s'; sFlash.style.opacity='0'; },50);
       setTimeout(function(){
         sFlash.style.background = '#ffcc44';
-        sFlash.style.transition='none'; sFlash.style.opacity='0.35';
-        setTimeout(function(){ sFlash.style.transition='opacity 0.2s'; sFlash.style.opacity='0'; },50);
-      }, 200);
+        sFlash.style.transition='none'; sFlash.style.opacity='0.25';
+        setTimeout(function(){ sFlash.style.transition='opacity 0.25s'; sFlash.style.opacity='0'; },50);
+      }, 180);
 
       /* Reveal screw (remove mask) */
       sMask.classList.add('revealed');
@@ -1169,98 +1158,24 @@ function runScrewAnimation(){
       /* Shimmer on screw */
       sShimmer.classList.add('active');
 
-      /* Sound */
-      if(AC && AC.state === 'running') playSeismicBoom(0);
-
-      /* Shake Phase 2 */
+      /* Gentle shake */
       var p2 = document.getElementById('phase2');
       var shakeStart = performance.now();
-      var shakeDur = 1200;
+      var shakeDur = 800;
       function shakeFrame(ts2){
         var sp = (ts2 - shakeStart) / shakeDur;
         if(sp >= 1){ p2.style.transform = ''; return; }
-        var intensity = 12 * (1 - sp);
+        var intensity = 6 * (1 - sp);
         var sx = (Math.random()-0.5) * intensity;
         var sy = (Math.random()-0.5) * intensity;
         p2.style.transform = 'translate('+sx+'px,'+sy+'px)';
         requestAnimationFrame(shakeFrame);
       }
       requestAnimationFrame(shakeFrame);
-
-      /* Cracks from impact point */
-      var cracks = [];
-      var numCracks = 8 + Math.floor(Math.random()*5);
-      for(var ci=0;ci<numCracks;ci++){
-        var angle = (Math.PI*2 / numCracks) * ci + (Math.random()-0.5)*0.5;
-        var len = 60 + Math.random() * 120;
-        var segs = [];
-        var cx2 = impactX, cy2 = impactY;
-        var segCount = 4 + Math.floor(Math.random()*4);
-        for(var si=0;si<segCount;si++){
-          var segLen = len / segCount;
-          var nxa = cx2 + Math.cos(angle + (Math.random()-0.5)*0.6) * segLen;
-          var nya = cy2 + Math.sin(angle + (Math.random()-0.5)*0.6) * segLen;
-          segs.push({x:nxa, y:nya});
-          cx2 = nxa; cy2 = nya;
-        }
-        cracks.push({segs:segs, alpha:1});
-      }
-
-      /* Draw cracks with animation */
-      var crackStart = performance.now();
-      var crackDrawDur = 400;
-      var crackFadeDur = 3000;
-
-      function drawScrewCracks(ts3){
-        var elapsed2 = ts3 - crackStart;
-        sX.clearRect(0,0,sW,sH);
-
-        var drawP = Math.min(elapsed2 / crackDrawDur, 1);
-        var fadeP = elapsed2 > crackDrawDur ? Math.min((elapsed2 - crackDrawDur) / crackFadeDur, 1) : 0;
-        var alpha = 1 - fadeP;
-
-        if(alpha <= 0) return;
-
-        sX.save();
-        sX.globalAlpha = alpha;
-        sX.strokeStyle = 'rgba(255,245,200,0.9)';
-        sX.lineWidth = 1.5;
-        sX.shadowColor = 'rgba(201,168,76,0.7)';
-        sX.shadowBlur = 8;
-
-        for(var cj=0;cj<cracks.length;cj++){
-          var segs2 = cracks[cj].segs;
-          var segsToDraw = Math.ceil(segs2.length * drawP);
-          sX.beginPath();
-          sX.moveTo(impactX, impactY);
-          for(var sk=0;sk<segsToDraw;sk++){
-            sX.lineTo(segs2[sk].x, segs2[sk].y);
-          }
-          sX.stroke();
-        }
-
-        /* Small debris particles */
-        if(drawP > 0.3){
-          var debrisAlpha = alpha * 0.7;
-          sX.globalAlpha = debrisAlpha;
-          for(var di=0;di<15;di++){
-            var da = Math.random() * Math.PI * 2;
-            var dd = 20 + Math.random() * 80 * drawP;
-            var dx2 = impactX + Math.cos(da) * dd;
-            var dy2 = impactY + Math.sin(da) * dd;
-            sX.fillStyle = Math.random() > 0.5 ? 'rgba(201,168,76,0.8)' : 'rgba(255,245,200,0.6)';
-            sX.fillRect(dx2, dy2, 1+Math.random()*2, 1+Math.random()*2);
-          }
-        }
-        sX.restore();
-
-        if(alpha > 0) requestAnimationFrame(drawScrewCracks);
-      }
-      requestAnimationFrame(drawScrewCracks);
     }
   }
 
-  /* Start beam after 800ms delay (void panels are still opening) */
+  /* Start beam after short delay (void panels opening) */
   setTimeout(function(){
     requestAnimationFrame(animateBeam);
   }, 800);
@@ -1271,25 +1186,24 @@ function startPostVideoSequence(){
   videoIntro.classList.add('fade');
   setTimeout(function(){ videoIntro.classList.add('done'); }, 1500);
   runSpotlightBeam(function(){
-    /* Spotlight beam done → fade out Phase 1 */
+    /* Spotlight beam done → immediately fade to Phase 2 */
     document.getElementById('phase1').classList.add('fade-out');
 
-    /* Phase 2 show + screw animation */
+    /* Phase 2 show right away + screw animation */
     setTimeout(function(){
       document.getElementById('phase2').classList.add('show');
-      /* Start screw descent after void panels open */
-      setTimeout(runScrewAnimation, 200);
-    }, 500);
+      setTimeout(runScrewAnimation, 100);
+    }, 200);
 
-    /* Phase 2 fade-out — extended for screw animation */
+    /* Phase 2 fade-out */
     setTimeout(function(){
       document.getElementById('phase2').classList.add('fade-out');
-    }, 5500);
+    }, 5000);
 
     /* Phase 3 show */
     setTimeout(function(){
       document.getElementById('phase3').classList.add('show');
-    }, 6200);
+    }, 5700);
   });
 }
 
