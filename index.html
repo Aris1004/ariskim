@@ -506,8 +506,8 @@ a:hover,a:active{color:var(--text);}
 // Golden spark overlay removal — wait for smoke to dissipate
 var sparkEl = document.getElementById('sparkOverlay');
 if(sparkEl){
-  setTimeout(function(){ sparkEl.classList.add('fade'); }, 2600);
-  setTimeout(function(){ sparkEl.classList.add('done'); }, 4000);
+  setTimeout(function(){ sparkEl.classList.add('fade'); }, 1300);
+  setTimeout(function(){ sparkEl.classList.add('done'); }, 2000);
 }
 
 // Check for skip parameter
@@ -523,25 +523,25 @@ if(skipToEnd){
 } else {
   // Full theatrical sequence
 
-  // Phase 1 fade-out at 9s (문구 충분히 보여준 후)
+  // Phase 1 fade-out at 4.5s (문구 충분히 보여준 후)
   setTimeout(function(){
     document.getElementById('phase1').classList.add('fade-out');
-  }, 9000);
+  }, 4500);
 
-  // Phase 2 show at 9.5s (사진 등장)
+  // Phase 2 show at 5s (사진 등장)
   setTimeout(function(){
     document.getElementById('phase2').classList.add('show');
-  }, 9500);
+  }, 5000);
 
-  // Phase 2 fade-out at 14s (사진 4.5초간 유지)
+  // Phase 2 fade-out at 7.5s (사진 2.5초간 유지)
   setTimeout(function(){
     document.getElementById('phase2').classList.add('fade-out');
-  }, 14000);
+  }, 7500);
 
-  // Phase 3 show at 14.5s
+  // Phase 3 show at 8s
   setTimeout(function(){
     document.getElementById('phase3').classList.add('show');
-  }, 14500);
+  }, 8000);
 }
 
 // Keyboard navigation
