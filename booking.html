@@ -286,6 +286,66 @@
       right: -6px;
     }
 
+    /* Floating "처음으로" button */
+    #floatBack{
+      position:fixed;
+      top:36px;right:60px;
+      z-index:2002;
+      opacity:0;
+      transform:translateY(-10px);
+      pointer-events:none;
+      transition:all 0.5s cubic-bezier(0.25,0.46,0.45,0.94);
+    }
+    #floatBack.show{
+      opacity:1;
+      transform:translateY(0);
+      pointer-events:auto;
+    }
+    .gold-texture-btn{
+      font-family:'Cinzel',serif;
+      font-size:11px;
+      letter-spacing:0.15em;
+      color:#F2EDE4;
+      text-decoration:none;
+      padding:10px 24px;
+      display:inline-block;
+      position:relative;
+      border:1px solid rgba(201,168,76,0.5);
+      background:linear-gradient(145deg,
+        rgba(201,168,76,0.15) 0%,
+        rgba(180,150,60,0.25) 20%,
+        rgba(220,190,90,0.18) 40%,
+        rgba(160,130,50,0.22) 60%,
+        rgba(201,168,76,0.15) 80%,
+        rgba(190,160,70,0.2) 100%);
+      box-shadow:inset 0 1px 0 rgba(255,245,200,0.15),
+                 inset 0 -1px 0 rgba(0,0,0,0.2),
+                 0 0 20px rgba(201,168,76,0.08);
+      transition:all 0.35s;
+      overflow:hidden;
+    }
+    .gold-texture-btn::before{
+      content:'';
+      position:absolute;
+      top:-200%;left:-100%;
+      width:50%;height:500%;
+      background:linear-gradient(90deg,transparent,rgba(255,245,200,0.2),transparent);
+      transform:skewX(-30deg);
+      animation:goldShimmer 3s ease-in-out infinite alternate;
+      pointer-events:none;
+    }
+    @keyframes goldShimmer{
+      0%{left:-100%;}
+      100%{left:200%;}
+    }
+    .gold-texture-btn:hover{
+      border-color:var(--gold);
+      box-shadow:inset 0 1px 0 rgba(255,245,200,0.25),
+                 0 0 30px rgba(201,168,76,0.2),
+                 0 4px 16px rgba(201,168,76,0.15);
+      transform:translateY(-1px);
+    }
+
     /* Scroll reveal */
     .reveal {
       opacity: 0;
@@ -1338,6 +1398,8 @@
     @media (max-width: 480px) {
       #nav { padding: 16px 16px; }
       .nav-logo { font-size: 12px; }
+      #floatBack { top:18px;right:16px; }
+      #floatBack .gold-texture-btn { font-size:9px;padding:8px 16px; }
       .hero-content { padding: 0 20px; }
       .hero-title { font-size: clamp(36px, 7vw, 56px); }
       .section { padding: 80px 16px; }
@@ -1393,6 +1455,11 @@
 <div class="golden-spark-overlay" id="sparkOverlay">
 </div>
 
+<!-- FLOATING BACK BUTTON -->
+<div id="floatBack">
+  <a href="index.html?skip=1" class="gold-texture-btn">처음으로</a>
+</div>
+
 <!-- GOLDEN FLOATING PARTICLES -->
 <div class="golden-dust dust-1"></div>
 <div class="golden-dust dust-2"></div>
@@ -1412,9 +1479,7 @@
     <li><a href="#members">팀</a></li>
     <li><a href="#contact">연락처</a></li>
   </ul>
-  <div class="nav-right">
-    <a href="#contact" class="nav-cta">공연 의뢰</a>
-  </div>
+  <div class="nav-right"></div>
   <button class="nav-ham" id="nav-toggle"><span></span><span></span><span></span></button>
 </nav>
 
@@ -1424,7 +1489,6 @@
   <a href="#gallery">갤러리</a>
   <a href="#members">팀</a>
   <a href="#contact">연락처</a>
-  <a href="#contact" class="nav-cta">공연 의뢰</a>
 </div>
 
 <!-- HERO SECTION -->
@@ -2005,11 +2069,10 @@
       당신의 특별한 순간을 아리스김과 함께 만들어보세요.<br>
       모든 규모와 형식의 공연 의뢰를 환영합니다.
     </p>
-    <a href="mailto:ARISHOW@NAVER.COM" class="contact-email reveal">ARISHOW@NAVER.COM</a>
-    <p class="contact-phone reveal" style="font-family:'Cinzel',serif;font-size:14px;letter-spacing:0.1em;color:rgba(242,237,228,0.6);margin-top:12px;">010-4251-1212</p>
-    <div class="contact-buttons reveal">
-      <a href="mailto:ARISHOW@NAVER.COM" class="btn-contact primary">이메일 보내기</a>
-      <a href="index.html?skip=1" class="btn-contact secondary" style="background:rgba(201,168,76,0.06);padding:14px 32px;font-size:12px;">처음으로</a>
+    <a href="mailto:ARISHOW@NAVER.COM" class="contact-email reveal" style="font-family:'Cinzel',serif;font-size:clamp(14px,2vw,20px);letter-spacing:0.12em;">ARISHOW@NAVER.COM</a>
+    <div class="contact-buttons reveal" style="margin-top:28px;display:flex;flex-direction:column;align-items:center;gap:16px;">
+      <a href="mailto:ARISHOW@NAVER.COM" class="gold-texture-btn" style="font-size:13px;font-weight:700;padding:14px 36px;letter-spacing:0.2em;">이메일 보내기</a>
+      <a href="tel:010-4251-1212" class="gold-texture-btn" style="font-size:13px;padding:14px 36px;letter-spacing:0.15em;">010-4251-1212</a>
     </div>
   </div>
 </section>
@@ -2051,13 +2114,20 @@ window.addEventListener('scroll', () => {
   document.getElementById('prog').style.width = scrollPercent + '%';
 });
 
-// Navigation scroll effect
+// Navigation scroll effect + floating back button
 const nav = document.getElementById('nav');
+const floatBack = document.getElementById('floatBack');
 window.addEventListener('scroll', () => {
   if (window.scrollY > 50) {
     nav.classList.add('scroll');
   } else {
     nav.classList.remove('scroll');
+  }
+  // Show floating "처음으로" button after scrolling 300px
+  if (window.scrollY > 300) {
+    floatBack.classList.add('show');
+  } else {
+    floatBack.classList.remove('show');
   }
 });
 

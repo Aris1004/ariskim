@@ -828,19 +828,19 @@ function runSpotlightBeam(done){
         var ta = Math.min((e - 0.30) / 0.35, 1) * 0.7;
         spotX.save();
         spotX.globalAlpha = ta;
-        spotX.font = (fs * 0.18) + 'px "Noto Serif KR"';
+        spotX.font = (fs * 0.16) + 'px "Noto Serif KR"';
         spotX.fillStyle = 'rgba(242,237,228,0.85)';
         spotX.textAlign = 'center';
         spotX.shadowColor = 'rgba(201,168,76,0.4)';
         spotX.shadowBlur = 10 * ta;
-        spotX.fillText('머리가 비었기에 할 수 있는 것!', spotCvs.width / 2, ty - fs * 0.55);
+        spotX.fillText('머리가 비었기에 할 수 있는 것!', spotCvs.width / 2, ty - fs * 0.75);
         spotX.restore();
       }
 
       /* Gold line */
       if(e > 0.33){
         var la = Math.min((e - 0.33) / 0.3, 1) * 0.5;
-        var lineW = fs * 1.8 * Math.min((e - 0.33) / 0.4, 1);
+        var lineW = fs * 2.0 * Math.min((e - 0.33) / 0.4, 1);
         spotX.save();
         spotX.globalAlpha = la;
         spotX.strokeStyle = '#C9A84C';
@@ -848,36 +848,38 @@ function runSpotlightBeam(done){
         spotX.shadowColor = 'rgba(201,168,76,0.4)';
         spotX.shadowBlur = 6;
         spotX.beginPath();
-        spotX.moveTo(spotCvs.width / 2 - lineW / 2, ty - fs * 0.35);
-        spotX.lineTo(spotCvs.width / 2 + lineW / 2, ty - fs * 0.35);
+        spotX.moveTo(spotCvs.width / 2 - lineW / 2, ty - fs * 0.48);
+        spotX.lineTo(spotCvs.width / 2 + lineW / 2, ty - fs * 0.48);
         spotX.stroke();
         spotX.restore();
       }
 
-      /* ARISHOW text */
+      /* ARISHOW text — smaller */
       if(e > 0.35){
         var sa = Math.min((e - 0.35) / 0.45, 1);
+        var fs2 = fs * 0.75;
         spotX.save();
         spotX.globalAlpha = sa;
-        spotX.font = '900 ' + fs + 'px "Cinzel"';
+        spotX.font = '900 ' + fs2 + 'px "Cinzel"';
         spotX.fillStyle = '#EDE4D6';
+        spotX.textAlign = 'center';
         spotX.shadowColor = 'rgba(232,204,122,0.65)';
         spotX.shadowBlur = 20 * sa;
-        spotX.fillText(txt, tx, ty);
+        spotX.fillText(txt, spotCvs.width / 2, ty);
         spotX.restore();
       }
 
-      /* Sub-text: ARIS KIM */
+      /* Sub-text: 아 리 스 김 */
       if(e > 0.65){
         var ka = Math.min((e - 0.65) / 0.28, 1) * 0.85;
         spotX.save();
         spotX.globalAlpha = ka;
-        spotX.font = (fs * 0.22) + 'px "Noto Serif KR"';
+        spotX.font = (fs * 0.18) + 'px "Noto Serif KR"';
         spotX.fillStyle = '#C9A84C';
         spotX.textAlign = 'center';
         spotX.shadowColor = 'rgba(201,168,76,0.55)';
         spotX.shadowBlur = 12 * ka;
-        spotX.fillText('아  리  스  김', spotCvs.width / 2, ty + fs * 0.37);
+        spotX.fillText('아  리  스  김', spotCvs.width / 2, ty + fs * 0.28);
         spotX.restore();
       }
 
