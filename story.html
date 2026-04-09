@@ -59,6 +59,35 @@
             opacity: 0.7;
         }
 
+        .gold-texture-btn{
+          display:inline-block;
+          font-family:'Cinzel',serif;font-size:10px;letter-spacing:0.15em;
+          padding:8px 20px;border:none;cursor:pointer;
+          color:#F2EDE4;text-decoration:none;
+          background:linear-gradient(145deg,
+            rgba(201,168,76,0.15) 0%, rgba(180,150,60,0.25) 20%,
+            rgba(220,190,90,0.18) 40%, rgba(160,130,50,0.22) 60%,
+            rgba(201,168,76,0.15) 80%, rgba(190,160,70,0.2) 100%);
+          box-shadow:inset 0 1px 0 rgba(255,245,200,0.15),
+            inset 0 -1px 0 rgba(0,0,0,0.2),
+            0 0 20px rgba(201,168,76,0.08);
+          position:relative;overflow:hidden;
+          opacity:0;transform:translateX(30px);pointer-events:none;
+          transition:opacity 0.5s ease,transform 0.5s ease;
+        }
+        nav.scrolled .gold-texture-btn{
+          opacity:1;transform:translateX(0);pointer-events:auto;
+        }
+        .gold-texture-btn::before{
+          content:'';position:absolute;
+          top:-200%;left:-100%;width:50%;height:500%;
+          background:linear-gradient(90deg,transparent,rgba(255,245,200,0.25),rgba(201,168,76,0.15),transparent);
+          transform:skewX(-30deg);
+          animation:goldBtnShimmer 1.8s ease-in-out infinite alternate;
+          pointer-events:none;
+        }
+        @keyframes goldBtnShimmer{0%{left:-100%;}100%{left:200%;}}
+
         /* TYPOGRAPHY */
         h1 {
             font-family: 'Cinzel', serif;
@@ -187,6 +216,19 @@
 
         .hero-title {
             margin-bottom: 4rem;
+        }
+
+        #heroCursor {
+            display: inline-block;
+            margin-left: 4px;
+            animation: blink 0.6s infinite;
+            color: #F2EDE4;
+            font-weight: 700;
+        }
+
+        @keyframes blink {
+            0%, 49% { opacity: 1; }
+            50%, 100% { opacity: 0; }
         }
 
         .scroll-indicator {
@@ -1135,6 +1177,7 @@
     <!-- NAVIGATION -->
     <nav id="navbar">
         <a href="index.html">← ARIS KIM</a>
+        <a href="index.html?skip=1" class="gold-texture-btn">처음으로</a>
         <a href="booking.html">BOOKING →</a>
     </nav>
 
@@ -1144,16 +1187,17 @@
         <div class="hero-overlay"></div>
         <div class="hero-content">
             <p class="hero-subtitle">THE WILD SOUL</p>
-            <h1 class="hero-title korean-title">야생의 영혼</h1>
+            <h1 class="hero-title korean-title" id="heroTypewriter"></h1>
+            <span id="heroCursor" style="display:none;">|</span>
         </div>
         <div class="scroll-indicator"></div>
     </section>
 
     <!-- THESIS SECTION -->
-    <section class="thesis fade-in">
-        <p class="thesis-quote">머리가 비어야 할 수 있었던 것이었습니다</p>
-        <div class="thesis-divider"></div>
-        <p class="thesis-author">— ARIS KIM</p>
+    <section class="thesis fade-in" id="thesisSection">
+        <p class="thesis-quote" id="thesisTypewriter"></p>
+        <div class="thesis-divider" id="thesisDivider" style="opacity:0;transition:opacity 0.8s ease;"></div>
+        <canvas id="arishowCvs" width="800" height="200" style="display:block;margin:0 auto;max-width:100%;"></canvas>
     </section>
 
     <!-- GENESIS SECTION -->
@@ -1387,7 +1431,7 @@
         </div>
 
         <!-- ARISHOW Gallery - Horizontal Scroll -->
-        <div style="display: flex; gap: 16px; overflow-x: auto; padding: 0 2rem 20px; scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: #C9A84C #0A0908; position: relative; z-index: 2;">
+        <div id="arishowGallery" style="display: flex; gap: 16px; overflow-x: auto; padding: 0 2rem 20px; scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: #C9A84C #0A0908; position: relative; z-index: 2;">
             <div style="flex: 0 0 auto; width: 420px; border: 1px solid rgba(201,168,76,0.15);">
                 <img src="images/as_led_screen.jpg" alt="ARIsHOW LED 스크린" style="width: 100%; height: auto; display: block;">
             </div>
@@ -1509,6 +1553,283 @@
                 navbar.classList.remove('scrolled');
             }
         });
+
+        // Web Audio API initialization
+        var AC = null;
+        function initAudio(){
+          try{ AC = new (window.AudioContext || window.webkitAudioContext)(); } catch(e){}
+        }
+        // Initialize on first user interaction
+        document.addEventListener('click', function audioInit(){
+          initAudio();
+          if(AC && AC.state === 'suspended') AC.resume();
+          document.removeEventListener('click', audioInit);
+        }, {once:true});
+
+        function playTypeKey(){
+          if(!AC || AC.state!=='running') return;
+          var t=AC.currentTime;
+          // Noise burst
+          var bufSize = Math.floor(AC.sampleRate * 0.015);
+          var buf = AC.createBuffer(1, bufSize, AC.sampleRate);
+          var data = buf.getChannelData(0);
+          for(var i=0;i<bufSize;i++) data[i]=(Math.random()*2-1);
+          var noise = AC.createBufferSource();
+          noise.buffer = buf;
+          var bp = AC.createBiquadFilter();
+          bp.type='bandpass'; bp.frequency.value=3500; bp.Q.value=15;
+          var ng = AC.createGain();
+          ng.gain.setValueAtTime(0,t);
+          ng.gain.linearRampToValueAtTime(0.3,t+0.001);
+          ng.gain.exponentialRampToValueAtTime(0.001,t+0.008);
+          noise.connect(bp); bp.connect(ng); ng.connect(AC.destination);
+          noise.start(t); noise.stop(t+0.015);
+          // Sub thump
+          var sub=AC.createOscillator(); sub.type='sine';
+          sub.frequency.value=80+Math.random()*40;
+          var sg=AC.createGain();
+          sg.gain.setValueAtTime(0,t);
+          sg.gain.linearRampToValueAtTime(0.2,t+0.001);
+          sg.gain.exponentialRampToValueAtTime(0.001,t+0.015);
+          sub.connect(sg); sg.connect(AC.destination);
+          sub.start(t); sub.stop(t+0.02);
+        }
+
+        // Hero typewriter effect
+        function typewriterHero(){
+          const text = '야생의 영혼';
+          const titleEl = document.getElementById('heroTypewriter');
+          const cursorEl = document.getElementById('heroCursor');
+          let index = 0;
+
+          cursorEl.style.display = 'inline-block';
+
+          function type(){
+            if(index < text.length){
+              titleEl.textContent += text[index];
+              playTypeKey();
+              index++;
+              setTimeout(type, 120);
+            } else {
+              cursorEl.style.display = 'none';
+            }
+          }
+
+          setTimeout(type, 1500);
+        }
+
+        // Thesis typewriter effect
+        function typewriterThesis(){
+          const text = '머리가 비어야 할 수 있었습니다.';
+          const quoteEl = document.getElementById('thesisTypewriter');
+          let index = 0;
+
+          function type(){
+            if(index < text.length){
+              quoteEl.textContent += text[index];
+              playTypeKey();
+              index++;
+              setTimeout(type, 80);
+            } else {
+              // After typewriter done + 500ms, show divider
+              setTimeout(() => {
+                document.getElementById('thesisDivider').style.opacity = '0.5';
+                // After divider + 500ms, show ARISHOW canvas
+                setTimeout(() => {
+                  drawARISHOW();
+                }, 500);
+              }, 500);
+            }
+          }
+
+          type();
+        }
+
+        // ARISHOW animation on canvas
+        function drawARISHOW(){
+          const canvas = document.getElementById('arishowCvs');
+          const ctx = canvas.getContext('2d');
+          const w = canvas.width;
+          const h = canvas.height;
+
+          ctx.fillStyle = '#0A0908';
+          ctx.fillRect(0, 0, w, h);
+
+          const fullText = 'ARISHOW';
+          const subText = '아 리 스 김';
+          const fontSize = 48;
+          const subFontSize = 14;
+
+          ctx.font = 'bold ' + fontSize + 'px "Cinzel", serif';
+          ctx.textBaseline = 'alphabetic';
+          const centerY = h * 0.5;
+
+          /* Measure per-letter positions */
+          var letters = fullText.split('');
+          var widths = [];
+          var totalW2 = 0;
+          for(var li=0;li<letters.length;li++){
+            var lw = ctx.measureText(letters[li]).width;
+            widths.push(lw);
+            totalW2 += lw;
+          }
+          var startX = (w - totalW2) / 2;
+          var positions = [];
+          var cx = startX;
+          for(var li=0;li<letters.length;li++){
+            positions.push(cx);
+            cx += widths[li];
+          }
+
+          var titleAlpha = 0;
+          var aiZooming = false;
+          var aiFlashed = false;
+          var aiZoomStart = 0;
+          var riShowTime = 0;
+          var subAlpha = 0;
+          var animStart = performance.now();
+
+          function animate(now){
+            ctx.clearRect(0, 0, w, h);
+            ctx.fillStyle = '#0A0908';
+            ctx.fillRect(0, 0, w, h);
+
+            var elapsed = now - animStart;
+            if(!riShowTime) riShowTime = animStart;
+            var tSince = elapsed;
+
+            /* Phase 1: " RI HOW" fades in (0-600ms) */
+            titleAlpha = Math.min(titleAlpha + 0.04, 1);
+            ctx.font = 'bold ' + fontSize + 'px "Cinzel", serif';
+
+            for(var li=0;li<letters.length;li++){
+              if(li === 0 || li === 2) continue;
+              ctx.save();
+              ctx.globalAlpha = titleAlpha;
+              ctx.fillStyle = '#EDE4D6';
+              ctx.shadowColor = 'rgba(232,204,122,0.5)';
+              ctx.shadowBlur = 12 * titleAlpha;
+              ctx.fillText(letters[li], positions[li], centerY);
+              ctx.restore();
+            }
+
+            /* Phase 2: A and I zoom in after 600ms */
+            if(tSince > 600){
+              if(!aiZooming){ aiZooming = true; aiZoomStart = now; }
+              var zElapsed = now - aiZoomStart;
+              var zDur = 1000;
+              var zP = Math.min(zElapsed / zDur, 1);
+              var zE = zP === 1 ? 1 : 1 - Math.pow(2, -10*zP) * Math.cos((zP*10 - 0.75) * (2*Math.PI/3));
+
+              /* A: index 0 */
+              var aScale = 8 + (1 - 8) * zE;
+              var aCurFs = fontSize * aScale;
+              ctx.save();
+              ctx.globalAlpha = Math.min(zP * 2.5, 1);
+              ctx.font = 'bold ' + aCurFs + 'px "Cinzel", serif';
+              ctx.fillStyle = '#C9A84C';
+              ctx.shadowColor = 'rgba(201,168,76,0.7)';
+              ctx.shadowBlur = 20 * (1 - zE) + 3;
+              var aMeasure = ctx.measureText('A').width;
+              var aCenterX = positions[0] + widths[0] / 2;
+              var aDrawX = aCenterX - aMeasure / 2 + (w/2 - aCenterX) * (1 - zE);
+              var aDrawY = centerY + (h * 0.3 - centerY) * (1 - zE) * 0.2;
+              ctx.fillText('A', aDrawX, aDrawY);
+              ctx.restore();
+
+              /* I: index 2 */
+              ctx.save();
+              ctx.globalAlpha = Math.min(zP * 2.5, 1);
+              ctx.font = 'bold ' + (fontSize * aScale) + 'px "Cinzel", serif';
+              ctx.fillStyle = '#C9A84C';
+              ctx.shadowColor = 'rgba(201,168,76,0.7)';
+              ctx.shadowBlur = 20 * (1 - zE) + 3;
+              var iMeasure = ctx.measureText('I').width;
+              var iCenterX = positions[2] + widths[2] / 2;
+              var iDrawX = iCenterX - iMeasure / 2 + (w/2 - iCenterX) * (1 - zE);
+              var iDrawY = centerY + (h * 0.3 - centerY) * (1 - zE) * 0.2;
+              ctx.fillText('I', iDrawX, iDrawY);
+              ctx.restore();
+            }
+
+            /* Sub-text: 아 리 스 김 after 1800ms */
+            if(tSince > 1800){
+              subAlpha = Math.min(subAlpha + 0.04, 0.85);
+              ctx.save();
+              ctx.globalAlpha = subAlpha;
+              ctx.font = subFontSize + 'px "Noto Serif KR", serif';
+              ctx.fillStyle = '#C9A84C';
+              ctx.textAlign = 'center';
+              ctx.shadowColor = 'rgba(201,168,76,0.4)';
+              ctx.shadowBlur = 8;
+              ctx.fillText(subText, w / 2, centerY + fontSize * 0.55);
+              ctx.textAlign = 'left';
+              ctx.restore();
+            }
+
+            if(tSince < 3000){
+              requestAnimationFrame(animate);
+            }
+          }
+
+          requestAnimationFrame(animate);
+        }
+
+        // Intersection observer for thesis section
+        const thesisObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if(entry.isIntersecting){
+              typewriterThesis();
+              thesisObserver.unobserve(entry.target);
+            }
+          });
+        }, {threshold: 0.3});
+
+        const thesisSection = document.getElementById('thesisSection');
+        if(thesisSection) thesisObserver.observe(thesisSection);
+
+        // Auto-scroll hint for gallery
+        const galleryHintObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if(entry.isIntersecting){
+              const scrollEl = entry.target.querySelector('.gallery-scroll') || entry.target;
+              setTimeout(() => {
+                scrollEl.scrollTo({left: 200, behavior: 'smooth'});
+                setTimeout(() => {
+                  scrollEl.scrollTo({left: 0, behavior: 'smooth'});
+                }, 800);
+              }, 600);
+              galleryHintObserver.unobserve(entry.target);
+            }
+          });
+        }, {threshold: 0.3});
+
+        const gallerySection = document.querySelector('.gallery-section');
+        if(gallerySection) galleryHintObserver.observe(gallerySection);
+
+        // Auto-scroll hint for ARISHOW gallery
+        const arishowHintObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if(entry.isIntersecting){
+              const arishowGallery = document.getElementById('arishowGallery');
+              if(arishowGallery){
+                setTimeout(() => {
+                  arishowGallery.scrollTo({left: 200, behavior: 'smooth'});
+                  setTimeout(() => {
+                    arishowGallery.scrollTo({left: 0, behavior: 'smooth'});
+                  }, 800);
+                }, 600);
+              }
+              arishowHintObserver.unobserve(entry.target);
+            }
+          });
+        }, {threshold: 0.3});
+
+        const arishowSection = document.querySelector('.arishow-section');
+        if(arishowSection) arishowHintObserver.observe(arishowSection);
+
+        // Start hero typewriter on page load
+        document.addEventListener('DOMContentLoaded', typewriterHero);
 
         // Remove spark overlay after animation
         setTimeout(() => {
