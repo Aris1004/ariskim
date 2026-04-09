@@ -234,6 +234,7 @@ a:hover,a:active{color:var(--text);}
   font-family:'Noto Serif KR',serif;font-size:clamp(10px,1.2vw,14px);
   font-weight:200;letter-spacing:0.25em;
   color:rgba(242,237,228,0.7);
+  line-height:2.2;
 }
 
 @keyframes fadeUp{
@@ -476,7 +477,7 @@ a:hover,a:active{color:var(--text);}
   <div id="hero-overlay"></div>
   <div id="phase2-content">
     <div id="p2-tag">SAXOPHONE · MEDIA ART · TANGO</div>
-    <div id="p2-kr-top">뉴욕 카네기홀 · 예술의전당 최초 1호 · 아시아 탱고 챔피언</div>
+    <div id="p2-kr-top">뉴욕 카네기홀<br>예술의전당 최초 1호<br>아시아 탱고 챔피언</div>
   </div>
 </div>
 
@@ -822,6 +823,37 @@ function runSpotlightBeam(done){
         spotX.fill();
       }
 
+      /* Korean top text: 머리가 비었기에 할 수 있는 것! */
+      if(e > 0.30){
+        var ta = Math.min((e - 0.30) / 0.35, 1) * 0.7;
+        spotX.save();
+        spotX.globalAlpha = ta;
+        spotX.font = (fs * 0.18) + 'px "Noto Serif KR"';
+        spotX.fillStyle = 'rgba(242,237,228,0.85)';
+        spotX.textAlign = 'center';
+        spotX.shadowColor = 'rgba(201,168,76,0.4)';
+        spotX.shadowBlur = 10 * ta;
+        spotX.fillText('머리가 비었기에 할 수 있는 것!', spotCvs.width / 2, ty - fs * 0.55);
+        spotX.restore();
+      }
+
+      /* Gold line */
+      if(e > 0.33){
+        var la = Math.min((e - 0.33) / 0.3, 1) * 0.5;
+        var lineW = fs * 1.8 * Math.min((e - 0.33) / 0.4, 1);
+        spotX.save();
+        spotX.globalAlpha = la;
+        spotX.strokeStyle = '#C9A84C';
+        spotX.lineWidth = 1;
+        spotX.shadowColor = 'rgba(201,168,76,0.4)';
+        spotX.shadowBlur = 6;
+        spotX.beginPath();
+        spotX.moveTo(spotCvs.width / 2 - lineW / 2, ty - fs * 0.35);
+        spotX.lineTo(spotCvs.width / 2 + lineW / 2, ty - fs * 0.35);
+        spotX.stroke();
+        spotX.restore();
+      }
+
       /* ARISHOW text */
       if(e > 0.35){
         var sa = Math.min((e - 0.35) / 0.45, 1);
@@ -835,7 +867,7 @@ function runSpotlightBeam(done){
         spotX.restore();
       }
 
-      /* Sub-text */
+      /* Sub-text: ARIS KIM */
       if(e > 0.65){
         var ka = Math.min((e - 0.65) / 0.28, 1) * 0.85;
         spotX.save();
@@ -845,7 +877,7 @@ function runSpotlightBeam(done){
         spotX.textAlign = 'center';
         spotX.shadowColor = 'rgba(201,168,76,0.55)';
         spotX.shadowBlur = 12 * ka;
-        spotX.fillText('ARIS KIM', spotCvs.width / 2, ty + fs * 0.37);
+        spotX.fillText('아  리  스  김', spotCvs.width / 2, ty + fs * 0.37);
         spotX.restore();
       }
 
