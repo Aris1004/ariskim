@@ -140,16 +140,18 @@ a:hover,a:active{color:var(--text);}
 #enterGate .gate-enter::before{
   content:'';
   position:absolute;
-  top:0;left:-100%;
-  width:60%;height:100%;
-  background:linear-gradient(90deg,transparent,rgba(255,245,200,0.35),rgba(201,168,76,0.2),transparent);
-  animation:shimmerSweep 3s ease-in-out infinite;
+  top:-50%;left:-100%;
+  width:60%;height:200%;
+  background:linear-gradient(15deg,transparent 30%,rgba(255,245,200,0.35),rgba(201,168,76,0.2),transparent 70%);
+  animation:shimmerSweep 5s ease-in-out infinite;
   pointer-events:none;
 }
 @keyframes shimmerSweep{
   0%{left:-100%;}
-  40%{left:140%;}
-  100%{left:140%;}
+  18%{left:140%;}
+  36%{left:-100%;}
+  50%{left:-100%;}
+  100%{left:-100%;}
 }
 #enterGate .gate-enter:hover{
   border-color:var(--gold);
@@ -322,6 +324,16 @@ a:hover,a:active{color:var(--text);}
   position:absolute;inset:0;
   background:linear-gradient(to bottom,rgba(10,9,8,0.2) 0%,rgba(10,9,8,0.05) 30%,rgba(10,9,8,0.55) 100%);
   z-index:1;
+  overflow:hidden;
+}
+.card-overlay::after{
+  content:'';
+  position:absolute;
+  top:-50%;left:-100%;
+  width:50%;height:200%;
+  background:linear-gradient(15deg,transparent 30%,rgba(255,245,200,0.08),rgba(201,168,76,0.05),transparent 70%);
+  animation:cardShimmer 5s ease-in-out infinite;
+  pointer-events:none;
 }
 
 .card-content{
@@ -349,11 +361,29 @@ a:hover,a:active{color:var(--text);}
 }
 .card-cta{
   display:inline-block;font-family:'Cinzel',serif;
-  font-size:clamp(10px,1vw,13px);font-weight:400;
+  font-size:clamp(11px,1.1vw,14px);font-weight:700;
   letter-spacing:0.3em;padding:14px 36px;
   border:1px solid rgba(242,237,228,0.3);
-  color:rgba(242,237,228,0.8);
+  color:rgba(242,237,228,0.9);
   transition:all 0.35s;
+  position:relative;
+  overflow:hidden;
+}
+.card-cta::before{
+  content:'';
+  position:absolute;
+  top:-50%;left:-100%;
+  width:60%;height:200%;
+  background:linear-gradient(15deg,transparent 30%,rgba(255,245,200,0.3),rgba(201,168,76,0.18),transparent 70%);
+  animation:cardShimmer 5s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes cardShimmer{
+  0%{left:-100%;}
+  18%{left:140%;}
+  36%{left:-100%;}
+  50%{left:-100%;}
+  100%{left:-100%;}
 }
 .card-cta:hover{
   background:rgba(201,168,76,0.15);
