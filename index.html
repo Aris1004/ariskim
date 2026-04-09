@@ -121,9 +121,9 @@ a:hover,a:active{color:var(--text);}
 #enterGate .gate-enter::before{
   content:'';
   position:absolute;
-  top:-50%;left:-100%;
-  width:60%;height:200%;
-  background:linear-gradient(15deg,transparent 30%,rgba(255,245,200,0.35),rgba(201,168,76,0.2),transparent 70%);
+  top:-300%;left:-120%;
+  width:40%;height:700%;
+  background:linear-gradient(15deg,transparent 35%,rgba(255,245,200,0.4),rgba(201,168,76,0.25),transparent 65%);
   animation:shimmerSweep 1.6s ease-in-out infinite alternate;
   pointer-events:none;
 }
@@ -806,8 +806,8 @@ if(skipToEnd){
 
     // Typewriter subtitle at 1.2s — two lines
     var subtitleEl = document.getElementById('introSubtitle');
-    var line1 = '재능은 많지만,';
-    var line2 = '머리가 비었어';
+    var line1 = '재능은 많은데';
+    var line2 = '머리가 비었어!';
     var charIndex = 0;
     var fullText = line1;
     setTimeout(function(){
@@ -837,16 +837,16 @@ if(skipToEnd){
       }, 60);
     }, 1200);
 
-    // Video intro fades out at 4.5s
+    // Video intro fades out after full playback (~8s)
     setTimeout(function(){
       videoIntro.classList.add('fade');
-    }, 4500);
+    }, 7500);
     setTimeout(function(){
       videoIntro.classList.add('done');
       introVideo.pause();
-    }, 6000);
+    }, 9000);
 
-    // Phase 1: Canvas spotlight beam starts after video fade (6s)
+    // Phase 1: Canvas spotlight beam starts after video ends (9s)
     setTimeout(function(){
       runSpotlightBeam(function(){
         // Spotlight beam done → fade out Phase 1
