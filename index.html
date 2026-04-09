@@ -17,104 +17,102 @@ a,a:link,a:visited{color:var(--text);text-decoration:none;-webkit-tap-highlight-
 a:hover,a:active{color:var(--text);}
 
 /* ═══════════════════════════════════════
-   GOLDEN SPARK FULL-SCREEN INTRO
+   VIDEO INTRO + SPOTLIGHT
    ═══════════════════════════════════════ */
-.golden-spark-overlay{
+#videoIntro{
   position:fixed;inset:0;z-index:99999;
-  background:url('images/screw_photo.jpg') center/cover no-repeat;
+  background:#000;
   display:flex;align-items:center;justify-content:center;
-  pointer-events:auto;overflow:hidden;
+  overflow:hidden;
 }
-.golden-spark-overlay::before{
-  content:'';position:absolute;inset:0;
-  background:rgba(10,9,8,0.85);
-  z-index:0;
-}
-.golden-spark-overlay.fade{animation:sparkOverlayFade 1.4s ease forwards;}
-.golden-spark-overlay.done{display:none;}
+#videoIntro.fade{animation:introFade 1.5s ease forwards;}
+#videoIntro.done{display:none;}
 
-
-/* ── Smoke clouds: golden fog (GPU optimized) ── */
-.smoke{
-  position:absolute;border-radius:50%;
-  background:radial-gradient(circle,rgba(232,204,122,0.9) 0%,rgba(201,168,76,0.5) 40%,transparent 70%);
-  filter:blur(40px);opacity:0;
-  will-change:transform,opacity;
-}
-.smoke-1{width:150px;height:150px;animation:smokeA 2.4s ease-out 0.5s forwards;}
-.smoke-2{width:180px;height:160px;animation:smokeB 2.8s ease-out 0.6s forwards;}
-.smoke-3{width:160px;height:180px;animation:smokeC 2.6s ease-out 0.55s forwards;}
-.smoke-4{width:140px;height:140px;animation:smokeD 3s ease-out 0.65s forwards;}
-
-@keyframes smokeA{
-  0%{opacity:0;transform:translate(0,0) scale(0.3);}
-  12%{opacity:1;}
-  35%{opacity:0.9;transform:translate(-15vw,-12vh) scale(3);}
-  65%{opacity:0.4;transform:translate(-30vw,-24vh) scale(5);}
-  100%{opacity:0;transform:translate(-40vw,-30vh) scale(6);}
-}
-@keyframes smokeB{
-  0%{opacity:0;transform:translate(0,0) scale(0.3);}
-  12%{opacity:1;}
-  35%{opacity:0.85;transform:translate(16vw,-14vh) scale(3.5);}
-  65%{opacity:0.35;transform:translate(30vw,-28vh) scale(5.5);}
-  100%{opacity:0;transform:translate(38vw,-35vh) scale(6.5);}
-}
-@keyframes smokeC{
-  0%{opacity:0;transform:translate(0,0) scale(0.3);}
-  12%{opacity:1;}
-  35%{opacity:0.9;transform:translate(-12vw,16vh) scale(3);}
-  65%{opacity:0.4;transform:translate(-24vw,30vh) scale(5);}
-  100%{opacity:0;transform:translate(-32vw,38vh) scale(6);}
-}
-@keyframes smokeD{
-  0%{opacity:0;transform:translate(0,0) scale(0.3);}
-  12%{opacity:0.95;}
-  35%{opacity:0.85;transform:translate(18vw,14vh) scale(3.2);}
-  65%{opacity:0.35;transform:translate(32vw,26vh) scale(5.2);}
-  100%{opacity:0;transform:translate(40vw,32vh) scale(6);}
-}
-
-/* ── Golden glow flash at center ── */
-.spark-glow{
-  position:absolute;width:20px;height:20px;border-radius:50%;
-  background:radial-gradient(circle,rgba(255,245,200,1) 0%,rgba(232,204,122,0.8) 30%,rgba(201,168,76,0.4) 60%,transparent 80%);
-  filter:blur(15px);opacity:0;
-  will-change:transform,opacity;
-  animation:glowBurst 2.2s ease-out 0.35s forwards;
-}
-@keyframes glowBurst{
-  0%{opacity:0;transform:scale(0);}
-  8%{opacity:1;transform:scale(4);}
-  20%{opacity:1;transform:scale(10);}
-  40%{opacity:0.8;transform:scale(20);}
-  65%{opacity:0.3;transform:scale(35);}
-  100%{opacity:0;transform:scale(50);}
-}
-
-/* ── Ember sparks: tiny bright dots flying outward ── */
-.ember{
-  position:absolute;border-radius:50%;
-  background:#E8CC7A;
-  box-shadow:0 0 4px #C9A84C,0 0 8px rgba(201,168,76,0.5);
+#introVideo{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;
   opacity:0;
+  transition:opacity 0.8s ease;
 }
-.em1{width:2px;height:2px;animation:emA 1.8s cubic-bezier(0.2,0.8,0.3,1) 0.45s forwards;}
-.em2{width:3px;height:3px;animation:emB 2s cubic-bezier(0.2,0.8,0.3,1) 0.5s forwards;}
-.em3{width:2px;height:2px;animation:emC 1.6s cubic-bezier(0.2,0.8,0.3,1) 0.55s forwards;}
-.em4{width:2px;height:2px;animation:emD 2.2s cubic-bezier(0.2,0.8,0.3,1) 0.48s forwards;}
-.em5{width:3px;height:3px;animation:emE 1.9s cubic-bezier(0.2,0.8,0.3,1) 0.52s forwards;}
-.em6{width:2px;height:2px;animation:emF 2.1s cubic-bezier(0.2,0.8,0.3,1) 0.58s forwards;}
-.ember{will-change:transform,opacity;}
+#introVideo.visible{opacity:1;}
 
-@keyframes emA{0%{opacity:0;transform:translate(0,0);}15%{opacity:1;}100%{opacity:0;transform:translate(-38vw,-28vh);}}
-@keyframes emB{0%{opacity:0;transform:translate(0,0);}15%{opacity:1;}100%{opacity:0;transform:translate(32vw,-35vh);}}
-@keyframes emC{0%{opacity:0;transform:translate(0,0);}15%{opacity:1;}100%{opacity:0;transform:translate(-28vw,32vh);}}
-@keyframes emD{0%{opacity:0;transform:translate(0,0);}15%{opacity:1;}100%{opacity:0;transform:translate(40vw,22vh);}}
-@keyframes emE{0%{opacity:0;transform:translate(0,0);}15%{opacity:1;}100%{opacity:0;transform:translate(-18vw,-42vh);}}
-@keyframes emF{0%{opacity:0;transform:translate(0,0);}15%{opacity:1;}100%{opacity:0;transform:translate(22vw,38vh);}}
+/* Spotlight cone from top */
+.spotlight{
+  position:absolute;
+  top:-10%;left:50%;
+  transform:translateX(-50%);
+  width:0;height:0;
+  border-left:60px solid transparent;
+  border-right:60px solid transparent;
+  border-top:110vh solid rgba(255,245,200,0.06);
+  opacity:0;
+  filter:blur(30px);
+  pointer-events:none;
+  z-index:2;
+  will-change:opacity;
+}
+.spotlight.on{
+  animation:spotlightOn 2s ease forwards;
+}
+@keyframes spotlightOn{
+  0%{opacity:0;transform:translateX(-50%) scaleX(0.3);}
+  40%{opacity:1;transform:translateX(-50%) scaleX(0.6);}
+  100%{opacity:1;transform:translateX(-50%) scaleX(1);}
+}
 
-@keyframes sparkOverlayFade{
+/* Spotlight glow at top */
+.spotlight-source{
+  position:absolute;
+  top:0;left:50%;
+  transform:translateX(-50%);
+  width:8px;height:8px;
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,0.9),rgba(255,245,200,0.5),transparent);
+  box-shadow:0 0 30px rgba(255,245,200,0.6),0 0 60px rgba(201,168,76,0.3);
+  opacity:0;
+  z-index:3;
+  will-change:opacity;
+}
+.spotlight-source.on{
+  animation:sourceOn 1.5s ease forwards;
+}
+@keyframes sourceOn{
+  0%{opacity:0;}
+  50%{opacity:1;}
+  100%{opacity:0.8;}
+}
+
+/* Circular spotlight pool on the floor */
+.spotlight-pool{
+  position:absolute;
+  bottom:15%;left:50%;
+  transform:translateX(-50%);
+  width:300px;height:80px;
+  border-radius:50%;
+  background:radial-gradient(ellipse,rgba(255,245,200,0.12) 0%,rgba(201,168,76,0.05) 40%,transparent 70%);
+  filter:blur(20px);
+  opacity:0;
+  z-index:2;
+  will-change:opacity;
+}
+.spotlight-pool.on{
+  animation:poolOn 2s ease 0.5s forwards;
+}
+@keyframes poolOn{
+  0%{opacity:0;}
+  100%{opacity:1;}
+}
+
+/* Dark vignette over video */
+.video-vignette{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse 50% 50% at center,transparent 0%,rgba(0,0,0,0.7) 100%);
+  z-index:1;
+  pointer-events:none;
+}
+
+@keyframes introFade{
   0%{opacity:1;}
   100%{opacity:0;pointer-events:none;}
 }
@@ -171,14 +169,6 @@ a:hover,a:active{color:var(--text);}
   opacity:0;
   animation:revealName 1s ease 2.2s forwards;
 }
-#spark{
-  position:absolute;width:4px;height:4px;border-radius:50%;
-  background:radial-gradient(circle,var(--gold),rgba(201,168,76,0.4));
-  top:50%;left:50%;transform:translate(-50%,-50%);
-  opacity:0;
-  animation:sparkPulse 0.8s cubic-bezier(0.34,1.56,0.64,1) 0.2s forwards;
-  box-shadow:0 0 12px var(--gold),inset 0 0 4px rgba(242,237,228,0.5);
-}
 
 @keyframes revealName{
   0%{opacity:0;transform:translateX(-50%) translateY(8px);}
@@ -187,11 +177,6 @@ a:hover,a:active{color:var(--text);}
 @keyframes expandLine{
   0%{width:0;}
   100%{width:min(300px,60vw);}
-}
-@keyframes sparkPulse{
-  0%{opacity:0;transform:translate(-50%,-50%) scale(0.3);}
-  50%{opacity:1;}
-  100%{opacity:0.8;transform:translate(-50%,-50%) scale(1);}
 }
 
 /* ═══════════════════════════════════════
@@ -427,19 +412,15 @@ a:hover,a:active{color:var(--text);}
 </head>
 <body>
 
-<!-- GOLDEN SPARK INTRO — Smoke & Firework -->
-<div class="golden-spark-overlay" id="sparkOverlay">
-  <div class="spark-glow"></div>
-  <div class="smoke smoke-1"></div>
-  <div class="smoke smoke-2"></div>
-  <div class="smoke smoke-3"></div>
-  <div class="smoke smoke-4"></div>
-  <div class="ember em1"></div>
-  <div class="ember em2"></div>
-  <div class="ember em3"></div>
-  <div class="ember em4"></div>
-  <div class="ember em5"></div>
-  <div class="ember em6"></div>
+<!-- VIDEO INTRO + SPOTLIGHT -->
+<div id="videoIntro">
+  <video id="introVideo" muted playsinline preload="auto">
+    <source src="영상/스님.mp4" type="video/mp4">
+  </video>
+  <div class="video-vignette"></div>
+  <div class="spotlight" id="spotlight"></div>
+  <div class="spotlight-source" id="spotlightSrc"></div>
+  <div class="spotlight-pool" id="spotlightPool"></div>
 </div>
 
 <!-- PHASE 1: THE VOID -->
@@ -501,47 +482,69 @@ a:hover,a:active{color:var(--text);}
 <script>
 /* ═══════════════════════════════════════
    ARIS KIM — THE PORTAL — INDEX
+   Video Intro + Spotlight + Phases
    ═══════════════════════════════════════ */
 
-// Golden spark overlay removal — wait for smoke to dissipate
-var sparkEl = document.getElementById('sparkOverlay');
-if(sparkEl){
-  setTimeout(function(){ sparkEl.classList.add('fade'); }, 1300);
-  setTimeout(function(){ sparkEl.classList.add('done'); }, 2000);
-}
+var videoIntro = document.getElementById('videoIntro');
+var introVideo = document.getElementById('introVideo');
+var spotlight = document.getElementById('spotlight');
+var spotlightSrc = document.getElementById('spotlightSrc');
+var spotlightPool = document.getElementById('spotlightPool');
 
 // Check for skip parameter
 var params = new URLSearchParams(window.location.search);
 var skipToEnd = params.get('skip') === '1';
 
 if(skipToEnd){
-  // Skip to Phase 3 immediately
-  if(sparkEl) sparkEl.classList.add('done');
+  videoIntro.classList.add('done');
   document.getElementById('phase1').style.display = 'none';
   document.getElementById('phase2').style.display = 'none';
   document.getElementById('phase3').classList.add('show');
 } else {
-  // Full theatrical sequence
 
-  // Phase 1 fade-out at 4.5s (문구 충분히 보여준 후)
+  // Start video autoplay
+  introVideo.play().then(function(){
+    introVideo.classList.add('visible');
+  }).catch(function(){
+    // Autoplay blocked — show video anyway
+    introVideo.classList.add('visible');
+  });
+
+  // Spotlight turns on at 1s
+  setTimeout(function(){
+    spotlight.classList.add('on');
+    spotlightSrc.classList.add('on');
+    spotlightPool.classList.add('on');
+  }, 1000);
+
+  // Video intro fades out at 4s
+  setTimeout(function(){
+    videoIntro.classList.add('fade');
+  }, 4000);
+  setTimeout(function(){
+    videoIntro.classList.add('done');
+    introVideo.pause();
+  }, 5500);
+
+  // Phase 1 fade-out at 9s (문구 충분히 보여준 후)
   setTimeout(function(){
     document.getElementById('phase1').classList.add('fade-out');
-  }, 4500);
+  }, 9000);
 
-  // Phase 2 show at 5s (사진 등장)
+  // Phase 2 show at 9.5s (사진 등장)
   setTimeout(function(){
     document.getElementById('phase2').classList.add('show');
-  }, 5000);
+  }, 9500);
 
-  // Phase 2 fade-out at 7.5s (사진 2.5초간 유지)
+  // Phase 2 fade-out at 12s (사진 2.5초간 유지)
   setTimeout(function(){
     document.getElementById('phase2').classList.add('fade-out');
-  }, 7500);
+  }, 12000);
 
-  // Phase 3 show at 8s
+  // Phase 3 show at 12.5s
   setTimeout(function(){
     document.getElementById('phase3').classList.add('show');
-  }, 8000);
+  }, 12500);
 }
 
 // Keyboard navigation
