@@ -233,44 +233,6 @@ a:hover,a:active{color:var(--text);}
   z-index:1;
 }
 
-/* Mask hiding screw area in background photo */
-#screw-hide{
-  position:absolute;top:0;left:0;right:0;height:38%;
-  background:linear-gradient(to bottom, rgba(10,9,8,1) 0%, rgba(10,9,8,0.95) 50%, rgba(10,9,8,0) 100%);
-  z-index:1;pointer-events:none;
-  transition:opacity 0.5s ease;
-}
-#screw-hide.gone{opacity:0;}
-
-/* Screw-only image — descends from above into head */
-#screw-descend{
-  position:absolute;
-  top:-35%;left:50%;
-  transform:translateX(-50%);
-  width:clamp(80px,18vw,170px);
-  height:auto;
-  z-index:2;pointer-events:none;
-  will-change:top;
-  filter:brightness(1.1) drop-shadow(0 0 12px rgba(201,168,76,0.3));
-}
-#screw-descend.landing{
-  transition:top 2.5s cubic-bezier(0.08,0,0.5,1);
-  top:0%;
-}
-
-/* Screw glow highlight after landing */
-#screw-light{
-  position:absolute;
-  top:5%;left:30%;width:40%;height:35%;
-  background:radial-gradient(ellipse at 50% 70%,
-    rgba(255,245,200,0.15) 0%,
-    rgba(201,168,76,0.06) 40%,
-    transparent 70%);
-  z-index:3;pointer-events:none;
-  opacity:0;
-  transition:opacity 0.8s ease;
-}
-#screw-light.active{opacity:1;}
 
 #phase2-content{
   position:absolute;bottom:12%;left:0;right:0;
@@ -295,30 +257,6 @@ a:hover,a:active{color:var(--text);}
   100%{opacity:1;transform:translateY(0);}
 }
 
-/* ═══ SCREW DESCENT ANIMATION ═══ */
-#screw-shimmer{
-  position:absolute;
-  top:0;left:25%;width:50%;height:42%;
-  z-index:5;pointer-events:none;
-  opacity:0;overflow:hidden;
-}
-#screw-shimmer::before{
-  content:'';position:absolute;
-  top:-200%;left:-100%;
-  width:50%;height:500%;
-  background:linear-gradient(90deg,transparent,rgba(255,245,200,0.3),rgba(201,168,76,0.18),transparent);
-  transform:skewX(-30deg);
-  animation:screwGleam 1.8s ease-in-out infinite alternate;
-  pointer-events:none;
-}
-@keyframes screwGleam{0%{left:-100%;}100%{left:200%;}}
-#screw-shimmer.active{opacity:1;transition:opacity 0.8s ease;}
-
-#screwFlash{
-  position:absolute;inset:0;
-  opacity:0;pointer-events:none;z-index:6;
-  transition:opacity 0.05s;
-}
 
 /* ═══════════════════════════════════════
    PHASE 3: THE PORTAL — Gold Frame Cards
@@ -554,11 +492,6 @@ a:hover,a:active{color:var(--text);}
   <div id="void-right"></div>
   <div id="hero-image"></div>
   <div id="hero-overlay"></div>
-  <div id="screw-hide"></div>
-  <img id="screw-descend" src="images/screw_only.png" alt="">
-  <div id="screw-light"></div>
-  <div id="screw-shimmer"></div>
-  <div id="screwFlash"></div>
   <div id="phase2-content">
     <div id="p2-tag">SAXOPHONE · MEDIA ART · TANGO</div>
     <div id="p2-kr-top">뉴욕 카네기홀<br>예술의전당 최초 1호<br>아시아 탱고 챔피언</div>
@@ -1124,133 +1057,6 @@ function runSpotlightBeam(done){
   });
 }
 
-/* ═══ SCREW DESCENT ANIMATION ═══ */
-/* Mechanical grinding sound — screw drilling into head */
-function playScrewGrind(){
-  if(!AC || AC.state!=='running') return;
-  var t = AC.currentTime;
-  var dur = 2.8;
-
-  /* Low grinding sawtooth — the mechanical base */
-  var osc1 = AC.createOscillator();
-  osc1.type = 'sawtooth';
-  osc1.frequency.setValueAtTime(35, t);
-  osc1.frequency.exponentialRampToValueAtTime(150, t + dur);
-
-  /* Detuned second oscillator — thicker grind */
-  var osc2 = AC.createOscillator();
-  osc2.type = 'sawtooth';
-  osc2.frequency.setValueAtTime(37, t);
-  osc2.frequency.exponentialRampToValueAtTime(158, t + dur);
-
-  /* Bandpass for metallic resonance */
-  var bp = AC.createBiquadFilter();
-  bp.type = 'bandpass';
-  bp.frequency.setValueAtTime(150, t);
-  bp.frequency.linearRampToValueAtTime(600, t + dur);
-  bp.Q.value = 4;
-
-  /* Gain envelope — swell up, sustain, cut at impact */
-  var g = AC.createGain();
-  g.gain.setValueAtTime(0, t);
-  g.gain.linearRampToValueAtTime(0.12, t + 0.5);
-  g.gain.setValueAtTime(0.14, t + dur * 0.7);
-  g.gain.linearRampToValueAtTime(0.18, t + dur - 0.15);
-  g.gain.linearRampToValueAtTime(0, t + dur);
-
-  osc1.connect(bp); osc2.connect(bp);
-  bp.connect(g); g.connect(AC.destination);
-  osc1.start(t); osc1.stop(t + dur);
-  osc2.start(t); osc2.stop(t + dur);
-
-  /* Metallic scraping noise layer */
-  var bufSize = Math.floor(AC.sampleRate * dur);
-  var buf = AC.createBuffer(1, bufSize, AC.sampleRate);
-  var data = buf.getChannelData(0);
-  for(var i=0;i<bufSize;i++) data[i] = (Math.random()*2-1);
-  var noise = AC.createBufferSource();
-  noise.buffer = buf;
-  var nbp = AC.createBiquadFilter();
-  nbp.type = 'bandpass';
-  nbp.frequency.setValueAtTime(1200, t);
-  nbp.frequency.linearRampToValueAtTime(3500, t + dur);
-  nbp.Q.value = 6;
-  var ng = AC.createGain();
-  ng.gain.setValueAtTime(0, t);
-  ng.gain.linearRampToValueAtTime(0.06, t + 0.6);
-  ng.gain.setValueAtTime(0.07, t + dur * 0.7);
-  ng.gain.linearRampToValueAtTime(0, t + dur);
-  noise.connect(nbp); nbp.connect(ng); ng.connect(AC.destination);
-  noise.start(t); noise.stop(t + dur);
-
-  /* Periodic clicking — screw threads catching, like 기기기기 */
-  for(var ci=0; ci<12; ci++){
-    var clickTime = t + 0.3 + (ci * dur * 0.06);
-    var clickBuf = AC.createBuffer(1, Math.floor(AC.sampleRate * 0.012), AC.sampleRate);
-    var clickData = clickBuf.getChannelData(0);
-    for(var j=0;j<clickData.length;j++) clickData[j]=(Math.random()*2-1);
-    var clickSrc = AC.createBufferSource();
-    clickSrc.buffer = clickBuf;
-    var clickBp = AC.createBiquadFilter();
-    clickBp.type='bandpass'; clickBp.frequency.value=2000+ci*200; clickBp.Q.value=12;
-    var clickG = AC.createGain();
-    clickG.gain.setValueAtTime(0, clickTime);
-    clickG.gain.linearRampToValueAtTime(0.15, clickTime+0.001);
-    clickG.gain.exponentialRampToValueAtTime(0.001, clickTime+0.01);
-    clickSrc.connect(clickBp); clickBp.connect(clickG); clickG.connect(AC.destination);
-    clickSrc.start(clickTime); clickSrc.stop(clickTime+0.015);
-  }
-}
-
-function runScrewAnimation(){
-  var sFlash = document.getElementById('screwFlash');
-  var sShimmer = document.getElementById('screw-shimmer');
-  var sLight = document.getElementById('screw-light');
-  var sDescend = document.getElementById('screw-descend');
-  var sHide = document.getElementById('screw-hide');
-
-  /* Start grinding sound + screw descent together */
-  if(AC && AC.state === 'running') playScrewGrind();
-  sDescend.classList.add('landing');
-
-  /* At landing (~2.5s): flash + shake + reveal (NO boom) */
-  setTimeout(function(){
-    /* Remove mask, show full photo */
-    sHide.classList.add('gone');
-    sDescend.style.opacity = '0';
-    sDescend.style.transition = 'opacity 0.3s ease';
-
-    /* Flash */
-    sFlash.style.background = '#fff';
-    sFlash.style.opacity = '0.5';
-    setTimeout(function(){ sFlash.style.transition='opacity 0.15s'; sFlash.style.opacity='0'; },50);
-    setTimeout(function(){
-      sFlash.style.background = '#ffcc44';
-      sFlash.style.transition='none'; sFlash.style.opacity='0.15';
-      setTimeout(function(){ sFlash.style.transition='opacity 0.3s'; sFlash.style.opacity='0'; },50);
-    }, 150);
-
-    /* Shimmer + glow on screw */
-    sShimmer.classList.add('active');
-    sLight.classList.add('active');
-
-    /* Shake */
-    var p2 = document.getElementById('phase2');
-    var shakeStart = performance.now();
-    var shakeDur = 800;
-    function shakeFrame(ts2){
-      var sp = (ts2 - shakeStart) / shakeDur;
-      if(sp >= 1){ p2.style.transform = ''; return; }
-      var intensity = 7 * (1 - sp);
-      var sx = (Math.random()-0.5) * intensity;
-      var sy = (Math.random()-0.5) * intensity;
-      p2.style.transform = 'translate('+sx+'px,'+sy+'px)';
-      requestAnimationFrame(shakeFrame);
-    }
-    requestAnimationFrame(shakeFrame);
-  }, 2600);
-}
-
 /* ═══ TRANSITION: Video → Spotlight ═══ */
 function startPostVideoSequence(){
   videoIntro.classList.add('fade');
@@ -1259,21 +1065,20 @@ function startPostVideoSequence(){
     /* Spotlight beam done → immediately fade to Phase 2 */
     document.getElementById('phase1').classList.add('fade-out');
 
-    /* Phase 2 show right away + screw animation */
+    /* Phase 2 show */
     setTimeout(function(){
       document.getElementById('phase2').classList.add('show');
-      setTimeout(runScrewAnimation, 300);
     }, 200);
 
-    /* Phase 2 fade-out — after screw lands + text shows */
+    /* Phase 2 fade-out — photo viewed, then transition */
     setTimeout(function(){
       document.getElementById('phase2').classList.add('fade-out');
-    }, 7000);
+    }, 4000);
 
     /* Phase 3 show */
     setTimeout(function(){
       document.getElementById('phase3').classList.add('show');
-    }, 7700);
+    }, 4700);
   });
 }
 
