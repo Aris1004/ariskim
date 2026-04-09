@@ -33,6 +33,20 @@ a:hover,a:active{color:var(--text);}
   width:100%;height:100%;
   object-fit:cover;
 }
+#skipBtn{
+  position:absolute;top:24px;right:24px;z-index:10;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.2);
+  color:rgba(255,255,255,0.55);
+  padding:8px 18px;font-family:'Cinzel',serif;
+  font-size:10px;letter-spacing:0.25em;
+  cursor:pointer;backdrop-filter:blur(4px);
+  border-radius:2px;
+  transition:all 0.3s ease;
+  opacity:0;animation:skipFadeIn 1s ease 2s forwards;
+}
+#skipBtn:hover{background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.85);border-color:rgba(255,255,255,0.35);}
+@keyframes skipFadeIn{to{opacity:1;}}
 
 /* Spotlight cone from top */
 .spotlight{
@@ -223,7 +237,7 @@ a:hover,a:active{color:var(--text);}
   position:absolute;bottom:12%;left:0;right:0;
   text-align:center;z-index:3;
   opacity:0;
-  animation:fadeUp 1.2s ease 2s forwards;
+  animation:fadeUp 1.2s ease 3.2s forwards;
 }
 #p2-tag{
   font-family:'Cinzel',serif;font-size:clamp(7px,0.9vw,10px);
@@ -240,6 +254,59 @@ a:hover,a:active{color:var(--text);}
 @keyframes fadeUp{
   0%{opacity:0;transform:translateY(20px);}
   100%{opacity:1;transform:translateY(0);}
+}
+
+/* ═══ SCREW DESCENT ANIMATION ═══ */
+#screw-mask{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(to bottom,
+    rgba(10,9,8,1) 0%,rgba(10,9,8,1) 22%,
+    rgba(10,9,8,0.85) 30%,rgba(10,9,8,0) 42%);
+  pointer-events:none;
+  transition:opacity 0.4s ease;
+}
+#screw-mask.revealed{opacity:0;}
+
+#screw-beam{
+  position:absolute;
+  top:-40%;left:50%;
+  transform:translateX(-50%);
+  width:50px;height:180px;
+  background:radial-gradient(ellipse at center,
+    rgba(255,245,200,0.35) 0%,
+    rgba(201,168,76,0.18) 40%,
+    rgba(201,168,76,0) 70%);
+  filter:blur(6px);
+  z-index:5;pointer-events:none;
+  opacity:0;
+}
+
+#screw-shimmer{
+  position:absolute;
+  top:2%;left:30%;width:40%;height:38%;
+  z-index:5;pointer-events:none;
+  opacity:0;overflow:hidden;border-radius:50%;
+}
+#screw-shimmer::before{
+  content:'';position:absolute;
+  top:-200%;left:-100%;
+  width:50%;height:500%;
+  background:linear-gradient(90deg,transparent,rgba(255,245,200,0.3),rgba(201,168,76,0.18),transparent);
+  transform:skewX(-30deg);
+  animation:screwGleam 1.8s ease-in-out infinite alternate;
+  pointer-events:none;
+}
+@keyframes screwGleam{0%{left:-100%;}100%{left:200%;}}
+#screw-shimmer.active{opacity:1;transition:opacity 0.8s ease;}
+
+#screwCrackCvs{
+  position:absolute;inset:0;width:100%;height:100%;
+  pointer-events:none;z-index:4;
+}
+#screwFlash{
+  position:absolute;inset:0;
+  opacity:0;pointer-events:none;z-index:6;
+  transition:opacity 0.05s;
 }
 
 /* ═══════════════════════════════════════
@@ -456,6 +523,7 @@ a:hover,a:active{color:var(--text);}
     <source src="images/intro.mp4" type="video/mp4">
   </video>
   <div class="video-vignette"></div>
+  <button id="skipBtn">S K I P</button>
   <div class="spotlight" id="spotlight"></div>
   <div class="spotlight-source" id="spotlightSrc"></div>
   <div class="spotlight-pool" id="spotlightPool"></div>
@@ -475,6 +543,11 @@ a:hover,a:active{color:var(--text);}
   <div id="void-right"></div>
   <div id="hero-image"></div>
   <div id="hero-overlay"></div>
+  <div id="screw-mask"></div>
+  <div id="screw-beam"></div>
+  <div id="screw-shimmer"></div>
+  <canvas id="screwCrackCvs"></canvas>
+  <div id="screwFlash"></div>
   <div id="phase2-content">
     <div id="p2-tag">SAXOPHONE · MEDIA ART · TANGO</div>
     <div id="p2-kr-top">뉴욕 카네기홀<br>예술의전당 최초 1호<br>아시아 탱고 챔피언</div>
@@ -785,6 +858,10 @@ function runSpotlightBeam(done){
     var titleAlpha = 0;
     var lineAlpha = 0;
     var subAlpha = 0;
+    var riShowTime = 0;
+    var aiZoomStart = 0;
+    var aiZooming = false;
+    var aiFlashed = false;
 
     /* Schedule audio with spotlight */
     if(AC && AC.state === 'running'){
@@ -804,11 +881,11 @@ function runSpotlightBeam(done){
       if(AC && AC.state === 'running'){
         playSeismicBoom(0);
       }
-    },5000);
+    },5500);
 
     var t0 = null;
     var beamDur = 2000;
-    var totalDur = 7000;
+    var totalDur = 8500;
 
     function frame(ts){
       if(!t0) t0 = ts;
@@ -889,8 +966,11 @@ function runSpotlightBeam(done){
         spotX.restore();
       }
 
-      /* Gold line — appears after typewriter done, between text and ARISHOW */
+      /* Gold line — appears after typewriter done */
       if(showTitle){
+        if(!riShowTime) riShowTime = elapsed;
+        var tSince = elapsed - riShowTime;
+
         lineAlpha = Math.min(lineAlpha + 0.03, 0.5);
         var lineW = fs * 2.2 * Math.min(lineAlpha / 0.3, 1);
         spotX.save();
@@ -905,21 +985,105 @@ function runSpotlightBeam(done){
         spotX.stroke();
         spotX.restore();
 
-        /* ARISHOW text */
-        titleAlpha = Math.min(titleAlpha + 0.025, 1);
+        /* ARISHOW — Phase 1: " RI HOW" (no A, no I) */
         var fs2 = fs * 0.7;
+        var titleY = ty + fs * 0.2;
         spotX.save();
-        spotX.globalAlpha = titleAlpha;
         spotX.font = '900 ' + fs2 + 'px "Cinzel"';
-        spotX.fillStyle = '#EDE4D6';
-        spotX.textAlign = 'center';
-        spotX.shadowColor = 'rgba(232,204,122,0.65)';
-        spotX.shadowBlur = 20 * titleAlpha;
-        spotX.fillText(txt, spotCvs.width / 2, ty + fs * 0.2);
+
+        /* Measure individual letter positions */
+        var letters = ['A','R','I','S','H','O','W'];
+        var widths = [];
+        var totalW = 0;
+        for(var li=0;li<letters.length;li++){
+          var w = spotX.measureText(letters[li]).width;
+          widths.push(w);
+          totalW += w;
+        }
+        var startX = (spotCvs.width - totalW) / 2;
+        var positions = [];
+        var cx2 = startX;
+        for(var li=0;li<letters.length;li++){
+          positions.push(cx2);
+          cx2 += widths[li];
+        }
+
+        /* Draw R, S, H, O, W with fade-in */
+        titleAlpha = Math.min(titleAlpha + 0.025, 1);
+        for(var li=0;li<letters.length;li++){
+          if(li === 0 || li === 2) continue; /* skip A and I for now */
+          spotX.save();
+          spotX.globalAlpha = titleAlpha;
+          spotX.font = '900 ' + fs2 + 'px "Cinzel"';
+          spotX.fillStyle = '#EDE4D6';
+          spotX.shadowColor = 'rgba(232,204,122,0.65)';
+          spotX.shadowBlur = 20 * titleAlpha;
+          spotX.fillText(letters[li], positions[li], titleY);
+          spotX.restore();
+        }
+
+        /* Phase 2: A and I zoom in from full screen (after 800ms) */
+        if(tSince > 800){
+          if(!aiZooming){ aiZooming = true; aiZoomStart = elapsed; }
+          var zElapsed = elapsed - aiZoomStart;
+          var zDur = 1200;
+          var zP = Math.min(zElapsed / zDur, 1);
+          /* Elastic ease out */
+          var zE = zP === 1 ? 1 : 1 - Math.pow(2, -10*zP) * Math.cos((zP*10 - 0.75) * (2*Math.PI/3));
+
+          /* A: index 0 */
+          var aTargetX = positions[0];
+          var aTargetY = titleY;
+          var aStartScale = 12;
+          var aScale = aStartScale + (1 - aStartScale) * zE;
+          var aCurFs = fs2 * aScale;
+          var aAlpha = Math.min(zP * 2.5, 1);
+          spotX.save();
+          spotX.globalAlpha = aAlpha;
+          spotX.font = '900 ' + aCurFs + 'px "Cinzel"';
+          spotX.fillStyle = '#C9A84C';
+          spotX.shadowColor = 'rgba(201,168,76,0.8)';
+          spotX.shadowBlur = 30 * (1 - zE) + 5;
+          var aMeasure = spotX.measureText('A').width;
+          var aFinalW = widths[0];
+          var aCenterX = aTargetX + aFinalW / 2;
+          var aCenterY = aTargetY;
+          var aDrawX = aCenterX - aMeasure / 2 + (spotCvs.width/2 - aCenterX) * (1 - zE);
+          var aDrawY = aCenterY + (spotCvs.height * 0.5 - aCenterY) * (1 - zE) * 0.3;
+          spotX.fillText('A', aDrawX, aDrawY);
+          spotX.restore();
+
+          /* I: index 2 */
+          var iTargetX = positions[2];
+          var iScale = aStartScale + (1 - aStartScale) * zE;
+          var iCurFs = fs2 * iScale;
+          var iAlpha = Math.min(zP * 2.5, 1);
+          spotX.save();
+          spotX.globalAlpha = iAlpha;
+          spotX.font = '900 ' + iCurFs + 'px "Cinzel"';
+          spotX.fillStyle = '#C9A84C';
+          spotX.shadowColor = 'rgba(201,168,76,0.8)';
+          spotX.shadowBlur = 30 * (1 - zE) + 5;
+          var iMeasure = spotX.measureText('I').width;
+          var iFinalW = widths[2];
+          var iCenterX = iTargetX + iFinalW / 2;
+          var iCenterY = aTargetY;
+          var iDrawX = iCenterX - iMeasure / 2 + (spotCvs.width/2 - iCenterX) * (1 - zE);
+          var iDrawY = iCenterY + (spotCvs.height * 0.5 - iCenterY) * (1 - zE) * 0.3;
+          spotX.fillText('I', iDrawX, iDrawY);
+          spotX.restore();
+
+          /* After A/I land, flash */
+          if(zP >= 1 && !aiFlashed){
+            aiFlashed = true;
+            doFlash('#ffcc44',0.3,100);
+          }
+        }
+
         spotX.restore();
 
         /* Sub-text: 아 리 스 김 */
-        if(titleAlpha > 0.5){
+        if(titleAlpha > 0.5 && tSince > 2200){
           subAlpha = Math.min(subAlpha + 0.03, 0.85);
           spotX.save();
           spotX.globalAlpha = subAlpha;
@@ -948,6 +1112,187 @@ function runSpotlightBeam(done){
   });
 }
 
+/* ═══ SCREW DESCENT ANIMATION ═══ */
+function runScrewAnimation(){
+  var sCvs = document.getElementById('screwCrackCvs');
+  var sFlash = document.getElementById('screwFlash');
+  var sMask = document.getElementById('screw-mask');
+  var sBeam = document.getElementById('screw-beam');
+  var sShimmer = document.getElementById('screw-shimmer');
+
+  sCvs.width = sCvs.offsetWidth * (window.devicePixelRatio || 1);
+  sCvs.height = sCvs.offsetHeight * (window.devicePixelRatio || 1);
+  var sX = sCvs.getContext('2d');
+  sX.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
+  var sW = sCvs.offsetWidth, sH = sCvs.offsetHeight;
+
+  /* Impact point: center-top where screw meets head (~30% from top) */
+  var impactX = sW * 0.5;
+  var impactY = sH * 0.30;
+
+  /* Phase 1: Golden beam descends (0 → 1800ms) */
+  sBeam.style.opacity = '1';
+  var beamStart = performance.now();
+  var beamDur = 1800;
+
+  function animateBeam(ts){
+    var p = Math.min((ts - beamStart) / beamDur, 1);
+    /* Accelerating descent — slow at first, fast at impact */
+    var eased = p * p * p;
+    var topPos = -40 + (70 * eased); /* from -40% to 30% */
+    sBeam.style.top = topPos + '%';
+    /* Intensify glow as it approaches */
+    sBeam.style.opacity = String(0.4 + p * 0.6);
+    sBeam.style.width = (50 + p * 30) + 'px';
+    /* Subtle rotation (it's a screw!) */
+    sBeam.style.transform = 'translateX(-50%) rotate(' + (p * 720) + 'deg)';
+
+    if(p < 1){
+      requestAnimationFrame(animateBeam);
+    } else {
+      /* ═══ IMPACT ═══ */
+      sBeam.style.opacity = '0';
+
+      /* Flash */
+      sFlash.style.background = '#fff';
+      sFlash.style.opacity = '0.85';
+      setTimeout(function(){ sFlash.style.transition='opacity 0.12s'; sFlash.style.opacity='0'; },50);
+      setTimeout(function(){
+        sFlash.style.background = '#ffcc44';
+        sFlash.style.transition='none'; sFlash.style.opacity='0.35';
+        setTimeout(function(){ sFlash.style.transition='opacity 0.2s'; sFlash.style.opacity='0'; },50);
+      }, 200);
+
+      /* Reveal screw (remove mask) */
+      sMask.classList.add('revealed');
+
+      /* Shimmer on screw */
+      sShimmer.classList.add('active');
+
+      /* Sound */
+      if(AC && AC.state === 'running') playSeismicBoom(0);
+
+      /* Shake Phase 2 */
+      var p2 = document.getElementById('phase2');
+      var shakeStart = performance.now();
+      var shakeDur = 1200;
+      function shakeFrame(ts2){
+        var sp = (ts2 - shakeStart) / shakeDur;
+        if(sp >= 1){ p2.style.transform = ''; return; }
+        var intensity = 12 * (1 - sp);
+        var sx = (Math.random()-0.5) * intensity;
+        var sy = (Math.random()-0.5) * intensity;
+        p2.style.transform = 'translate('+sx+'px,'+sy+'px)';
+        requestAnimationFrame(shakeFrame);
+      }
+      requestAnimationFrame(shakeFrame);
+
+      /* Cracks from impact point */
+      var cracks = [];
+      var numCracks = 8 + Math.floor(Math.random()*5);
+      for(var ci=0;ci<numCracks;ci++){
+        var angle = (Math.PI*2 / numCracks) * ci + (Math.random()-0.5)*0.5;
+        var len = 60 + Math.random() * 120;
+        var segs = [];
+        var cx2 = impactX, cy2 = impactY;
+        var segCount = 4 + Math.floor(Math.random()*4);
+        for(var si=0;si<segCount;si++){
+          var segLen = len / segCount;
+          var nxa = cx2 + Math.cos(angle + (Math.random()-0.5)*0.6) * segLen;
+          var nya = cy2 + Math.sin(angle + (Math.random()-0.5)*0.6) * segLen;
+          segs.push({x:nxa, y:nya});
+          cx2 = nxa; cy2 = nya;
+        }
+        cracks.push({segs:segs, alpha:1});
+      }
+
+      /* Draw cracks with animation */
+      var crackStart = performance.now();
+      var crackDrawDur = 400;
+      var crackFadeDur = 3000;
+
+      function drawScrewCracks(ts3){
+        var elapsed2 = ts3 - crackStart;
+        sX.clearRect(0,0,sW,sH);
+
+        var drawP = Math.min(elapsed2 / crackDrawDur, 1);
+        var fadeP = elapsed2 > crackDrawDur ? Math.min((elapsed2 - crackDrawDur) / crackFadeDur, 1) : 0;
+        var alpha = 1 - fadeP;
+
+        if(alpha <= 0) return;
+
+        sX.save();
+        sX.globalAlpha = alpha;
+        sX.strokeStyle = 'rgba(255,245,200,0.9)';
+        sX.lineWidth = 1.5;
+        sX.shadowColor = 'rgba(201,168,76,0.7)';
+        sX.shadowBlur = 8;
+
+        for(var cj=0;cj<cracks.length;cj++){
+          var segs2 = cracks[cj].segs;
+          var segsToDraw = Math.ceil(segs2.length * drawP);
+          sX.beginPath();
+          sX.moveTo(impactX, impactY);
+          for(var sk=0;sk<segsToDraw;sk++){
+            sX.lineTo(segs2[sk].x, segs2[sk].y);
+          }
+          sX.stroke();
+        }
+
+        /* Small debris particles */
+        if(drawP > 0.3){
+          var debrisAlpha = alpha * 0.7;
+          sX.globalAlpha = debrisAlpha;
+          for(var di=0;di<15;di++){
+            var da = Math.random() * Math.PI * 2;
+            var dd = 20 + Math.random() * 80 * drawP;
+            var dx2 = impactX + Math.cos(da) * dd;
+            var dy2 = impactY + Math.sin(da) * dd;
+            sX.fillStyle = Math.random() > 0.5 ? 'rgba(201,168,76,0.8)' : 'rgba(255,245,200,0.6)';
+            sX.fillRect(dx2, dy2, 1+Math.random()*2, 1+Math.random()*2);
+          }
+        }
+        sX.restore();
+
+        if(alpha > 0) requestAnimationFrame(drawScrewCracks);
+      }
+      requestAnimationFrame(drawScrewCracks);
+    }
+  }
+
+  /* Start beam after 800ms delay (void panels are still opening) */
+  setTimeout(function(){
+    requestAnimationFrame(animateBeam);
+  }, 800);
+}
+
+/* ═══ TRANSITION: Video → Spotlight ═══ */
+function startPostVideoSequence(){
+  videoIntro.classList.add('fade');
+  setTimeout(function(){ videoIntro.classList.add('done'); }, 1500);
+  runSpotlightBeam(function(){
+    /* Spotlight beam done → fade out Phase 1 */
+    document.getElementById('phase1').classList.add('fade-out');
+
+    /* Phase 2 show + screw animation */
+    setTimeout(function(){
+      document.getElementById('phase2').classList.add('show');
+      /* Start screw descent after void panels open */
+      setTimeout(runScrewAnimation, 200);
+    }, 500);
+
+    /* Phase 2 fade-out — extended for screw animation */
+    setTimeout(function(){
+      document.getElementById('phase2').classList.add('fade-out');
+    }, 5500);
+
+    /* Phase 3 show */
+    setTimeout(function(){
+      document.getElementById('phase3').classList.add('show');
+    }, 6200);
+  });
+}
+
 /* ─── MAIN FLOW ─── */
 var params = new URLSearchParams(window.location.search);
 var skipToEnd = params.get('skip') === '1';
@@ -971,6 +1316,17 @@ if(skipToEnd){
 
     // Play video WITH sound
     introVideo.play();
+
+    var spotlightStarted = false;
+
+    // SKIP button
+    document.getElementById('skipBtn').addEventListener('click', function(e){
+      e.stopPropagation();
+      if(spotlightStarted) return;
+      spotlightStarted = true;
+      introVideo.pause();
+      startPostVideoSequence();
+    });
 
     // Spotlight turns on at 1s
     setTimeout(function(){
@@ -1015,32 +1371,11 @@ if(skipToEnd){
     }, 1200);
 
     // Start spotlight 0.5s before video ends (overlap transition)
-    var spotlightStarted = false;
     introVideo.ontimeupdate = function(){
       if(spotlightStarted) return;
       if(introVideo.duration - introVideo.currentTime <= 0.5){
         spotlightStarted = true;
-        videoIntro.classList.add('fade');
-        setTimeout(function(){ videoIntro.classList.add('done'); }, 1500);
-        runSpotlightBeam(function(){
-        // Spotlight beam done → fade out Phase 1
-        document.getElementById('phase1').classList.add('fade-out');
-
-        // Phase 2 show
-        setTimeout(function(){
-          document.getElementById('phase2').classList.add('show');
-        }, 500);
-
-        // Phase 2 fade-out
-        setTimeout(function(){
-          document.getElementById('phase2').classList.add('fade-out');
-        }, 3000);
-
-        // Phase 3 show
-        setTimeout(function(){
-          document.getElementById('phase3').classList.add('show');
-        }, 3500);
-      });
+        startPostVideoSequence();
       }
     };
   });
