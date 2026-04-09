@@ -109,6 +109,43 @@ a:hover,a:active{color:var(--text);}
   pointer-events:none;
 }
 
+/* Enter Gate */
+#enterGate{
+  position:fixed;inset:0;z-index:999999;
+  background:var(--bg);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  cursor:pointer;
+  transition:opacity 1s ease;
+}
+#enterGate.gone{opacity:0;pointer-events:none;}
+#enterGate .gate-logo{
+  font-family:'Cinzel',serif;
+  font-size:clamp(18px,3vw,36px);
+  font-weight:700;letter-spacing:0.2em;
+  color:var(--text);
+  margin-bottom:48px;
+  text-shadow:0 0 30px rgba(201,168,76,0.2);
+}
+#enterGate .gate-enter{
+  font-family:'Cinzel',serif;
+  font-size:10px;letter-spacing:0.6em;
+  color:var(--gold);opacity:0.5;
+  padding:14px 40px;
+  border:1px solid rgba(201,168,76,0.25);
+  transition:all 0.4s;
+  animation:gatePulse 2.5s ease-in-out infinite;
+}
+#enterGate .gate-enter:hover{
+  opacity:1;
+  border-color:var(--gold);
+  background:rgba(201,168,76,0.08);
+}
+@keyframes gatePulse{
+  0%,100%{opacity:0.4;}
+  50%{opacity:0.7;}
+}
+
 /* Typewriter subtitle */
 #introSubtitle{
   position:absolute;
@@ -435,9 +472,15 @@ a:hover,a:active{color:var(--text);}
 </head>
 <body>
 
+<!-- ENTER GATE -->
+<div id="enterGate">
+  <div class="gate-logo">ARIS KIM</div>
+  <div class="gate-enter">E N T E R</div>
+</div>
+
 <!-- VIDEO INTRO + SPOTLIGHT -->
 <div id="videoIntro">
-  <video id="introVideo" autoplay muted playsinline preload="auto">
+  <video id="introVideo" playsinline preload="auto">
     <source src="images/intro.mp4" type="video/mp4">
   </video>
   <div class="video-vignette"></div>
@@ -509,6 +552,7 @@ a:hover,a:active{color:var(--text);}
    Video Intro + Spotlight + Phases
    ═══════════════════════════════════════ */
 
+var enterGate = document.getElementById('enterGate');
 var videoIntro = document.getElementById('videoIntro');
 var introVideo = document.getElementById('introVideo');
 var spotlight = document.getElementById('spotlight');
@@ -520,69 +564,73 @@ var params = new URLSearchParams(window.location.search);
 var skipToEnd = params.get('skip') === '1';
 
 if(skipToEnd){
+  enterGate.classList.add('gone');
   videoIntro.classList.add('done');
   document.getElementById('phase1').style.display = 'none';
   document.getElementById('phase2').style.display = 'none';
   document.getElementById('phase3').classList.add('show');
 } else {
 
-  // Start video autoplay
-  introVideo.play().catch(function(){
-    // Autoplay blocked — skip to phase 1
-    videoIntro.classList.add('done');
+  // Wait for ENTER click — this enables sound autoplay
+  enterGate.addEventListener('click', function(){
+    enterGate.classList.add('gone');
+    setTimeout(function(){ enterGate.style.display='none'; }, 1000);
+
+    // Play video WITH sound
+    introVideo.play();
+
+    // Spotlight turns on at 1s
+    setTimeout(function(){
+      spotlight.classList.add('on');
+      spotlightSrc.classList.add('on');
+      spotlightPool.classList.add('on');
+    }, 1000);
+
+    // Typewriter subtitle at 1.2s
+    var subtitleEl = document.getElementById('introSubtitle');
+    var subtitleText = '\u201C재능은 많은데 머리가 텅 비었어\u201D';
+    var charIndex = 0;
+    setTimeout(function(){
+      var typeInterval = setInterval(function(){
+        if(charIndex < subtitleText.length){
+          subtitleEl.textContent = subtitleText.substring(0, charIndex + 1);
+          charIndex++;
+        } else {
+          clearInterval(typeInterval);
+          setTimeout(function(){ subtitleEl.classList.add('done-typing'); }, 800);
+        }
+      }, 60);
+    }, 1200);
+
+    // Video intro fades out at 4.5s
+    setTimeout(function(){
+      videoIntro.classList.add('fade');
+    }, 4500);
+    setTimeout(function(){
+      videoIntro.classList.add('done');
+      introVideo.pause();
+    }, 6000);
+
+    // Phase 1 fade-out at 9.5s
+    setTimeout(function(){
+      document.getElementById('phase1').classList.add('fade-out');
+    }, 9500);
+
+    // Phase 2 show at 10s
+    setTimeout(function(){
+      document.getElementById('phase2').classList.add('show');
+    }, 10000);
+
+    // Phase 2 fade-out at 12.5s
+    setTimeout(function(){
+      document.getElementById('phase2').classList.add('fade-out');
+    }, 12500);
+
+    // Phase 3 show at 13s
+    setTimeout(function(){
+      document.getElementById('phase3').classList.add('show');
+    }, 13000);
   });
-
-  // Spotlight turns on at 1s
-  setTimeout(function(){
-    spotlight.classList.add('on');
-    spotlightSrc.classList.add('on');
-    spotlightPool.classList.add('on');
-  }, 1000);
-
-  // Typewriter subtitle at 1.2s
-  var subtitleEl = document.getElementById('introSubtitle');
-  var subtitleText = '"재능은 많은데 머리가 텅 비었어"';
-  var charIndex = 0;
-  setTimeout(function(){
-    var typeInterval = setInterval(function(){
-      if(charIndex < subtitleText.length){
-        subtitleEl.textContent = subtitleText.substring(0, charIndex + 1);
-        charIndex++;
-      } else {
-        clearInterval(typeInterval);
-        setTimeout(function(){ subtitleEl.classList.add('done-typing'); }, 800);
-      }
-    }, 60);
-  }, 1200);
-
-  // Video intro fades out at 4s
-  setTimeout(function(){
-    videoIntro.classList.add('fade');
-  }, 4000);
-  setTimeout(function(){
-    videoIntro.classList.add('done');
-    introVideo.pause();
-  }, 5500);
-
-  // Phase 1 fade-out at 9s (문구 충분히 보여준 후)
-  setTimeout(function(){
-    document.getElementById('phase1').classList.add('fade-out');
-  }, 9000);
-
-  // Phase 2 show at 9.5s (사진 등장)
-  setTimeout(function(){
-    document.getElementById('phase2').classList.add('show');
-  }, 9500);
-
-  // Phase 2 fade-out at 12s (사진 2.5초간 유지)
-  setTimeout(function(){
-    document.getElementById('phase2').classList.add('fade-out');
-  }, 12000);
-
-  // Phase 3 show at 12.5s
-  setTimeout(function(){
-    document.getElementById('phase3').classList.add('show');
-  }, 12500);
 }
 
 // Keyboard navigation
