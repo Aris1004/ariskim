@@ -58,27 +58,8 @@ a:hover,a:active{color:var(--text);}
   100%{opacity:1;transform:translateX(-50%) scaleX(1);}
 }
 
-/* Spotlight glow at top */
-.spotlight-source{
-  position:absolute;
-  top:0;left:50%;
-  transform:translateX(-50%);
-  width:8px;height:8px;
-  border-radius:50%;
-  background:radial-gradient(circle,rgba(255,255,255,0.9),rgba(255,245,200,0.5),transparent);
-  box-shadow:0 0 30px rgba(255,245,200,0.6),0 0 60px rgba(201,168,76,0.3);
-  opacity:0;
-  z-index:3;
-  will-change:opacity;
-}
-.spotlight-source.on{
-  animation:sourceOn 1.5s ease forwards;
-}
-@keyframes sourceOn{
-  0%{opacity:0;}
-  50%{opacity:1;}
-  100%{opacity:0.8;}
-}
+/* Spotlight glow at top — hidden */
+.spotlight-source{display:none;}
 
 /* Circular spotlight pool on the floor */
 .spotlight-pool{
@@ -143,15 +124,12 @@ a:hover,a:active{color:var(--text);}
   top:-50%;left:-100%;
   width:60%;height:200%;
   background:linear-gradient(15deg,transparent 30%,rgba(255,245,200,0.35),rgba(201,168,76,0.2),transparent 70%);
-  animation:shimmerSweep 3s ease-in-out infinite;
+  animation:shimmerSweep 1.6s ease-in-out infinite alternate;
   pointer-events:none;
 }
 @keyframes shimmerSweep{
   0%{left:-100%;}
-  25%{left:140%;}
-  50%{left:-100%;}
-  66%{left:-100%;}
-  100%{left:-100%;}
+  100%{left:140%;}
 }
 #enterGate .gate-enter:hover{
   border-color:var(--gold);
@@ -170,7 +148,8 @@ a:hover,a:active{color:var(--text);}
   letter-spacing:0.08em;
   color:rgba(255,255,255,0.92);
   text-shadow:0 0 20px rgba(0,0,0,0.8),0 0 40px rgba(0,0,0,0.5);
-  white-space:nowrap;
+  white-space:pre-line;
+  text-align:center;
   overflow:hidden;
   border-right:2px solid rgba(255,255,255,0.7);
   animation:blink-cursor 0.6s step-end infinite;
@@ -825,18 +804,35 @@ if(skipToEnd){
       spotlightPool.classList.add('on');
     }, 1000);
 
-    // Typewriter subtitle at 1.2s
+    // Typewriter subtitle at 1.2s — two lines
     var subtitleEl = document.getElementById('introSubtitle');
-    var subtitleText = '\u201C재능은 많은데 머리가 텅 비었어\u201D';
+    var line1 = '재능은 많지만,';
+    var line2 = '머리가 비었어';
     var charIndex = 0;
+    var fullText = line1;
     setTimeout(function(){
       var typeInterval = setInterval(function(){
-        if(charIndex < subtitleText.length){
-          subtitleEl.textContent = subtitleText.substring(0, charIndex + 1);
+        if(charIndex < fullText.length){
+          subtitleEl.textContent = fullText.substring(0, charIndex + 1);
           charIndex++;
         } else {
           clearInterval(typeInterval);
-          setTimeout(function(){ subtitleEl.classList.add('done-typing'); }, 800);
+          // After line 1, start line 2
+          if(fullText === line1){
+            setTimeout(function(){
+              charIndex = 0;
+              fullText = line2;
+              var typeInterval2 = setInterval(function(){
+                if(charIndex < fullText.length){
+                  subtitleEl.textContent = line1 + '\n' + fullText.substring(0, charIndex + 1);
+                  charIndex++;
+                } else {
+                  clearInterval(typeInterval2);
+                  setTimeout(function(){ subtitleEl.classList.add('done-typing'); }, 800);
+                }
+              }, 60);
+            }, 400);
+          }
         }
       }, 60);
     }, 1200);
