@@ -130,20 +130,30 @@ a:hover,a:active{color:var(--text);}
 #enterGate .gate-enter{
   font-family:'Cinzel',serif;
   font-size:10px;letter-spacing:0.6em;
-  color:var(--gold);opacity:0.5;
+  color:var(--gold);
   padding:14px 40px;
-  border:1px solid rgba(201,168,76,0.25);
+  border:1px solid rgba(201,168,76,0.3);
   transition:all 0.4s;
-  animation:gatePulse 2.5s ease-in-out infinite;
+  position:relative;
+  overflow:hidden;
+}
+#enterGate .gate-enter::before{
+  content:'';
+  position:absolute;
+  top:0;left:-100%;
+  width:60%;height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,245,200,0.35),rgba(201,168,76,0.2),transparent);
+  animation:shimmerSweep 3s ease-in-out infinite;
+  pointer-events:none;
+}
+@keyframes shimmerSweep{
+  0%{left:-100%;}
+  40%{left:140%;}
+  100%{left:140%;}
 }
 #enterGate .gate-enter:hover{
-  opacity:1;
   border-color:var(--gold);
   background:rgba(201,168,76,0.08);
-}
-@keyframes gatePulse{
-  0%,100%{opacity:0.4;}
-  50%{opacity:0.7;}
 }
 
 /* Typewriter subtitle */
@@ -178,66 +188,15 @@ a:hover,a:active{color:var(--text);}
 }
 
 /* ═══════════════════════════════════════
-   PHASE 1: THE VOID
+   PHASE 1: SPOTLIGHT BEAM + ARISHOW
    ═══════════════════════════════════════ */
 #phase1{
   position:fixed;inset:0;z-index:300;
   background:var(--bg);
-  display:flex;align-items:center;justify-content:center;
-  transition:opacity 1.2s ease;
+  transition:opacity 1.4s ease;
 }
 #phase1.fade-out{opacity:0;pointer-events:none;}
-
-#phase1-container{
-  position:relative;
-  width:90vw;max-width:900px;height:300px;
-  text-align:center;
-}
-
-#sig-kr-top{
-  position:absolute;top:calc(50% - 60px);left:50%;
-  transform:translateX(-50%);white-space:nowrap;
-  font-family:'Noto Serif KR',serif;font-size:clamp(11px,1.4vw,15px);
-  font-weight:200;letter-spacing:0.35em;
-  color:rgba(201,168,76,0.7);
-  opacity:0;
-  animation:revealName 1.2s ease 0.8s forwards;
-}
-#sig-line{
-  position:absolute;top:calc(50% - 10px);left:50%;
-  transform:translateX(-50%);
-  width:0;height:1px;
-  background:linear-gradient(90deg,transparent,var(--gold),transparent);
-  animation:expandLine 1.5s ease 1.2s forwards;
-}
-#sig-en{
-  position:absolute;top:calc(50% + 20px);left:50%;
-  transform:translateX(-50%) scale(0.92);white-space:nowrap;
-  font-family:'Cinzel',serif;font-size:clamp(28px,5vw,72px);
-  font-weight:900;letter-spacing:0.12em;
-  color:var(--text);
-  text-shadow:0 0 40px rgba(201,168,76,0.3);
-  opacity:0;
-  animation:revealName 1.4s ease 1.6s forwards;
-}
-#sig-kr-bottom{
-  position:absolute;top:calc(50% + 100px);left:50%;
-  transform:translateX(-50%);white-space:nowrap;
-  font-family:'Noto Serif KR',serif;font-size:clamp(10px,1.2vw,14px);
-  font-weight:200;letter-spacing:0.6em;
-  color:rgba(201,168,76,0.4);
-  opacity:0;
-  animation:revealName 1s ease 2.2s forwards;
-}
-
-@keyframes revealName{
-  0%{opacity:0;transform:translateX(-50%) translateY(8px);}
-  100%{opacity:1;transform:translateX(-50%) translateY(0);}
-}
-@keyframes expandLine{
-  0%{width:0;}
-  100%{width:min(300px,60vw);}
-}
+#spotCvs{position:absolute;inset:0;width:100%;height:100%;}
 
 /* ═══════════════════════════════════════
    PHASE 2: THE REVELATION
@@ -490,14 +449,9 @@ a:hover,a:active{color:var(--text);}
   <div id="introSubtitle"></div>
 </div>
 
-<!-- PHASE 1: THE VOID -->
+<!-- PHASE 1: SPOTLIGHT BEAM + ARISHOW -->
 <div id="phase1">
-  <div id="phase1-container">
-    <div id="sig-kr-top">머리가 비어야 할 수 있었던 것</div>
-    <div id="sig-line"></div>
-    <div id="sig-en">ARIS KIM</div>
-    <div id="sig-kr-bottom">아 리 스 김</div>
-  </div>
+  <canvas id="spotCvs"></canvas>
 </div>
 
 <!-- PHASE 2: THE REVELATION -->
@@ -549,7 +503,7 @@ a:hover,a:active{color:var(--text);}
 <script>
 /* ═══════════════════════════════════════
    ARIS KIM — THE PORTAL — INDEX
-   Video Intro + Spotlight + Phases
+   Enter Gate → Video Intro → Spotlight Beam → Phases
    ═══════════════════════════════════════ */
 
 var enterGate = document.getElementById('enterGate');
@@ -559,7 +513,258 @@ var spotlight = document.getElementById('spotlight');
 var spotlightSrc = document.getElementById('spotlightSrc');
 var spotlightPool = document.getElementById('spotlightPool');
 
-// Check for skip parameter
+/* ─── AUDIO ENGINE (Web Audio API) ─── */
+var AC = null;
+
+function initAudio(){
+  if(AC) return;
+  AC = new (window.AudioContext || window.webkitAudioContext)();
+}
+
+function makeReverb(dur, decay){
+  dur = dur||3; decay = decay||2;
+  var len = AC.sampleRate*dur;
+  var buf = AC.createBuffer(2,len,AC.sampleRate);
+  for(var ch=0;ch<2;ch++){
+    var d=buf.getChannelData(ch);
+    for(var i=0;i<len;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/len,decay);
+  }
+  var rv=AC.createConvolver(); rv.buffer=buf; return rv;
+}
+
+function noiseBurst(freq, Q, vol, atk, dcy, delay){
+  if(!AC) return;
+  delay = delay||0;
+  var t = AC.currentTime+delay;
+  var dur = atk+dcy+0.05;
+  var buf = AC.createBuffer(1, Math.ceil(AC.sampleRate*dur), AC.sampleRate);
+  var d = buf.getChannelData(0);
+  for(var i=0;i<d.length;i++) d[i]=(Math.random()*2-1);
+  var src = AC.createBufferSource(); src.buffer=buf;
+  var bp = AC.createBiquadFilter(); bp.type='bandpass';
+  bp.frequency.value=freq; bp.Q.value=Q;
+  var g = AC.createGain();
+  g.gain.setValueAtTime(0,t);
+  g.gain.linearRampToValueAtTime(vol, t+atk);
+  g.gain.exponentialRampToValueAtTime(0.001, t+atk+dcy);
+  src.connect(bp); bp.connect(g); g.connect(AC.destination);
+  src.start(t); src.stop(t+dur+0.01);
+}
+
+/* A. Pressure build — air compressing before beam */
+function playPressureBuild(delay, dur){
+  if(!AC) return;
+  delay=delay||0; dur=dur||2.8;
+  var t=AC.currentTime+delay;
+  var buf=AC.createBuffer(1,AC.sampleRate*dur,AC.sampleRate);
+  var d=buf.getChannelData(0);
+  for(var i=0;i<d.length;i++) d[i]=(Math.random()*2-1);
+  var src=AC.createBufferSource(); src.buffer=buf;
+  var lp=AC.createBiquadFilter(); lp.type='lowpass';
+  lp.frequency.setValueAtTime(35,t);
+  lp.frequency.linearRampToValueAtTime(90,t+dur);
+  lp.Q.value=1.5;
+  var g=AC.createGain();
+  g.gain.setValueAtTime(0,t);
+  g.gain.linearRampToValueAtTime(0.9,t+dur*0.5);
+  g.gain.linearRampToValueAtTime(1.4,t+dur);
+  g.gain.linearRampToValueAtTime(0,t+dur+0.4);
+  var rv=makeReverb(3,2.2);
+  var rvG=AC.createGain(); rvG.gain.value=0.35;
+  rv.connect(rvG); rvG.connect(AC.destination);
+  src.connect(lp); lp.connect(g);
+  g.connect(AC.destination); g.connect(rv);
+  src.start(t);
+}
+
+/* B. Beam swoosh — high→low frequency whoosh */
+function playBeamSwoosh(delay){
+  if(!AC) return;
+  delay=delay||0;
+  var t=AC.currentTime+delay;
+  var buf=AC.createBuffer(1,AC.sampleRate*0.9,AC.sampleRate);
+  var d=buf.getChannelData(0);
+  for(var i=0;i<d.length;i++) d[i]=(Math.random()*2-1);
+  var src=AC.createBufferSource(); src.buffer=buf;
+  var hp=AC.createBiquadFilter(); hp.type='highpass';
+  hp.frequency.setValueAtTime(4000,t);
+  hp.frequency.exponentialRampToValueAtTime(200,t+0.5);
+  var g=AC.createGain();
+  g.gain.setValueAtTime(0,t);
+  g.gain.linearRampToValueAtTime(0.7,t+0.05);
+  g.gain.exponentialRampToValueAtTime(0.001,t+0.85);
+  var rv=makeReverb(3.5,1.5);
+  var rvG=AC.createGain(); rvG.gain.value=0.5;
+  rv.connect(rvG); rvG.connect(AC.destination);
+  src.connect(hp); hp.connect(g);
+  g.connect(AC.destination); g.connect(rv);
+  src.start(t);
+}
+
+/* C. Reveal shimmer — gold reflecting light */
+function playRevealShimmer(delay){
+  if(!AC) return;
+  delay=delay||0;
+  noiseBurst(2800, 8, 0.6, 0.008, 1.8, delay);
+  noiseBurst(1400, 5, 0.35, 0.015, 2.4, delay+0.05);
+  noiseBurst(600, 3, 0.2, 0.02, 3.0, delay+0.12);
+  var t=AC.currentTime+delay;
+  var buf=AC.createBuffer(1,Math.ceil(AC.sampleRate*0.15),AC.sampleRate);
+  var d=buf.getChannelData(0);
+  for(var i=0;i<d.length;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,1.2);
+  var src=AC.createBufferSource(); src.buffer=buf;
+  var bp=AC.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=2200; bp.Q.value=4;
+  var rv=makeReverb(6,1.0);
+  var rvG=AC.createGain(); rvG.gain.value=1.2;
+  rv.connect(rvG); rvG.connect(AC.destination);
+  var g=AC.createGain();
+  g.gain.setValueAtTime(1.5,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.15);
+  src.connect(bp); bp.connect(g); g.connect(rv); src.start(t);
+}
+
+/* D. Seismic sub-bass boom */
+function playSeismicBoom(delay){
+  if(!AC) return;
+  delay=delay||0;
+  var t=AC.currentTime+delay;
+  var sub=AC.createOscillator(); sub.type='sine';
+  sub.frequency.setValueAtTime(28,t);
+  sub.frequency.exponentialRampToValueAtTime(12,t+2.5);
+  var sg=AC.createGain();
+  sg.gain.setValueAtTime(0,t); sg.gain.linearRampToValueAtTime(4.0,t+0.006);
+  sg.gain.exponentialRampToValueAtTime(0.001,t+3.0);
+  sub.connect(sg); sg.connect(AC.destination);
+  sub.start(t); sub.stop(t+3.2);
+  noiseBurst(40, 1.5, 2.5, 0.01, 2.0, delay);
+  noiseBurst(75, 2, 1.2, 0.02, 1.5, delay+0.05);
+}
+
+/* Luxury click sound */
+function playClickSound(){
+  if(!AC || AC.state!=='running') return;
+  noiseBurst(4000, 12, 0.55, 0.001, 0.012, 0);
+  noiseBurst(900, 6, 0.25, 0.002, 0.020, 0);
+  var t=AC.currentTime;
+  var sub=AC.createOscillator(); sub.type='sine'; sub.frequency.value=55;
+  var sg=AC.createGain();
+  sg.gain.setValueAtTime(0,t); sg.gain.linearRampToValueAtTime(0.45,t+0.002);
+  sg.gain.exponentialRampToValueAtTime(0.001,t+0.010);
+  sub.connect(sg); sg.connect(AC.destination);
+  sub.start(t); sub.stop(t+0.012);
+}
+document.addEventListener('click', function(e){
+  if(e.target.closest('a, button, [onclick]')) playClickSound();
+}, true);
+
+/* ─── CANVAS SPOTLIGHT BEAM ─── */
+var spotCvs = document.getElementById('spotCvs');
+var spotX = spotCvs.getContext('2d');
+
+function resizeCanvas(){
+  spotCvs.width = innerWidth;
+  spotCvs.height = innerHeight;
+}
+resizeCanvas();
+addEventListener('resize', resizeCanvas);
+
+function runSpotlightBeam(done){
+  document.fonts.load('120px "Cinzel"').then(function(){
+    var txt = 'ARISHOW';
+    var fs = Math.min(innerWidth * 0.11, 140);
+    spotX.font = '900 ' + fs + 'px "Cinzel"';
+    var tw = spotX.measureText(txt).width;
+    var tx = (spotCvs.width - tw) / 2;
+    var ty = spotCvs.height * 0.50;
+
+    /* Schedule audio with spotlight */
+    if(AC && AC.state === 'running'){
+      playPressureBuild(0, 2.8);
+      playBeamSwoosh(0.5);
+      playRevealShimmer(2.4);
+      playSeismicBoom(3.2);
+    }
+
+    var t0 = null, dur = 3200;
+    function frame(ts){
+      if(!t0) t0 = ts;
+      var p = Math.min((ts - t0) / dur, 1);
+      /* cubic ease in-out */
+      var e = p < 0.5 ? 4*p*p*p : 1 - Math.pow(-2*p + 2, 3) / 2;
+
+      spotX.fillStyle = '#0A0908';
+      spotX.fillRect(0, 0, spotCvs.width, spotCvs.height);
+
+      /* Spotlight beam — triangle from top center spreading down */
+      if(e > 0.04){
+        var ba = Math.min(e * 1.6, 0.9);
+        var cx = spotCvs.width * 0.5;
+        var sp = spotCvs.width * 0.28 * Math.min(e * 1.4, 1);
+
+        spotX.save();
+        spotX.beginPath();
+        spotX.moveTo(cx, 0);
+        spotX.lineTo(cx - sp, spotCvs.height);
+        spotX.lineTo(cx + sp, spotCvs.height);
+        spotX.closePath();
+
+        var bg = spotX.createLinearGradient(cx, 0, cx, spotCvs.height);
+        bg.addColorStop(0, 'rgba(255,230,150,' + (ba * 0.26) + ')');
+        bg.addColorStop(0.25, 'rgba(232,204,122,' + (ba * 0.13) + ')');
+        bg.addColorStop(0.55, 'rgba(201,168,76,' + (ba * 0.07) + ')');
+        bg.addColorStop(1, 'rgba(201,168,76,0)');
+        spotX.fillStyle = bg;
+        spotX.fill();
+        spotX.restore();
+
+        /* Glow source at top */
+        var sg = spotX.createRadialGradient(cx, 0, 0, cx, 0, 85);
+        sg.addColorStop(0, 'rgba(255,240,170,' + (ba * 0.55) + ')');
+        sg.addColorStop(0.4, 'rgba(232,204,122,' + (ba * 0.2) + ')');
+        sg.addColorStop(1, 'rgba(201,168,76,0)');
+        spotX.beginPath();
+        spotX.arc(cx, 0, 85, 0, Math.PI * 2);
+        spotX.fillStyle = sg;
+        spotX.fill();
+      }
+
+      /* ARISHOW text */
+      if(e > 0.35){
+        var sa = Math.min((e - 0.35) / 0.45, 1);
+        spotX.save();
+        spotX.globalAlpha = sa;
+        spotX.font = '900 ' + fs + 'px "Cinzel"';
+        spotX.fillStyle = '#EDE4D6';
+        spotX.shadowColor = 'rgba(232,204,122,0.65)';
+        spotX.shadowBlur = 20 * sa;
+        spotX.fillText(txt, tx, ty);
+        spotX.restore();
+      }
+
+      /* Sub-text: 아 리 쇼 */
+      if(e > 0.65){
+        var ka = Math.min((e - 0.65) / 0.28, 1) * 0.85;
+        spotX.save();
+        spotX.globalAlpha = ka;
+        spotX.font = (fs * 0.22) + 'px "Noto Serif KR"';
+        spotX.fillStyle = '#C9A84C';
+        spotX.textAlign = 'center';
+        spotX.shadowColor = 'rgba(201,168,76,0.55)';
+        spotX.shadowBlur = 12 * ka;
+        spotX.fillText('ARIS KIM',spotCvs.width / 2, ty + fs * 0.37);
+        spotX.restore();
+      }
+
+      if(p < 1){
+        requestAnimationFrame(frame);
+      } else {
+        setTimeout(function(){ done(); }, 2000);
+      }
+    }
+    requestAnimationFrame(frame);
+  });
+}
+
+/* ─── MAIN FLOW ─── */
 var params = new URLSearchParams(window.location.search);
 var skipToEnd = params.get('skip') === '1';
 
@@ -575,6 +780,10 @@ if(skipToEnd){
   enterGate.addEventListener('click', function(){
     enterGate.classList.add('gone');
     setTimeout(function(){ enterGate.style.display='none'; }, 1000);
+
+    // Init audio (user gesture enables it)
+    initAudio();
+    if(AC && AC.state === 'suspended') AC.resume();
 
     // Play video WITH sound
     introVideo.play();
@@ -611,25 +820,28 @@ if(skipToEnd){
       introVideo.pause();
     }, 6000);
 
-    // Phase 1 fade-out at 9.5s
+    // Phase 1: Canvas spotlight beam starts after video fade (6s)
     setTimeout(function(){
-      document.getElementById('phase1').classList.add('fade-out');
-    }, 9500);
+      runSpotlightBeam(function(){
+        // Spotlight beam done → fade out Phase 1
+        document.getElementById('phase1').classList.add('fade-out');
 
-    // Phase 2 show at 10s
-    setTimeout(function(){
-      document.getElementById('phase2').classList.add('show');
-    }, 10000);
+        // Phase 2 show
+        setTimeout(function(){
+          document.getElementById('phase2').classList.add('show');
+        }, 500);
 
-    // Phase 2 fade-out at 12.5s
-    setTimeout(function(){
-      document.getElementById('phase2').classList.add('fade-out');
-    }, 12500);
+        // Phase 2 fade-out
+        setTimeout(function(){
+          document.getElementById('phase2').classList.add('fade-out');
+        }, 3000);
 
-    // Phase 3 show at 13s
-    setTimeout(function(){
-      document.getElementById('phase3').classList.add('show');
-    }, 13000);
+        // Phase 3 show
+        setTimeout(function(){
+          document.getElementById('phase3').classList.add('show');
+        }, 3500);
+      });
+    }, 6000);
   });
 }
 
