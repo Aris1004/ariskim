@@ -654,6 +654,22 @@ function playSeismicBoom(delay){
   noiseBurst(75, 2, 1.2, 0.02, 1.5, delay+0.05);
 }
 
+/* Typewriter keystroke sound */
+function playTypeKey(){
+  if(!AC || AC.state!=='running') return;
+  var t=AC.currentTime;
+  noiseBurst(3500, 15, 0.3, 0.001, 0.008, 0);
+  noiseBurst(1200, 8, 0.15, 0.001, 0.012, 0);
+  var sub=AC.createOscillator(); sub.type='sine';
+  sub.frequency.value=80+Math.random()*40;
+  var sg=AC.createGain();
+  sg.gain.setValueAtTime(0,t);
+  sg.gain.linearRampToValueAtTime(0.2,t+0.001);
+  sg.gain.exponentialRampToValueAtTime(0.001,t+0.015);
+  sub.connect(sg); sg.connect(AC.destination);
+  sub.start(t); sub.stop(t+0.02);
+}
+
 /* Luxury click sound */
 function playClickSound(){
   if(!AC || AC.state!=='running') return;
@@ -757,20 +773,26 @@ function runSpotlightBeam(done){
   document.fonts.load('120px "Cinzel"').then(function(){
     var txt = 'ARISHOW';
     var fs = Math.min(innerWidth * 0.11, 140);
-    spotX.font = '900 ' + fs + 'px "Cinzel"';
-    var tw = spotX.measureText(txt).width;
-    var tx = (spotCvs.width - tw) / 2;
     var ty = spotCvs.height * 0.50;
+
+    /* Typewriter state */
+    var krMsg = '머리가 비었기에 할 수 있는 것!';
+    var krLen = 0;
+    var krDone = false;
+    var krStarted = false;
+    var krInterval = null;
+    var showTitle = false;
+    var titleAlpha = 0;
+    var lineAlpha = 0;
+    var subAlpha = 0;
 
     /* Schedule audio with spotlight */
     if(AC && AC.state === 'running'){
       playPressureBuild(0, 2.8);
       playBeamSwoosh(0.5);
-      playRevealShimmer(2.4);
-      playSeismicBoom(3.2);
     }
 
-    /* Crack & shake at 3.5s after beam starts */
+    /* Crack & shake at 5s after beam starts (after typewriter) */
     setTimeout(function(){
       buildCracks(); crackOn=true; drawCracks();
       shake(2000,13);
@@ -779,22 +801,29 @@ function runSpotlightBeam(done){
       doFlash('#fff',0.75,55);
       setTimeout(function(){doFlash('#ffaa00',0.3,150);},400);
       setTimeout(function(){doFlash('#fff',0.18,120);},900);
-    },3500);
+      if(AC && AC.state === 'running'){
+        playSeismicBoom(0);
+      }
+    },5000);
 
-    var t0 = null, dur = 3200;
+    var t0 = null;
+    var beamDur = 2000;
+    var totalDur = 7000;
+
     function frame(ts){
       if(!t0) t0 = ts;
-      var p = Math.min((ts - t0) / dur, 1);
-      var e = p < 0.5 ? 4*p*p*p : 1 - Math.pow(-2*p + 2, 3) / 2;
+      var elapsed = ts - t0;
+      var beamP = Math.min(elapsed / beamDur, 1);
+      var beamE = beamP < 0.5 ? 4*beamP*beamP*beamP : 1 - Math.pow(-2*beamP + 2, 3) / 2;
 
       spotX.fillStyle = '#0A0908';
       spotX.fillRect(0, 0, spotCvs.width, spotCvs.height);
 
-      /* Spotlight beam — triangle from top center spreading down */
-      if(e > 0.04){
-        var ba = Math.min(e * 1.6, 0.9);
+      /* Spotlight beam — triangle from top center */
+      if(beamE > 0.04){
+        var ba = Math.min(beamE * 1.6, 0.9);
         var cx = spotCvs.width * 0.5;
-        var sp = spotCvs.width * 0.28 * Math.min(e * 1.4, 1);
+        var sp = spotCvs.width * 0.28 * Math.min(beamE * 1.4, 1);
 
         spotX.save();
         spotX.beginPath();
@@ -823,74 +852,96 @@ function runSpotlightBeam(done){
         spotX.fill();
       }
 
-      /* Korean top text: 머리가 비었기에 할 수 있는 것! */
-      if(e > 0.30){
-        var ta = Math.min((e - 0.30) / 0.35, 1) * 0.7;
+      /* Start typewriter at 1.2s */
+      if(elapsed > 1200 && !krStarted){
+        krStarted = true;
+        if(AC && AC.state === 'running') playRevealShimmer(0);
+        krInterval = setInterval(function(){
+          if(krLen < krMsg.length){
+            krLen++;
+            playTypeKey();
+          } else {
+            clearInterval(krInterval);
+            krDone = true;
+            /* After typewriter done, show title */
+            setTimeout(function(){ showTitle = true; }, 600);
+          }
+        }, 80);
+      }
+
+      /* Draw typewriter Korean text */
+      if(krLen > 0){
+        var krFs = Math.min(fs * 0.28, 36);
         spotX.save();
-        spotX.globalAlpha = ta;
-        spotX.font = (fs * 0.16) + 'px "Noto Serif KR"';
-        spotX.fillStyle = 'rgba(242,237,228,0.85)';
+        spotX.font = '700 ' + krFs + 'px "Noto Serif KR"';
+        spotX.fillStyle = 'rgba(242,237,228,0.92)';
         spotX.textAlign = 'center';
-        spotX.shadowColor = 'rgba(201,168,76,0.4)';
-        spotX.shadowBlur = 10 * ta;
-        spotX.fillText('머리가 비었기에 할 수 있는 것!', spotCvs.width / 2, ty - fs * 0.75);
+        spotX.shadowColor = 'rgba(201,168,76,0.5)';
+        spotX.shadowBlur = 12;
+        var displayTxt = krMsg.substring(0, krLen);
+        spotX.fillText(displayTxt, spotCvs.width / 2, ty - fs * 0.55);
+        /* Blinking cursor */
+        if(!krDone && Math.floor(elapsed / 400) % 2 === 0){
+          var cursorX = spotCvs.width / 2 + spotX.measureText(displayTxt).width / 2 + 3;
+          spotX.fillStyle = 'rgba(242,237,228,0.8)';
+          spotX.fillRect(cursorX, ty - fs * 0.55 - krFs * 0.75, 2, krFs);
+        }
         spotX.restore();
       }
 
-      /* Gold line */
-      if(e > 0.33){
-        var la = Math.min((e - 0.33) / 0.3, 1) * 0.5;
-        var lineW = fs * 2.0 * Math.min((e - 0.33) / 0.4, 1);
+      /* Gold line — appears after typewriter done */
+      if(showTitle){
+        lineAlpha = Math.min(lineAlpha + 0.03, 0.5);
+        var lineW = fs * 2.0 * Math.min(lineAlpha / 0.3, 1);
         spotX.save();
-        spotX.globalAlpha = la;
+        spotX.globalAlpha = lineAlpha;
         spotX.strokeStyle = '#C9A84C';
         spotX.lineWidth = 1;
         spotX.shadowColor = 'rgba(201,168,76,0.4)';
         spotX.shadowBlur = 6;
         spotX.beginPath();
-        spotX.moveTo(spotCvs.width / 2 - lineW / 2, ty - fs * 0.48);
-        spotX.lineTo(spotCvs.width / 2 + lineW / 2, ty - fs * 0.48);
+        spotX.moveTo(spotCvs.width / 2 - lineW / 2, ty - fs * 0.25);
+        spotX.lineTo(spotCvs.width / 2 + lineW / 2, ty - fs * 0.25);
         spotX.stroke();
         spotX.restore();
-      }
 
-      /* ARISHOW text — smaller */
-      if(e > 0.35){
-        var sa = Math.min((e - 0.35) / 0.45, 1);
+        /* ARISHOW text */
+        titleAlpha = Math.min(titleAlpha + 0.025, 1);
         var fs2 = fs * 0.75;
         spotX.save();
-        spotX.globalAlpha = sa;
+        spotX.globalAlpha = titleAlpha;
         spotX.font = '900 ' + fs2 + 'px "Cinzel"';
         spotX.fillStyle = '#EDE4D6';
         spotX.textAlign = 'center';
         spotX.shadowColor = 'rgba(232,204,122,0.65)';
-        spotX.shadowBlur = 20 * sa;
-        spotX.fillText(txt, spotCvs.width / 2, ty);
+        spotX.shadowBlur = 20 * titleAlpha;
+        spotX.fillText(txt, spotCvs.width / 2, ty + fs * 0.12);
         spotX.restore();
+
+        /* Sub-text: 아 리 스 김 */
+        if(titleAlpha > 0.5){
+          subAlpha = Math.min(subAlpha + 0.03, 0.85);
+          spotX.save();
+          spotX.globalAlpha = subAlpha;
+          spotX.font = (fs * 0.18) + 'px "Noto Serif KR"';
+          spotX.fillStyle = '#C9A84C';
+          spotX.textAlign = 'center';
+          spotX.shadowColor = 'rgba(201,168,76,0.55)';
+          spotX.shadowBlur = 12 * subAlpha;
+          spotX.fillText('아  리  스  김', spotCvs.width / 2, ty + fs * 0.42);
+          spotX.restore();
+        }
       }
 
-      /* Sub-text: 아 리 스 김 */
-      if(e > 0.65){
-        var ka = Math.min((e - 0.65) / 0.28, 1) * 0.85;
-        spotX.save();
-        spotX.globalAlpha = ka;
-        spotX.font = (fs * 0.18) + 'px "Noto Serif KR"';
-        spotX.fillStyle = '#C9A84C';
-        spotX.textAlign = 'center';
-        spotX.shadowColor = 'rgba(201,168,76,0.55)';
-        spotX.shadowBlur = 12 * ka;
-        spotX.fillText('아  리  스  김', spotCvs.width / 2, ty + fs * 0.28);
-        spotX.restore();
-      }
-
-      if(p < 1){
+      if(elapsed < totalDur){
         requestAnimationFrame(frame);
       } else {
+        if(krInterval) clearInterval(krInterval);
         setTimeout(function(){
           crackOn=false;
           crackX.clearRect(0,0,crackCvs.width,crackCvs.height);
           done();
-        }, 2500);
+        }, 2000);
       }
     }
     requestAnimationFrame(frame);
@@ -939,6 +990,7 @@ if(skipToEnd){
         if(charIndex < fullText.length){
           subtitleEl.textContent = fullText.substring(0, charIndex + 1);
           charIndex++;
+          playTypeKey();
         } else {
           clearInterval(typeInterval);
           // After line 1, start line 2
@@ -950,6 +1002,7 @@ if(skipToEnd){
                 if(charIndex < fullText.length){
                   subtitleEl.textContent = line1 + '\n' + fullText.substring(0, charIndex + 1);
                   charIndex++;
+                  playTypeKey();
                 } else {
                   clearInterval(typeInterval2);
                   setTimeout(function(){ subtitleEl.classList.add('done-typing'); }, 800);
