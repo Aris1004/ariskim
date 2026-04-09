@@ -869,30 +869,30 @@ function runSpotlightBeam(done){
         }, 80);
       }
 
-      /* Draw typewriter Korean text */
+      /* Draw typewriter Korean text — BIG */
       if(krLen > 0){
-        var krFs = Math.min(fs * 0.28, 36);
+        var krFs = Math.min(fs * 0.45, 52);
         spotX.save();
         spotX.font = '700 ' + krFs + 'px "Noto Serif KR"';
-        spotX.fillStyle = 'rgba(242,237,228,0.92)';
+        spotX.fillStyle = 'rgba(242,237,228,0.95)';
         spotX.textAlign = 'center';
-        spotX.shadowColor = 'rgba(201,168,76,0.5)';
-        spotX.shadowBlur = 12;
+        spotX.shadowColor = 'rgba(201,168,76,0.6)';
+        spotX.shadowBlur = 16;
         var displayTxt = krMsg.substring(0, krLen);
-        spotX.fillText(displayTxt, spotCvs.width / 2, ty - fs * 0.55);
+        spotX.fillText(displayTxt, spotCvs.width / 2, ty - fs * 0.65);
         /* Blinking cursor */
         if(!krDone && Math.floor(elapsed / 400) % 2 === 0){
-          var cursorX = spotCvs.width / 2 + spotX.measureText(displayTxt).width / 2 + 3;
+          var cursorX = spotCvs.width / 2 + spotX.measureText(displayTxt).width / 2 + 4;
           spotX.fillStyle = 'rgba(242,237,228,0.8)';
-          spotX.fillRect(cursorX, ty - fs * 0.55 - krFs * 0.75, 2, krFs);
+          spotX.fillRect(cursorX, ty - fs * 0.65 - krFs * 0.75, 2, krFs);
         }
         spotX.restore();
       }
 
-      /* Gold line — appears after typewriter done */
+      /* Gold line — appears after typewriter done, between text and ARISHOW */
       if(showTitle){
         lineAlpha = Math.min(lineAlpha + 0.03, 0.5);
-        var lineW = fs * 2.0 * Math.min(lineAlpha / 0.3, 1);
+        var lineW = fs * 2.2 * Math.min(lineAlpha / 0.3, 1);
         spotX.save();
         spotX.globalAlpha = lineAlpha;
         spotX.strokeStyle = '#C9A84C';
@@ -900,14 +900,14 @@ function runSpotlightBeam(done){
         spotX.shadowColor = 'rgba(201,168,76,0.4)';
         spotX.shadowBlur = 6;
         spotX.beginPath();
-        spotX.moveTo(spotCvs.width / 2 - lineW / 2, ty - fs * 0.25);
-        spotX.lineTo(spotCvs.width / 2 + lineW / 2, ty - fs * 0.25);
+        spotX.moveTo(spotCvs.width / 2 - lineW / 2, ty - fs * 0.22);
+        spotX.lineTo(spotCvs.width / 2 + lineW / 2, ty - fs * 0.22);
         spotX.stroke();
         spotX.restore();
 
         /* ARISHOW text */
         titleAlpha = Math.min(titleAlpha + 0.025, 1);
-        var fs2 = fs * 0.75;
+        var fs2 = fs * 0.7;
         spotX.save();
         spotX.globalAlpha = titleAlpha;
         spotX.font = '900 ' + fs2 + 'px "Cinzel"';
@@ -915,7 +915,7 @@ function runSpotlightBeam(done){
         spotX.textAlign = 'center';
         spotX.shadowColor = 'rgba(232,204,122,0.65)';
         spotX.shadowBlur = 20 * titleAlpha;
-        spotX.fillText(txt, spotCvs.width / 2, ty + fs * 0.12);
+        spotX.fillText(txt, spotCvs.width / 2, ty + fs * 0.2);
         spotX.restore();
 
         /* Sub-text: 아 리 스 김 */
@@ -928,7 +928,7 @@ function runSpotlightBeam(done){
           spotX.textAlign = 'center';
           spotX.shadowColor = 'rgba(201,168,76,0.55)';
           spotX.shadowBlur = 12 * subAlpha;
-          spotX.fillText('아  리  스  김', spotCvs.width / 2, ty + fs * 0.42);
+          spotX.fillText('아  리  스  김', spotCvs.width / 2, ty + fs * 0.52);
           spotX.restore();
         }
       }

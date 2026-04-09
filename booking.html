@@ -138,6 +138,17 @@
       gap: 24px;
       align-items: center;
     }
+    .nav-right .gold-texture-btn{
+      opacity:0;
+      transform:translateX(30px);
+      pointer-events:none;
+      transition:opacity 0.5s ease,transform 0.5s ease;
+    }
+    #nav.scroll .nav-right .gold-texture-btn{
+      opacity:1;
+      transform:translateX(0);
+      pointer-events:auto;
+    }
     .nav-cta {
       font-family: 'Cinzel', serif;
       font-size: 11px;
