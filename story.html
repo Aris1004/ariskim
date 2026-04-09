@@ -1559,12 +1559,19 @@
         function initAudio(){
           try{ AC = new (window.AudioContext || window.webkitAudioContext)(); } catch(e){}
         }
-        // Initialize on first user interaction
-        document.addEventListener('click', function audioInit(){
-          initAudio();
+        // Initialize on first user interaction (click, scroll, touch, key)
+        function audioInit(){
+          if(!AC) initAudio();
           if(AC && AC.state === 'suspended') AC.resume();
           document.removeEventListener('click', audioInit);
-        }, {once:true});
+          document.removeEventListener('scroll', audioInit);
+          document.removeEventListener('touchstart', audioInit);
+          document.removeEventListener('keydown', audioInit);
+        }
+        document.addEventListener('click', audioInit);
+        document.addEventListener('scroll', audioInit);
+        document.addEventListener('touchstart', audioInit);
+        document.addEventListener('keydown', audioInit);
 
         function playTypeKey(){
           if(!AC || AC.state!=='running') return;
@@ -1606,10 +1613,13 @@
 
           function type(){
             if(index < text.length){
-              titleEl.textContent += text[index];
-              playTypeKey();
+              var ch = text[index];
+              titleEl.textContent += ch;
+              /* 공백이 아닌 글자에만 효과음 */
+              if(ch !== ' ') playTypeKey();
               index++;
-              setTimeout(type, 120);
+              /* 공백은 짧게, 글자는 느리게 */
+              setTimeout(type, ch === ' ' ? 100 : 200);
             } else {
               cursorEl.style.display = 'none';
             }
@@ -1626,10 +1636,13 @@
 
           function type(){
             if(index < text.length){
-              quoteEl.textContent += text[index];
-              playTypeKey();
+              var ch = text[index];
+              quoteEl.textContent += ch;
+              /* 공백이 아닌 글자에만 효과음 */
+              if(ch !== ' ') playTypeKey();
               index++;
-              setTimeout(type, 80);
+              /* 공백은 짧게, 글자는 조금 느리게 */
+              setTimeout(type, ch === ' ' ? 60 : 100);
             } else {
               // After typewriter done + 500ms, show divider
               setTimeout(() => {
