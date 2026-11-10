@@ -3,1178 +3,426 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ARIS KIM | 아리스김</title>
+<title>ARIS KIM | 아리스김 · 색소폰 · 미디어아트 · 탱고</title>
+<meta name="description" content="뉴욕 카네기홀 초청 · 예술의전당 최초 1호 아티스트 · 아시아 탱고 챔피언. 색소폰 연주자 아리스김의 공식 홈페이지.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="ARIS KIM | 아리스김">
 <meta property="og:description" content="뉴욕 카네기홀 · 예술의전당 최초 1호 아티스트 · 아시아 탱고 챔피언">
-<meta property="og:image" content="https://ariskim.netlify.app/og_sign.png">
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Noto+Serif+KR:wght@200;300;400&family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
-<style>
-*{margin:0;padding:0;box-sizing:border-box;}
-:root{--gold:#C9A84C;--bg:#0A0908;--text:#F2EDE4;--gold-subtle:rgba(201,168,76,0.3);}
-html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:'Noto Serif KR',serif;}
-a,a:link,a:visited{color:var(--text);text-decoration:none;-webkit-tap-highlight-color:transparent;}
-a:hover,a:active{color:var(--text);}
-
-/* ═══════════════════════════════════════
-   VIDEO INTRO + SPOTLIGHT
-   ═══════════════════════════════════════ */
-#videoIntro{
-  position:fixed;inset:0;z-index:99999;
-  background:#000;
-  display:flex;align-items:center;justify-content:center;
-  overflow:hidden;
-}
-#videoIntro.fade{animation:introFade 1.5s ease forwards;}
-#videoIntro.done{display:none;}
-
-#introVideo{
-  position:absolute;inset:0;
-  width:100%;height:100%;
-  object-fit:cover;
-}
-#skipBtn{
-  position:absolute;top:24px;right:24px;z-index:10;
-  background:rgba(255,255,255,0.06);
-  border:1px solid rgba(255,255,255,0.2);
-  color:rgba(255,255,255,0.55);
-  padding:8px 18px;font-family:'Cinzel',serif;
-  font-size:10px;letter-spacing:0.25em;
-  cursor:pointer;backdrop-filter:blur(4px);
-  border-radius:2px;
-  transition:all 0.3s ease;
-  opacity:0;animation:skipFadeIn 1s ease 2s forwards;
-}
-#skipBtn:hover{background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.85);border-color:rgba(255,255,255,0.35);}
-@keyframes skipFadeIn{to{opacity:1;}}
-
-/* Spotlight cone from top */
-.spotlight{
-  position:absolute;
-  top:-10%;left:50%;
-  transform:translateX(-50%);
-  width:0;height:0;
-  border-left:60px solid transparent;
-  border-right:60px solid transparent;
-  border-top:110vh solid rgba(255,245,200,0.06);
-  opacity:0;
-  filter:blur(30px);
-  pointer-events:none;
-  z-index:2;
-  will-change:opacity;
-}
-.spotlight.on{
-  animation:spotlightOn 2s ease forwards;
-}
-@keyframes spotlightOn{
-  0%{opacity:0;transform:translateX(-50%) scaleX(0.3);}
-  40%{opacity:1;transform:translateX(-50%) scaleX(0.6);}
-  100%{opacity:1;transform:translateX(-50%) scaleX(1);}
-}
-
-/* Spotlight glow at top — hidden */
-.spotlight-source{display:none;}
-
-/* Circular spotlight pool on the floor */
-.spotlight-pool{
-  position:absolute;
-  bottom:15%;left:50%;
-  transform:translateX(-50%);
-  width:300px;height:80px;
-  border-radius:50%;
-  background:radial-gradient(ellipse,rgba(255,245,200,0.12) 0%,rgba(201,168,76,0.05) 40%,transparent 70%);
-  filter:blur(20px);
-  opacity:0;
-  z-index:2;
-  will-change:opacity;
-}
-.spotlight-pool.on{
-  animation:poolOn 2s ease 0.5s forwards;
-}
-@keyframes poolOn{
-  0%{opacity:0;}
-  100%{opacity:1;}
-}
-
-/* Dark vignette over video */
-.video-vignette{
-  position:absolute;inset:0;
-  background:radial-gradient(ellipse 50% 50% at center,transparent 0%,rgba(0,0,0,0.7) 100%);
-  z-index:1;
-  pointer-events:none;
-}
-
-/* Enter Gate */
-#enterGate{
-  position:fixed;inset:0;z-index:999999;
-  background:var(--bg);
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  cursor:pointer;
-  transition:opacity 1s ease;
-}
-#enterGate.gone{opacity:0;pointer-events:none;}
-#enterGate .gate-logo{
-  font-family:'Cinzel',serif;
-  font-size:clamp(18px,3vw,36px);
-  font-weight:700;letter-spacing:0.2em;
-  color:var(--text);
-  margin-bottom:48px;
-  text-shadow:0 0 30px rgba(201,168,76,0.2);
-}
-#enterGate .gate-enter{
-  font-family:'Cinzel',serif;
-  font-size:10px;letter-spacing:0.6em;
-  color:var(--gold);
-  padding:14px 40px;
-  border:1px solid rgba(201,168,76,0.3);
-  transition:all 0.4s;
-  position:relative;
-  overflow:hidden;
-}
-#enterGate .gate-enter::before{
-  content:'';
-  position:absolute;
-  top:-200%;left:-100%;
-  width:50%;height:500%;
-  background:linear-gradient(90deg,transparent,rgba(255,245,200,0.4),rgba(201,168,76,0.25),transparent);
-  transform:skewX(-30deg);
-  animation:shimmerSweep 1.6s ease-in-out infinite alternate;
-  pointer-events:none;
-}
-@keyframes shimmerSweep{
-  0%{left:-100%;}
-  100%{left:140%;}
-}
-#enterGate .gate-enter:hover{
-  border-color:var(--gold);
-  background:rgba(201,168,76,0.08);
-}
-
-/* Typewriter subtitle */
-#introSubtitle{
-  position:absolute;
-  bottom:18%;left:50%;
-  transform:translateX(-50%);
-  z-index:10;
-  font-family:'Gowun Batang','Batang','궁서',serif;
-  font-size:clamp(16px,2.5vw,28px);
-  font-weight:700;
-  letter-spacing:0.08em;
-  color:rgba(255,255,255,0.92);
-  text-shadow:0 0 20px rgba(0,0,0,0.8),0 0 40px rgba(0,0,0,0.5);
-  white-space:pre-line;
-  text-align:center;
-  overflow:hidden;
-  border-right:2px solid rgba(255,255,255,0.7);
-  animation:blink-cursor 0.6s step-end infinite;
-}
-#introSubtitle.done-typing{
-  border-right-color:transparent;
-  animation:none;
-}
-@keyframes blink-cursor{
-  0%,100%{border-right-color:rgba(255,255,255,0.7);}
-  50%{border-right-color:transparent;}
-}
-
-@keyframes introFade{
-  0%{opacity:1;}
-  100%{opacity:0;pointer-events:none;}
-}
-
-/* ═══════════════════════════════════════
-   PHASE 1: SPOTLIGHT BEAM + ARISHOW
-   ═══════════════════════════════════════ */
-#phase1{
-  position:fixed;inset:0;z-index:300;
-  background:var(--bg);
-  transition:opacity 0.8s ease;
-}
-#phase1.fade-out{opacity:0;pointer-events:none;}
-#spotCvs{position:absolute;inset:0;width:100%;height:100%;}
-
-/* ═══════════════════════════════════════
-   PHASE 2: THE REVELATION
-   ═══════════════════════════════════════ */
-#phase2{
-  position:fixed;inset:0;z-index:200;
-  overflow:hidden;
-  opacity:0;pointer-events:none;
-  transition:opacity 1.2s ease;
-}
-#phase2.show{opacity:1;}
-#phase2.fade-out{opacity:0;transition:opacity 1s ease;}
-
-#void-left,#void-right{
-  position:absolute;top:0;width:50%;height:100%;
-  background:var(--bg);z-index:2;
-  transition:transform 1.8s cubic-bezier(0.77,0,0.18,1);
-}
-#void-left{left:0;}
-#void-right{right:0;}
-#phase2.show #void-left{transform:translateX(-100%);}
-#phase2.show #void-right{transform:translateX(100%);}
-
-#hero-image{
-  position:absolute;inset:0;
-  background:url('images/screw_photo.jpg') center/cover no-repeat;
-  filter:brightness(0.7);
-  animation:kenBurns 12s ease-in-out infinite alternate;
-}
-@keyframes kenBurns{
-  0%{transform:scale(1);}
-  100%{transform:scale(1.08);}
-}
-
-#hero-overlay{
-  position:absolute;inset:0;
-  background:linear-gradient(to bottom,rgba(10,9,8,0.2) 0%,rgba(10,9,8,0.05) 35%,rgba(10,9,8,0.6) 100%);
-  z-index:1;
-}
-
-
-#phase2-content{
-  position:absolute;bottom:12%;left:0;right:0;
-  text-align:center;z-index:3;
-  opacity:0;
-  animation:fadeUp 1.2s ease 3.5s forwards;
-}
-#p2-tag{
-  font-family:'Cinzel',serif;font-size:clamp(7px,0.9vw,10px);
-  letter-spacing:0.5em;color:var(--gold);opacity:0.6;
-  margin-bottom:16px;
-}
-#p2-kr-top{
-  font-family:'Noto Serif KR',serif;font-size:clamp(10px,1.2vw,14px);
-  font-weight:200;letter-spacing:0.25em;
-  color:rgba(242,237,228,0.7);
-  line-height:2.2;
-}
-
-@keyframes fadeUp{
-  0%{opacity:0;transform:translateY(20px);}
-  100%{opacity:1;transform:translateY(0);}
-}
-
-
-/* ═══════════════════════════════════════
-   PHASE 3: THE PORTAL — Gold Frame Cards
-   ═══════════════════════════════════════ */
-#phase3{
-  position:fixed;inset:0;z-index:100;
-  display:flex;align-items:center;justify-content:center;
-  gap:clamp(20px,3vw,60px);
-  padding:clamp(20px,4vh,60px) clamp(20px,4vw,80px);
-  background:var(--bg);
-  opacity:0;pointer-events:none;
-  transition:opacity 1.2s ease;
-}
-#phase3.show{opacity:1;pointer-events:auto;}
-
-/* Golden floating particles */
-.golden-dust{
-  position:fixed;border-radius:50%;pointer-events:none;z-index:101;
-  background:radial-gradient(circle,rgba(201,168,76,0.6),transparent);
-  opacity:0;
-}
-#phase3.show ~ .golden-dust{opacity:1;}
-.dust-1{width:3px;height:3px;top:18%;left:12%;animation:floatDust 8s ease-in-out infinite;}
-.dust-2{width:2px;height:2px;top:72%;left:8%;animation:floatDust 11s ease-in-out 1s infinite;}
-.dust-3{width:4px;height:4px;top:35%;right:15%;animation:floatDust 9s ease-in-out 2s infinite;}
-.dust-4{width:2px;height:2px;top:60%;right:10%;animation:floatDust 10s ease-in-out 0.5s infinite;}
-.dust-5{width:3px;height:3px;top:85%;left:45%;animation:floatDust 12s ease-in-out 3s infinite;}
-.dust-6{width:2px;height:2px;top:15%;right:40%;animation:floatDust 7s ease-in-out 1.5s infinite;}
-
-@keyframes floatDust{
-  0%,100%{transform:translateY(0) translateX(0);opacity:0.3;}
-  25%{transform:translateY(-20px) translateX(10px);opacity:0.7;}
-  50%{transform:translateY(-8px) translateX(-8px);opacity:0.5;}
-  75%{transform:translateY(-25px) translateX(5px);opacity:0.8;}
-}
-
-/* Card — gold framed photo card */
-.card{
-  position:relative;flex:1;max-width:520px;
-  height:clamp(400px,75vh,800px);
-  border:1.5px solid rgba(201,168,76,0.55);
-  overflow:hidden;cursor:pointer;
-  text-decoration:none;display:block;
-  transition:transform 0.6s ease,box-shadow 0.6s ease;
-}
-.card:hover{
-  transform:translateY(-4px);
-  box-shadow:0 0 40px rgba(201,168,76,0.15),0 0 80px rgba(201,168,76,0.08);
-}
-
-.card-img{
-  position:absolute;inset:0;
-  background-size:cover;background-position:center;
-  filter:brightness(0.65);
-  transition:filter 0.7s,transform 0.7s;
-}
-.card:hover .card-img{filter:brightness(0.8);transform:scale(1.03);}
-#card-story .card-img{background-image:url('images/hero_led_stage.jpg');}
-#card-booking .card-img{background-image:url('images/hero_a5_klimt_led.jpg');}
-
-.card-overlay{
-  position:absolute;inset:0;
-  background:linear-gradient(to bottom,rgba(10,9,8,0.2) 0%,rgba(10,9,8,0.05) 30%,rgba(10,9,8,0.55) 100%);
-  z-index:1;
-  overflow:hidden;
-}
-.card-overlay::after{
-  content:'';
-  position:absolute;
-  top:-200%;left:-100%;
-  width:50%;height:500%;
-  background:linear-gradient(90deg,transparent,rgba(255,245,200,0.08),rgba(201,168,76,0.05),transparent);
-  transform:skewX(-30deg);
-  animation:cardShimmer 3s ease-in-out infinite;
-  pointer-events:none;
-}
-
-.card-content{
-  position:absolute;inset:0;z-index:2;
-  display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  text-align:center;padding:40px 24px;
-}
-
-.card-discover{
-  font-family:'Cinzel',serif;font-size:clamp(8px,1vw,11px);
-  letter-spacing:0.5em;color:var(--gold);opacity:0.6;
-  margin-bottom:16px;
-}
-.card-title{
-  font-family:'Cinzel',serif;font-size:clamp(28px,4vw,56px);
-  font-weight:900;letter-spacing:0.1em;
-  color:var(--text);margin-bottom:12px;
-  text-shadow:0 2px 20px rgba(0,0,0,0.5);
-}
-.card-kr{
-  font-family:'Noto Serif KR',serif;font-size:clamp(11px,1.2vw,15px);
-  font-weight:200;letter-spacing:0.3em;
-  color:rgba(242,237,228,0.5);margin-bottom:28px;
-}
-.card-cta{
-  display:inline-block;font-family:'Cinzel',serif;
-  font-size:clamp(11px,1.1vw,14px);font-weight:700;
-  letter-spacing:0.3em;padding:14px 36px;
-  border:1px solid rgba(242,237,228,0.3);
-  color:rgba(242,237,228,0.9);
-  transition:all 0.35s;
-  position:relative;
-  overflow:hidden;
-}
-.card-cta::before{
-  content:'';
-  position:absolute;
-  top:-200%;left:-100%;
-  width:50%;height:500%;
-  background:linear-gradient(90deg,transparent,rgba(255,245,200,0.3),rgba(201,168,76,0.18),transparent);
-  transform:skewX(-30deg);
-  animation:cardShimmer 3s ease-in-out infinite;
-  pointer-events:none;
-}
-@keyframes cardShimmer{
-  0%{left:-100%;}
-  25%{left:140%;}
-  50%{left:-100%;}
-  66%{left:-100%;}
-  100%{left:-100%;}
-}
-.card-cta:hover{
-  background:rgba(201,168,76,0.15);
-  border-color:var(--gold);color:var(--text);
-}
-
-/* Golden corner accents inside card */
-.card::before,.card::after{
-  content:'';position:absolute;width:20px;height:20px;
-  z-index:3;opacity:0.4;transition:opacity 0.4s;
-}
-.card:hover::before,.card:hover::after{opacity:0.8;}
-.card::before{bottom:16px;left:16px;border-bottom:1px solid var(--gold);border-left:1px solid var(--gold);}
-.card::after{bottom:16px;right:16px;border-bottom:1px solid var(--gold);border-right:1px solid var(--gold);}
-
-/* Signature */
-#sig{
-  position:fixed;bottom:6px;left:50%;transform:translateX(-50%);
-  z-index:999;font-family:'Cinzel',serif;font-size:7px;
-  letter-spacing:0.5em;color:rgba(201,168,76,0.12);
-  white-space:nowrap;pointer-events:none;
-}
-
-/* ═══════════════════════════════════════
-   RESPONSIVE
-   ═══════════════════════════════════════ */
-
-/* Tablet */
-@media(min-width:769px) and (max-width:1024px){
-  .card{max-width:420px;}
-  .card-title{font-size:clamp(24px,3.5vw,40px);}
-}
-
-/* Small tablet / large phone landscape */
-@media(min-width:481px) and (max-width:768px){
-  #phase3{flex-direction:row;gap:16px;padding:20px;}
-  .card{max-width:none;height:clamp(350px,70vh,600px);}
-  .card-title{font-size:clamp(20px,3vw,32px);}
-  .card-kr{font-size:10px;}
-  .card-discover{font-size:8px;}
-  .card-cta{padding:10px 24px;font-size:9px;}
-}
-
-/* Phone */
-@media(max-width:480px){
-  html,body{overflow-y:auto!important;overflow-x:hidden!important;}
-  #phase3{
-    position:relative!important;
-    flex-direction:column;gap:16px;
-    padding:16px;min-height:100vh;
-    align-items:stretch;
-  }
-  .card{flex:none;max-width:none;height:clamp(300px,45vh,500px);}
-  .card-title{font-size:clamp(24px,7vw,36px);}
-  .card-kr{font-size:11px;}
-  .card-cta{padding:12px 28px;font-size:10px;}
-  #sig{display:none;}
-}
-
-/* Galaxy Z Fold5 unfolded & square-ish tablet */
-@media(min-width:481px) and (max-width:900px) and (min-aspect-ratio:3/4) and (max-aspect-ratio:5/4){
-  html,body{overflow-y:auto!important;overflow-x:hidden!important;}
-  #phase3{
-    position:relative!important;
-    flex-direction:column!important;gap:20px;
-    padding:24px;min-height:100vh;
-    align-items:stretch;
-  }
-  .card{flex:none;max-width:none;height:clamp(320px,42vh,480px);}
-  .card-title{font-size:clamp(26px,5vw,42px);}
-  .card-kr{font-size:12px;}
-  .card-cta{padding:14px 32px;font-size:11px;}
-}
-</style>
+<meta property="og:image" content="https://ariskim.vercel.app/images/hero_base.webp">
+<meta name="theme-color" content="#070605">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Noto+Serif+KR:wght@300;400;600;900&family=Archivo:wght@500;800;900&family=Noto+Sans+KR:wght@400;500;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- ENTER GATE -->
-<div id="enterGate">
-  <div class="gate-logo">ARIS KIM</div>
-  <div class="gate-enter">E N T E R</div>
-</div>
+<header class="hdr" id="hdr">
+  <a class="logo" href="#top" aria-label="ARIS KIM 처음으로">Aris Kim</a>
+  <nav class="nav" id="nav" aria-label="주 메뉴">
+    <a href="#performances">Performances</a>
+    <a href="#story">Story</a>
+    <a href="#timeline">Timeline</a>
+    <a href="#gallery">Gallery</a>
+    <a href="#awards">Awards</a>
+    <a href="#faq">FAQ</a>
+    <a class="nav-cta" href="#contact">공연 의뢰</a>
+    <div class="nav-contact"><a href="tel:010-4251-1212">010-4251-1212</a><a href="mailto:ARISHOW@NAVER.COM">ARISHOW@NAVER.COM</a></div>
+  </nav>
+  <a class="hdr-cta" href="#contact">공연 의뢰</a>
+  <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="nav" aria-label="메뉴 열기"><span class="bars" aria-hidden="true"><i></i><i></i><i></i></span></button>
+</header>
 
-<!-- VIDEO INTRO + SPOTLIGHT -->
-<div id="videoIntro">
-  <video id="introVideo" playsinline preload="auto">
-    <source src="images/intro.mp4" type="video/mp4">
-  </video>
-  <div class="video-vignette"></div>
-  <button id="skipBtn">S K I P</button>
-  <div class="spotlight" id="spotlight"></div>
-  <div class="spotlight-source" id="spotlightSrc"></div>
-  <div class="spotlight-pool" id="spotlightPool"></div>
-  <div id="introSubtitle"></div>
-</div>
+<main id="top">
 
-<!-- PHASE 1: SPOTLIGHT BEAM + ARISHOW -->
-<div id="phase1">
-  <canvas id="spotCvs"></canvas>
-  <canvas id="crackCvs" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;"></canvas>
-  <div id="flash" style="position:absolute;inset:0;opacity:0;pointer-events:none;z-index:3;"></div>
-</div>
-
-<!-- PHASE 2: THE REVELATION -->
-<div id="phase2">
-  <div id="void-left"></div>
-  <div id="void-right"></div>
-  <div id="hero-image"></div>
-  <div id="hero-overlay"></div>
-  <div id="phase2-content">
-    <div id="p2-tag">SAXOPHONE · MEDIA ART · TANGO</div>
-    <div id="p2-kr-top">뉴욕 카네기홀<br>예술의전당 최초 1호<br>아시아 탱고 챔피언</div>
-  </div>
-</div>
-
-<!-- PHASE 3: THE PORTAL — Gold Frame Cards -->
-<div id="phase3">
-  <a class="card" id="card-story" href="story.html">
-    <div class="card-img"></div>
-    <div class="card-overlay"></div>
-    <div class="card-content">
-      <span class="card-discover">D I S C O V E R</span>
-      <h1 class="card-title">STORY</h1>
-      <p class="card-kr">삶의 음악</p>
-      <div class="card-cta">여정</div>
+  <section class="hero" aria-label="소개">
+    <div class="hero-photo">
+      <img class="hero-img" src="images/hero_base.webp" alt="색소폰을 든 아리스김의 흑백 초상" fetchpriority="high">
     </div>
-  </a>
-  <a class="card" id="card-booking" href="booking.html">
-    <div class="card-img"></div>
-    <div class="card-overlay"></div>
-    <div class="card-content">
-      <span class="card-discover">D I S C O V E R</span>
-      <h1 class="card-title">ARISHOW</h1>
-      <p class="card-kr">CONCERT</p>
-      <div class="card-cta">공연기획</div>
+    <canvas class="rain-gl" id="rainGL" aria-hidden="true"></canvas>
+    <canvas class="avatar-gl" id="avatarGL" aria-hidden="true"></canvas>
+    <div class="guide" id="guide" aria-hidden="true"><canvas id="guideGL"></canvas><div class="guide-hint"><span>아래로 드래그하세요</span><i></i><i></i></div></div>
+    <div class="verse" id="verse">
+      <div class="v1"><div class="staff" aria-hidden="true"><i style="--k:0;--dx:-70px;--dy:-60px;--r:-14deg"></i><i style="--k:1;--dx:90px;--dy:-30px;--r:9deg"></i><i style="--k:2;--dx:-40px;--dy:20px;--r:-6deg"></i><i style="--k:3;--dx:110px;--dy:60px;--r:12deg"></i><i style="--k:4;--dx:-90px;--dy:90px;--r:-10deg"></i></div><p class="t">클래식에서</p></div>
+      <div class="v3"><p class="f-kicker">AI INTELLIGENCE &nbsp;·&nbsp; LAYERED SHOW</p><h2 class="f-name"><span>ARIS KIM</span><i class="f-glint" aria-hidden="true"></i></h2><p class="f-ko">AI 인텔리전스 레이어드 쇼</p><span class="f-rule" aria-hidden="true"></span><p class="f-tag">클래식에서, 이 시대의 클래식으로</p></div>
+      <div class="v2"><p class="a">이 시대의</p><p class="fire">클래식</p><p class="a b">으로</p><p class="en">From classic, to the classic of our time.</p></div>
     </div>
-  </a>
-</div>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="flameFx" x="-10%" y="-25%" width="120%" height="150%"><feTurbulence type="fractalNoise" baseFrequency="0.018 0.07" numOctaves="2" seed="3" result="n"><animate attributeName="baseFrequency" dur="1.7s" values="0.018 0.07;0.025 0.095;0.018 0.07" repeatCount="indefinite"/></feTurbulence><feDisplacementMap in="SourceGraphic" in2="n" scale="8" xChannelSelector="R" yChannelSelector="G"/></filter></svg>
+    <div class="hero-shade"></div>
+    <div class="hero-body">
+      <p class="hero-tag fade-up" style="--d:1500ms">SAXOPHONE &nbsp;·&nbsp; MEDIA ART &nbsp;·&nbsp; TANGO</p>
+      <h1 class="hero-title" aria-label="ARIS KIM">
+        <span class="word" aria-hidden="true"><span class="ch" style="--i:0">A</span><span class="ch" style="--i:1">R</span><span class="ch" style="--i:2">I</span><span class="ch" style="--i:3">S</span></span>
+        <span class="word" aria-hidden="true"><span class="ch" style="--i:4">K</span><span class="ch" style="--i:5">I</span><span class="ch" style="--i:6">M</span></span>
+      </h1>
+      <p class="hero-lead fade-up" style="--d:1800ms">뉴욕 카네기홀 초청 &nbsp;|&nbsp; 예술의전당 최초 1호 아티스트 &nbsp;|&nbsp; 아시아 탱고 챔피언</p>
+      <a class="btn-outline fade-up" style="--d:2100ms" href="#contact">공연 의뢰하기</a>
+    </div>
+    <a class="scroll-cue fade-up" style="--d:2400ms" href="#info" aria-label="아래로 스크롤">Scroll</a>
+  </section>
 
-<!-- Golden floating particles -->
-<div class="golden-dust dust-1"></div>
-<div class="golden-dust dust-2"></div>
-<div class="golden-dust dust-3"></div>
-<div class="golden-dust dust-4"></div>
-<div class="golden-dust dust-5"></div>
-<div class="golden-dust dust-6"></div>
+  <section class="acts prelude" id="prelude" aria-label="공연 사진">
+    <div class="acts-stick">
+      <figure class="act" style="--fx:50%;--fy:52%" data-zm="1.26"><img src="images/pre1.webp" alt="연기 자욱한 공연장 객석 사이를 걸어가는 아리스김의 뒷모습 (흑백)" loading="lazy"></figure>
+      <figure class="act" style="--fx:50%;--fy:88%" data-zm="1.4" data-oy="12,88" data-sat="0"><img src="images/pre2.webp" alt="커튼과 조명 아래 무대 위에서 색소폰을 연주하는 아리스김" loading="lazy"></figure>
+    </div>
+  </section>
 
-<div id="sig">ARISHOW COMPANY · ARIS KIM</div>
+  <section class="showcase" id="showcase" aria-label="김해문화의전당 공연 사진">
+    <div class="sc-stick">
+      <div class="sc-clip">
+        <figure class="sc-fig">
+          <img src="images/showcase_gimhae.webp" alt="김해문화의전당 공연장을 가득 채운 관객과, 클림트 그림이 흐르는 무대 화면" loading="lazy">
+          <i class="sc-glow" aria-hidden="true"></i>
+        </figure>
+        <div class="sc-shade"></div>
+      </div>
+      <i class="sc-slit" aria-hidden="true"></i>
+      <div class="sc-cap">
+        <p class="sc-tag">Gimhae Cultural Center &nbsp;·&nbsp; 2024. 07. 20</p>
+        <h2 class="sc-title">한여름밤의 음악회</h2>
+      </div>
+    </div>
+  </section>
 
-<script>
-/* ═══════════════════════════════════════
-   ARIS KIM — THE PORTAL — INDEX
-   Enter Gate → Video Intro → Spotlight Beam → Phases
-   ═══════════════════════════════════════ */
+  <section class="acts" id="acts" aria-label="김해문화의전당 공연 장면">
+    <div class="acts-stick">
+      <figure class="act" style="--fx:48%;--fy:66%" data-zm="1.9"><img src="images/act1.webp" alt="푸른 조명 아래 몸을 낮춰 색소폰을 연주하는 아리스김" loading="eager"></figure>
+      <figure class="act" style="--fx:52%;--fy:64%" data-zm="1.6"><img src="images/act2.webp" alt="클림트 그림이 비치는 무대에서 색소폰을 연주하는 아리스김" loading="lazy"></figure>
+      <figure class="act" style="--fx:52%;--fy:76%" data-zm="1.4"><img src="images/act3.webp" alt="밴드와 함께 연주하는 아리스김, 바닷속 같은 영상이 흐르는 무대" loading="lazy"></figure>
+      <figure class="act" style="--fx:50%;--fy:70%" data-zm="1.9"><img src="images/act4.webp" alt="붉은 조명 아래 빛나는 안경과 악기를 든 아리스김" loading="lazy"></figure>
+      <figure class="act" style="--fx:49%;--fy:65%" data-zm="1.9"><img src="images/act5.webp" alt="푸른 무대에서 낮게 자세를 잡고 빛나는 악기를 든 아리스김" loading="lazy"></figure>
+      <div class="acts-ui" aria-hidden="true"><span class="acts-no">01</span><span class="acts-of">/ 05</span><span class="acts-bar"><i></i></span></div>
+    </div>
+  </section>
 
-var enterGate = document.getElementById('enterGate');
-var videoIntro = document.getElementById('videoIntro');
-var introVideo = document.getElementById('introVideo');
-var spotlight = document.getElementById('spotlight');
-var spotlightSrc = document.getElementById('spotlightSrc');
-var spotlightPool = document.getElementById('spotlightPool');
+  <section class="sax3d" id="sax3d" aria-label="색소폰">
+    <div class="wrap sax3d-in">
+      <div class="sax3d-txt">
+        <p class="kick" data-reveal>SAXOPHONE &nbsp;·&nbsp; MEDIA ART &nbsp;·&nbsp; TANGO</p>
+        <h2 class="big-serif" data-reveal>비어 있어서,<br>울렸습니다.</h2>
+        <p class="lead" data-reveal>한 스님은 &ldquo;참 재능은 많은데 머리가 비었어&rdquo;라고 했습니다. 그런데 소리는 늘 빈 곳에서 납니다. 속이 빈 관에 숨을 불어넣어야 색소폰이 울리듯, 비어 있던 사람이 음악을 불어넣어 거리에서 카네기홀까지 울렸습니다.</p>
+        <blockquote class="sax-quote" data-reveal>그릇은 비어 있기에 쓸모가 있다.<cite>노자 『도덕경』 11장</cite></blockquote>
+        <ul class="tags" data-reveal><li>색소폰</li><li>미디어아트</li><li>탱고</li></ul>
+      </div>
+      <div class="sax3d-stage"><canvas id="sax3dCv" role="img" aria-label="돌려볼 수 있는 3D 알토 색소폰"></canvas><p class="hint">드래그하거나 스크롤해서 돌려 보세요</p></div>
+    </div>
+  </section>
 
-/* ─── AUDIO ENGINE (Web Audio API) ─── */
-var AC = null;
+  <section class="strip" id="info" aria-label="공연 안내">
+    <div class="strip-in">
+      <h2 class="serif-h u">공연 안내</h2>
+      <ul class="strip-list">
+        <li><span>문의</span><a href="tel:010-4251-1212">010-4251-1212</a></li>
+        <li><span>이메일</span><a href="mailto:ARISHOW@NAVER.COM">ARISHOW@NAVER.COM</a></li>
+        <li><span>공연 규모</span>30명 리셉션 ~ 1,000명 이상</li>
+        <li><span>지역</span>국내 · 해외</li>
+      </ul>
+    </div>
+  </section>
 
-function initAudio(){
-  if(AC) return;
-  AC = new (window.AudioContext || window.webkitAudioContext)();
-}
+  <section class="feat" id="performances">
+    <h2 class="sans-h" data-reveal>Featured Performances</h2>
+    <a class="see-all" href="#contact">공연 의뢰하기 <i aria-hidden="true">&rarr;</i></a>
+    <div class="carousel">
+      <button class="car-btn prev" aria-label="이전" data-dir="-1">&#8592;</button>
+      <div class="track" id="track" tabindex="0">
+        <article class="card">
+          <div class="card-img"><img src="images/perf_klimt_stage.webp" alt="클림트 미디어아트 콘서트 무대" loading="lazy"></div>
+          <p class="meta">Signature &nbsp;|&nbsp; Media Art</p>
+          <h3 class="serif-h u">클림트 미디어아트 콘서트</h3>
+          <p class="sub">황금빛 키스</p>
+          <p class="where">현대미술 · 색소폰 · LED</p>
+        </article>
+        <article class="card">
+          <div class="card-img"><img src="images/carnegie.webp" alt="뉴욕 카네기홀 공연" loading="lazy"></div>
+          <p class="meta">2022 &nbsp;|&nbsp; New York</p>
+          <h3 class="serif-h u">뉴욕 카네기홀 초청 공연</h3>
+          <p class="sub">세계적 무대</p>
+          <p class="where">Carnegie Hall</p>
+        </article>
+        <article class="card">
+          <div class="card-img"><img src="images/perf_arishow.webp" alt="ARIsHOW 공연" loading="lazy"></div>
+          <p class="meta">Variety &nbsp;|&nbsp; Performance</p>
+          <h3 class="serif-h u">ARIsHOW 아리쇼</h3>
+          <p class="sub">나를 이롭게 하는 무대</p>
+          <p class="where">복제와 AI 시대의 퍼포먼스</p>
+        </article>
+        <article class="card">
+          <div class="card-img"><img src="images/tango_perf.webp" alt="탱고 공연" loading="lazy"></div>
+          <p class="meta">2016 &nbsp;|&nbsp; Asia Tango</p>
+          <h3 class="serif-h u">탱고 &amp; 색소폰 퓨전</h3>
+          <p class="sub">아시아 탱고 챔피언</p>
+          <p class="where">친친탱고</p>
+        </article>
+        <article class="card">
+          <div class="card-img"><img src="images/hero_orchestra.webp" alt="오케스트라 협연" loading="lazy"></div>
+          <p class="meta">Collaboration</p>
+          <h3 class="serif-h u">오케스트라 협연</h3>
+          <p class="sub">클래식부터 현대음악까지</p>
+          <p class="where">Orchestra</p>
+        </article>
+        <article class="card">
+          <div class="card-img"><img src="images/perf_gala.webp" alt="기업 갈라 공연" loading="lazy"></div>
+          <p class="meta">Private &nbsp;|&nbsp; Corporate</p>
+          <h3 class="serif-h u">기업 갈라 &amp; VIP 리셉션</h3>
+          <p class="sub">우아함과 현대성</p>
+          <p class="where">Gala</p>
+        </article>
+      </div>
+      <button class="car-btn next" aria-label="다음" data-dir="1">&#8594;</button>
+    </div>
+  </section>
 
-function makeReverb(dur, decay){
-  dur = dur||3; decay = decay||2;
-  var len = AC.sampleRate*dur;
-  var buf = AC.createBuffer(2,len,AC.sampleRate);
-  for(var ch=0;ch<2;ch++){
-    var d=buf.getChannelData(ch);
-    for(var i=0;i<len;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/len,decay);
-  }
-  var rv=AC.createConvolver(); rv.buffer=buf; return rv;
-}
+  <section class="tl emp" id="empty" aria-label="머리가 비었다는 말의 의미">
+    <div class="tl-stick">
+      <canvas id="empty3d" aria-hidden="true"></canvas>
+      <div class="tl-head"><p class="kick">EMPTY HEAD &nbsp;·&nbsp; 空</p><p class="tl-scroll">스크롤하면 의미가 채워집니다</p></div>
+      <div class="tl-txt in" id="emTxt"><p class="tl-no" id="emNo">01 / 04</p><h3 class="tl-year" id="emTitle">비었다</h3><p class="em-body" id="emBody"></p></div>
+      <div class="tl-bar" aria-hidden="true"><i id="emBar"></i></div>
+    </div>
+    <ol id="emData" class="sr">
+      <li data-t="비었다" data-b="스님이 말했습니다. &ldquo;참 재능은 많은데, 머리가 비었어.&rdquo; 사람들은 흉으로 들었습니다. 하지만 비어 있다는 건, 아직 아무것도 막지 않았다는 뜻입니다.">비었다 &mdash; 스님이 말했습니다. &ldquo;참 재능은 많은데, 머리가 비었어.&rdquo; 사람들은 흉으로 들었습니다. 하지만 비어 있다는 건, 아직 아무것도 막지 않았다는 뜻입니다.</li>
+      <li data-t="비어서, 담는다" data-b="노자는 그릇의 쓸모가 비어 있음에 있다고 했습니다. 비어 있었기에 색소폰도, 미디어아트도, 탱고도, 아바타도 들어올 수 있었습니다.">비어서, 담는다 &mdash; 노자는 그릇의 쓸모가 비어 있음에 있다고 했습니다. 비어 있었기에 색소폰도, 미디어아트도, 탱고도, 아바타도 들어올 수 있었습니다.</li>
+      <li data-t="비어서, 소리가 난다" data-b="색소폰은 속이 빈 관입니다. 비어 있어야 숨이 지나가고, 비어 있어야 소리가 됩니다.">비어서, 소리가 난다 &mdash; 색소폰은 속이 빈 관입니다. 비어 있어야 숨이 지나가고, 비어 있어야 소리가 됩니다.</li>
+      <li data-t="비어서, 끝이 없다" data-b="계산도 체면도 없는 머리. 그래서 한예종을 자퇴하고, 아바타와 듀엣을 하고, 카네기홀까지 갈 수 있었습니다. AI가 머리를 채우는 시대에 가장 인간적인 것은, 비워 둔 마음입니다.">비어서, 끝이 없다 &mdash; 계산도 체면도 없는 머리. 그래서 한예종을 자퇴하고, 아바타와 듀엣을 하고, 카네기홀까지 갈 수 있었습니다. AI가 머리를 채우는 시대에 가장 인간적인 것은, 비워 둔 마음입니다.</li>
+    </ol>
+  </section>
 
-function noiseBurst(freq, Q, vol, atk, dcy, delay){
-  if(!AC) return;
-  delay = delay||0;
-  var t = AC.currentTime+delay;
-  var dur = atk+dcy+0.05;
-  var buf = AC.createBuffer(1, Math.ceil(AC.sampleRate*dur), AC.sampleRate);
-  var d = buf.getChannelData(0);
-  for(var i=0;i<d.length;i++) d[i]=(Math.random()*2-1);
-  var src = AC.createBufferSource(); src.buffer=buf;
-  var bp = AC.createBiquadFilter(); bp.type='bandpass';
-  bp.frequency.value=freq; bp.Q.value=Q;
-  var g = AC.createGain();
-  g.gain.setValueAtTime(0,t);
-  g.gain.linearRampToValueAtTime(vol, t+atk);
-  g.gain.exponentialRampToValueAtTime(0.001, t+atk+dcy);
-  src.connect(bp); bp.connect(g); g.connect(AC.destination);
-  src.start(t); src.stop(t+dur+0.01);
-}
+  <section class="discover" id="story">
+    <div class="wrap">
+      <h2 class="big-serif" data-reveal>Discover More</h2>
 
-/* A. Pressure build — air compressing before beam */
-function playPressureBuild(delay, dur){
-  if(!AC) return;
-  delay=delay||0; dur=dur||2.8;
-  var t=AC.currentTime+delay;
-  var buf=AC.createBuffer(1,AC.sampleRate*dur,AC.sampleRate);
-  var d=buf.getChannelData(0);
-  for(var i=0;i<d.length;i++) d[i]=(Math.random()*2-1);
-  var src=AC.createBufferSource(); src.buffer=buf;
-  var lp=AC.createBiquadFilter(); lp.type='lowpass';
-  lp.frequency.setValueAtTime(35,t);
-  lp.frequency.linearRampToValueAtTime(90,t+dur);
-  lp.Q.value=1.5;
-  var g=AC.createGain();
-  g.gain.setValueAtTime(0,t);
-  g.gain.linearRampToValueAtTime(0.9,t+dur*0.5);
-  g.gain.linearRampToValueAtTime(1.4,t+dur);
-  g.gain.linearRampToValueAtTime(0,t+dur+0.4);
-  var rv=makeReverb(3,2.2);
-  var rvG=AC.createGain(); rvG.gain.value=0.35;
-  rv.connect(rvG); rvG.connect(AC.destination);
-  src.connect(lp); lp.connect(g);
-  g.connect(AC.destination); g.connect(rv);
-  src.start(t);
-}
+      <article class="zig">
+        <div class="zig-img sq reveal-img monk"><video id="monk" src="videos/monk.mp4" poster="images/monk_poster.webp" muted playsinline loop preload="metadata" aria-label="스님이 정면을 가리키며 말하는 영상. 자막: 머리가 비었어!"></video><button type="button" class="monk-snd" id="monkSnd" aria-pressed="false">SOUND OFF</button></div>
+        <div class="zig-txt">
+          <h3 class="serif-h u rise">참 재능은 많은데, 머리가 비었어</h3>
+          <p class="rise">한 스님의 말에서 시작된 이름. 한예종 자퇴는 포기가 아니라 나만의 무대를 위한 가장 위대한 선택이었다. 거리 공연자로 시작한 삶, 그 선택이 몸을 움직이게 했고 그 움직임이 세상을 놀라게 했다.</p>
+        </div>
+      </article>
 
-/* B. Beam swoosh — high→low frequency whoosh */
-function playBeamSwoosh(delay){
-  if(!AC) return;
-  delay=delay||0;
-  var t=AC.currentTime+delay;
-  var buf=AC.createBuffer(1,AC.sampleRate*0.9,AC.sampleRate);
-  var d=buf.getChannelData(0);
-  for(var i=0;i<d.length;i++) d[i]=(Math.random()*2-1);
-  var src=AC.createBufferSource(); src.buffer=buf;
-  var hp=AC.createBiquadFilter(); hp.type='highpass';
-  hp.frequency.setValueAtTime(4000,t);
-  hp.frequency.exponentialRampToValueAtTime(200,t+0.5);
-  var g=AC.createGain();
-  g.gain.setValueAtTime(0,t);
-  g.gain.linearRampToValueAtTime(0.7,t+0.05);
-  g.gain.exponentialRampToValueAtTime(0.001,t+0.85);
-  var rv=makeReverb(3.5,1.5);
-  var rvG=AC.createGain(); rvG.gain.value=0.5;
-  rv.connect(rvG); rvG.connect(AC.destination);
-  src.connect(hp); hp.connect(g);
-  g.connect(AC.destination); g.connect(rv);
-  src.start(t);
-}
+      <article class="zig flip">
+        <div class="zig-img reveal-img"><img src="images/arishow_curtain.webp" alt="아리쇼 커튼 무대" loading="lazy"></div>
+        <div class="zig-txt">
+          <h3 class="serif-h u rise">ARIsHOW, 나를 이롭게 하는 무대</h3>
+          <p class="rise">실제 뮤지션을 특수분장해 아리스김을 복제한 버라이어티 공연. 코믹하면서도 AI 시대의 인간 복제를 그린 디지털 퍼포먼스다. 나를 사랑하지 않고 어떻게 타인을 사랑할 수 있는가, 라는 날카로운 질문을 던진다.</p>
+        </div>
+      </article>
 
-/* C. Reveal shimmer — gold reflecting light */
-function playRevealShimmer(delay){
-  if(!AC) return;
-  delay=delay||0;
-  noiseBurst(2800, 8, 0.6, 0.008, 1.8, delay);
-  noiseBurst(1400, 5, 0.35, 0.015, 2.4, delay+0.05);
-  noiseBurst(600, 3, 0.2, 0.02, 3.0, delay+0.12);
-  var t=AC.currentTime+delay;
-  var buf=AC.createBuffer(1,Math.ceil(AC.sampleRate*0.15),AC.sampleRate);
-  var d=buf.getChannelData(0);
-  for(var i=0;i<d.length;i++) d[i]=(Math.random()*2-1)*Math.pow(1-i/d.length,1.2);
-  var src=AC.createBufferSource(); src.buffer=buf;
-  var bp=AC.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=2200; bp.Q.value=4;
-  var rv=makeReverb(6,1.0);
-  var rvG=AC.createGain(); rvG.gain.value=1.2;
-  rv.connect(rvG); rvG.connect(AC.destination);
-  var g=AC.createGain();
-  g.gain.setValueAtTime(1.5,t); g.gain.exponentialRampToValueAtTime(0.001,t+0.15);
-  src.connect(bp); bp.connect(g); g.connect(rv); src.start(t);
-}
+      <article class="zig">
+        <div class="zig-img reveal-img"><img src="images/tango_trophy.webp" alt="아시아 탱고 챔피언 트로피" loading="lazy"></div>
+        <div class="zig-txt">
+          <h3 class="serif-h u rise">한국 대표 탱고 챔피언</h3>
+          <p class="rise">2016 Asia Tango Championship 에세나리오 부문 대상. 색소폰과 탱고의 만남은 친친탱고와 함께 무대 위 또 하나의 장르가 되었다.</p>
+        </div>
+      </article>
 
-/* D. Seismic sub-bass boom */
-function playSeismicBoom(delay){
-  if(!AC) return;
-  delay=delay||0;
-  var t=AC.currentTime+delay;
-  var sub=AC.createOscillator(); sub.type='sine';
-  sub.frequency.setValueAtTime(28,t);
-  sub.frequency.exponentialRampToValueAtTime(12,t+2.5);
-  var sg=AC.createGain();
-  sg.gain.setValueAtTime(0,t); sg.gain.linearRampToValueAtTime(4.0,t+0.006);
-  sg.gain.exponentialRampToValueAtTime(0.001,t+3.0);
-  sub.connect(sg); sg.connect(AC.destination);
-  sub.start(t); sub.stop(t+3.2);
-  noiseBurst(40, 1.5, 2.5, 0.01, 2.0, delay);
-  noiseBurst(75, 2, 1.2, 0.02, 1.5, delay+0.05);
-}
+      <article class="zig flip">
+        <div class="zig-img reveal-img"><img src="images/carnegie_tango.webp" alt="뉴욕 카네기홀 무대의 아리스김" loading="lazy"></div>
+        <div class="zig-txt">
+          <h3 class="serif-h u rise">뉴욕 카네기홀, 2022</h3>
+          <p class="rise">예술의전당 설립 25년 만에 최초 1호 아티스트로 선정된 뒤, 2022년 뉴욕 카네기홀 초청 공연으로 세계 무대에 섰다.</p>
+        </div>
+      </article>
+    </div>
+  </section>
 
-/* Typewriter keystroke sound */
-function playTypeKey(){
-  if(!AC || AC.state!=='running') return;
-  var t=AC.currentTime;
-  noiseBurst(3500, 15, 0.3, 0.001, 0.008, 0);
-  noiseBurst(1200, 8, 0.15, 0.001, 0.012, 0);
-  var sub=AC.createOscillator(); sub.type='sine';
-  sub.frequency.value=80+Math.random()*40;
-  var sg=AC.createGain();
-  sg.gain.setValueAtTime(0,t);
-  sg.gain.linearRampToValueAtTime(0.2,t+0.001);
-  sg.gain.exponentialRampToValueAtTime(0.001,t+0.015);
-  sub.connect(sg); sg.connect(AC.destination);
-  sub.start(t); sub.stop(t+0.02);
-}
+  <section class="tl" id="timeline" aria-label="연보 1997년부터 2024년까지">
+    <div class="tl-stick">
+      <canvas id="tl3d" aria-hidden="true"></canvas>
+      <div class="tl-head"><p class="kick">TIMELINE &nbsp;·&nbsp; 1997 &rarr; 2024</p><p class="tl-scroll">스크롤하면 앞으로 나아갑니다</p></div>
+      <div class="tl-txt in" id="tlTxt"><p class="tl-no" id="tlNo">01 / 10</p><h3 class="tl-year" id="tlYear">1997</h3><p class="tl-ko" id="tlKo">전북대학교 거리공연 시작</p><p class="tl-en" id="tlEn">Busking begins at Jeonbuk University</p></div>
+      <div class="tl-bar" aria-hidden="true"><i id="tlBar"></i></div>
+      <a class="tl-end" id="tlEnd" href="#contact">다음 무대는 당신의 차례 <i aria-hidden="true">&rarr;</i> 공연 의뢰</a>
+    </div>
+    <ol id="tlData" class="sr">
+      <li data-y="1997" data-ko="전북대학교 거리공연 시작" data-en="Busking begins at Jeonbuk University" data-img="images/street__1_.webp">1997 &mdash; 전북대학교 거리공연 시작</li>
+      <li data-y="1999" data-ko="호원대학교 기계과 입학" data-en="Engineering before art" data-img="card">1999 &mdash; 호원대학교 기계과 입학</li>
+      <li data-y="2002" data-ko="자퇴 후 해병대 입대" data-en="From dropout to Marine Corps" data-img="card">2002 &mdash; 자퇴 후 해병대 입대</li>
+      <li data-y="2007" data-ko="한국예술종합학교" data-en="Korea National University of Arts (K-ARTS)" data-img="card">2007 &mdash; 한국예술종합학교</li>
+      <li data-y="2008" data-ko="비디오 아트 콘서트" data-en="Video Art Concert — 아바타와의 듀엣" data-img="images/as_avatar_duet.webp">2008 &mdash; 비디오 아트 콘서트</li>
+      <li data-y="2012" data-ko="한국예술종합학교 자퇴" data-en="Dropout — The wild soul breaks free" data-img="images/tl_2012_dropout.webp">2012 &mdash; 한국예술종합학교 자퇴</li>
+      <li data-y="2016" data-ko="아시아 인터내셔널 문디알 탱고 챔피언" data-en="Korea International Tango Champion — Escenario" data-img="images/tl_2016_tango.webp">2016 &mdash; 아시아 인터내셔널 문디알 탱고 챔피언</li>
+      <li data-y="2016–2017" data-ko="한국콘텐츠진흥원 크리에이터 연구원 수료" data-en="KOCCA Cultural Technology Academy" data-img="card">2016–2017 &mdash; 한국콘텐츠진흥원 크리에이터 연구원 수료</li>
+      <li data-y="2020" data-ko="문화체육관광부 문화 기술 전문가 수료" data-en="(과학기술 × 미디어아트) 다빈치프로젝트" data-img="images/video_art__5_.webp">2020 &mdash; 문화체육관광부 문화 기술 전문가 수료</li>
+      <li data-y="2024" data-ko="리얼타임엔진기반 AI Media Craft 과정" data-en="증강현실(AR) 콘텐츠제작 · MBC플러스" data-img="images/perf_led_neon.webp">2024 &mdash; 리얼타임엔진기반 AI Media Craft 과정</li>
+    </ol>
+  </section>
 
-/* Luxury click sound */
-function playClickSound(){
-  if(!AC || AC.state!=='running') return;
-  noiseBurst(4000, 12, 0.55, 0.001, 0.012, 0);
-  noiseBurst(900, 6, 0.25, 0.002, 0.020, 0);
-  var t=AC.currentTime;
-  var sub=AC.createOscillator(); sub.type='sine'; sub.frequency.value=55;
-  var sg=AC.createGain();
-  sg.gain.setValueAtTime(0,t); sg.gain.linearRampToValueAtTime(0.45,t+0.002);
-  sg.gain.exponentialRampToValueAtTime(0.001,t+0.010);
-  sub.connect(sg); sg.connect(AC.destination);
-  sub.start(t); sub.stop(t+0.012);
-}
-document.addEventListener('click', function(e){
-  if(e.target.closest('a, button, [onclick]')) playClickSound();
-}, true);
+  <section class="profile" id="profile">
+    <div class="wrap">
+      <div class="prof-head">
+        <figure class="prof-photo reveal-img"><img src="images/profile.webp" alt="아리스김 프로필 사진" loading="lazy"></figure>
+        <div>
+          <p class="kick" data-reveal>ARTIST PROFILE</p>
+          <h2 class="big-serif" data-reveal>아리스 김</h2>
+          <p class="prof-sub" data-reveal>세계 최초 Art Intelligence의 창시자</p>
+          <ul class="stats">
+            <li data-reveal><b>1호</b><span>예술의전당 설립 25년 만의 최초 아티스트</span></li>
+            <li data-reveal><b>2022</b><span>뉴욕 카네기홀 초청 공연</span></li>
+            <li data-reveal><b>2016</b><span>Asia Tango Championship 에세나리오 부문 대상</span></li>
+            <li data-reveal><b>7h</b><span>7시간 분량의 다큐멘터리 제작</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="prof-cols">
+        <div class="pc" data-reveal><h3>교육 및 배경</h3><ul><li>한국예술종합학교 음악원 색소폰 전공 · 학생회장 2년</li><li>한국콘텐츠진흥원 문화체험기술창조 과정 수료</li><li>문화창조 아카데미 예술 콘텐츠 랩 이수</li><li>MBC 언리얼 엔진 전과정 수료</li></ul></div>
+        <div class="pc" data-reveal><h3>주요 성과</h3><ul><li>예술의전당 설립 25년 만에 최초 1호 아티스트 선정</li><li>2022년 뉴욕 카네기홀 초청 공연</li><li>2016 Asia Tango Championship 에세나리오 부문 대상</li><li>유인촌 문화부 장관상, 한국을 빛낸 위대한 100대상 수상</li></ul></div>
+        <div class="pc" data-reveal><h3>미디어 활동</h3><ul><li>SBS 스타킹 · KBS 뉴스라인 특별 게스트</li><li>MBC 놀라운 세상 · 라디오스타 출연</li><li>국내외 방송 및 언론사 다수 출연</li><li>7시간 분량의 다큐멘터리 제작</li></ul></div>
+      </div>
+    </div>
+  </section>
 
-/* ─── CANVAS SPOTLIGHT BEAM ─── */
-var spotCvs = document.getElementById('spotCvs');
-var spotX = spotCvs.getContext('2d');
-var crackCvs = document.getElementById('crackCvs');
-var crackX = crackCvs.getContext('2d');
+  <section class="vision" id="vision">
+    <div class="wrap">
+      <h2 class="big-serif" data-reveal>Concept &amp; Vision</h2>
+      <div class="vgrid">
+        <article class="vc reveal-img"><img src="images/perf_klimt_stage.webp" alt="Golden Kiss" loading="lazy"><div><p>Signature</p><h3>Golden Kiss</h3></div></article>
+        <article class="vc reveal-img"><img src="images/perf_armor.webp" alt="Genesis of Genre" loading="lazy"><div><p>Genre</p><h3>Genesis of Genre</h3></div></article>
+        <article class="vc reveal-img"><img src="images/perf_media_blue.webp" alt="Media Art" loading="lazy"><div><p>Stage</p><h3>Media Art</h3></div></article>
+        <article class="vc reveal-img"><img src="images/perf_led_neon.webp" alt="Art Intelligence" loading="lazy"><div><p>Concept</p><h3>Art Intelligence</h3></div></article>
+        <article class="vc reveal-img"><img src="images/carnegie_tango.webp" alt="Two Rebels" loading="lazy"><div><p>Tango</p><h3>Two Rebels</h3></div></article>
+        <article class="vc reveal-img"><img src="images/img_01_242kb.webp" alt="Transcendence" loading="lazy"><div><p>Vision</p><h3>Transcendence</h3></div></article>
+      </div>
 
-function resizeCanvas(){
-  spotCvs.width = innerWidth; spotCvs.height = innerHeight;
-  crackCvs.width = innerWidth; crackCvs.height = innerHeight;
-}
-resizeCanvas();
-addEventListener('resize', resizeCanvas);
+      <div class="artcol">
+        <h3 class="serif-h" data-reveal>Art Collection</h3>
+        <ul class="tags" data-reveal><li>LED Art</li><li>인터랙티브 회화</li><li>홀로그램</li><li>NFT</li><li>설치</li></ul>
+        <div class="vart">
+          <img src="images/video_art__2_.webp" alt="비디오 아트" loading="lazy"><img src="images/video_art_blue_portal.webp" alt="비디오 아트 블루 포털" loading="lazy"><img src="images/video_art_avatar.webp" alt="비디오 아트 아바타" loading="lazy"><img src="images/video_art_laser_red.webp" alt="비디오 아트 레이저" loading="lazy">
+        </div>
+      </div>
 
-/* ─── CRACK & DEBRIS ─── */
-var cracks=[], debris=[];
-function addCrack(x,y,ang,len,depth){
-  if(depth<=0||len<10) return;
-  var ex=x+Math.cos(ang)*len, ey=y+Math.sin(ang)*len;
-  cracks.push({x1:x,y1:y,x2:ex,y2:ey,a:0,maxA:0.5+Math.random()*0.35});
-  var br=depth>1?(Math.random()<0.65?2:1):1;
-  for(var i=0;i<br;i++) addCrack(ex,ey,ang+(Math.random()-.5)*1.3,len*(0.45+Math.random()*0.35),depth-1);
-}
-function spawnDebris(cx,cy,n){
-  for(var i=0;i<n;i++){
-    var ang=Math.random()*Math.PI*2, spd=2+Math.random()*5;
-    debris.push({x:cx+(Math.random()-.5)*80,y:cy+(Math.random()-.5)*80,
-      vx:Math.cos(ang)*spd, vy:Math.sin(ang)*spd-2,
-      sz:1.5+Math.random()*3.5, a:0.9, rot:Math.random()*Math.PI*2,
-      rv:(Math.random()-.5)*0.3, life:1, decay:0.014+Math.random()*0.016});
-  }
-}
-function buildCracks(){
-  cracks.length=0; debris.length=0;
-  var cx=crackCvs.width*0.5, cy=crackCvs.height*0.51;
-  for(var i=0;i<9;i++){
-    var ang=(i/9)*Math.PI*2+(Math.random()-.5)*0.4;
-    addCrack(cx,cy,ang,crackCvs.width*(0.20+Math.random()*0.28),4);
-  }
-  spawnDebris(cx,cy,80);
-}
-var crackOn=false;
-function drawCracks(){
-  if(!crackOn) return;
-  crackX.clearRect(0,0,crackCvs.width,crackCvs.height);
-  cracks.forEach(function(cr){
-    cr.a=Math.min(cr.a+0.055,cr.maxA);
-    crackX.beginPath(); crackX.moveTo(cr.x1,cr.y1); crackX.lineTo(cr.x2,cr.y2);
-    crackX.strokeStyle='rgba(255,210,100,'+cr.a+')';
-    crackX.lineWidth=0.7+cr.a*1.2;
-    crackX.shadowColor='rgba(255,190,60,'+(cr.a*0.7)+')'; crackX.shadowBlur=5;
-    crackX.stroke(); crackX.shadowBlur=0;
-  });
-  debris.forEach(function(d){
-    if(d.life<=0) return;
-    d.x+=d.vx; d.y+=d.vy; d.vy+=0.14; d.vx*=0.97; d.rot+=d.rv;
-    d.life-=d.decay; d.a=Math.max(0,d.life*0.9);
-    crackX.save(); crackX.translate(d.x,d.y); crackX.rotate(d.rot);
-    crackX.fillStyle='rgba(210,170,70,'+d.a+')';
-    crackX.fillRect(-d.sz/2,-d.sz/2,d.sz,d.sz); crackX.restore();
-  });
-  requestAnimationFrame(drawCracks);
-}
+      <div class="backstage">
+        <figure class="reveal-img"><img src="images/img_06_142kb.webp" alt="무대 뒤에서" loading="lazy"></figure>
+        <div>
+          <p class="kick" data-reveal>BACKSTAGE</p>
+          <h3 class="serif-h u rise">무대 뒤에서</h3>
+          <p class="rise">빈 무대에 홀로 서 있는 순간. 환호성도 박수도 없는 그 적막함 속에서 그는 자신을 마주한다. 외로움이 그의 가장 큰 스승이었다. 파트너를 잃었을 때, 그는 디지털 아바타를 창조했다. 외로움이 혁신을 낳았다.</p>
+          <blockquote class="rise">&ldquo;변연계에만 산다. 대뇌피질은 필요 없다.&rdquo;<cite>감정만 있다. 본능만 있다. 그리고 그것이 모든 것을 만들었다.</cite></blockquote>
+        </div>
+      </div>
 
-/* ─── SCREEN SHAKE ─── */
-function shake(dur,amp){
-  var el=document.getElementById('phase1');
-  var t0=performance.now();
-  (function loop(){
-    var p=Math.max(0,1-(performance.now()-t0)/dur);
-    if(p<=0){el.style.transform='translate(0,0)';return;}
-    el.style.transform='translate('+((Math.random()-.5)*amp*p*2)+'px,'+((Math.random()-.5)*amp*p*2)+'px)';
-    requestAnimationFrame(loop);
-  })();
-}
+      <div class="yemisa">
+        <h3 class="serif-h" data-reveal>예미사 <span>아리스 김의 영상 작업과 공연</span></h3>
+        <div class="ytl">
+          <a href="https://www.youtube.com/watch?v=zc8haHlZlGs" target="_blank" rel="noopener"><img src="https://img.youtube.com/vi/zc8haHlZlGs/hqdefault.jpg" alt="예미사 영상 1" loading="lazy"></a>
+          <a href="https://www.youtube.com/watch?v=QYxPOhUZ5mI" target="_blank" rel="noopener"><img src="https://img.youtube.com/vi/QYxPOhUZ5mI/hqdefault.jpg" alt="예미사 영상 2" loading="lazy"></a>
+          <a href="https://www.youtube.com/watch?v=Qb8z-U-Cu74" target="_blank" rel="noopener"><img src="https://img.youtube.com/vi/Qb8z-U-Cu74/hqdefault.jpg" alt="예미사 영상 3" loading="lazy"></a>
+          <a href="https://www.youtube.com/watch?v=GFhdTlGDMZU" target="_blank" rel="noopener"><img src="https://img.youtube.com/vi/GFhdTlGDMZU/hqdefault.jpg" alt="예미사 영상 4" loading="lazy"></a>
+          <a href="https://www.youtube.com/watch?v=wjQfXyIyFcw" target="_blank" rel="noopener"><img src="https://img.youtube.com/vi/wjQfXyIyFcw/hqdefault.jpg" alt="예미사 영상 5" loading="lazy"></a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-/* ─── FLASH ─── */
-function doFlash(col,a,dur){
-  var f=document.getElementById('flash');
-  f.style.background=col; f.style.opacity=a; f.style.transition='none';
-  setTimeout(function(){ f.style.transition='opacity '+dur+'ms ease'; f.style.opacity=0; },25);
-}
+  <section class="beyond" id="gallery">
+    <h2 class="sans-h" data-reveal>Beyond the Stage</h2>
+    <div class="ring-wrap"><canvas id="ring3d" role="img" aria-label="사진이 둘러선 3D 갤러리. 드래그해서 돌릴 수 있습니다"></canvas><p class="ring-cap" id="ringCap">드래그해서 돌려 보세요 · 사진을 누르면 크게 보입니다</p></div>
+    <div class="grid">
+      <figure><button data-lb="images/video_art__2_.webp"><img src="images/video_art__2_.webp" alt="비디오 아트" loading="lazy"></button><figcaption>비디오 아트</figcaption></figure>
+      <figure><button data-lb="images/timesquare_nyc.webp"><img src="images/timesquare_nyc.webp" alt="뉴욕 타임스퀘어 공연" loading="lazy"></button><figcaption>뉴욕 타임스퀘어</figcaption></figure>
+      <figure><button data-lb="images/perf_led_suit.webp"><img src="images/perf_led_suit.webp" alt="LED 의상 공연" loading="lazy"></button><figcaption>LED 퍼포먼스</figcaption></figure>
+      <figure><button data-lb="images/perf_media_blue.webp"><img src="images/perf_media_blue.webp" alt="블루 스테이지" loading="lazy"></button><figcaption>블루 스테이지</figcaption></figure>
+      <figure><button data-lb="images/as_avatar_duet.webp"><img src="images/as_avatar_duet.webp" alt="아바타와의 듀엣" loading="lazy"></button><figcaption>아바타 듀엣</figcaption></figure>
+      <figure><button data-lb="images/perf_hall.webp"><img src="images/perf_hall.webp" alt="공연장 무대" loading="lazy"></button><figcaption>홀 공연</figcaption></figure>
+      <figure><button data-lb="images/amp_perf1.webp"><img src="images/amp_perf1.webp" alt="AMP 공연" loading="lazy"></button><figcaption>AMP 공연</figcaption></figure>
+      <figure><button data-lb="images/perf_armor.webp"><img src="images/perf_armor.webp" alt="미디어아트 퍼포먼스" loading="lazy"></button><figcaption>미디어아트</figcaption></figure>
+      <figure><button data-lb="images/perf_klimt_stage.webp"><img src="images/perf_klimt_stage.webp" alt="클림트 미디어아트 콘서트" loading="lazy"></button><figcaption>클림트 미디어아트 콘서트</figcaption></figure>
+      <figure><button data-lb="images/carnegie.webp"><img src="images/carnegie.webp" alt="뉴욕 카네기홀 2022" loading="lazy"></button><figcaption>뉴욕 카네기홀 2022</figcaption></figure>
+      <figure><button data-lb="images/perf_arishow.webp"><img src="images/perf_arishow.webp" alt="ARISHOW" loading="lazy"></button><figcaption>ARISHOW</figcaption></figure>
+      <figure><button data-lb="images/tango_perf.webp"><img src="images/tango_perf.webp" alt="탱고 공연" loading="lazy"></button><figcaption>탱고 공연</figcaption></figure>
+      <figure><button data-lb="images/street__1_.webp"><img src="images/street__1_.webp" alt="거리 공연" loading="lazy"></button><figcaption>거리 공연</figcaption></figure>
+      <figure><button data-lb="images/concert_gallery.webp"><img src="images/concert_gallery.webp" alt="콘서트" loading="lazy"></button><figcaption>콘서트</figcaption></figure>
+      <figure><button data-lb="images/as_fire_concert.webp"><img src="images/as_fire_concert.webp" alt="비디오 아트 콘서트" loading="lazy"></button><figcaption>비디오 아트 콘서트</figcaption></figure>
+      <figure><button data-lb="images/chinchin_collab.webp"><img src="images/chinchin_collab.webp" alt="친친 콜라보" loading="lazy"></button><figcaption>친친 콜라보</figcaption></figure>
+    </div>
+  </section>
 
-function runSpotlightBeam(done){
-  document.fonts.load('120px "Cinzel"').then(function(){
-    var txt = 'ARISHOW';
-    var fs = Math.min(innerWidth * 0.11, 140);
-    var ty = spotCvs.height * 0.50;
+  <section class="awards" id="awards">
+    <div class="wrap">
+      <h2 class="big-serif" data-reveal>Achievements</h2>
+      <div class="medal-wrap"><canvas id="medal3d" role="img" aria-label="수상 6개를 담은 3D 금메달"></canvas><div class="medal-cap in" id="medalCap"><b></b><strong></strong><em></em></div></div>
+      <ul class="alist">
+        <li data-reveal><b>2022</b><span class="serif-h">뉴욕 카네기홀 초청 공연</span><em>세계적 무대에서의 공연</em></li>
+        <li data-reveal><b>1호</b><span class="serif-h">예술의전당 최초 1호 아티스트</span><em>설립 25년 만에 처음으로 선정</em></li>
+        <li data-reveal><b>2016</b><span class="serif-h">아시아 탱고 챔피언</span><em>에세나리오 부문 대상</em></li>
+        <li data-reveal><b>대상</b><span class="serif-h">한국을 빛낸 100인 대상</span><em>문화예술 분야의 탁월한 성과</em></li>
+        <li data-reveal><b>대상</b><span class="serif-h">국위선양공로대상</span><em>문화예술 기여도 평가</em></li>
+        <li data-reveal><b>대상</b><span class="serif-h">공연문화혁신공로대상</span><em>예술 혁신을 주도한 공로</em></li>
+      </ul>
 
-    /* Typewriter state */
-    var krMsg = '머리가 비었기에 할 수 있는 것!';
-    var krLen = 0;
-    var krDone = false;
-    var krStarted = false;
-    var krInterval = null;
-    var showTitle = false;
-    var titleAlpha = 0;
-    var lineAlpha = 0;
-    var subAlpha = 0;
-    var riShowTime = 0;
-    var aiZoomStart = 0;
-    var aiZooming = false;
-    var aiFlashed = false;
+      <h3 class="press-h" data-reveal>Featured in Media</h3>
+      <div class="press">
+        <a href="https://www.pressian.com/pages/articles/2024030515380039337" target="_blank" rel="noopener"><span>프레시안</span><em>혁신적 예술 공연으로 세계 무대를 사로잡은 아티스트</em></a>
+        <a href="https://www.seoul.co.kr/news/society/2018/03/26/20180326500079" target="_blank" rel="noopener"><span>서울신문</span><em>색소폰과 미디어아트의 완벽한 융합</em></a>
+        <a href="https://www.mk.co.kr/news/culture/9966532" target="_blank" rel="noopener"><span>매일경제</span><em>문화예술 분야의 새로운 별, 아리스 김</em></a>
+        <a href="https://www.hankyung.com/article/2019100187981" target="_blank" rel="noopener"><span>한국경제</span><em>전 세계가 주목하는 한국의 예술가</em></a>
+      </div>
+    </div>
+  </section>
 
-    /* Schedule audio with spotlight */
-    if(AC && AC.state === 'running'){
-      playPressureBuild(0, 2.8);
-      playBeamSwoosh(0.5);
-    }
+  <section class="ensemble">
+    <h2 class="sans-h" data-reveal>Chinchin Tango</h2>
+    <div class="members">
+      <figure><img src="images/member_anna.webp" alt="안나" loading="lazy"><figcaption><b>Anna</b>Vocal · Dancer</figcaption></figure>
+      <figure><img src="images/member_jonghwan.webp" alt="종환" loading="lazy"><figcaption><b>Jong-hwan</b>Bandoneon · Guitar</figcaption></figure>
+      <figure><img src="images/member_soyeon.webp" alt="소연" loading="lazy"><figcaption><b>So-yeon</b>Violin</figcaption></figure>
+      <figure><img src="images/member_younghoon.webp" alt="영훈" loading="lazy"><figcaption><b>Young-hoon</b>Upright Bass</figcaption></figure>
+    </div>
+  </section>
 
-    /* Crack & shake at 5s after beam starts (after typewriter) */
-    setTimeout(function(){
-      buildCracks(); crackOn=true; drawCracks();
-      shake(2000,13);
-      setTimeout(function(){shake(600,6);},900);
-      setTimeout(function(){shake(300,3);},1600);
-      doFlash('#fff',0.75,55);
-      setTimeout(function(){doFlash('#ffaa00',0.3,150);},400);
-      setTimeout(function(){doFlash('#fff',0.18,120);},900);
-      if(AC && AC.state === 'running'){
-        playSeismicBoom(0);
-      }
-    },5500);
+  <section class="faq" id="faq">
+    <div class="faq-in">
+      <h2 class="sans-h">자주 묻는 질문</h2>
+      <details><summary>공연 의뢰 절차는 어떻게 되나요?</summary><p>공연 문의 이메일을 통해 원하는 공연 형식, 규모, 날짜를 알려주세요. 상세한 협의를 거쳐 공연 기획안과 견적을 제공해드립니다. 계약 후 공연 준비에 들어갑니다.</p></details>
+      <details><summary>미니 공연부터 대규모 공연까지 가능한가요?</summary><p>예, 30명 규모의 소규모 리셉션부터 1000명 이상의 대규모 공연까지 다양한 규모에 대응 가능합니다. 각 공연의 특성에 맞는 맞춤형 공연을 제공해드립니다.</p></details>
+      <details><summary>미디어아트 공연이 별도의 기술 지원이 필요한가요?</summary><p>클림트 미디어아트 콘서트의 경우 전문 영상 기술팀과 함께합니다. LED 스크린, 조명, 사운드 시스템 등 필요한 모든 기술 지원을 제공해드립니다.</p></details>
+      <details><summary>강연과 공연을 함께 진행할 수 있나요?</summary><p>네, 가능합니다. Art Intelligence 개념, 미디어아트와 음악의 결합, 예술의 창조 과정 등 다양한 주제의 강연을 공연과 함께 진행할 수 있습니다.</p></details>
+      <details><summary>국제 공연도 가능한가요?</summary><p>예, 국제 공연도 가능합니다. 카네기홀 공연 경험을 바탕으로 해외 문화 기관, 국제 행사 등과의 협력 공연을 진행하고 있습니다.</p></details>
+      <details><summary>공연 시간과 곡 선택이 가능한가요?</summary><p>공연 형식과 시간을 고객의 요구에 맞게 조정할 수 있습니다. 원하는 곡목, 주제, 분위기를 상의해 맞춤형 프로그램을 구성해드립니다.</p></details>
+    </div>
+  </section>
 
-    var t0 = null;
-    var beamDur = 2000;
-    var totalDur = 8500;
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <h2 class="big-serif" data-reveal>Get in Touch</h2>
+      <div class="env-wrap"><canvas id="env3d" role="img" aria-label="열리는 3D 봉투와 금빛 티켓"></canvas></div>
+      <p class="contact-lead">당신의 특별한 순간을 아리스김과 함께 만들어보세요.<br>모든 규모와 형식의 공연 의뢰를 환영합니다.</p>
+      <form class="cform" id="cform">
+        <label>이름 / 단체<input name="name" required autocomplete="name"></label>
+        <label>연락처<input name="phone" type="tel" required autocomplete="tel"></label>
+        <label>공연 형식
+          <select name="type">
+            <option>클림트 미디어아트 콘서트</option>
+            <option>기업 갈라 &amp; VIP 리셉션</option>
+            <option>강연 콘서트 &amp; 마스터클래스</option>
+            <option>오케스트라 협연</option>
+            <option>인터랙티브 공연</option>
+            <option>탱고 &amp; 색소폰 퓨전</option>
+            <option>기타</option>
+          </select>
+        </label>
+        <label>희망 날짜 · 규모<input name="when" placeholder="예: 2027년 5월 / 200명"></label>
+        <label class="full">문의 내용<textarea name="msg" rows="4"></textarea></label>
+        <button class="btn-outline gold" type="submit">메일로 문의 보내기</button>
+        <p class="note" id="cnote">버튼을 누르면 메일 앱이 열리고 내용이 채워집니다.</p>
+      </form>
+      <p class="direct"><a href="mailto:ARISHOW@NAVER.COM">ARISHOW@NAVER.COM</a><span>&nbsp;/&nbsp;</span><a href="tel:010-4251-1212">010-4251-1212</a></p>
+    </div>
+  </section>
+</main>
 
-    function frame(ts){
-      if(!t0) t0 = ts;
-      var elapsed = ts - t0;
-      var beamP = Math.min(elapsed / beamDur, 1);
-      var beamE = beamP < 0.5 ? 4*beamP*beamP*beamP : 1 - Math.pow(-2*beamP + 2, 3) / 2;
+<footer class="ftr">
+  <span class="logo">Aris Kim</span>
+  <p>ARISHOW COMPANY &nbsp;·&nbsp; <span id="yr"></span></p>
+  <p class="credit">3D 에비에이터 선글라스: <a href="https://sketchfab.com/3d-models/aviator-sunglasses-00d1cb5aa82745228a3b764c97f867de" target="_blank" rel="noopener">“Aviator sunglasses” by Kimppo</a> · <a href="http://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a></p>
+</footer>
 
-      spotX.fillStyle = '#0A0908';
-      spotX.fillRect(0, 0, spotCvs.width, spotCvs.height);
+<dialog id="lb" aria-label="사진 크게 보기"><button class="lb-x" id="lbx" aria-label="닫기">&times;</button><img id="lbimg" alt=""></dialog>
 
-      /* Spotlight beam — triangle from top center */
-      if(beamE > 0.04){
-        var ba = Math.min(beamE * 1.6, 0.9);
-        var cx = spotCvs.width * 0.5;
-        var sp = spotCvs.width * 0.28 * Math.min(beamE * 1.4, 1);
-
-        spotX.save();
-        spotX.beginPath();
-        spotX.moveTo(cx, 0);
-        spotX.lineTo(cx - sp, spotCvs.height);
-        spotX.lineTo(cx + sp, spotCvs.height);
-        spotX.closePath();
-
-        var bg = spotX.createLinearGradient(cx, 0, cx, spotCvs.height);
-        bg.addColorStop(0, 'rgba(255,230,150,' + (ba * 0.26) + ')');
-        bg.addColorStop(0.25, 'rgba(232,204,122,' + (ba * 0.13) + ')');
-        bg.addColorStop(0.55, 'rgba(201,168,76,' + (ba * 0.07) + ')');
-        bg.addColorStop(1, 'rgba(201,168,76,0)');
-        spotX.fillStyle = bg;
-        spotX.fill();
-        spotX.restore();
-
-        /* Glow source at top */
-        var sg = spotX.createRadialGradient(cx, 0, 0, cx, 0, 85);
-        sg.addColorStop(0, 'rgba(255,240,170,' + (ba * 0.55) + ')');
-        sg.addColorStop(0.4, 'rgba(232,204,122,' + (ba * 0.2) + ')');
-        sg.addColorStop(1, 'rgba(201,168,76,0)');
-        spotX.beginPath();
-        spotX.arc(cx, 0, 85, 0, Math.PI * 2);
-        spotX.fillStyle = sg;
-        spotX.fill();
-      }
-
-      /* Start typewriter at 1.2s */
-      if(elapsed > 1200 && !krStarted){
-        krStarted = true;
-        if(AC && AC.state === 'running') playRevealShimmer(0);
-        krInterval = setInterval(function(){
-          if(krLen < krMsg.length){
-            krLen++;
-            playTypeKey();
-          } else {
-            clearInterval(krInterval);
-            krDone = true;
-            /* After typewriter done, show title */
-            setTimeout(function(){ showTitle = true; }, 600);
-          }
-        }, 80);
-      }
-
-      /* Draw typewriter Korean text — BIG */
-      if(krLen > 0){
-        var krFs = Math.min(fs * 0.45, 52);
-        spotX.save();
-        spotX.font = '700 ' + krFs + 'px "Noto Serif KR"';
-        spotX.fillStyle = 'rgba(242,237,228,0.95)';
-        spotX.textAlign = 'center';
-        spotX.shadowColor = 'rgba(201,168,76,0.6)';
-        spotX.shadowBlur = 16;
-        var displayTxt = krMsg.substring(0, krLen);
-        spotX.fillText(displayTxt, spotCvs.width / 2, ty - fs * 0.5);
-        /* Blinking cursor */
-        if(!krDone && Math.floor(elapsed / 400) % 2 === 0){
-          var cursorX = spotCvs.width / 2 + spotX.measureText(displayTxt).width / 2 + 4;
-          spotX.fillStyle = 'rgba(242,237,228,0.8)';
-          spotX.fillRect(cursorX, ty - fs * 0.5 - krFs * 0.75, 2, krFs);
-        }
-        spotX.restore();
-      }
-
-      /* Gold line — appears after typewriter done */
-      if(showTitle){
-        if(!riShowTime) riShowTime = elapsed;
-        var tSince = elapsed - riShowTime;
-
-        lineAlpha = Math.min(lineAlpha + 0.03, 0.5);
-        /* Line width: between typewriter width and ARISHOW width */
-        var lineW = fs * 1.6 * Math.min(lineAlpha / 0.3, 1);
-        var lineY = ty - fs * 0.1;
-        spotX.save();
-        spotX.globalAlpha = lineAlpha;
-        spotX.strokeStyle = '#C9A84C';
-        spotX.lineWidth = 1;
-        spotX.shadowColor = 'rgba(201,168,76,0.4)';
-        spotX.shadowBlur = 6;
-        spotX.beginPath();
-        spotX.moveTo(spotCvs.width / 2 - lineW / 2, lineY);
-        spotX.lineTo(spotCvs.width / 2 + lineW / 2, lineY);
-        spotX.stroke();
-        spotX.restore();
-
-        /* ARISHOW — Phase 1: " RI HOW" (no A, no I) */
-        var fs2 = fs * 0.7;
-        var titleY = ty + fs * 0.75;
-        spotX.save();
-        spotX.font = '900 ' + fs2 + 'px "Cinzel"';
-
-        /* Measure individual letter positions */
-        var letters = ['A','R','I','S','H','O','W'];
-        var widths = [];
-        var totalW = 0;
-        for(var li=0;li<letters.length;li++){
-          var w = spotX.measureText(letters[li]).width;
-          widths.push(w);
-          totalW += w;
-        }
-        var startX = (spotCvs.width - totalW) / 2;
-        var positions = [];
-        var cx2 = startX;
-        for(var li=0;li<letters.length;li++){
-          positions.push(cx2);
-          cx2 += widths[li];
-        }
-
-        /* Draw R, S, H, O, W with fade-in */
-        titleAlpha = Math.min(titleAlpha + 0.025, 1);
-        for(var li=0;li<letters.length;li++){
-          if(li === 0 || li === 2) continue; /* skip A and I for now */
-          spotX.save();
-          spotX.globalAlpha = titleAlpha;
-          spotX.font = '900 ' + fs2 + 'px "Cinzel"';
-          spotX.fillStyle = '#EDE4D6';
-          spotX.shadowColor = 'rgba(232,204,122,0.65)';
-          spotX.shadowBlur = 20 * titleAlpha;
-          spotX.fillText(letters[li], positions[li], titleY);
-          spotX.restore();
-        }
-
-        /* Phase 2: A and I zoom in from full screen (after 800ms) */
-        if(tSince > 800){
-          if(!aiZooming){ aiZooming = true; aiZoomStart = elapsed; }
-          var zElapsed = elapsed - aiZoomStart;
-          var zDur = 1200;
-          var zP = Math.min(zElapsed / zDur, 1);
-          /* Elastic ease out */
-          var zE = zP === 1 ? 1 : 1 - Math.pow(2, -10*zP) * Math.cos((zP*10 - 0.75) * (2*Math.PI/3));
-
-          /* A: index 0 */
-          var aTargetX = positions[0];
-          var aTargetY = titleY;
-          var aStartScale = 12;
-          var aScale = aStartScale + (1 - aStartScale) * zE;
-          var aCurFs = fs2 * aScale;
-          var aAlpha = Math.min(zP * 2.5, 1);
-          spotX.save();
-          spotX.globalAlpha = aAlpha;
-          spotX.font = '900 ' + aCurFs + 'px "Cinzel"';
-          spotX.fillStyle = '#C9A84C';
-          spotX.shadowColor = 'rgba(201,168,76,0.8)';
-          spotX.shadowBlur = 30 * (1 - zE) + 5;
-          var aMeasure = spotX.measureText('A').width;
-          var aFinalW = widths[0];
-          var aCenterX = aTargetX + aFinalW / 2;
-          var aCenterY = aTargetY;
-          var aDrawX = aCenterX - aMeasure / 2 + (spotCvs.width/2 - aCenterX) * (1 - zE);
-          var aDrawY = aCenterY + (spotCvs.height * 0.5 - aCenterY) * (1 - zE) * 0.3;
-          spotX.fillText('A', aDrawX, aDrawY);
-          spotX.restore();
-
-          /* I: index 2 */
-          var iTargetX = positions[2];
-          var iScale = aStartScale + (1 - aStartScale) * zE;
-          var iCurFs = fs2 * iScale;
-          var iAlpha = Math.min(zP * 2.5, 1);
-          spotX.save();
-          spotX.globalAlpha = iAlpha;
-          spotX.font = '900 ' + iCurFs + 'px "Cinzel"';
-          spotX.fillStyle = '#C9A84C';
-          spotX.shadowColor = 'rgba(201,168,76,0.8)';
-          spotX.shadowBlur = 30 * (1 - zE) + 5;
-          var iMeasure = spotX.measureText('I').width;
-          var iFinalW = widths[2];
-          var iCenterX = iTargetX + iFinalW / 2;
-          var iCenterY = aTargetY;
-          var iDrawX = iCenterX - iMeasure / 2 + (spotCvs.width/2 - iCenterX) * (1 - zE);
-          var iDrawY = iCenterY + (spotCvs.height * 0.5 - iCenterY) * (1 - zE) * 0.3;
-          spotX.fillText('I', iDrawX, iDrawY);
-          spotX.restore();
-
-          /* After A/I land, flash */
-          if(zP >= 1 && !aiFlashed){
-            aiFlashed = true;
-            doFlash('#ffcc44',0.3,100);
-          }
-        }
-
-        spotX.restore();
-
-        /* Sub-text: 아 리 스 김 */
-        if(titleAlpha > 0.5 && tSince > 2200){
-          subAlpha = Math.min(subAlpha + 0.03, 0.85);
-          spotX.save();
-          spotX.globalAlpha = subAlpha;
-          spotX.font = (fs * 0.18) + 'px "Noto Serif KR"';
-          spotX.fillStyle = '#C9A84C';
-          spotX.textAlign = 'center';
-          spotX.shadowColor = 'rgba(201,168,76,0.55)';
-          spotX.shadowBlur = 12 * subAlpha;
-          spotX.fillText('아  리  스  김', spotCvs.width / 2, ty + fs * 1.1);
-          spotX.restore();
-        }
-      }
-
-      if(elapsed < totalDur){
-        requestAnimationFrame(frame);
-      } else {
-        if(krInterval) clearInterval(krInterval);
-        /* Quick cleanup — no delay, go straight to next phase */
-        crackOn=false;
-        crackX.clearRect(0,0,crackCvs.width,crackCvs.height);
-        done();
-      }
-    }
-    requestAnimationFrame(frame);
-  });
-}
-
-/* ═══ TRANSITION: Video → Spotlight ═══ */
-function startPostVideoSequence(){
-  videoIntro.classList.add('fade');
-  setTimeout(function(){ videoIntro.classList.add('done'); }, 1500);
-  runSpotlightBeam(function(){
-    /* Spotlight beam done → immediately fade to Phase 2 */
-    document.getElementById('phase1').classList.add('fade-out');
-
-    /* Phase 2 show */
-    setTimeout(function(){
-      document.getElementById('phase2').classList.add('show');
-    }, 200);
-
-    /* Phase 2 fade-out — photo viewed, then transition */
-    setTimeout(function(){
-      document.getElementById('phase2').classList.add('fade-out');
-    }, 4000);
-
-    /* Phase 3 show */
-    setTimeout(function(){
-      document.getElementById('phase3').classList.add('show');
-    }, 4700);
-  });
-}
-
-/* ─── MAIN FLOW ─── */
-var params = new URLSearchParams(window.location.search);
-var skipToEnd = params.get('skip') === '1';
-
-if(skipToEnd){
-  enterGate.classList.add('gone');
-  videoIntro.classList.add('done');
-  document.getElementById('phase1').style.display = 'none';
-  document.getElementById('phase2').style.display = 'none';
-  document.getElementById('phase3').classList.add('show');
-} else {
-
-  // Wait for ENTER click — this enables sound autoplay
-  enterGate.addEventListener('click', function(){
-    enterGate.classList.add('gone');
-    setTimeout(function(){ enterGate.style.display='none'; }, 1000);
-
-    // Init audio (user gesture enables it)
-    initAudio();
-    if(AC && AC.state === 'suspended') AC.resume();
-
-    // Play video WITH sound
-    introVideo.play();
-
-    var spotlightStarted = false;
-
-    // SKIP button
-    document.getElementById('skipBtn').addEventListener('click', function(e){
-      e.stopPropagation();
-      if(spotlightStarted) return;
-      spotlightStarted = true;
-      introVideo.pause();
-      startPostVideoSequence();
-    });
-
-    // Spotlight turns on at 1s
-    setTimeout(function(){
-      spotlight.classList.add('on');
-      spotlightSrc.classList.add('on');
-      spotlightPool.classList.add('on');
-    }, 1000);
-
-    // Typewriter subtitle at 1.2s — two lines
-    var subtitleEl = document.getElementById('introSubtitle');
-    var line1 = '재능은 많은데';
-    var line2 = '머리가 비었어!';
-    var charIndex = 0;
-    var fullText = line1;
-    setTimeout(function(){
-      var typeInterval = setInterval(function(){
-        if(charIndex < fullText.length){
-          subtitleEl.textContent = fullText.substring(0, charIndex + 1);
-          charIndex++;
-          playTypeKey();
-        } else {
-          clearInterval(typeInterval);
-          // After line 1, start line 2
-          if(fullText === line1){
-            setTimeout(function(){
-              charIndex = 0;
-              fullText = line2;
-              var typeInterval2 = setInterval(function(){
-                if(charIndex < fullText.length){
-                  subtitleEl.textContent = line1 + '\n' + fullText.substring(0, charIndex + 1);
-                  charIndex++;
-                  playTypeKey();
-                } else {
-                  clearInterval(typeInterval2);
-                  setTimeout(function(){ subtitleEl.classList.add('done-typing'); }, 800);
-                }
-              }, 60);
-            }, 400);
-          }
-        }
-      }, 60);
-    }, 1200);
-
-    // Start spotlight 0.5s before video ends (overlap transition)
-    introVideo.ontimeupdate = function(){
-      if(spotlightStarted) return;
-      if(introVideo.duration - introVideo.currentTime <= 0.5){
-        spotlightStarted = true;
-        startPostVideoSequence();
-      }
-    };
-  });
-}
-
-// Keyboard navigation
-document.addEventListener('keydown', function(e){
-  if(e.key === 'ArrowLeft') window.location.href = 'story.html';
-  if(e.key === 'ArrowRight') window.location.href = 'booking.html';
-});
-</script>
+<script src="audio.js"></script>
+<script src="main.js"></script>
+<script type="module" src="world3d.js"></script>
 </body>
 </html>
