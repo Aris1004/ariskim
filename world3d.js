@@ -432,12 +432,24 @@ if (renderer) {
     const sg = new THREE.BufferGeometry(); sg.setAttribute('position', new THREE.BufferAttribute(sp, 3));
     const sparks = new THREE.Points(sg, new THREE.PointsMaterial({ size: 0.09, map: new THREE.CanvasTexture(dc), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, color: 0xffd98a, opacity: 0 })); root.add(sparks);
     const key = new THREE.DirectionalLight(0xffe4b4, 2.0); key.position.set(2, 3, 5); scene.add(key); const fillL = new THREE.DirectionalLight(0xffc070, 0.8); fillL.position.set(-3, 0, 3); scene.add(fillL); scene.add(new THREE.AmbientLight(0xffffff, 0.45));
-    let o = 0;
+    /* 처음엔 닫힌 봉투. 눌러야(터치·Enter 포함) 열리고, 다시 누르면 닫힌다 */
+    let o = 0, openWant = 0, burstT = -9, downX = 0, downY = 0;
+    const hint = $('#envHint'), setHint = () => { if (hint) hint.textContent = openWant ? '초대장이 도착했어요 · 다시 누르면 닫혀요' : '봉투를 눌러 열어 보세요'; };
+    const toggleEnv = () => {
+      openWant = openWant ? 0 : 1; setHint();
+      if (openWant) { burstT = performance.now() / 1000; if (window.ArisAudio && ArisAudio.chime) ArisAudio.chime(); const g = window.__akGuide; g && g.say && g.say('초대장이 도착했어요! 아래에 문의를 남겨 주시면 답장 드릴게요.', 'envelope'); }
+    };
+    cv.style.cursor = 'pointer'; cv.setAttribute('tabindex', '0'); cv.setAttribute('role', 'button'); cv.setAttribute('aria-label', '봉투 열기 (3D 초대장)'); setHint();
+    cv.addEventListener('pointerdown', (e) => { downX = e.clientX; downY = e.clientY; });
+    cv.addEventListener('pointerup', (e) => { if (Math.hypot(e.clientX - downX, e.clientY - downY) < 8) toggleEnv(); });
+    cv.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleEnv(); } });
     reg(cv, { scene, camera, update(t, dt) {
-      const r = cv.getBoundingClientRect(), vis = clamp((innerHeight * 0.92 - r.top) / (innerHeight * 0.45)); o = lerp(o, vis, 1 - Math.pow(0.004, dt));
-      const k1 = sstep(0.0, 0.5, o), k2 = sstep(0.4, 1.0, o);
-      hingeG.rotation.x = -k1 * Math.PI * 0.94; ticket.position.y = -0.1 + k2 * 1.15; ticket.position.z = 0.026 + k2 * 0.02; ticket.rotation.z = Math.sin(t * 0.9) * 0.02 * k2;
-      for (let i = 0; i < SN; i++) { const ph = (t * 0.35 + sph[i * 2]) % 1; sp[i * 3] = sph[i * 2 + 1] * 1.1 * (0.4 + ph); sp[i * 3 + 1] = 0.1 + ph * 1.8; sp[i * 3 + 2] = 0.1 + Math.sin(ph * 6 + i) * 0.15; } sg.attributes.position.needsUpdate = true; sparks.material.opacity = k2 * 0.9;
+      o = lerp(o, openWant, 1 - Math.pow(0.02, dt));
+      const k1 = sstep(0.0, 0.5, o), k2 = sstep(0.4, 1.0, o), bt = t - (burstT - (performance.now() / 1000 - t));
+      hingeG.rotation.x = -k1 * Math.PI * 0.94; ticket.position.y = -0.1 + k2 * 1.15; ticket.position.z = 0.026 + k2 * 0.02 + k2 * 0.25; ticket.rotation.z = Math.sin(t * 0.9) * 0.02 * k2; ticket.rotation.x = -0.12 * k2;
+      seal.scale.setScalar(1 + (1 - k1) * 0.06 * Math.sin(t * 3));   /* 닫혀 있을 때 봉인이 숨 쉬듯 반짝여 눌러 보라고 부른다 */
+      for (let i = 0; i < SN; i++) { const ph = (t * 0.35 + sph[i * 2]) % 1; sp[i * 3] = sph[i * 2 + 1] * 1.1 * (0.4 + ph); sp[i * 3 + 1] = 0.1 + ph * 1.8; sp[i * 3 + 2] = 0.1 + Math.sin(ph * 6 + i) * 0.15; } sg.attributes.position.needsUpdate = true; sparks.material.opacity = k2 * (0.9 + 0.1 * Math.max(0, 1 - bt * 0.7));
+      sparks.material.size = 0.09 + 0.1 * Math.max(0, 1 - bt * 1.4) * k2;
       root.rotation.y = ptr.x * 0.35 + Math.sin(t * 0.5) * 0.06; root.rotation.x = -0.18 + ptr.y * 0.15; root.position.y = -0.35 + Math.sin(t * 0.8) * 0.04;
       camera.position.set(0, 0.2, camera.aspect < 0.9 ? 6.6 : 4.9); camera.lookAt(0, 0.3, 0);
     } });
@@ -549,7 +561,9 @@ if (renderer) {
       ['#showcase', '2024년 김해, 한여름밤의 음악회. 클림트 그림이 흐르던 밤이었어요.'],
       ['#acts', '그날의 다섯 장면이에요. 조명이 하나씩 켜집니다.'],
       ['#sax3d', '이게 제 전 재산, 알토 색소폰이에요. 속이 비어 있어야 소리가 나는 악기죠. 저도 그랬어요.'],
-      ['#info', '공연 문의는 여기로! 30명 리셉션부터 1,000명 이상까지 가능해요.'],
+      ['#proof', '믿어도 될까 고민되시죠? 카네기홀, 예술의전당 1호. 숫자로 보여 드릴게요.'],
+      ['#info', '진행은 4단계면 끝나요. 기획안은 내부 보고용으로 그대로 쓰셔도 돼요.'],
+      ['#finaleCta', '여기까지 보셨으면, 이제 당신 행사 차례예요!'],
       ['#performances', '마음에 드는 무대를 고르세요. 공연은 전부 맞춤 제작입니다.'],
       ['#empty', '이 머리, 비어 있죠? 스크롤해 보세요. 비어 있다는 게 얼마나 대단한 건지 보여 드릴게요.'],
       ['#story', '여기서부터는 제 이야기예요.'],
@@ -588,6 +602,15 @@ if (renderer) {
         if (el.matches('input,textarea,select,button,.btn-outline,.nav-cta,.tl-end,.car-btn')) { push(rr, 1); return; }
         const rg = document.createRange(); rg.selectNodeContents(el); Array.from(rg.getClientRects()).forEach((r) => push(r, 1));
       });
+      /* 화면에 보이는 모든 글자(숫자·작은 문구·장식 번호 포함)를 한 줄 단위로 찾아 보호한다: 태그 목록에 없던 '05 / 05' 같은 것도 빠지지 않는다 */
+      { const tw = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, null), seen = new Set(); let n;
+        while ((n = tw.nextNode())) {
+          if (!n.nodeValue.trim()) continue; const el = n.parentElement; if (!el || seen.has(el)) continue; seen.add(el);
+          if (el.closest('.gw, .gw-bub, header, .snd, dialog, .sr, noscript, script, style, #gwDot')) continue;
+          const er = el.getBoundingClientRect(); if (er.bottom < 0 || er.top > vh || er.right < 0 || er.left > vw || !shown(el)) continue;
+          const rg = document.createRange(); rg.selectNodeContents(el); Array.from(rg.getClientRects()).forEach((r) => push(r, 1.2));
+        } }
+      { const mb = document.querySelector('.snd'); if (mb) { const r = mb.getBoundingClientRect(); push(r, 1.5); } }
       $$('img,video').forEach((el) => { if (el.closest('.gw, .gw-bub, header, .sr, dialog')) return; const rr = el.getBoundingClientRect(); if (rr.bottom < 0 || rr.top > vh || rr.width < 60) return; if (shown(el)) push(rr, 0.3); });
       $$('canvas').forEach((el) => { if (el.closest('.gw')) return; const rr = el.getBoundingClientRect(); if (rr.bottom < 0 || rr.top > vh) return; push(rr, 0.04); });
       return out;
@@ -601,7 +624,7 @@ if (renderer) {
       /* 캐릭터는 어떤 경우에도 화면 안에 온전히 서 있다 */
       const top0 = 84, ymax = Math.max(vh - Hh - top0, 0), midY = Math.min(Math.max(vh * 0.28, 0), ymax), upY = ymax;
       const cands = [
-        { x: m, y: 0, pen: 0 }, { x: vw - W - m, y: lift, pen: 0.4 }, { x: m, y: midY, pen: 0.8 }, { x: vw - W - m, y: Math.max(midY, lift), pen: 0.9 },
+        { x: vw - W - m, y: lift, pen: 0 }, { x: m, y: 0, pen: 0.3 }, { x: m, y: midY, pen: 0.8 }, { x: vw - W - m, y: Math.max(midY, lift), pen: 0.9 },
         { x: m, y: upY, pen: 1.2 }, { x: vw - W - m, y: upY, pen: 1.3 }, { x: vw / 2 - W / 2, y: 0, pen: 2.2 }, { x: vw / 2 - W / 2, y: upY, pen: 2.6 }
       ];
       const rects = protectedRects(), area = W * Hh;
@@ -609,6 +632,10 @@ if (renderer) {
       cands.forEach((c, i) => { const R = clip({ l: c.x, r: c.x + W, b: vh - c.y, t: vh - c.y - Hh }, vw, vh), sc = overlap(R, rects) + c.pen * area * 0.012 + (i === cur ? -area * 0.02 : 0); if (sc < bs) { bs = sc; best = i; } });
       if (!force && cur >= 0 && best !== cur) { const c = cands[cur], R = clip({ l: c.x, r: c.x + W, b: vh - c.y, t: vh - c.y - Hh }, vw, vh); if (overlap(R, rects) < area * 0.015) best = cur; }
       cur = best; const locked = Date.now() < lock, c = locked ? lockPos : cands[best]; if (!locked) { w.style.left = c.x + 'px'; w.style.bottom = c.y + 'px'; }
+      { /* 어느 자리도 글자를 피할 수 없으면(좁은 폰 등) 캐릭터를 잠시 숨기고 작은 '…' 단추만 남긴다: 글자는 절대 가리지 않는다 */
+        const R = clip({ l: c.x, r: c.x + W, b: vh - c.y, t: vh - c.y - Hh }, vw, vh), txt = overlap(R, rects.filter((q) => q.w >= 1), 0);
+        w.classList.toggle('tuck', !locked && txt > area * 0.015);
+      }
       /* ---- 말풍선: 화면 좌표로 직접 배치하고, 항상 화면 안(여백 8px)으로 가둔다 ---- */
       const bw = bub.offsetWidth, bh = bub.offsetHeight, wl = c.x, wt = vh - c.y - Hh, mg = 8;
       const inside = (p) => ({ x: Math.min(Math.max(p.x, mg), Math.max(vw - bw - mg, mg)), y: Math.min(Math.max(p.y, 78), Math.max(vh - bh - mg, 78)) });
@@ -617,7 +644,7 @@ if (renderer) {
         { x: wl + W + 8, y: wt + Hh * 0.05 }, { x: wl - bw - 8, y: wt + Hh * 0.05 }
       ].map(inside);
       let bi = 0, bsc = 1e18; bc.forEach((p, i) => { const R = { l: p.x, t: p.y, r: p.x + bw, b: p.y + bh }, sw = overlap(R, rects, 2) + overlap(R, [{ l: wl, t: wt, r: wl + W, b: wt + Hh, w: 0.5 }], 0); if (sw < bsc) { bsc = sw; bi = i; } });
-      w.classList.toggle('min', bsc > bw * bh * 0.1 && !forced);
+      w.classList.toggle('min', (bsc > bw * bh * 0.1 || w.classList.contains('tuck')) && !forced);
       bub.style.left = bc[bi].x + 'px'; bub.style.top = bc[bi].y + 'px';
     }
 
@@ -636,19 +663,21 @@ if (renderer) {
     /* 머리 오른쪽에 서서 오른손으로 내려친다. 오른손이 머리 쪽으로 향하도록 머리 오른쪽(화면 기준)에 선다 */
     function strikeHead(getRect, onImpact) {
       if (!gp || !gp.strike || !w.classList.contains('on')) return false;
+      const headShown = () => { const q = getRect(); return q.b > 0 && q.t < innerHeight && q.r > 0 && q.l < document.documentElement.clientWidth; };   /* 머리 장면이 화면에 있을 때만 종을 친다 */
       const run = () => {
+        if (!headShown()) return;
         const hr = getRect(), Wd = w.offsetWidth, Hh = w.offsetHeight, vw = document.documentElement.clientWidth, vh = innerHeight - 1, mg = 8;
         let x = hr.r + 6; if (x + Wd > vw - mg) x = vw - Wd - mg;
         const fistY = hr.t + (hr.b - hr.t) * 0.22, top = fistY - Hh * 0.3; let y = vh - (top + Hh); y = Math.min(Math.max(y, 0), Math.max(vh - Hh - 84, 0));
         lock = Date.now() + 8000; lockPos = { x, y }; cur = -1; w.style.left = x + 'px'; w.style.bottom = y + 'px';
         say('이 머리, 한번 쳐 볼게요. 비어 있으면 어떻게 되는지 들어 보세요!', 'strike');
-        gp.setStrikeHandler(() => { onImpact && onImpact(); setTimeout(() => say('울리죠? 이 울림이 세상을 흔들어요.', 'strike2'), 1000); });
-        setTimeout(() => gp.strike(), 2400);
+        gp.setStrikeHandler(() => { if (!headShown()) return; onImpact && onImpact(); setTimeout(() => { if (headShown()) say('울리죠? 이 울림이 세상을 흔들어요.', 'strike2'); }, 1000); });
+        setTimeout(() => { if (headShown()) gp.strike(); else { lock = 0; } }, 2400);
       };
       if (Date.now() < greetUntil) setTimeout(run, greetUntil - Date.now() + 100); else run();
       return true;
     }
-    window.__akGuide = { strikeHead };
+    window.__akGuide = { strikeHead, say: (txt, id) => { if (gp && w.classList.contains('on')) say(txt, id); } };
     /* 가끔 랜덤으로: 선글라스를 멋있게 쓰거나, 손으로 잡아 이마 위로 올리며 한마디 한다 */
     const GL_DOWN = ['짠! 이제 좀 멋있죠?', '선글라스는 이렇게 써야 제맛이죠.', '무대 조명이 눈부셔서요. 잠깐 쓸게요.', '어때요, 이 각도?'];
     const GL_UP = ['덥네요. 이마에 걸쳐 둘게요.', '눈 맞추고 얘기해야죠.', '이러면 얼굴이 잘 보이죠?', '잠깐 올릴게요. 이야기가 길어질 것 같아서요.'];

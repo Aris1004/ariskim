@@ -82,6 +82,9 @@
           boom(t, 0.62); gong(t + 0.01, 0.6);
           [[196, 1], [394, 0.7], [587, 0.5], [1046, 0.34], [1760, 0.2]].forEach(function (p, i) { tone('sine', p[0], t, 4.2 / (i * 0.6 + 1), 0.17 * p[1], { a: 0.002, r: 2.8 / (i * 0.5 + 1), rev: 0.55 }); });
           nz(t, 0.09, 0.42, 'bandpass', 3200, 1800, 1.1, 0.3); break;
+        case 'chime':      /* 봉투가 열림: 맑은 금속 아르페지오 + 반짝임 (머리 종소리와 다르게 가볍고 밝다) */
+          [784, 988, 1175, 1568, 1976].forEach(function (f, i) { tone('triangle', f, t + i * 0.085, 1.8, 0.1, { a: 0.003, r: 1.4, rev: 0.8 }); });
+          shimmer(t + 0.35, 2349, 0.05); nz(t, 0.18, 0.05, 'highpass', 2500, 7000, 0.7, 0.4); break;
         case 'bed': bed(t, 60); break;
         case 'a_title': tone('sine', 52, t, 3, 0.1, { f2: 69, glide: 2, a: 0.8, r: 0.8, rev: 0.3, dryOnly: true }); tone('sawtooth', 110, t + 0.2, 2.2, 0.05, { f2: 440, glide: 2.0, lp: 1600, a: 1.2, r: 0.7, rev: 0.45 }); break;
         case 'a_wink': shimmer(t, 1175, 0.035); break;
@@ -202,6 +205,7 @@
       } catch (err) { /* 소리 오류가 화면을 멈추지 않게 */ }
     },
     /* 효과음 하나만 따로: 배경음이 스크롤로 사라진 뒤에도 들린다. 소리를 껐으면(SOUND OFF) 나지 않는다 */
+    chime: function () { if (track === 0 || !running) return; try { eng(9).cue('chime'); } catch (err) { /* 무시 */ } },
     bell: function () { if (track === 0 || !running) return; try { eng(9).cue('bell'); } catch (err) { /* 무시 */ } },
     /* 한 번 누를 때마다 1 → 2 → 3 → 꺼짐 */
     toggle: function () {

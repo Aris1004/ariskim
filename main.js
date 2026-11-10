@@ -130,11 +130,31 @@
     e.preventDefault();
     var f = e.target;
     var body = '이름/단체: ' + f.name.value + '\n연락처: ' + f.phone.value + '\n공연 형식: ' + f.type.value +
-      '\n희망 날짜·규모: ' + f.when.value + '\n\n' + f.msg.value;
+      (f.when.value ? '\n희망 날짜·규모: ' + f.when.value : '') + (f.msg.value ? '\n\n' + f.msg.value : '');
     var url = 'mailto:ARISHOW@NAVER.COM?subject=' + encodeURIComponent('[공연 문의] ' + f.name.value) + '&body=' + encodeURIComponent(body);
     $('#cnote').textContent = '메일 앱을 여는 중입니다. 열리지 않으면 ARISHOW@NAVER.COM 으로 직접 보내주세요.';
     window.location.href = url;
   });
+
+  /* 8-1. 카드의 '이 공연으로 문의' -> 폼의 공연 형식을 미리 골라 두고 폼으로 이동 */
+  (function () {
+    var form = $('#cform'); if (!form) return;
+    $$('.card-cta').forEach(function (a) {
+      a.addEventListener('click', function () {
+        var t = a.dataset.type, m = a.dataset.msg;
+        if (t) Array.prototype.some.call(form.type.options, function (o) { if (o.text === t) { form.type.value = o.value; return true; } return false; });
+        if (m) { var more = $('.more', form); if (more) more.open = true; if (!form.msg.value) form.msg.value = m; }
+        setTimeout(function () { try { form.name.focus({ preventScroll: true }); } catch (e) { form.name.focus(); } }, 900);
+      });
+    });
+    var compose = function () { return '[공연 문의] ' + form.name.value + '\n연락처: ' + form.phone.value + '\n공연 형식: ' + form.type.value + (form.when.value ? '\n희망 날짜·규모: ' + form.when.value : '') + (form.msg.value ? '\n\n' + form.msg.value : ''); };
+    var sms = $('#smsBtn'); if (sms) sms.addEventListener('click', function () { sms.href = 'sms:010-4251-1212' + (/iPhone|iPad|Mac/.test(navigator.userAgent) ? '&' : '?') + 'body=' + encodeURIComponent(compose()); });
+    var cp = $('#copyBtn'); if (cp) cp.addEventListener('click', function () {
+      var txt = compose(), done = function () { $('#cnote').textContent = '문의 내용을 복사했습니다. 문자나 카카오톡에 붙여 넣어 보내 주세요. (010-4251-1212)'; };
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done, function () { window.prompt('아래 내용을 복사해 주세요', txt); });
+      else window.prompt('아래 내용을 복사해 주세요', txt);
+    });
+  })();
 
   /* 9. 비 오는 창문: 유리창에 맺힌 빗방울 속에 창밖 풍경이 뒤집혀 비친다 (WebGL2) */
   (function rainWindow() {
