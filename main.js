@@ -622,7 +622,7 @@
     function cl(v, lo, hi) { return Math.min(Math.max(v, lo), hi); }
     function sst(lo, hi, v) { var t = cl((v - lo) / (hi - lo), 0, 1); return t * t * (3 - 2 * t); }
     /* 시간표 (ms, 초점이 맞기 시작한 때부터): 연주자 -> 카네기홀 사진 -> 폭발 + 아리쇼 사진 */
-    var T_FOCUS = 2600, T_B = 3200, D_B = 900, T_BURST = 5000;
+    var T_FOCUS = 2600, T_HOLD = 2500, T_B = 3200 + T_HOLD, D_B = 900, T_BURST = 6000 + T_HOLD;   /* T_HOLD: 첫 사진(연주자 초상)을 2.5초 더 보여 준다. 폭발을 1초 늦춰 「클래식에서」도 1초 더 머문다 */
     var burstT0 = 0, nextPulse = 0, pulseT0 = 0;
     var T_FIN = 3600; /* 폭발 뒤 3.6초에 지진과 불기둥 시작 */
     var shakeX = 0, shakeY = 0, lastStrum = -1;
@@ -712,7 +712,7 @@
       if (hb) hb.style.transform = qtr;
       if (vEl) vEl.style.transform = qtr;
       var vt = bt >= 0 ? bt - T_FIN : -99999; /* 글자: 카네기홀에서 '클래식에서' -> 폭발에 깨짐 -> 불기둥과 함께 '이 시대의 클래식으로' -> 타이틀로 불타 사라짐 */
-      vset('on1', rel > 3500);
+      vset('on1', rel > T_B + 300);
       vset('shatter', bt >= 0);
       vset('on2', vt > 300);
       vset('out', vt > 6000);
